@@ -17,6 +17,7 @@
          @endif
      });
 
+
      function showToast(type = 'success', message = 'Mesaj') {
          const colors = {
              success: 'text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200',
