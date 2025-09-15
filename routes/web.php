@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function () {
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
     Route::prefix('languages')->name('languages.')->group(function () {
@@ -67,4 +67,4 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('loginPost');
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
