@@ -41,7 +41,7 @@ class StudentController extends Controller
                 'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'nullable|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
-                'allergy_detail' => 'nullable|string|max:500',
+                'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -147,7 +147,7 @@ class StudentController extends Controller
                 'blood_type' => 'required|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
-                'allergy_detail' => 'required_if:has_allergy,1|string|max:500',
+                'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -330,7 +330,7 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        // dd($request->all());
         if ($request->registiration_type == '1') {
             $validated = $request->validate([
                 'registiration_type' => 'required|in:1,2',
@@ -342,7 +342,7 @@ class StudentController extends Controller
                 'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'nullable|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
-                'allergy_detail' => 'nullable|string|max:500',
+                'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -448,7 +448,7 @@ class StudentController extends Controller
                 'blood_type' => 'required|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
-                'allergy_detail' => 'required_if:has_allergy,1|string|max:500',
+                'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -655,7 +655,7 @@ class StudentController extends Controller
                 'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'nullable|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
-                'allergy_detail' => 'nullable|string|max:500',
+                'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -761,7 +761,7 @@ class StudentController extends Controller
                 'blood_type' => 'required|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
-                'allergy_detail' => 'required_if:has_allergy,1|string|max:500',
+                'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
 
                 'guardian1_full_name' => 'required|string|max:200',
