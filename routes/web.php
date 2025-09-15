@@ -47,9 +47,16 @@ Route::middleware([SharedDatas::class])->group(function () {
         Route::get('/create', [StudentController::class, 'create'])->name('create');
         Route::post('/store', [StudentController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [StudentController::class, 'edit'])->name('edit');
+        Route::get('/{id}/re-create', [StudentController::class, 'reCreate'])->name('reCreate');
+        Route::post('/{id}/re-create', [StudentController::class, 'reCreateUpdate'])->name('reCreateUpdate');
         Route::post('/{id}/update', [StudentController::class, 'update'])->name('update');
 
         Route::get('/{id}/payment', [StudentController::class, 'payment'])->name('payment');
         Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate');
+        Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments');
+
+        Route::post('/downloadRegistrationForm', [StudentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm');
+        Route::post('/downloadContract', [StudentController::class, 'downloadContract'])->name('downloadContract');
+        Route::post('/downloadPayment', [StudentController::class, 'downloadPayment'])->name('downloadPayment');
     });
 });

@@ -27,7 +27,6 @@
                 </div>
 
                 <div id="installments_container" class="mt-6">
-
                     @if ($payment->installments && $payment->installments->count())
                         <div class="grid grid-cols-6 gap-4 mb-2 font-semibold text-gray-700">
                             <div>#</div>
@@ -35,16 +34,15 @@
                             <div>Ödenecek Tutar</div>
                             <div>Ödenen Tutar</div>
                             <div>Ödeme Türü</div>
-                            <div>Durum</div>
                         </div>
 
                         @foreach ($payment->installments as $i => $inst)
-                            <div class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg bg-gray-50">
+                            <div
+                                class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg {{ $inst->payed_price > 0 ? 'bg-green-100' : 'bg-gray-50' }}">
                                 <div>#{{ $i + 1 }}</div>
                                 <div>
                                     <input type="date" name="installments[{{ $i }}][payment_date]"
-                                        value="{{ \Carbon\Carbon::parse($inst->payment_date)->format('Y-m-d') }}"
-                                        class="border rounded-lg p-1 w-full">
+                                        value="{{ \Carbon\Carbon::parse($inst->payment_date)->format('Y-m-d') }}">
                                 </div>
                                 <div>
                                     <input type="number" step="0.01"
@@ -57,14 +55,16 @@
                                         value="{{ $inst->payed_price }}" class="border rounded-lg p-1 w-full">
                                 </div>
                                 <div>
-                                    <input type="text" name="installments[{{ $i }}][payment_type]"
-                                        value="{{ $inst->payment_type }}" class="border rounded-lg p-1 w-full">
+                                    <input type="date" name="installments[{{ $i }}][payyed_date]"
+                                        value="{{ \Carbon\Carbon::parse($inst->payyed_date)->format('Y-m-d') }}">
                                 </div>
                                 <div>
-                                    <select name="installments[{{ $i }}][status]"
+                                    <select name="installments[{{ $i }}][payment_type]"
                                         class="border rounded-lg p-1 w-full">
-                                        <option value="0" {{ $inst->status == 0 ? 'selected' : '' }}>Ödenmedi</option>
-                                        <option value="1" {{ $inst->status == 1 ? 'selected' : '' }}>Ödendi</option>
+                                        <option value="0" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>Nakit
+                                        </option>
+                                        <option value="1" {{ $inst->payment_type == 'Banka' ? 'selected' : '' }}>Banks
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -84,39 +84,96 @@
             let count = parseInt($("#installments_count").val()) || 0;
             let startDate = $("#start_date").val();
             let $container = $("#installments_container");
-            $container.empty();
             if (!totalPayment || !count || !startDate) return;
 
-            let installmentAmount = (totalPayment / count).toFixed(2);
-            let currentDate = new Date(startDate);
+            let installments = @json($payment->installments);
+            let paidInstallments = installments.filter(inst => parseFloat(inst.payed_price) > 0);
+            let unpaidInstallments = installments.filter(inst => parseFloat(inst.payed_price) === 0);
+
+            // Ödenmemiş taksit sayısını yeni count ile eşleştir
+            let remainingUnpaidCount = count - paidInstallments.length;
+            if (remainingUnpaidCount < 0) remainingUnpaidCount = 0;
+
+            // Eğer fazla taksit varsa kes
+            if (unpaidInstallments.length > remainingUnpaidCount) {
+                unpaidInstallments = unpaidInstallments.slice(0, remainingUnpaidCount);
+            }
+            // Eğer az ise yeni taksit ekle
+            else if (unpaidInstallments.length < remainingUnpaidCount) {
+                let addCount = remainingUnpaidCount - unpaidInstallments.length;
+                for (let i = 0; i < addCount; i++) {
+                    unpaidInstallments.push({
+                        id: installments.length + i,
+                        payed_price: 0,
+                        installment_price: 0,
+                        payment_date: startDate,
+                        payment_type: 'Nakit',
+                        status: 0,
+                        payyed_date: null,
+                    });
+                }
+            }
+
+            $container.empty();
 
             let header = `<div class="grid grid-cols-6 gap-4 mb-2 font-semibold text-gray-700">
-                    <div>#</div><div>Tarih</div><div>Ödenecek Tutar</div>
-                    <div>Ödenen Tutar</div><div>Ödeme Türü</div><div>Durum</div>
-                  </div>`;
+                <div>#</div><div>Tarih</div><div>Ödenecek Tutar</div>
+                <div>Ödenen Tutar</div><div>Ödenen Tarih</div><div>Ödeme Türü</div>
+            </div>`;
             $container.append(header);
 
-            for (let i = 0; i < count; i++) {
+            // Ödenmiş taksitler
+            paidInstallments.forEach((inst, i) => {
+                let dateStr = inst.payment_date ? inst.payment_date.split('T')[0] : '';
+                let dateStrPayed = inst.payyed_date ? inst.payyed_date.split('T')[0] : '';
+                let row = `<div class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg bg-green-100">
+                    <div>#${i+1}</div>
+                    <div><input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full" ></div>
+                    <div><input type="number" step="0.01" name="installments[${i}][installment_price]" value="${inst.installment_price}" class="border rounded-lg p-1 w-full" ></div>
+                    <div><input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price}" class="border rounded-lg p-1 w-full" ></div>
+                    <div><input type="date" name="installments[${i}][payyed_date]" value="${dateStrPayed}" class="border rounded-lg p-1 w-full" ></div>
+
+                    <div>
+                        <select name="installments[${i}][payment_type]" class="border rounded-lg p-1 w-full">
+                            <option value="0" ${inst.payment_type == "Nakit" ? 'selected' : ''}>Nakit</option>
+                            <option value="1" ${inst.payment_type == "Banka" ? 'selected' : ''}>Banka</option>
+                        </select>
+                    </div>
+                </div>`;
+                $container.append(row);
+            });
+
+            // Ödenmemiş taksitlerin yeni tutarı
+            let remainingAmount = totalPayment - paidInstallments.reduce((sum, inst) => sum + parseFloat(inst.payed_price ||
+                0), 0);
+            let newAmount = (remainingUnpaidCount ? (remainingAmount / remainingUnpaidCount).toFixed(2) : 0);
+            let currentDate = new Date(startDate);
+
+            unpaidInstallments.forEach((inst, i) => {
                 if (i > 0) currentDate.setMonth(currentDate.getMonth() + 1);
                 let dateStr = currentDate.toISOString().split('T')[0];
 
                 let row = `<div class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg bg-gray-50">
-            <div>#${i+1}</div>
-            <div><input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full"></div>
-            <div><input type="number" step="0.01" name="installments[${i}][installment_price]" value="${installmentAmount}" class="border rounded-lg p-1 w-full"></div>
-            <div><input type="number" step="0.01" name="installments[${i}][payed_price]" value="0" class="border rounded-lg p-1 w-full"></div>
-            <div><input type="text" name="installments[${i}][payment_type]" value="Nakit" class="border rounded-lg p-1 w-full"></div>
-            <div>
-                <select name="installments[${i}][status]" class="border rounded-lg p-1 w-full">
-                    <option value="0" selected>Ödenmedi</option>
-                    <option value="1">Ödendi</option>
-                </select>
-            </div>
-        </div>`;
+                    <div>#${paidInstallments.length + i + 1}</div>
+                    <div><input type="date" name="installments[${paidInstallments.length + i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full"></div>
+                    <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][installment_price]" value="${newAmount}" class="border rounded-lg p-1 w-full"></div>
+                    <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][payed_price]" value="0" class="border rounded-lg p-1 w-full"></div>
+
+                    <div><input type="date" name="installments[${paidInstallments.length + i}][payyed_date]" class="border rounded-lg p-1 w-full"></div>
+                    <div>
+                        <select name="installments[${paidInstallments.length + i}][payment_type]" class="border rounded-lg p-1 w-full">
+                            <option value="0" selected>Nakit</option>
+                            <option value="1">Banka</option>
+                        </select>
+                    </div>
+                </div>`;
                 $container.append(row);
-            }
+            });
         }
 
         $("#total_payment, #installments_count, #start_date").on("input change", generateInstallments);
+
+        // Sayfa yüklendiğinde de hesapla
+        $(document).ready(generateInstallments);
     </script>
 @endsection

@@ -3,7 +3,7 @@
 use App\Models\Languages\Languages;
 use Illuminate\Database\Eloquent\Model;
 
-if (!function_exists('translateInput')) {
+if (!function_exists('translateAttribute')) {
     /**
      * Modelin translatable alanını belirli bir dilde döndürür.
      *

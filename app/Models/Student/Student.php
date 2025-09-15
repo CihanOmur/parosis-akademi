@@ -3,6 +3,7 @@
 namespace App\Models\Student;
 
 use App\Models\Class\LessonClass;
+use App\Models\StudentPayments;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -34,5 +35,10 @@ class Student extends Model
     public function lessonClass()
     {
         return $this->belongsTo(LessonClass::class, 'class_id');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(StudentPayments::class);
     }
 }

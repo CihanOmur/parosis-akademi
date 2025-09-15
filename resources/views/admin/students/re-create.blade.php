@@ -1,12 +1,11 @@
 @extends('admin.layouts.app')
 @section('page-banner')
     <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
-        @yield('page-title', 'Öğrenci Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+        @yield('page-title', 'Kullanıcı Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
-        <a href="{{ route('students.create') }}"
-            class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
-            Öğrenci Ekle</a>
+        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
+            Sınıf Ekle</a>
     </div>
 @endsection
 
@@ -15,7 +14,7 @@
 
 
         <div class="w-full bg-white py-10 px-8 rounded-lg">
-            <form class=" w-full" action="{{ route('students.update', ['id' => $student->id]) }}" method="POST"
+            <form class=" w-full" action="{{ route('students.reCreateUpdate', ['id' => $student->id]) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
