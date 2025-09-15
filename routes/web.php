@@ -16,7 +16,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', SharedDatas::class])->group(function () {
+Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function () {
 
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
