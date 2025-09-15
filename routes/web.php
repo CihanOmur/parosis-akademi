@@ -63,8 +63,8 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login', function () {
+Route::get('/panel/login', function () {
     return view('auth.login');
 })->name('login');
-Route::post('/login', [UserController::class, 'login'])->name('loginPost');
-Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+Route::post('/panel/login', [UserController::class, 'login'])->name('loginPost');
+Route::post('/panel/logout', [UserController::class, 'logout'])->name('logout');
