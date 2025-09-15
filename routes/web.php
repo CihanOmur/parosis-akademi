@@ -60,6 +60,9 @@ Route::middleware(['auth', SharedDatas::class])->group(function () {
         Route::post('/downloadPayment', [StudentController::class, 'downloadPayment'])->name('downloadPayment');
     });
 });
+Route::get('/', function () {
+    return redirect()->route('login');
+});
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
