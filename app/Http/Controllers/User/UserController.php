@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role\Role;
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -78,5 +79,29 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('users.index')->with(['success' => 'Kulllanıcı silindi']);
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:220',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('students.index');
+        }
+        return back()->withErrors([
+            'email' => 'Kullanıcı adı veya şifre hatalı.',
+        ])->onlyInput('email');
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 }

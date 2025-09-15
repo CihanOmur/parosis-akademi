@@ -30,7 +30,7 @@ class MakeRole extends Command
         $name = $this->argument('name');       // Zorunlu parametre
         $isVisible = $this->option('is_visible'); // Opsiyon
 
-        // Örnek: Role Model'ine kayıt
+
         $role = new Role();
         $role->name = $name;
         $role->is_visible = $isVisible;

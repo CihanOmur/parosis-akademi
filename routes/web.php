@@ -16,7 +16,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware([SharedDatas::class])->group(function () {
+Route::middleware(['auth', SharedDatas::class])->group(function () {
 
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
@@ -60,3 +60,8 @@ Route::middleware([SharedDatas::class])->group(function () {
         Route::post('/downloadPayment', [StudentController::class, 'downloadPayment'])->name('downloadPayment');
     });
 });
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+Route::post('/login', [UserController::class, 'login'])->name('loginPost');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
