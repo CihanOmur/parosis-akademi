@@ -33,11 +33,9 @@
                     </thead>
                     <tbody>
                         @foreach ($students as $item)
-                            <tr
-                                class="bg-white border-b   border-gray-200 hover:bg-gray-50 ">
+                            <tr class="bg-white border-b   border-gray-200 hover:bg-gray-50 ">
 
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
+                                <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
                                     <a href="{{ route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
                                 </th>
 
@@ -132,6 +130,6 @@
 
                     </tbody>
                 </table>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
