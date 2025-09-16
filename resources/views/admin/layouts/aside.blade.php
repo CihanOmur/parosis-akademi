@@ -20,7 +20,7 @@
 
                 <li>
                     <button type="button"
-                        class="cursor-pointer flex items-center w-full p-3 text-gray-900 transition duration-75 rounded-lg group hover:bg-[#ECECEC] text-sm {{ Route::is('class.*') ? 'bg-[#ECECEC]' : '' }}"
+                        class="cursor-pointer flex items-center w-full p-3 text-gray-900 transition duration-75 rounded-lg group hover:bg-[#ECECEC] text-sm {{ Route::is('class.*') || Route::is('students.*') ? 'bg-[#ECECEC]' : '' }}"
                         aria-controls="dropdown-education-sidebar-item"
                         data-collapse-toggle="dropdown-education-sidebar-item">
                         

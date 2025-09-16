@@ -28,7 +28,7 @@
         <div class="p-4 mt-14 flex-1">
             @hasSection('page-banner')
                 <div class=" pb-4 rounded-lg ">
-                    <div class="w-full py-5 px-8 rounded-lg flex items-center justify-between gap-2">
+                    <div class="w-full py-5 rounded-lg flex items-center justify-between gap-2">
                         @yield('page-banner')
                     </div>
                 </div>
@@ -38,7 +38,7 @@
         <footer>
             <div class="px-4 text-center">
                 <p class="text-gray-500  text-end text-xs">
-                    © 2023 Corwus. All rights reserved.
+                    © 2025 Corwus. All rights reserved.
                 </p>
             </div>
         </footer>

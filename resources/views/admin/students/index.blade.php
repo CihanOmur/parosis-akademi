@@ -115,7 +115,7 @@
                                                     </li>
                                                     <li>
                                                         <a href="{{ route('students.reCreate', $item->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 ">Kursu
+                                                            class="block px-4 py-2 hover:bg-gray-100 ">Kayıt
                                                             Yenile</a>
                                                     </li>
                                                 </ul>

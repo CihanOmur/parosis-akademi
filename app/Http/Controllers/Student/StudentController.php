@@ -22,8 +22,8 @@ class StudentController extends Controller
     public function create()
     {
         $classes = LessonClass::all();
-        $education_levels = ['Primary', 'Secondary', 'High School', 'University'];
-        $jobs = ['Employee', 'Academic', 'Freelancer', 'Other'];
+        $education_levels = ['İlköğretim', 'Ortaöğretim', 'Önlisans', 'Lisans', 'Diğer'];
+        $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
 
         return view('admin.students.create', compact('classes', 'education_levels', 'jobs'));
     }
@@ -319,8 +319,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         $classes = LessonClass::all();
-        $education_levels = ['Primary', 'Secondary', 'High School', 'University'];
-        $jobs = ['Employee', 'Academic', 'Freelancer', 'Other'];
+        $education_levels = ['İlköğretim', 'Ortaöğretim', 'Önlisans', 'Lisans', 'Diğer'];
+        $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
 
         $student = Student::with(['guardians', 'emergencyContact'])->findOrFail($id);
 
@@ -633,8 +633,8 @@ class StudentController extends Controller
     public function reCreate($id)
     {
         $classes = LessonClass::all();
-        $education_levels = ['Primary', 'Secondary', 'High School', 'University'];
-        $jobs = ['Employee', 'Academic', 'Freelancer', 'Other'];
+        $education_levels = ['İlköğretim', 'Ortaöğretim', 'Önlisans', 'Lisans', 'Diğer'];
+        $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
 
         $student = Student::with(['guardians', 'emergencyContact'])->findOrFail($id);
 

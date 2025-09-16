@@ -64,7 +64,7 @@
                                 <input type="text" name="full_name"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('full_name') }}" placeholder="örn: Ahmet Yılmaz">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('full_name')
                                         {{ $message }}
                                     @enderror
@@ -79,7 +79,7 @@
                                     <option {{ old('gender') == 'Erkek' ? 'selected' : '' }} value="Erkek">Erkek</option>
                                     <option {{ old('gender') == 'Kadın' ? 'selected' : '' }} value="Kadın">Kadın</option>
                                 </select>
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('gender')
                                         {{ $message }}
                                     @enderror
@@ -91,7 +91,7 @@
                                 <input type="date" name="birth_date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('birth_date') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('birth_date')
                                         {{ $message }}
                                     @enderror
@@ -100,10 +100,10 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Okul Adı</label>
-                                <input type="text" name="school_name"
+                                <input type="text" name="school_name" placeholder="Öğrencinin eğitim aldığı okul"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('school_name') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('school_name')
                                         {{ $message }}
                                     @enderror
@@ -112,10 +112,10 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                <input type="text" name="tc_no"
+                                <input type="text" name="tc_no" placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('tc_no') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('tc_no')
                                         {{ $message }}
                                     @enderror
@@ -124,10 +124,10 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">Kan Grubu</label>
-                                <input type="text" name="blood_type"
+                                <input type="text" name="blood_type" placeholder="örn: AR+"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('blood_type') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('blood_type')
                                         {{ $message }}
                                     @enderror
@@ -153,7 +153,7 @@
                                         <input type="text" name="guardian1_relationship" placeholder="örn: Anne"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_relationship') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_relationship')
                                                 {{ $message }}
                                             @enderror
@@ -165,7 +165,7 @@
                                         <input type="text" name="guardian1_full_name" placeholder="Ayşe Yılmaz"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_full_name') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_full_name')
                                                 {{ $message }}
                                             @enderror
@@ -177,7 +177,7 @@
                                         <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_national_id') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_national_id')
                                                 {{ $message }}
                                             @enderror
@@ -190,7 +190,7 @@
                                         <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_birth_date') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_birth_date')
                                                 {{ $message }}
                                             @enderror
@@ -206,7 +206,7 @@
                                                     value="{{ $level }}">{{ $level }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_education_level')
                                                 {{ $message }}
                                             @enderror
@@ -222,7 +222,7 @@
                                                     value="{{ $job }}">{{ $job }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_job')
                                                 {{ $message }}
                                             @enderror
@@ -234,7 +234,7 @@
                                         <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_phone_1') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_phone_1')
                                                 {{ $message }}
                                             @enderror
@@ -246,7 +246,7 @@
                                         <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_phone_2') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_phone_2')
                                                 {{ $message }}
                                             @enderror
@@ -258,7 +258,7 @@
                                         <input type="email" name="guardian1_email" placeholder="örn: ornek@parosis.com"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_email') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_email')
                                                 {{ $message }}
                                             @enderror
@@ -271,7 +271,7 @@
                                             placeholder="mahalle, sokak, no, ilçe, il"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_home_address') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_home_address')
                                                 {{ $message }}
                                             @enderror
@@ -284,7 +284,7 @@
                                             placeholder="mahalle, sokak, no, ilçe, il"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                             value="{{ old('guardian1_work_address') }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_work_address')
                                                 {{ $message }}
                                             @enderror
@@ -307,38 +307,12 @@
                                     {{-- Guardian 2 --}}
                                     <div id="guardian2_fields" class="grid grid-cols-4 gap-4">
                                         <div class="mb-6">
-                                            <label class="block mb-2 font-medium">Adı Soyadı</label>
-                                            <input type="text" name="guardian1_full_name" placeholder="Adı Soyadı"
-                                                disabled
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                value="{{ old('guardian1_full_name') }}">
-                                            <div class="text-red-500 mt-2">
-                                                @error('guardian1_full_name')
-                                                    {{ $message }}
-                                                @enderror
-
-                                            </div>
-                                        </div>
-                                        <div class="mb-6">
-                                            <label class="block mb-2 font-medium">TC No</label>
-                                            <input type="text" name="guardian1_national_id" placeholder="TC No"
-                                                disabled
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                value="{{ old('guardian1_national_id') }}">
-                                            <div class="text-red-500 mt-2">
-                                                @error('guardian1_national_id')
-                                                    {{ $message }}
-                                                @enderror
-
-                                            </div>
-                                        </div>
-                                        <div class="mb-6">
                                             <label class="block mb-2 font-medium">Yakınlık</label>
-                                            <input type="text" name="guardian1_relationship" placeholder="Yakınlık"
+                                            <input type="text" name="guardian1_relationship" placeholder="örn: Baba"
                                                 disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_relationship') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_relationship')
                                                     {{ $message }}
                                                 @enderror
@@ -346,12 +320,39 @@
                                             </div>
                                         </div>
                                         <div class="mb-6">
+                                            <label class="block mb-2 font-medium">Ad Soyad</label>
+                                            <input type="text" name="guardian1_full_name" placeholder="örn: Mehmet Yılmaz"
+                                                disabled
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value="{{ old('guardian1_full_name') }}">
+                                            <div class="text-red-500 text-xs mt-2">
+                                                @error('guardian1_full_name')
+                                                    {{ $message }}
+                                                @enderror
+
+                                            </div>
+                                        </div>
+                                        <div class="mb-6">
+                                            <label class="block mb-2 font-medium">T.C Kimlik No</label>
+                                            <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
+                                                disabled
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value="{{ old('guardian1_national_id') }}">
+                                            <div class="text-red-500 text-xs mt-2">
+                                                @error('guardian1_national_id')
+                                                    {{ $message }}
+                                                @enderror
+
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-6">
                                             <label class="block mb-2 font-medium">Doğum Tarihi</label>
                                             <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
                                                 disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_birth_date') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_birth_date')
                                                     {{ $message }}
                                                 @enderror
@@ -368,7 +369,7 @@
                                                         value="{{ $level }}">{{ $level }}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_education_level')
                                                     {{ $message }}
                                                 @enderror
@@ -384,7 +385,7 @@
                                                         value="{{ $job }}">{{ $job }}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_job')
                                                     {{ $message }}
                                                 @enderror
@@ -392,12 +393,12 @@
                                             </div>
                                         </div>
                                         <div class="mb-6">
-                                            <label class="block mb-2 font-medium">1. Telefon</label>
-                                            <input type="text" name="guardian1_phone_1" placeholder="1. Telefon"
+                                            <label class="block mb-2 font-medium">Telefon</label>
+                                            <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
                                                 disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_phone_1') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_phone_1')
                                                     {{ $message }}
                                                 @enderror
@@ -405,12 +406,12 @@
                                             </div>
                                         </div>
                                         <div class="mb-6">
-                                            <label class="block mb-2 font-medium">2.Telefon</label>
-                                            <input type="text" name="guardian1_phone_2" placeholder="2.Telefon"
+                                            <label class="block mb-2 font-medium">Telefon</label>
+                                            <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
                                                 disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_phone_2') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_phone_2')
                                                     {{ $message }}
                                                 @enderror
@@ -418,11 +419,11 @@
                                             </div>
                                         </div>
                                         <div class="mb-6">
-                                            <label class="block mb-2 font-medium">Email</label>
-                                            <input type="email" name="guardian1_email" placeholder="Email" disabled
+                                            <label class="block mb-2 font-medium">E-mail</label>
+                                            <input type="email" name="guardian1_email" placeholder="örn: ornek@parosis.com" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_email') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_email')
                                                     {{ $message }}
                                                 @enderror
@@ -431,11 +432,11 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Ev Adresi</label>
-                                            <input type="text" name="guardian1_home_address" placeholder="Ev Adresi"
+                                            <input type="text" name="guardian1_home_address" placeholder="mahalle, sokak, no, ilçe, il"
                                                 disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_home_address') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_home_address')
                                                     {{ $message }}
                                                 @enderror
@@ -444,11 +445,11 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">İş Adresi</label>
-                                            <input type="text" name="guardian1_work_address" placeholder="İş Adresi"
+                                            <input type="text" name="guardian1_work_address" placeholder="mahalle, sokak, no, ilçe, il"
                                                 disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                                 value="{{ old('guardian1_work_address') }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_work_address')
                                                     {{ $message }}
                                                 @enderror
@@ -477,11 +478,11 @@
                     <div class="py-10 px-5">
                         <div class="grid grid-cols-3 gap-4">
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">Adı Soyadı</label>
-                                <input type="text" name="emergency_full_name" placeholder="Adı Soyadı"
+                                <label class="block mb-2 font-medium">Ad Soyad</label>
+                                <input type="text" name="emergency_full_name" placeholder="örn: Ahmet Yılmaz"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('emergency_full_name') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('emergency_full_name')
                                         {{ $message }}
                                     @enderror
@@ -490,10 +491,10 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Yakınlık</label>
-                                <input type="text" name="emergency_relationship" placeholder="Yakınlık"
+                                <input type="text" name="emergency_relationship" placeholder="örn: Amcası"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('emergency_relationship') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('emergency_relationship')
                                         {{ $message }}
                                     @enderror
@@ -501,10 +502,10 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="text" name="emergency_phone" placeholder="Telefon"
+                                <input type="text" name="emergency_phone" placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('emergency_phone') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('emergency_phone')
                                         {{ $message }}
                                     @enderror
@@ -516,10 +517,10 @@
                         <div class="w-full">
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">Adres</label>
-                                <input type="text" name="emergency_address" placeholder="Adres"
+                                <input type="text" name="emergency_address" placeholder="mahalle, sokak, no, ilçe, il"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('emergency_address') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('emergency_address')
                                         {{ $message }}
                                     @enderror
@@ -553,7 +554,7 @@
                                     <label for="has_allergy"
                                         class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Evet</label>
                                 </div>
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('has_allergy')
                                         {{ $message }}
                                     @enderror
@@ -567,7 +568,7 @@
                                     <label for="no_allergy"
                                         class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Hayır</label>
                                 </div>
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('has_allergy')
                                         {{ $message }}
                                     @enderror
@@ -578,7 +579,7 @@
                             <input type="text" name="allergy_detail" placeholder="Alerji Detayları"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('allergy_detail') }}">
-                            <div class="text-red-500 mt-2">
+                            <div class="text-red-500 text-xs mt-2">
                                 @error('allergy_detail')
                                     {{ $message }}
                                 @enderror
@@ -608,7 +609,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="text-red-500 mt-2">
+                            <div class="text-red-500 text-xs mt-2">
                                 @error('class_id')
                                     {{ $message }}
                                 @enderror
@@ -627,7 +628,7 @@
                         <div class="mb-0">
                             <textarea name="notes" placeholder=""
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ old('notes') }}</textarea>
-                            <div class="text-red-500 mt-2">
+                            <div class="text-red-500 text-xs mt-2">
                                 @error('notes')
                                     {{ $message }}
                                 @enderror
@@ -635,7 +636,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save Student</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Kaydet</button>
             </form>
         </div>
 

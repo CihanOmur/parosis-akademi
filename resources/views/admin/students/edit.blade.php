@@ -73,7 +73,7 @@
                                 <input type="text" name="full_name" value="{{ $student->full_name }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('full_name') }}" placeholder="örn: Ahmet Yılmaz">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('full_name')
                                         {{ $message }}
                                     @enderror
@@ -90,7 +90,7 @@
                                     <option {{ $student->gender == 'Kadın' ? 'selected' : '' }} value="Kadın">Kadın
                                     </option>
                                 </select>
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('gender')
                                         {{ $message }}
                                     @enderror
@@ -102,7 +102,7 @@
                                 <input type="date" name="birth_date" value="{{ $student->birth_date }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('birth_date') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('birth_date')
                                         {{ $message }}
                                     @enderror
@@ -114,7 +114,7 @@
                                 <input type="text" name="school_name" value="{{ $student->school_name }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('school_name') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('school_name')
                                         {{ $message }}
                                     @enderror
@@ -126,7 +126,7 @@
                                 <input type="text" name="tc_no" value="{{ $student->national_id }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('tc_no') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('tc_no')
                                         {{ $message }}
                                     @enderror
@@ -138,7 +138,7 @@
                                 <input type="text" name="blood_type" value="{{ $student->blood_type }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('blood_type') }}">
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('blood_type')
                                         {{ $message }}
                                     @enderror
@@ -166,7 +166,7 @@
                                         <input type="text" name="guardian1_relationship" placeholder="örn: Anne"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->relationship ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_relationship')
                                                 {{ $message }}
                                             @enderror
@@ -178,7 +178,7 @@
                                         <input type="text" name="guardian1_full_name" placeholder="Ayşe Yılmaz"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]->full_name ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_full_name')
                                                 {{ $message }}
                                             @enderror
@@ -190,7 +190,7 @@
                                         <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->national_id ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_national_id')
                                                 {{ $message }}
                                             @enderror
@@ -203,7 +203,7 @@
                                         <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->birth_date ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_birth_date')
                                                 {{ $message }}
                                             @enderror
@@ -220,7 +220,7 @@
                                                     value="{{ $level }}">{{ $level }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_education_level')
                                                 {{ $message }}
                                             @enderror
@@ -236,7 +236,7 @@
                                                     value="{{ $job }}">{{ $job }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_job')
                                                 {{ $message }}
                                             @enderror
@@ -248,7 +248,7 @@
                                         <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->phone_1 ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_phone_1')
                                                 {{ $message }}
                                             @enderror
@@ -260,7 +260,7 @@
                                         <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->phone_2 ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_phone_2')
                                                 {{ $message }}
                                             @enderror
@@ -272,7 +272,7 @@
                                         <input type="email" name="guardian1_email" placeholder="örn: ornek@parosis.com"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->email ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_email')
                                                 {{ $message }}
                                             @enderror
@@ -285,7 +285,7 @@
                                             placeholder="mahalle, sokak, no, ilçe, il"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->home_address ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_home_address')
                                                 {{ $message }}
                                             @enderror
@@ -298,7 +298,7 @@
                                             placeholder="mahalle, sokak, no, ilçe, il"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                             value="{{ $student->guardians[0]?->work_address ?? '' }}">
-                                        <div class="text-red-500 mt-2">
+                                        <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_work_address')
                                                 {{ $message }}
                                             @enderror
@@ -327,7 +327,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->relationship ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_relationship')
                                                     {{ $message }}
                                                 @enderror
@@ -340,7 +340,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->full_name ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_full_name')
                                                     {{ $message }}
                                                 @enderror
@@ -354,7 +354,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->national_id ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_national_id')
                                                     {{ $message }}
                                                 @enderror
@@ -368,7 +368,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->birth_date ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_birth_date')
                                                     {{ $message }}
                                                 @enderror
@@ -387,7 +387,7 @@
                                                         value="{{ $level }}">{{ $level }}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_education_level')
                                                     {{ $message }}
                                                 @enderror
@@ -405,7 +405,7 @@
                                                         value="{{ $job }}">{{ $job }}</option>
                                                 @endforeach
                                             </select>
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_job')
                                                     {{ $message }}
                                                 @enderror
@@ -418,7 +418,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->phone_1 ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_phone_1')
                                                     {{ $message }}
                                                 @enderror
@@ -432,7 +432,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->phone_2 ?? '' }}" <div
-                                                class="text-red-500 mt-2">
+                                                class="text-red-500 text-xs mt-2">
                                             @error('guardian1_phone_2')
                                                 {{ $message }}
                                             @enderror
@@ -445,7 +445,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->email ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_email')
                                                     {{ $message }}
                                                 @enderror
@@ -459,7 +459,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->home_address ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_home_address')
                                                     {{ $message }}
                                                 @enderror
@@ -473,7 +473,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->work_address ?? '' }}">
-                                            <div class="text-red-500 mt-2">
+                                            <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian1_work_address')
                                                     {{ $message }}
                                                 @enderror
@@ -511,7 +511,7 @@
                                     <label for="has_allergy"
                                         class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Evet</label>
                                 </div>
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('has_allergy')
                                         {{ $message }}
                                     @enderror
@@ -525,7 +525,7 @@
                                     <label for="no_allergy"
                                         class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Hayır</label>
                                 </div>
-                                <div class="text-red-500 mt-2">
+                                <div class="text-red-500 text-xs mt-2">
                                     @error('has_allergy')
                                         {{ $message }}
                                     @enderror
@@ -536,7 +536,7 @@
                             <input type="text" name="allergy_detail" placeholder="Alerji Detayları"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->allergy_detail }}">
-                            <div class="text-red-500 mt-2">
+                            <div class="text-red-500 text-xs mt-2">
                                 @error('allergy_detail')
                                     {{ $message }}
                                 @enderror
@@ -557,7 +557,7 @@
                         value="{{ $student->allergy_detail }}"
                         class="bg-gray-50 border border-gray-300
                         text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <div class="text-red-500 mt-2">
+                    <div class="text-red-500 text-xs mt-2">
                         @error('allergy_detail')
                             {{ $message }}
                         @enderror
@@ -583,7 +583,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="text-red-500 mt-2">
+                            <div class="text-red-500 text-xs mt-2">
                                 @error('class_id')
                                     {{ $message }}
                                 @enderror
@@ -603,7 +603,7 @@
                         <div class="mb-0">
                             <textarea name="notes" placeholder=""
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ $student->notes }}</textarea>
-                            <div class="text-red-500 mt-2">
+                            <div class="text-red-500 text-xs mt-2">
                                 @error('notes')
                                     {{ $message }}
                                 @enderror
