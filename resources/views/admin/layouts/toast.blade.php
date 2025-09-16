@@ -35,7 +35,7 @@
 
          const toast = document.createElement('div');
          toast.className =
-             `toast flex items-center w-full max-w-md p-4 mb-2 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800`;
+             `toast flex items-center w-full max-w-md p-4 mb-2 text-gray-500 bg-white rounded-lg shadow-sm  dark:bg-gray-800`;
 
          toast.innerHTML = `
             <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 rounded-lg ${colors[type]}">

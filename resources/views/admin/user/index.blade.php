@@ -1,20 +1,19 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
-        @yield('page-title', 'Kullanıcı Listesi' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+    <h1 class="text-2xl font-semibold text-gray-800">
+        @yield('page-title', 'Kullanıcılar' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
-        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
-            Kullanıcı Ekle</a>
+        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni Ekle</a>
     </div>
 @endsection
 @section('content')
-    <div class="rounded-lg mb-4 h-[90%]">
+    <div class="rounded-lg mb-4 h-[85%] border border-gray-200">
 
         <div class="w-full bg-white py-10 px-8 rounded-lg h-full">
             <div class="relative overflow-x-auto h-full">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                         <tr>
 
                             <th scope="col" class="px-6 py-3">
@@ -35,10 +34,10 @@
                     <tbody>
                         @foreach ($users as $item)
                             <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                class="bg-white border-b border-gray-200 hover:bg-gray-50">
 
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap dark:text-white">
+                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap">
                                     <a href="{{ route('users.edit', $item->id) }}">{{ $item->name }}</a>
                                 </th>
                                 <td class="px-6 py-4">
@@ -70,7 +69,6 @@
 
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 @endsection

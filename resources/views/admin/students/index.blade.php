@@ -1,28 +1,27 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
-        @yield('page-title', 'Öğrenci Listesi' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+    <h1 class="text-2xl font-semibold text-gray-800 ">
+        @yield('page-title', 'Öğrenciler' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
         <a href="{{ route('students.create') }}"
-            class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
-            Öğrenci Ekle</a>
+            class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni Ekle</a>
     </div>
 @endsection
 @section('content')
-    <div class="rounded-lg mb-4 h-[90%]">
+    <div class="rounded-lg mb-4 h-[85%]">
 
-        <div class="w-full bg-white py-10 px-8 rounded-lg h-full">
+        <div class="w-full bg-white py-10 px-8 rounded-lg h-full border border-gray-200">
             <div class="relative overflow-x-auto h-full">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
                         <tr>
 
                             <th scope="col" class="px-6 py-3">
-                                Adı
+                                Ad/Soyad
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                TC
+                                T.C. Kimlik No
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Kayıt Türü
@@ -35,10 +34,10 @@
                     <tbody>
                         @foreach ($students as $item)
                             <tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                class="bg-white border-b   border-gray-200 hover:bg-gray-50 ">
 
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap dark:text-white">
+                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
                                     <a href="{{ route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
                                 </th>
 
@@ -85,8 +84,8 @@
 
                                             <!-- Dropdown menu -->
                                             <div id="languageDropdown{{ $item->id }}"
-                                                class="z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
-                                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 text-start"
+                                                class="z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
+                                                <ul class="py-2 text-sm text-gray-70"
                                                     aria-labelledby="languageDropdownButton{{ $item->id }}">
                                                     <li>
                                                         <form id="downloadRegistrationForm{{ $item->id }}"
@@ -97,7 +96,7 @@
                                                                 value="{{ $item->id }}">
                                                         </form>
                                                         <button form="downloadRegistrationForm{{ $item->id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full text-start cursor-pointer">Kayıt
+                                                            class="block px-4 py-2 hover:bg-gray-100  w-full text-start cursor-pointer">Kayıt
                                                             Formu İndir</button>
                                                     </li>
                                                     <li>
@@ -109,16 +108,16 @@
                                                                 value="{{ $item->id }}">
                                                         </form>
                                                         <button form="downloadContract{{ $item->id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white w-full text-start cursor-pointer">Sözleşme
+                                                            class="block px-4 py-2 hover:bg-gray-100 w-full text-start cursor-pointer">Sözleşme
                                                             İndir</button>
                                                     </li>
                                                     <li>
                                                         <a href="{{ route('students.allPayments', $item->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ödemeler</a>
+                                                            class="block px-4 py-2 hover:bg-gray-100">Ödemeler</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{ route('students.reCreate', $item->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Kursu
+                                                            class="block px-4 py-2 hover:bg-gray-100 ">Kursu
                                                             Yenile</a>
                                                     </li>
                                                 </ul>
@@ -133,7 +132,6 @@
 
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
 @endsection

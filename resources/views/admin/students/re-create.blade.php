@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    <h1 class="text-2xl font-semibold text-gray-800">
         @yield('page-title', 'Kullanıcı Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">

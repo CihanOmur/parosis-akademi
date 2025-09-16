@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
     <div class="rounded-lg mb-4">
-        <div class="w-full bg-white py-10 px-8 rounded-lg">
+        <div class="w-full bg-white py-10 px-8 rounded-lg border border-gray-200">
             <form class="w-full" action="{{ route('students.paymentUpdate', ['id' => $payment->id]) }}" method="POST">
                 @csrf
 
@@ -63,7 +63,9 @@
                                         class="border rounded-lg p-1 w-full">
                                         <option value="0" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>Nakit
                                         </option>
-                                        <option value="1" {{ $inst->payment_type == 'Banka' ? 'selected' : '' }}>Banks
+                                        <option value="0" {{ $inst->payment_type == 'Havele' ? 'selected' : '' }}>Havale
+                                        </option>
+                                        <option value="1" {{ $inst->payment_type == 'Banka' ? 'selected' : '' }}>Kredi Kartı
                                         </option>
                                     </select>
                                 </div>

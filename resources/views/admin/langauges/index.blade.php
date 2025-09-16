@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', 'Dil Listesi' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
 @endsection
@@ -9,8 +9,8 @@
 
         <div class="w-full bg-white py-10 px-8 rounded-lg">
             <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Başlık
@@ -28,7 +28,7 @@
                             <tr
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap dark:text-white">
+                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
                                     {{ $item->name }}
                                 </th>
                                 <td class="px-6 py-4">
@@ -42,7 +42,7 @@
                                             class="sr-only peer status-toggle" data-id="{{ $item->id }}"
                                             {{ $item->is_active == '1' ? 'checked' : '' }}>
                                         <div
-                                            class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
+                                            class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600">
                                         </div>
                                         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
                                             id="status-label{{ $item->id }}">

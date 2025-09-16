@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'parosıs')</title>
+    <title>@yield('title', 'Parosis Akademi')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -28,7 +28,7 @@
         <div class="p-4 mt-14 flex-1">
             @hasSection('page-banner')
                 <div class=" pb-4 rounded-lg ">
-                    <div class="w-full bg-white py-5 px-8 rounded-lg flex items-center justify-between gap-2">
+                    <div class="w-full py-5 px-8 rounded-lg flex items-center justify-between gap-2">
                         @yield('page-banner')
                     </div>
                 </div>
@@ -37,7 +37,7 @@
         </div>
         <footer>
             <div class="px-4 text-center">
-                <p class="text-gray-500 dark:text-gray-400 text-end text-xs">
+                <p class="text-gray-500  text-end text-xs">
                     © 2023 Corwus. All rights reserved.
                 </p>
             </div>

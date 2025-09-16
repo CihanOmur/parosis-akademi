@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', $student->full_name . ' Ödeme Listesi' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
@@ -14,8 +14,8 @@
 
         <div class="w-full bg-white py-10 px-8 rounded-lg h-full">
             <div class="relative overflow-x-auto h-full">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
                         <tr>
 
                             <th scope="col" class="px-6 py-3">
@@ -47,7 +47,7 @@
                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                                 <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap dark:text-white">
+                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
                                     <a href="{{ route('students.payment', $item->id) }}">{{ $loop->iteration }}. Kur</a>
                                 </th>
                                 <td class="px-6 py-4">
@@ -87,7 +87,7 @@
 
                                             <!-- Dropdown menu -->
                                             <div id="languageDropdown{{ $item->id }}"
-                                                class="z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+                                                class="z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
                                                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 text-start"
                                                     aria-labelledby="languageDropdownButton{{ $item->id }}">
 

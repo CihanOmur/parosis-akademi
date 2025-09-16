@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', 'Ekip Sayfası Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
 @endsection
@@ -60,18 +60,18 @@
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
                 <div class="mb-6">
                     <label for="title"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Başlık</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 ">Başlık</label>
                     <input type="text" name="title" id="title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Başlık girin"
                         value="{{ translateAttribute($teamsPageInfo, 'title', request()->lang) }}">
 
                 </div>
                 <div class="mb-6">
-                    <label for="subtitle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alt
+                    <label for="subtitle" class="block mb-2 text-sm font-medium text-gray-900 ">Alt
                         Başlık</label>
                     <input type="text" name="subtitle" id="subtitle" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Alt başlık girin"
                         value="{{ translateAttribute($teamsPageInfo, 'subtitle', request()->lang) }}">
 
@@ -79,17 +79,17 @@
 
                 <div class="mb-6">
                     <label for="content"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Açıklama</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 ">Açıklama</label>
                     <textarea id="editor" name="content"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Açıklama girin">{{ translateAttribute($teamsPageInfo, 'description', request()->lang) }}</textarea>
                 </div>
 
                 <div class="mb-6">
-                    <label for="comment_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Yorum
+                    <label for="comment_title" class="block mb-2 text-sm font-medium text-gray-900 ">Yorum
                         Başlık</label>
                     <input type="text" name="comment_title" id="comment_title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Alt başlık girin"
                         value="{{ translateAttribute($teamsPageInfo, 'comment_title', request()->lang) }}">
 
@@ -97,21 +97,21 @@
 
 
                 <div class="mb-6">
-                    <label for="gallery_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Galeri
+                    <label for="gallery_title" class="block mb-2 text-sm font-medium text-gray-900 ">Galeri
                         Başlık</label>
                     <input type="text" name="gallery_title" id="gallery_title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Başlık girin"
                         value="{{ translateAttribute($teamsPageInfo, 'gallery_title', request()->lang) }}">
 
                 </div>
                 <div class="mb-6">
                     <label for="gallery_subtitle"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Galeri Alt
+                        class="block mb-2 text-sm font-medium text-gray-900 ">Galeri Alt
                         Başlık</label>
                     <input type="text" name="gallery_subtitle" id="gallery_subtitle"
                         aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Alt başlık girin"
                         value="{{ translateAttribute($teamsPageInfo, 'gallery_subtitle', request()->lang) }}">
 

@@ -1,46 +1,61 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', 'Öğrenci Ekle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-    <div class="flex items-center gap-2">
-        <a href="{{ route('students.create') }}"
-            class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
-            Öğrenci Ekle</a>
-    </div>
 @endsection
 
 @section('content')
     <div class="rounded-lg mb-4">
 
-        <div class="w-full bg-white py-10 px-8 rounded-lg">
-            <form class=" w-full" action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
+        <div class="w-full">
+            <form class=" w-full space-y-6" action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
 
-
                 {{-- Registration Type --}}
-                <div class="mb-6">
-                    <label class="block mb-2 font-medium">Kayıt Tipi</label>
-                    <div class="flex items-center justify-start gap-4">
-                        <div class="flex items-center justify-start gap-2">
-                            <input type="radio" name="registiration_type" value="1">
-                            <span>Ön Kayıt</span>
+                    <div class="w-full bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                            <h3 class="text-md font-semibold text-gray-900 ">
+                                Kayıt Türü
+                            </h3>
                         </div>
-                        <div class="flex items-center justify-start gap-2">
-                            <input type="radio" name="registiration_type" checked value="2">
-                            <span>Kesin Kayıt</span>
+                        <div class="py-10 px-5">
+                            <div class="flex items-center justify-start gap-4 ">
+                                <div class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
+                                    <input id="bordered-radio-1" type="radio" name="registiration_type" value="1"class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
+                                    <label for="bordered-radio-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Ön Kayıt</label>
+                                </div>
+                                <!-- <div class="flex items-center justify-start gap-2">
+                                    <input type="radio" name="registiration_type" value="1">
+                                    <span>Ön Kayıt</span>
+                                </div> -->
+                                <div class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
+                                    <input id="bordered-radio-2" type="radio" name="registiration_type" checked value="2" class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500 focus:ring-2 cursor-pointer">
+                                    <label for="bordered-radio-2" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Kesin Kayıt</label>
+                                </div>
+                                <!-- <div class="flex items-center justify-start gap-2">
+                                    <input type="radio" name="registiration_type" checked value="2">
+                                    <span>Kesin Kayıt</span>
+                                </div> -->
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {{-- Student Info --}}
-                <div class="grid grid-cols-2 gap-4">
+            {{-- Student Info --}}
+                <div class="w-full bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                            <h3 class="text-md font-semibold text-gray-900 ">
+                                Öğrenci Bilgileri
+                            </h3>
+                            </div>
+                        <div class="py-10 px-5">
+                            <div class="grid grid-cols-2 gap-4">
                     <div class="mb-6">
-                        <label class="block mb-2 font-medium">Adı Soyadı</label>
+                        <label class="block mb-2 font-medium">Ad Soyad</label>
                         <input type="text" name="full_name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            value="{{ old('full_name') }}" placeholder="John Doe">
+                            value="{{ old('full_name') }}" placeholder="örn: Ahmet Yılmaz">
                         <div class="text-red-500 mt-2">
                             @error('full_name')
                                 {{ $message }}
@@ -52,6 +67,7 @@
                         <label class="block mb-2 font-medium">Cinsiyet</label>
                         <select name="gender"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="" disabled selected>Bir seçim yapın</option>
                             <option {{ old('gender') == 'Erkek' ? 'selected' : '' }} value="Erkek">Erkek</option>
                             <option {{ old('gender') == 'Kadın' ? 'selected' : '' }} value="Kadın">Kadın</option>
                         </select>
@@ -86,8 +102,8 @@
 
                         </div>
                     </div>
-                    <div class="mb-6">
-                        <label class="block mb-2 font-medium">Tc No</label>
+                    <div class="mb-0">
+                        <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                         <input type="text" name="tc_no"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ old('tc_no') }}">
@@ -98,7 +114,7 @@
 
                         </div>
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-0">
                         <label class="block mb-2 font-medium">Kan Grubu</label>
                         <input type="text" name="blood_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -111,41 +127,34 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- Class Select --}}
-                <div class="mb-6">
-                    <label class="block mb-2 font-medium">Sınıf</label>
-                    <select name="class_id"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($classes as $class)
-                            <option {{ old('class_id') == $class->id ? 'selected' : '' }} value="{{ $class->id }}">
-                                ({{ $class->name }}
-                                ({{ $class->day }}
-                                {{ $class->time }})
-                            </option>)
-                        @endforeach
-                    </select>
-                    <div class="text-red-500 mt-2">
-                        @error('class_id')
-                            {{ $message }}
-                        @enderror
-
-                    </div>
+                </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    {{-- Guardian 1 --}}
-                    <div>
-                        <div class="mb-6">
-                            <label>
-                                <h3 class="mb-2 font-semibold">Veli 1</h3>
-                            </label>
+                <div class="w-full">
+                    <div class="w-full bg-white rounded-lg border border-gray-200">
+                        <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                            <h3 class="text-md font-semibold text-gray-900 ">Veli Bilgileri</h3>
                         </div>
+                 <div class="py-10 px-5">
 
-                        <div class="grid grid-cols-2 gap-4">
+                     <div>
+
+                        <div class="grid grid-cols-4 gap-4">
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">Adı Soyadı</label>
-                                <input type="text" name="guardian1_full_name" placeholder="Adı Soyadı"
+                                <label class="block mb-2 font-medium">Yakınlık</label>
+                                <input type="text" name="guardian1_relationship" placeholder="örn: Anne"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="{{ old('guardian1_relationship') }}">
+                                <div class="text-red-500 mt-2">
+                                    @error('guardian1_relationship')
+                                        {{ $message }}
+                                    @enderror
+
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block mb-2 font-medium">Ad Soyad</label>
+                                <input type="text" name="guardian1_full_name" placeholder="Ayşe Yılmaz"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('guardian1_full_name') }}">
                                 <div class="text-red-500 mt-2">
@@ -156,8 +165,8 @@
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">TC No</label>
-                                <input type="text" name="guardian1_national_id" placeholder="TC No"
+                                <label class="block mb-2 font-medium">T.C. Kimlik No</label>
+                                <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('guardian1_national_id') }}">
                                 <div class="text-red-500 mt-2">
@@ -167,18 +176,7 @@
 
                                 </div>
                             </div>
-                            <div class="mb-6">
-                                <label class="block mb-2 font-medium">Yakınlık</label>
-                                <input type="text" name="guardian1_relationship" placeholder="Yakınlık"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    value="{{ old('guardian1_relationship') }}">
-                                <div class="text-red-500 mt-2">
-                                    @error('guardian1_relationship')
-                                        {{ $message }}
-                                    @enderror
-
-                                </div>
-                            </div>
+                            
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Doğum Tarihi</label>
                                 <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
@@ -224,8 +222,8 @@
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">1. Telefon</label>
-                                <input type="text" name="guardian1_phone_1" placeholder="1. Telefon"
+                                <label class="block mb-2 font-medium">Telefon</label>
+                                <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('guardian1_phone_1') }}">
                                 <div class="text-red-500 mt-2">
@@ -236,8 +234,8 @@
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">2.Telefon</label>
-                                <input type="text" name="guardian1_phone_2" placeholder="2.Telefon"
+                                <label class="block mb-2 font-medium">Telefon</label>
+                                <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('guardian1_phone_2') }}">
                                 <div class="text-red-500 mt-2">
@@ -248,8 +246,8 @@
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">Email</label>
-                                <input type="email" name="guardian1_email" placeholder="Email"
+                                <label class="block mb-2 font-medium">E-mail</label>
+                                <input type="email" name="guardian1_email" placeholder="örn: ornek@parosis.com"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('guardian1_email') }}">
                                 <div class="text-red-500 mt-2">
@@ -261,7 +259,7 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Ev Adresi</label>
-                                <input type="text" name="guardian1_home_address" placeholder="Ev Adresi"
+                                <input type="text" name="guardian1_home_address" placeholder="mahalle, sokak, no, ilçe, il"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('guardian1_home_address') }}">
                                 <div class="text-red-500 mt-2">
@@ -273,7 +271,7 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">İş Adresi</label>
-                                <input type="text" name="guardian1_work_address" placeholder="İş Adresi"
+                                <input type="text" name="guardian1_work_address" placeholder="mahalle, sokak, no, ilçe, il"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                     value="{{ old('guardian1_work_address') }}">
                                 <div class="text-red-500 mt-2">
@@ -284,18 +282,16 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    {{-- Guardian 2 --}}
-                    <div>
-                        <div class="mb-6">
-                            <label class="mb-2 font-semibold">
-                                <input type="checkbox" id="guardian2_active" name="guardian2_active" class="">
-                                Veli 2 Aktif Et
-                            </label>
+                        <div>
+                        <div class="mb-6 mt-8">
+                            <div class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
+                                <input type="checkbox" id="guardian2_active" name="guardian2_active" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 focus:ring-2 cursor-pointer">
+                                <label for="guardian2_active" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer" >Veli Ekle</label>
+                                
+                            </div>
                         </div>
-
-                        <div id="guardian2_fields" class="grid grid-cols-2 gap-4">
+                        {{-- Guardian 2 --}}
+                        <div id="guardian2_fields" class="grid grid-cols-4 gap-4">
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Adı Soyadı</label>
                                 <input type="text" name="guardian1_full_name" placeholder="Adı Soyadı" disabled
@@ -439,13 +435,24 @@
 
                         </div>
                     </div>
+                    </div>
+                    
+    
+                </div>
+
+            </div>
+
                 </div>
 
 
 
                 {{-- Emergency --}}
-                <h3 class="mb-2 font-semibold">Acil Durumda Aranacak 3. Kişiler</h3>
-                <div class="grid grid-cols-4 gap-4">
+                <div class="w-full bg-white rounded-lg border border-gray-200">
+                    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                     <h3 class="text-md font-semibold text-gray-900 ">Acil Durumda Aranacak 3. Kişiler</h3>
+                    </div>
+                        <div class="py-10 px-5">
+                        <div class="grid grid-cols-3 gap-4">            
                     <div class="mb-6">
                         <label class="block mb-2 font-medium">Adı Soyadı</label>
                         <input type="text" name="emergency_full_name" placeholder="Adı Soyadı"
@@ -481,7 +488,10 @@
 
                         </div>
                     </div>
-                    <div class="mb-6">
+                    
+                    </div>
+                    <div class="w-full">
+                        <div class="mb-0">
                         <label class="block mb-2 font-medium">Adres</label>
                         <input type="text" name="emergency_address" placeholder="Adres"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -494,42 +504,46 @@
                         </div>
                     </div>
                 </div>
+    </div>
+</div>
+
+
+
+
+                
 
 
 
                 {{-- Allergy --}}
-                <div class="mb-6">
-                    <label>
-                        <span class="font-semibold">Alerjisi Var Mı?</span>
-                        <div class="flex items-center gap-4">
-                            <div class="flex items-center gap-2">
-                                <input type="radio" name="has_allergy" value="1" id="has_allergy"
-                                    {{ old('has_allergy') == '1' ? 'checked' : '' }}>
-                                <label for="has_allergy">Evet</label>
+                <div class="w-full bg-white rounded-lg border border-gray-200">
+    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+        <h3 class="text-md font-semibold text-gray-900 ">Alerjisi Var Mı?</h3>
+    </div>
+    <div class="py-10 px-5">
+        <div class="mb-0">
+            <div class="flex items-center justify-start gap-4 ">
+                                <div class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
+                                    <input type="radio" name="has_allergy" value="1" id="has_allergy" {{ old('has_allergy') == '1' ? 'checked' : '' }} class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
+                                    <label for="has_allergy" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Evet</label>
+                                </div>
                                 <div class="text-red-500 mt-2">
                                     @error('has_allergy')
                                         {{ $message }}
                                     @enderror
 
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <input type="radio" name="has_allergy" value="2" checked id="no_allergy"
-                                    {{ old('has_allergy') == '2' ? 'checked' : '' }}>
-                                <label for="no_allergy">Hayır</label>
+                                <div class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
+                                    <input type="radio" name="has_allergy" value="2" checked id="no_allergy" {{ old('has_allergy') == '2' ? 'checked' : '' }}  class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
+                                    <label for="no_allergy" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Hayır</label>
+                                </div>
                                 <div class="text-red-500 mt-2">
                                     @error('has_allergy')
                                         {{ $message }}
                                     @enderror
-
                                 </div>
-                            </div>
-
-
                         </div>
-                    </label>
                 </div>
-                <div id="allergy_detail_field" class="hidden mb-6">
+                <div id="allergy_detail_field" class="hidden mb-0 mt-6">
                     <input type="text" name="allergy_detail" placeholder="Alerji Detayları"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         value="{{ old('allergy_detail') }}">
@@ -541,18 +555,54 @@
                     </div>
                 </div>
 
+    </div>
+</div>
+
+{{-- Class Select --}}
+                <div class="w-full bg-white rounded-lg border border-gray-200">
+    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+        <h3 class="text-md font-semibold text-gray-900 ">Sınıf</h3>
+    </div>
+    <div class="py-5 px-5">
+        <div class="mb-0">
+                    <select name="class_id"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        @foreach ($classes as $class)
+                            <option {{ old('class_id') == $class->id ? 'selected' : '' }} value="{{ $class->id }}">
+                                {{ $class->name }} -
+                                {{ $class->day }} - 
+                                {{ $class->time }} - 
+                                {{ $class->teacher_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <div class="text-red-500 mt-2">
+                        @error('class_id')
+                            {{ $message }}
+                        @enderror
+
+                    </div>
+                </div>
+    </div>
+</div>
+
                 {{-- Notes --}}
-                <div class="mb-6">
-                    <label class="block mb-2 font-medium">Notlar</label>
-                    <textarea name="notes" placeholder="Notlar"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">{{ old('notes') }}</textarea>
+                <div class="w-full bg-white rounded-lg border border-gray-200">
+    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+        <h3 class="text-md font-semibold text-gray-900 ">Not</h3>
+    </div>
+    <div class="py-5 px-5">
+        <div class="mb-0">
+                    <textarea name="notes" placeholder=""
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ old('notes') }}</textarea>
                     <div class="text-red-500 mt-2">
                         @error('notes')
                             {{ $message }}
                         @enderror
                     </div>
                 </div>
-
+    </div>
+</div>
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save Student</button>
             </form>
         </div>

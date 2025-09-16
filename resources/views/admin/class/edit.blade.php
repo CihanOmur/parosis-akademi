@@ -1,24 +1,25 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">
-        @yield('page-title', 'Kullanıcı Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+    <h1 class="text-2xl font-semibold text-gray-800">
+        @yield('page-title', 'Sınıf Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
-        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
-            Sınıf Ekle</a>
+        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni Ekle</a>
     </div>
 @endsection
 
 @section('content')
     <div class="rounded-lg mb-4">
 
-        <div class="w-full bg-white py-10 px-8 rounded-lg">
-            <form class="lg:w-1/2 w-full" action="{{ route('class.update', $lessonClass->id) }}" method="POST"
+        <div class="w-full bg-white py-10 px-8 border border-gray-100 rounded-lg">
+            <form class=" w-full" action="{{ route('class.update', $lessonClass->id) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
-                {{-- Sınıf Adı --}}
-                <div class="mb-6">
+
+              <div class="flex w-full gap-4">
+                  {{-- Sınıf Adı --}}
+                <div class="mb-6 w-full">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900">
                         Sınıf Adı</label>
                     <input type="text" name="name" id="name" value="{{ old('name', $lessonClass->name) }}"
@@ -28,7 +29,7 @@
                 </div>
 
                 {{-- Günü --}}
-                <div class="mb-6">
+                <div class="mb-6 w-full">
                     <label for="day" class="block mb-2 text-sm font-medium text-gray-900">
                         Günü</label>
                     <select id="day" name="day"
@@ -43,8 +44,10 @@
                     </select>
                 </div>
 
-                {{-- Saati --}}
-                <div class="mb-6">
+              </div>
+                <div class="flex w-full gap-4">
+                    {{-- Saati --}}
+                <div class="mb-6 w-full">
                     <label for="time" class="block mb-2 text-sm font-medium text-gray-900">
                         Saati</label>
                     <select id="time" name="time"
@@ -60,7 +63,7 @@
                 </div>
 
                 {{-- Ücreti --}}
-                <div class="mb-6">
+                <div class="mb-6 w-full">
                     <label for="price" class="block mb-2 text-sm font-medium text-gray-900">
                         Ücreti</label>
                     <input type="number" step="0.01" name="price" id="price"
@@ -69,9 +72,11 @@
             focus:border-blue-500 block w-full p-2.5"
                         placeholder="Ücret girin">
                 </div>
+                </div>
 
-                {{-- Kontenjan --}}
-                <div class="mb-6">
+                <div class="flex w-full gap-4">
+                    {{-- Kontenjan --}}
+                <div class="mb-6 w-full">
                     <label for="quota" class="block mb-2 text-sm font-medium text-gray-900">
                         Kontenjan</label>
                     <input type="number" name="quota" id="quota" value="{{ old('quota', $lessonClass->quota) }}"
@@ -81,7 +86,7 @@
                 </div>
 
                 {{-- Öğretmen Adı --}}
-                <div class="mb-6">
+                <div class="mb-6 w-full">
                     <label for="teacher_name" class="block mb-2 text-sm font-medium text-gray-900">
                         Öğretmen Adı</label>
                     <input type="text" name="teacher_name" id="teacher_name"
@@ -90,12 +95,14 @@
             focus:border-blue-500 block w-full p-2.5"
                         placeholder="Öğretmen adı girin">
                 </div>
+                </div>
 
-
+           
                 <div class="">
                     <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Kaydet</button>
                 </div>
             </form>
         </div>
+
     </div>
 @endsection
