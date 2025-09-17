@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Parosis Akademi')</title>
+    <title>@yield('title', 'Parosis Akademi - Login')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
@@ -37,6 +37,9 @@
                     </div>
 
                     <hr class="h-[1px] w-full bg-[#E1E4EA] border-0">
+                    @if ($errors->has('check'))
+                        <span class="text-sm text-red-600">{{ $errors->first('check') }}</span>
+                    @endif
 
                     <div class="flex flex-col items-start gap-3 w-full">
 

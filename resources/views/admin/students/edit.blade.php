@@ -38,9 +38,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                        <input type="radio" name="registiration_type" value="1">
-                                        <span>Ön Kayıt</span>
-                                    </div> -->
+                                                                <input type="radio" name="registiration_type" value="1">
+                                                                <span>Ön Kayıt</span>
+                                                            </div> -->
                             <div
                                 class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                 <input id="bordered-radio-2" type="radio" name="registiration_type" value="2"
@@ -51,9 +51,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                        <input type="radio" name="registiration_type" checked value="2">
-                                        <span>Kesin Kayıt</span>
-                                    </div> -->
+                                                                <input type="radio" name="registiration_type" checked value="2">
+                                                                <span>Kesin Kayıt</span>
+                                                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,9 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                <input type="text" name="tc_no" value="{{ $student->national_id }}"
+                                <input type="text" name="tc_no" maxlength="11" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                                    value="{{ $student->national_id }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('tc_no') }}">
                                 <div class="text-red-500 text-xs mt-2">
@@ -245,7 +247,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
+                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->phone_1 ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -257,7 +261,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
+                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            name="guardian1_phone_2" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->phone_2 ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -349,7 +355,9 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                            <input type="text" name="guardian1_national_id"
+                                            <input type="text" name="guardian1_national_id" maxlength="11"
+                                                inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 placeholder="örn: 12345678901"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
@@ -414,7 +422,9 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="text" name="guardian1_phone_1" placeholder="05551234545"
+                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                name="guardian1_phone_1" placeholder="05551234545"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->phone_1 ?? '' }}">
@@ -427,8 +437,9 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
-                                                disabled
+                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                name="guardian1_phone_2" placeholder="örn: 05551234545" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->phone_2 ?? '' }}" <div

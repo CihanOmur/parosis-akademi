@@ -31,9 +31,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                                <input type="radio" name="registiration_type" value="1">
-                                                <span>Ön Kayıt</span>
-                                            </div> -->
+                                                                                            <input type="radio" name="registiration_type" value="1">
+                                                                                            <span>Ön Kayıt</span>
+                                                                                        </div> -->
                             <div
                                 class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                 <input id="bordered-radio-2" type="radio" name="registiration_type" checked value="2"
@@ -43,9 +43,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                                <input type="radio" name="registiration_type" checked value="2">
-                                                <span>Kesin Kayıt</span>
-                                            </div> -->
+                                                                                            <input type="radio" name="registiration_type" checked value="2">
+                                                                                            <span>Kesin Kayıt</span>
+                                                                                        </div> -->
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,9 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                <input type="text" name="tc_no" placeholder="örn: 12345678901"
+                                <input type="text" name="tc_no" maxlength="11" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                                    placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('tc_no') }}">
                                 <div class="text-red-500 text-xs mt-2">
@@ -174,7 +176,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                        <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
+                                        <input type="text" maxlength="11" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                                            name="guardian1_national_id" placeholder="örn: 12345678901"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_national_id') }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -231,7 +235,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
+                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_phone_1') }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -243,7 +249,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
+                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            name="guardian1_phone_2" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_phone_2') }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -321,8 +329,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Ad Soyad</label>
-                                            <input type="text" name="guardian1_full_name" placeholder="örn: Mehmet Yılmaz"
-                                                disabled
+                                            <input type="text" name="guardian1_full_name"
+                                                placeholder="örn: Mehmet Yılmaz" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_full_name') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -334,8 +342,10 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">T.C Kimlik No</label>
-                                            <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
-                                                disabled
+                                            <input type="text" name="guardian1_national_id" maxlength="11"
+                                                inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                                                placeholder="örn: 12345678901" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_national_id') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -345,7 +355,7 @@
 
                                             </div>
                                         </div>
-                                        
+
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Doğum Tarihi</label>
                                             <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
@@ -394,8 +404,9 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="text" name="guardian1_phone_1" placeholder="örn: 05551234545"
-                                                disabled
+                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                name="guardian1_phone_1" placeholder="örn: 05551234545" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_phone_1') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -407,8 +418,9 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="text" name="guardian1_phone_2" placeholder="örn: 05551234545"
-                                                disabled
+                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                name="guardian1_phone_2" placeholder="örn: 05551234545" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_phone_2') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -420,7 +432,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">E-mail</label>
-                                            <input type="email" name="guardian1_email" placeholder="örn: ornek@parosis.com" disabled
+                                            <input type="email" name="guardian1_email"
+                                                placeholder="örn: ornek@parosis.com" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_email') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -432,8 +445,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Ev Adresi</label>
-                                            <input type="text" name="guardian1_home_address" placeholder="mahalle, sokak, no, ilçe, il"
-                                                disabled
+                                            <input type="text" name="guardian1_home_address"
+                                                placeholder="mahalle, sokak, no, ilçe, il" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian1_home_address') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -445,8 +458,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">İş Adresi</label>
-                                            <input type="text" name="guardian1_work_address" placeholder="mahalle, sokak, no, ilçe, il"
-                                                disabled
+                                            <input type="text" name="guardian1_work_address"
+                                                placeholder="mahalle, sokak, no, ilçe, il" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                                 value="{{ old('guardian1_work_address') }}">
                                             <div class="text-red-500 text-xs mt-2">
@@ -502,7 +515,9 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="text" name="emergency_phone" placeholder="örn: 12345678901"
+                                <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="emergency_phone"
+                                    placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('emergency_phone') }}">
                                 <div class="text-red-500 text-xs mt-2">

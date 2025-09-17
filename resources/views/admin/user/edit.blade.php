@@ -4,7 +4,8 @@
         @yield('page-title', 'Kullanıcı Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
-        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni Ekle</a>
+        <a href="{{ route('users.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
+            Ekle</a>
     </div>
 @endsection
 
@@ -17,8 +18,7 @@
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
                 <div class="mb-6">
-                    <label for="name"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">Ad/Soyad</label>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">Ad/Soyad</label>
                     <input type="text" name="name" id="name" aria-describedby="helper-text-explanation"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Başlık girin" value="{{ $user->name }}">
@@ -30,9 +30,9 @@
                         placeholder="Email girin" value="{{ $user->email }}">
                 </div>
                 <div class="mb-6">
-                    <label for="phone"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">Telefon</label>
-                    <input type="tel" name="phone" id="phone" aria-describedby="helper-text-explanation"
+                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 ">Telefon</label>
+                    <input type="tel" name="phone" id="phone" pattern="[0-9]*" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" aria-describedby="helper-text-explanation"
                         maxlength="13"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
                         placeholder="Telefon girin" value="{{ $user->phone }}">

@@ -61,7 +61,6 @@ class UserController extends Controller
             'phone' => 'required|string|max:13|unique:users,phone,' . $id,
             'password' => 'nullable|string|max:230',
             'role' => 'required|exists:roles,name',
-
         ]);
         $user = User::findOrFail($id);
         $user->name = $request->name;
@@ -86,6 +85,13 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|email|max:220',
             'password' => 'required|string',
+        ], [
+            'email.required' => 'E-posta adresi zorunludur.',
+            'email.email'    => 'Geçerli bir e-posta adresi giriniz.',
+            'email.max'      => 'E-posta adresi en fazla 220 karakter olabilir.',
+
+            'password.required' => 'Şifre zorunludur.',
+            'password.string'   => 'Şifre geçersiz karakterler içeriyor.',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -94,7 +100,7 @@ class UserController extends Controller
             return redirect()->route('students.index');
         }
         return back()->withErrors([
-            'email' => 'Kullanıcı adı veya şifre hatalı.',
+            'check' => 'Kullanıcı adı veya şifre hatalı.',
         ])->onlyInput('email');
     }
     public function logout(Request $request)
