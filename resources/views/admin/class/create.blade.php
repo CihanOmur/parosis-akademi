@@ -15,78 +15,102 @@
 
                 <div class="flex w-full gap-4">
                     {{-- Sınıf Adı --}}
-                <div class="mb-6 w-full">
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900">
-                        Sınıf Adı</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-            focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Sınıf adı girin">
-                </div>
+                    <div class="mb-6 w-full">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">
+                            Sınıf Adı</label>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Sınıf adı girin">
+                    </div>
 
-                {{-- Günü --}}
-                <div class="mb-6 w-full">
-                    <label for="day" class="block mb-2 text-sm font-medium text-gray-900">
-                        Günü</label>
-                    <select id="day" name="day"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-            focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($days as $key => $label)
-                            <option value="{{ $key }}" {{ old('day') == $key ? 'selected' : '' }}>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                    {{-- Günü --}}
+                    <div class="mb-6 w-full">
+                        <label for="day" class="block mb-2 text-sm font-medium text-gray-900">
+                            Günü</label>
+                        <select id="day" name="day"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            @foreach ($days as $key => $label)
+                                <option value="{{ $key }}" {{ old('day') == $key ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
                 </div>
                 <div class="flex w-full gap-4">
                     {{-- Saati --}}
-                <div class="mb-6 w-full">
-                    <label for="time" class="block mb-2 text-sm font-medium text-gray-900">
-                        Saati</label>
-                    <select id="time" name="time"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-            focus:border-blue-500 block w-full p-2.5">
-                        @foreach ($times as $value)
-                            <option value="{{ $value }}" {{ old('time') == $value ? 'selected' : '' }}>
-                                {{ $value }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                    <div class="mb-6 w-full">
+                        <label for="time" class="block mb-2 text-sm font-medium text-gray-900">
+                            Saati</label>
+                        <select id="time" name="time"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            @foreach ($times as $value)
+                                <option value="{{ $value }}" {{ old('time') == $value ? 'selected' : '' }}>
+                                    {{ $value }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                {{-- Ücreti --}}
-                <div class="mb-6 w-full">
-                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900">
-                        Ücreti</label>
-                    <input type="number" step="0.01" name="price" id="price" value="{{ old('price') }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-            focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Ücret girin">
-                </div>
+                    {{-- Ücreti --}}
+                    <div class="mb-6 w-full">
+                        <label for="price" class="block mb-2 text-sm font-medium text-gray-900">
+                            Ücreti</label>
+                        <input type="number" step="0.01" name="price" id="price" value="{{ old('price') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Ücret girin">
+                    </div>
                 </div>
 
                 <div class="flex w-full gap-4">
                     {{-- Kontenjan --}}
-                <div class="mb-6 w-full">
-                    <label for="quota" class="block mb-2 text-sm font-medium text-gray-900">
-                        Kontenjan</label>
-                    <input type="number" name="quota" id="quota" value="{{ old('quota') }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-            focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Kontenjan girin">
-                </div>
+                    <div class="mb-6 w-full">
+                        <label for="quota" class="block mb-2 text-sm font-medium text-gray-900">
+                            Kontenjan</label>
+                        <input type="number" name="quota" id="quota" value="{{ old('quota') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Kontenjan girin">
+                    </div>
 
-                {{-- Öğretmen Adı --}}
-                <div class="mb-6 w-full">
-                    <label for="teacher_name" class="block mb-2 text-sm font-medium text-gray-900">
-                        Öğretmen Adı</label>
-                    <input type="text" name="teacher_name" id="teacher_name" value="{{ old('teacher_name') }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-            focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Öğretmen adı girin">
+                    {{-- Öğretmen Adı --}}
+                    <div class="mb-6 w-full">
+                        <label for="teacher_name" class="block mb-2 text-sm font-medium text-gray-900">
+                            Öğretmen Adı</label>
+                        <input type="text" name="teacher_name" id="teacher_name" value="{{ old('teacher_name') }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Öğretmen adı girin">
+                    </div>
                 </div>
+                <div class="flex flex-col lg:flex-row lg:items-center w-full gap-x-4">
+                    <div class="flex w-full gap-4">
+                        {{--  Kurs Başlangıç Tarihi --}}
+                        <div class="mb-6 w-full">
+                            <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900">
+                                Kurs Başlangıç Tarihi</label>
+                            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </div>
+
+                        {{--  Kurs Bitiş Tarihi --}}
+                        <div class="mb-6 w-full">
+                            <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900">
+                                Kurs Bitiş Tarihi</label>
+                            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </div>
+                    </div>
+
+                    <div class="flex w-full gap-4">
+                        {{--  Kurs Süresi --}}
+                        <div class="mb-6 w-full">
+                            <label for="course_time" class="block mb-2 text-sm font-medium text-gray-900">
+                                Kurs Süresi</label>
+                            <input type="text" name="course_time" id="course_time" value="{{ old('course_time') }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Kurs süresi girin">
+                        </div>
+                    </div>
                 </div>
                 <div class="">
                     <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Kaydet</button>

@@ -20,7 +20,7 @@
                     </div>
                     <div class="mb-6">
                         <label>Başlangıç Tarihi</label>
-                        <input type="date" id="start_date"
+                        <input type="date" id="start_date" name="start_date"
                             value="{{ old('start_date', optional($payment->installments->first())->payment_date ? \Carbon\Carbon::parse($payment->installments->first()->payment_date)->format('Y-m-d') : '') }}"
                             class="border rounded-lg p-2.5 w-full">
                     </div>
@@ -50,22 +50,26 @@
                                         value="{{ $inst->installment_price }}" class="border rounded-lg p-1 w-full">
                                 </div>
                                 <div>
-                                    <input type="number" step="0.01"
-                                        name="installments[{{ $i }}][payed_price]"
-                                        value="{{ $inst->payed_price }}" class="border rounded-lg p-1 w-full">
-                                </div>
-                                <div>
                                     <input type="date" name="installments[{{ $i }}][payyed_date]"
                                         value="{{ \Carbon\Carbon::parse($inst->payyed_date)->format('Y-m-d') }}">
                                 </div>
                                 <div>
+                                    <input type="number" step="0.01"
+                                        name="installments[{{ $i }}][payed_price]"
+                                        value="{{ $inst->payed_price == 0 ? '0,00' : $inst->payed_price }}"
+                                        class="border rounded-lg p-1 w-full">
+                                </div>
+
+                                <div>
                                     <select name="installments[{{ $i }}][payment_type]"
                                         class="border rounded-lg p-1 w-full">
-                                        <option value="0" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>Nakit
+                                        <option value="Nakit" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>Nakit
                                         </option>
-                                        <option value="0" {{ $inst->payment_type == 'Havele' ? 'selected' : '' }}>Havale
+                                        <option value="Havale" {{ $inst->payment_type == 'Havale' ? 'selected' : '' }}>
+                                            Havale
                                         </option>
-                                        <option value="1" {{ $inst->payment_type == 'Banka' ? 'selected' : '' }}>Kredi Kartı
+                                        <option value="Kredi Kartı/Banka"
+                                            {{ $inst->payment_type == 'Banka' ? 'selected' : '' }}>Kredi Kartı/Banka
                                         </option>
                                     </select>
                                 </div>
@@ -132,13 +136,14 @@
                     <div>#${i+1}</div>
                     <div><input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full" ></div>
                     <div><input type="number" step="0.01" name="installments[${i}][installment_price]" value="${inst.installment_price}" class="border rounded-lg p-1 w-full" ></div>
-                    <div><input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price}" class="border rounded-lg p-1 w-full" ></div>
                     <div><input type="date" name="installments[${i}][payyed_date]" value="${dateStrPayed}" class="border rounded-lg p-1 w-full" ></div>
+                    <div><input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price}" class="border rounded-lg p-1 w-full" ></div>
 
                     <div>
                         <select name="installments[${i}][payment_type]" class="border rounded-lg p-1 w-full">
                             <option value="0" ${inst.payment_type == "Nakit" ? 'selected' : ''}>Nakit</option>
-                            <option value="1" ${inst.payment_type == "Banka" ? 'selected' : ''}>Banka</option>
+                            <option value="1" ${inst.payment_type == "Havale" ? 'selected' : ''}>Havale</option>
+                            <option value="1" ${inst.payment_type == "Kredi Kartı/Banka" ? 'selected' : ''}>Kredi Kartı/Banka</option>
                         </select>
                     </div>
                 </div>`;
@@ -159,13 +164,14 @@
                     <div>#${paidInstallments.length + i + 1}</div>
                     <div><input type="date" name="installments[${paidInstallments.length + i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full"></div>
                     <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][installment_price]" value="${newAmount}" class="border rounded-lg p-1 w-full"></div>
-                    <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][payed_price]" value="0" class="border rounded-lg p-1 w-full"></div>
-
                     <div><input type="date" name="installments[${paidInstallments.length + i}][payyed_date]" class="border rounded-lg p-1 w-full"></div>
+                    <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][payed_price]" value="0.00" class="border rounded-lg p-1 w-full"></div>
+
                     <div>
                         <select name="installments[${paidInstallments.length + i}][payment_type]" class="border rounded-lg p-1 w-full">
-                            <option value="0" selected>Nakit</option>
-                            <option value="1">Banka</option>
+                            <option value="Nakit" selected>Nakit</option>
+                            <option value="Havale">Havale</option>
+                            <option value="Kredi Kartı/Banka">Kredi Kartı/Banka</option>
                         </select>
                     </div>
                 </div>`;

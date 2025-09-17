@@ -12,6 +12,9 @@ class LessonClass extends Model
         'time',
         'price',
         'quota',
-        'teacher_name'
+        'teacher_name',
+        'start_date',
+        'end_date',
+        'course_time',
     ];
 }

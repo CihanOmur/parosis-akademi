@@ -1021,7 +1021,11 @@ class StudentController extends Controller
     {
         $student = Student::with(['guardians', 'emergencyContact', 'lessonClass', 'payments'])->findOrFail($request->student_id);
 
-        $pdf = Pdf::loadView('admin.students.contract', compact('student'))->setOptions(['defaultFont' => 'DejaVu Sans'])->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('admin.students.contract', compact('student'))->setOptions([
+            'defaultFont' => 'DejaVu Sans',
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ])->setPaper('a4', 'portrait');
         return $pdf->download('contract_' . $student->id . '.pdf');
     }
     public function downloadPayment(Request $request)

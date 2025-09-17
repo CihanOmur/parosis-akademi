@@ -66,9 +66,12 @@ class LessonClassController extends Controller
                     }
                 }
             ],
-            'price'        => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0|max:99999999.99',
             'quota'        => 'required|integer|min:1',
             'teacher_name' => 'required|string|max:255',
+            'start_date' => 'required',
+            'end_date' => 'required|after_or_equal:start_date',
+            'course_time' => 'required|string|max:255',
         ]);
         LessonClass::create($validated);
         return redirect()->route('class.index')->with(['success' => 'Sınıf oluşturuldu']);
@@ -114,9 +117,13 @@ class LessonClassController extends Controller
                     }
                 }
             ],
-            'price'        => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0|max:99999999.99',
+
             'quota'        => 'required|integer|min:1',
             'teacher_name' => 'required|string|max:255',
+            'start_date' => 'required',
+            'end_date' => 'required|after_or_equal:start_date',
+            'course_time' => 'required|string|max:255',
         ]);
         $lessonClass = LessonClass::findOrFail($id);
         $lessonClass->update($validated);

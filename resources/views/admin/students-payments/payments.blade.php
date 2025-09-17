@@ -3,7 +3,6 @@
     <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', $student->full_name . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-   
 @endsection
 @section('content')
     <div class="rounded-lg mb-4 h-[85%]">
@@ -39,11 +38,9 @@
                     </thead>
                     <tbody>
                         @foreach ($payments->reverse() as $item)
-                            <tr
-                                class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
 
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
+                                <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
                                     <a href="{{ route('students.payment', $item->id) }}">{{ $loop->iteration }}. Kur</a>
                                 </th>
                                 <td class="px-6 py-4">
@@ -53,13 +50,15 @@
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    {{ $item->start_date ?? '-' }}
+                                    {{ $item->start_date ? \Carbon\Carbon::parse($item->start_date)->format('d.m.Y') : '' }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $item->total_payed_price ?? '0' }} ₺
+                                    {{ number_format(str_replace(['.', ','], [' ', '.'], $item->total_payed_price ?? '0.00'), 2, ',', '') }}
+                                    ₺
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $item->total_price - $item->total_payed_price }} ₺
+                                    {{ number_format(str_replace(['.', ','], [' ', '.'], $item->total_price - $item->total_payed_price), 2, ',', '') }}
+                                    ₺
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $item->installment_count ?? '0' }}
@@ -98,7 +97,8 @@
                                                                 value="{{ $item->id }}">
                                                         </form>
                                                         <button form="downloadContract{{ $item->id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100  w-full text-start cursor-pointer"> Pdf indir</button>
+                                                            class="block px-4 py-2 hover:bg-gray-100  w-full text-start cursor-pointer">
+                                                            Pdf indir</button>
                                                     </li>
 
                                                 </ul>

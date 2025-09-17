@@ -8,7 +8,7 @@
         body {
             font-family: "DejaVu Sans", sans-serif;
             font-size: 12pt;
-            margin: 10mm;
+            margin: 5mm;
             color: black;
         }
 
@@ -21,7 +21,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
         }
 
         th,
@@ -32,12 +32,12 @@
         }
 
         .footer-text {
-            margin-top: 20px;
+            margin-top: 0px;
             text-align: justify;
         }
 
         .signature {
-            margin-top: 50px;
+            margin-top: 10px;
             text-align: right;
         }
 
@@ -55,20 +55,20 @@
         <tr>
             <th>Taksitler</th>
             <th>Tarih</th>
-            <th>Ödenen Tutar</th>
+            <th>Ödenecek Tutar</th>
         </tr>
 
         @foreach ($payment->installments as $installment)
             <tr>
                 <td>{{ $loop->iteration }}. Taksit</td>
                 <td>{{ \Carbon\Carbon::parse($installment->payment_date)->format('d/m/Y') }}</td>
-                <td>{{ $installment->payed_price }}TL</td>
+                <td>{{ $installment->installment_price }}TL</td>
             </tr>
         @endforeach
         <tr>
             <th>TOPLAM</th>
-            <td></td>
-            <td>{{ $payment->total_price }}TL</td>
+            <td>{{ $payment->total_price }}</td>
+            <td>{{ $payment->total_price - $payment->payed_price }}TL</td>
         </tr>
     </table>
 
@@ -77,13 +77,16 @@
         <b>Parosis Pamukkale Robotik Sistemler ARGE A.Ş.</b>'ye ödemeyi gerçekleştireceğimi taahhüt ederim.
     </div>
 
-    <table style="margin-top: 30px;">
+    <table>
         <tr>
-            <td style="width: 80%; border: none;"></td>
-            <td style="width: 20%; border: none;">
-                <p><strong>Veli</strong>
-                </p>
+            <td style="width: 70%; border: none;"></td>
+            <td style="width: 30%; border: none;">
                 <p>{{ $student->guardians->first()->full_name ?? '' }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 70%; border: none; padding:0"></td>
+            <td style="width: 30%; border: none;padding:0">
                 <p>İmza:</p>
             </td>
         </tr>

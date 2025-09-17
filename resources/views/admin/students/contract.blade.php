@@ -32,7 +32,6 @@
         h3 {
             text-align: center;
             margin: 0;
-            text-transform: uppercase;
         }
 
         h1 {
@@ -108,12 +107,13 @@
     <div class="container">
         <div style="margin-bottom: 30px;">
             <h1>PAROSİS AKADEMİ</h1>
-            <h2>...Kurs adı...</h2>
+            <h2>{{ Str::upperTr($student->lessonClass->name) }}</h2>
             <h3>KURS KAYIT SÖZLEŞMESİ</h3>
         </div>
         <!-- Giriş metni -->
         <p>Bu sözleşme, <strong>Parosis Pamukkale Robotik Sistemler ARGE A.Ş.</strong> ile katılımcı arasında
-            <strong>.....</strong> tarihinde aşağıda belirtilen şartlarda akdedilmiştir.
+            <strong>{{ isset($student->payments->last()->start_date) ? \Carbon\Carbon::parse($student->payments->last()->start_date)->format('d.m.Y') : '' }}</strong>
+            tarihinde aşağıda belirtilen şartlarda akdedilmiştir.
         </p>
 
         <!-- Katılımcı Bilgileri -->
@@ -124,24 +124,26 @@
             </tr>
             <tr>
                 <td style="width:30%"><strong>Öğrenci Adı Soyadı</strong></td>
-                <td>:{{ $student->full_name }}</td>
+                <td>: {{ $student->full_name }}</td>
             </tr>
             <tr>
                 <td><strong>Öğrenci Kimlik No</strong></td>
-                <td>:{{ $student->national_id }}</td>
+                <td>: {{ $student->national_id }}</td>
             </tr>
             <tr>
                 <td><strong>Veli Adı Soyadı</strong></td>
 
-                <td>:{{ $student->guardians->first()->full_name ?? '' }}</td>
+                <td>: {{ $student->guardians->first()->full_name ?? '' }}</td>
             </tr>
             <tr>
                 <td><strong>Veli Kimlik No</strong></td>
-                <td>:{{ $student->guardians->first()->national_id ?? '' }}</td>
+                <td>: {{ $student->guardians->first()->national_id ?? '' }}</td>
             </tr>
             <tr>
                 <td><strong>Kurs Süresi ve Tarihleri</strong></td>
-                <td>:</td>
+                <td>:
+                    {{ $student->lessonClass->course_time . ' - ' . ($student->lessonClass->start_date ? \Carbon\Carbon::parse($student->lessonClass->start_date)->format('d.m.Y') : '') . ' - ' . ($student->lessonClass->end_date ? \Carbon\Carbon::parse($student->lessonClass->end_date)->format('d.m.Y') : '') }}
+                </td>
             </tr>
             <tr>
                 <td><strong>Ücret ve Ödeme Şartları</strong></td>
@@ -154,7 +156,7 @@
         <!-- Katılımcı Yükümlülükleri -->
         <table class="form">
             <tr>
-                <td colspan="2" class="section-title">Katılımcı Yükümlülükleri</td>
+                <td colspan="2" class="section-title">Katılımcı Yükümlülüklerİ</td>
             </tr>
             <tr>
                 <td colspan="2">Katılımcı, kursa düzenli olarak katılmayı, verilen ödevleri zamanında tamamlamayı ve
@@ -165,7 +167,7 @@
         <!-- Gizlilik -->
         <table class="form">
             <tr>
-                <td colspan="2" class="section-title">Gizlilik</td>
+                <td colspan="2" class="section-title">Gİzlİlİk</td>
             </tr>
             <tr>
                 <td colspan="2">Taraflar, kurs süresince ve sonrasında birbirlerine ait kişisel ve ticari bilgileri
@@ -188,10 +190,13 @@
             </tr>
             <tr style="text-align: start;">
 
-                <td colspan="2" class="section-title">KURUM:Parosis Pamukkale Robotik Sistemler ARGE A.Ş.</td>
+                <td colspan="2" class="section-title">KURUM:Parosİs Pamukkale Robotİk Sİstemler ARGE A.Ş.</td>
             </tr>
             <tr style="text-align: start;">
-                <td colspan="2" class="section-title">TARİH:</td>
+                <td colspan="2" class="section-title">
+                    TARİH:
+                    {{ isset($student->payments->last()->start_date) ? \Carbon\Carbon::parse($student->payments->last()->start_date)->format('d.m.Y') : '' }}
+                </td>
             </tr>
             <tr style="text-align: start;">
                 <td colspan="2" class="section-title">İMZA KAŞE:</td>
@@ -209,7 +214,8 @@
             </tr>
             <tr style="text-align: start;">
                 <td colspan="2" class="section-title">VELİ AD SOYAD:
-                    {{ $student->guardians->first()->full_name ?? '' }}</td>
+                    {{ Str::upperTr($student->guardians->first()->full_name ?? '') }}
+                </td>
             </tr>
             <tr style="text-align: start;">
                 <td colspan="2" class="section-title">TARİH:</td>

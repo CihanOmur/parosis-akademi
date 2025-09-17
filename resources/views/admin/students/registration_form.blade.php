@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr">
+<html lang="tr_TR">
 
 <head>
     <meta charset="utf-8" />
@@ -185,7 +185,7 @@
         <!-- ÖĞRENCİ BİLGİLERİ -->
         <table class="form" aria-label="Öğrenci Bilgileri">
             <tr>
-                <td style="border: none;" class="section-title" colspan="3">Öğrenci Bilgileri</td>
+                <td style="border: none;" class="section-title" colspan="3">Öğrencİ Bİlgİlerİ</td>
 
             </tr>
             <tr>
@@ -202,7 +202,9 @@
             </tr>
             <tr>
                 <td><strong>Doğum Tarihi - Yeri</strong></td>
-                <td>{{ $student->birth_date }}</td>
+
+                <td>{{ $student->birth_date ? \Carbon\Carbon::parse($student->birth_date)->format('d.m.Y') : '' }}</td>
+
                 <td><strong>Sınıfı</strong></td>
                 <td>{{ $student->lessonClass?->name }}</td>
             </tr>
@@ -217,15 +219,9 @@
         <!-- ANNE-BABA BİLGİLERİ -->
         <table class="form" aria-label="Anne Baba Bilgileri">
             <tr>
-                <th style="width:24%; border:none; text-align:left;" class="section-title">Veli Bilgileri</th>
-                <th style="width:38%; border:none;" class="section-title">Veli 1</th>
-                <th style="width:38%; border:none;" class="section-title">Veli 2</th>
-            </tr>
-            <tr>
-                <td><strong>T.C. Kimlik No</strong></td>
-                <td>{{ $student->guardians->first()->national_id ?? '' }}</td>
-                <td>{{ $student->guardians->skip(1)->first()->national_id ?? '' }}</td>
-
+                <th style="width:24%; border:none; text-align:left;" class="section-title">Velİ Bİlgİlerİ</th>
+                <th style="width:38%; border:none;" class="section-title"></th>
+                <th style="width:38%; border:none;" class="section-title"></th>
             </tr>
             <tr>
                 <td><strong>Yakınlık Derecesi</strong></td>
@@ -233,14 +229,24 @@
                 <td>{{ $student->guardians->skip(1)->first()->relationship ?? '' }}</td>
             </tr>
             <tr>
+                <td><strong>T.C. Kimlik No</strong></td>
+                <td>{{ $student->guardians->first()->national_id ?? '' }}</td>
+                <td>{{ $student->guardians->skip(1)->first()->national_id ?? '' }}</td>
+
+            </tr>
+
+            <tr>
                 <td><strong>Adı - Soyadı</strong></td>
                 <td>{{ $student->guardians->first()->full_name ?? '' }}</td>
                 <td>{{ $student->guardians->skip(1)->first()->full_name ?? '' }}</td>
             </tr>
             <tr>
                 <td><strong>Doğum Tarihi</strong></td>
-                <td>{{ $student->guardians->first()->birth_date ?? '' }}</td>
-                <td>{{ $student->guardians->skip(1)->first()->birth_date ?? '' }}</td>
+                <td>{{ $student->guardians->first()->birth_date ? \Carbon\Carbon::parse($student->guardians->first()->birth_date ?? '')->format('d.m.Y') : '' }}
+                </td>
+
+                <td>{{ isset($student->guardians->skip(1)->first()->birth_date) ? \Carbon\Carbon::parse($student->guardians->skip(1)->first()->birth_date ?? '')->format('d.m.Y') : '' }}
+                </td>
             </tr>
             <tr>
                 <td><strong>Eğitim Düzeyi</strong></td>
@@ -253,12 +259,12 @@
                 <td>{{ $student->guardians->skip(1)->first()->job ?? '' }}</td>
             </tr>
             <tr>
-                <td><strong>1. Telefon</strong></td>
+                <td><strong>Telefon</strong></td>
                 <td>{{ $student->guardians->first()->phone_1 ?? '' }}</td>
                 <td>{{ $student->guardians->skip(1)->first()->phone_1 ?? '' }}</td>
             </tr>
             <tr>
-                <td><strong>2. Telefon</strong></td>
+                <td><strong>Telefon</strong></td>
                 <td>{{ $student->guardians->first()->phone_2 ?? '' }}</td>
                 <td>{{ $student->guardians->skip(1)->first()->phone_2 ?? '' }}</td>
             </tr>
@@ -299,8 +305,8 @@
         <table class="form" aria-label="Acil Durum Kişileri">
             <tr>
                 <td class="section-title" style="border:none;" colspan="4">
-                    Acil Durumlarda Aranacak 3. Kişiler <small style="font-weight:400">(Anne-Baba dışında başvurulacak
-                        kişi yazılması gerekmektedir.)</small>
+                    Acİl Durumlarda Aranacak 3. Kİşİler <small style="font-weight:400">(Anne-Baba dışında başvurulacak
+                        kİşİ yazılması gerekmektedİr.)</small>
                 </td>
             </tr>
             <tr>
@@ -319,7 +325,7 @@
         <table class="form" aria-label="Alerji ve Gün Seçimi">
             <tr>
                 <td colspan="2" class="section-title" style="border:none;">
-                    <strong>Öğrencinin Alerjik Durumu veya Kronik Rahatsızlığı Var mı? Varsa Belirtin:</strong>
+                    <strong>Öğrencİnİn Alerjİk Durumu veya Kronİk Rahatsızlığı Var mı? Varsa Belİrtİn:</strong>
                 </td>
             </tr>
             <tr>

@@ -16,9 +16,12 @@ return new class extends Migration
             $table->string('name'); // Sınıf adı
             $table->enum('day', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']); // Günü
             $table->time('time'); // Saati
-            $table->decimal('price', 8, 2); // Ücret
+            $table->decimal('price', 12, 2); // Ücret
             $table->unsignedInteger('quota'); // Kontenjan
             $table->string('teacher_name'); // Öğretmen adı (text)
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->string('course_time', 230)->nullable();
             $table->timestamps();
         });
     }
