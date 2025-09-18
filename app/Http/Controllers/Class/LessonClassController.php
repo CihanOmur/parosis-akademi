@@ -87,8 +87,11 @@ class LessonClassController extends Controller
             'day.*.in'       => 'Geçerli bir gün seçmelisiniz. (Pazartesi - Pazar)',
 
 
-            'time.required'       => 'Saat alanı zorunludur.',
+            'time.required'       => 'Başlangıç saati alanı zorunludur.',
             'time.date_format'    => 'Saat formatı geçersiz. (örn: 14:30)',
+
+            'end_time.required'       => 'Bitiş saati alanı zorunludur.',
+            'end_time.date_format'    => 'Saat formatı geçersiz. (örn: 14:30)',
 
             'price.required'      => 'Fiyat alanı zorunludur.',
             'price.numeric'       => 'Fiyat sayısal olmalıdır.',
@@ -200,8 +203,10 @@ class LessonClassController extends Controller
             'day.*.in'       => 'Geçerli bir gün seçmelisiniz. (Pazartesi - Pazar)',
 
 
-            'time.required'       => 'Saat alanı zorunludur.',
+            'time.required'       => 'Başlangıç saati alanı zorunludur.',
             'time.date_format'    => 'Saat formatı geçersiz. (örn: 14:30)',
+            'end_time.required'       => 'Bitiş saati  alanı zorunludur.',
+            'end_time.date_format'    => 'Saat formatı geçersiz. (örn: 14:30)',
 
             'price.required'      => 'Fiyat alanı zorunludur.',
             'price.numeric'       => 'Fiyat sayısal olmalıdır.',

@@ -19,10 +19,10 @@
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
 
                 <div class="mb-6">
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">Ad/Soyad</label>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">Ad Soyad</label>
                     <input type="text" name="name" id="name" aria-describedby="helper-text-explanation"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Başlık girin" value="{{ old('name', $user->name) }}">
+                        placeholder="örn: Ahmet Yılmaz" value="{{ old('name', $user->name) }}">
                     <div class="text-red-500 text-xs mt-2">
                         @error('name')
                             {{ $message }}
@@ -34,7 +34,7 @@
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
                     <input type="email" name="email" id="email" aria-describedby="helper-text-explanation"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Email girin" value="{{ old('email', $user->email) }}">
+                        placeholder="örn: ornek@parosis.com" value="{{ old('email', $user->email) }}">
                     <div class="text-red-500 text-xs mt-2">
                         @error('email')
                             {{ $message }}
@@ -48,7 +48,7 @@
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')" aria-describedby="helper-text-explanation"
                         maxlength="13"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Telefon girin" value="{{ old('phone', $user->phone) }}">
+                        placeholder="örn: 05551234545" value="{{ old('phone', $user->phone) }}">
                     <div class="text-red-500 text-xs mt-2">
                         @error('phone')
                             {{ $message }}
@@ -61,7 +61,7 @@
                     <input type="password" name="password" id="password" aria-describedby="helper-text-explanation"
                         maxlength="13"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Şifre girin" value="{{ old('password') }}">
+                        placeholder="•••••••••" value="{{ old('password') }}">
                     <div class="text-red-500 text-xs mt-2">
                         @error('password')
                             {{ $message }}
@@ -74,6 +74,7 @@
                     <select id="role" name="role"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         @foreach ($roles as $role)
+                        <option value="" disabled selected>Seçilmedi</option>
                             <option value="{{ $role->name }}"
                                 {{ old('role', $user->roles->pluck('name')->first()) == $role->name ? 'selected' : '' }}>
                                 {{ ucfirst($role->name) }}

@@ -11,7 +11,6 @@
 
 @section('content')
     <div class="rounded-lg mb-4">
-
         <div class="w-full bg-white py-10 px-8 rounded-lg border border-gray-200">
             <form class="w-full" action="{{ route('class.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -23,8 +22,13 @@
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900">
                             Sınıf Adı</label>
                         <input type="text" name="name" id="name" value="{{ old('name') }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                             placeholder="Sınıf adı girin">
+                            <div class="text-red-500 text-xs mt-2">
+                        @error('name')
+                            {{ $message }}
+                        @enderror
+                    </div>
                     </div>
 
                     {{-- Günü --}}
@@ -34,17 +38,20 @@
                         <select id="day" name="day[]" multiple
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @foreach ($days as $key => $label)
-                                <option value="{{ $key }}" {{ old('day') == $key ? 'selected' : '' }}>
-                                    {{ $label }}
-                                </option>
+                            <option value="{{ $key }}" 
+                                {{ (is_array(old('day')) && in_array($key, old('day'))) ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
                             @endforeach
                         </select>
+                        <div class="text-red-500 text-xs mt-2">
+                            @error('day')
+                                {{ $message }}
+                            @enderror
+                        </div>
                     </div>
-
-
-
-
                 </div>
+
                 <div class="flex flex-col lg:flex-row lg:items-center w-full gap-x-4">
                     <div class="flex w-full gap-4">
                         {{-- Saati --}}
@@ -53,7 +60,7 @@
                                 Başlangıç Saati</label>
                             <select id="time" name="time"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-
+                                <option value="" disabled selected>Seçilmedi</option>
                                 @foreach ($times as $value)
                                     @php
                                         $shortTime = substr($value, 0, 5); // 00:00:00 -> 00:00
@@ -63,12 +70,18 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div class="text-red-500 text-xs mt-2">
+                        @error('time')
+                            {{ $message }}
+                        @enderror
+                    </div>
                         </div>
                         <div class="mb-6 w-full">
                             <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">
                                 Bitiş Saati</label>
                             <select id="end_time" name="end_time"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                               <option value="" disabled selected>Seçilmedi</option>
                                 @foreach ($times as $value)
                                     @php
                                         $shortTime = substr($value, 0, 5); // 00:00:00 -> 00:00
@@ -78,6 +91,11 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <div class="text-red-500 text-xs mt-2">
+                        @error('end_time')
+                            {{ $message }}
+                        @enderror
+                    </div>
                         </div>
                     </div>
 
@@ -88,6 +106,11 @@
                         <input type="number" step="0.01" name="price" id="price" value="{{ old('price') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             placeholder="Ücret girin">
+                            <div class="text-red-500 text-xs mt-2">
+                        @error('price')
+                            {{ $message }}
+                        @enderror
+                    </div>
                     </div>
 
                 </div>
@@ -100,6 +123,11 @@
                         <input type="number" name="quota" id="quota" value="{{ old('quota') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             placeholder="Kontenjan girin">
+                            <div class="text-red-500 text-xs mt-2">
+                        @error('quota')
+                            {{ $message }}
+                        @enderror
+                    </div>
                     </div>
 
                     {{-- Öğretmen Adı --}}
@@ -117,6 +145,11 @@
                                 </option>
                             @endforeach
                         </select>
+                        <div class="text-red-500 text-xs mt-2">
+                        @error('teacher_id')
+                            {{ $message }}
+                        @enderror
+                    </div>
 
                     </div>
                 </div>
@@ -128,6 +161,11 @@
                                 Başlangıç Tarihi</label>
                             <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <div class="text-red-500 text-xs mt-2">
+                        @error('start_date')
+                            {{ $message }}
+                        @enderror
+                    </div>
                         </div>
 
                         {{--  Bitiş Tarihi --}}
@@ -136,7 +174,12 @@
                                 Bitiş Tarihi</label>
                             <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        </div>
+                        <div class="text-red-500 text-xs mt-2">
+                        @error('end_date')
+                            {{ $message }}
+                        @enderror
+                    </div>
+                            </div>
                     </div>
 
                     <div class="flex w-full gap-4">
@@ -147,6 +190,11 @@
                             <input type="text" name="course_time" id="course_time" value="{{ old('course_time') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Kurs süresi girin">
+                                <div class="text-red-500 text-xs mt-2">
+                        @error('course_time')
+                            {{ $message }}
+                        @enderror
+                    </div>
                         </div>
                     </div>
                 </div>
