@@ -38,9 +38,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                                                <input type="radio" name="registiration_type" value="1">
-                                                                <span>Ön Kayıt</span>
-                                                            </div> -->
+                                                                                                        <input type="radio" name="registiration_type" value="1">
+                                                                                                        <span>Ön Kayıt</span>
+                                                                                                    </div> -->
                             <div
                                 class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                 <input id="bordered-radio-2" type="radio" name="registiration_type" value="2"
@@ -51,9 +51,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                                                <input type="radio" name="registiration_type" checked value="2">
-                                                                <span>Kesin Kayıt</span>
-                                                            </div> -->
+                                                                                                        <input type="radio" name="registiration_type" checked value="2">
+                                                                                                        <span>Kesin Kayıt</span>
+                                                                                                    </div> -->
                         </div>
                     </div>
                 </div>
@@ -313,6 +313,7 @@
                                     </div>
                                 </div>
                                 <div>
+
                                     <div class="mb-6 mt-8">
                                         <div
                                             class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
@@ -329,12 +330,12 @@
                                     <div id="guardian2_fields" class="grid grid-cols-4 gap-4">
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Yakınlık</label>
-                                            <input type="text" name="guardian1_relationship" placeholder="örn: Baba"
+                                            <input type="text" name="guardian2_relationship" placeholder="örn: Baba"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->relationship ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_relationship')
+                                                @error('guardian2_relationship')
                                                     {{ $message }}
                                                 @enderror
 
@@ -342,12 +343,12 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Ad Soyad</label>
-                                            <input type="text" name="guardian1_full_name" placeholder="Mehmet Yılmaz"
+                                            <input type="text" name="guardian2_full_name" placeholder="Mehmet Yılmaz"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->full_name ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_full_name')
+                                                @error('guardian2_full_name')
                                                     {{ $message }}
                                                 @enderror
 
@@ -355,7 +356,7 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                            <input type="text" name="guardian1_national_id" maxlength="11"
+                                            <input type="text" name="guardian2_national_id" maxlength="11"
                                                 inputmode="numeric"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 placeholder="örn: 12345678901"
@@ -363,7 +364,7 @@
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->national_id ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_national_id')
+                                                @error('guardian2_national_id')
                                                     {{ $message }}
                                                 @enderror
 
@@ -372,12 +373,12 @@
 
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Doğum Tarihi</label>
-                                            <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
+                                            <input type="date" name="guardian2_birth_date" placeholder="Doğum Tarihi"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->birth_date ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_birth_date')
+                                                @error('guardian2_birth_date')
                                                     {{ $message }}
                                                 @enderror
 
@@ -385,7 +386,7 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Eğitim Düzeyi</label>
-                                            <select name="guardian1_education_level"
+                                            <select name="guardian2_education_level"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -396,7 +397,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_education_level')
+                                                @error('guardian2_education_level')
                                                     {{ $message }}
                                                 @enderror
 
@@ -404,7 +405,7 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Meslek</label>
-                                            <select name="guardian1_job"
+                                            <select name="guardian2_job"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                                 @foreach ($jobs as $job)
@@ -414,7 +415,7 @@
                                                 @endforeach
                                             </select>
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_job')
+                                                @error('guardian2_job')
                                                     {{ $message }}
                                                 @enderror
 
@@ -424,12 +425,12 @@
                                             <label class="block mb-2 font-medium">Telefon</label>
                                             <input type="tel" pattern="[0-9]*" inputmode="numeric"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                name="guardian1_phone_1" placeholder="05551234545"
+                                                name="guardian2_phone_1" placeholder="05551234545"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->phone_1 ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_phone_1')
+                                                @error('guardian2_phone_1')
                                                     {{ $message }}
                                                 @enderror
 
@@ -439,25 +440,25 @@
                                             <label class="block mb-2 font-medium">Telefon</label>
                                             <input type="tel" pattern="[0-9]*" inputmode="numeric"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                                name="guardian1_phone_2" placeholder="örn: 05551234545" disabled
+                                                name="guardian2_phone_2" placeholder="örn: 05551234545"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
-                                                value="{{ $student->guardians[1]?->phone_2 ?? '' }}" <div
+                                                value="{{ $student->guardians[1]?->phone_2 ?? '' }}"
                                                 class="text-red-500 text-xs mt-2">
-                                            @error('guardian1_phone_2')
+                                            @error('guardian2_phone_2')
                                                 {{ $message }}
                                             @enderror
 
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Email</label>
-                                            <input type="email" name="guardian1_email"
+                                            <input type="email" name="guardian2_email"
                                                 placeholder="örn: ornek@parsis.com"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->email ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_email')
+                                                @error('guardian2_email')
                                                     {{ $message }}
                                                 @enderror
 
@@ -465,13 +466,13 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Ev Adresi</label>
-                                            <input type="text" name="guardian1_home_address"
+                                            <input type="text" name="guardian2_home_address"
                                                 placeholder="mahalle, sokak, no, ilçe, il"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->home_address ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_home_address')
+                                                @error('guardian2_home_address')
                                                     {{ $message }}
                                                 @enderror
 
@@ -479,13 +480,13 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">İş Adresi</label>
-                                            <input type="text" name="guardian1_work_address"
+                                            <input type="text" name="guardian2_work_address"
                                                 placeholder="mahalle, sokak, no, ilçe, il"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                                 value="{{ $student->guardians[1]?->work_address ?? '' }}">
                                             <div class="text-red-500 text-xs mt-2">
-                                                @error('guardian1_work_address')
+                                                @error('guardian2_work_address')
                                                     {{ $message }}
                                                 @enderror
 
@@ -501,7 +502,55 @@
 
                     </div>
                 </div>
+                {{-- Emergency --}}
+                <h3 class="mb-2 font-semibold">Acil Durumda Aranacak 3. Kişiler</h3>
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium">Adı Soyadı</label>
+                        <input type="text" name="emergency_full_name" placeholder="Adı Soyadı"
+                            value="{{ $student->emergencyContact->full_name ?? '' }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <div class="text-red-500 mt-2">
+                            @error('emergency_full_name')
+                                {{ $message }}
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium">Yakınlık</label>
+                        <input type="text" name="emergency_relationship" placeholder="Yakınlık"
+                            value="{{ $student->emergencyContact->relationship ?? '' }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <div class="text-red-500 mt-2">
+                            @error('emergency_relationship')
+                                {{ $message }}
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium">Telefon</label>
+                        <input type="text" name="emergency_phone" placeholder="Telefon"
+                            value="{{ $student->emergencyContact->phone ?? '' }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <div class="text-red-500 mt-2">
+                            @error('emergency_phone')
+                                {{ $message }}
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block mb-2 font-medium">Adres</label>
+                        <input type="text" name="emergency_address" placeholder="Adres"
+                            value="{{ $student->emergencyContact->address ?? '' }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <div class="text-red-500 mt-2">
+                            @error('emergency_address')
+                                {{ $message }}
+                            @enderror
 
+                        </div>
+                    </div>
+                </div>
 
 
 

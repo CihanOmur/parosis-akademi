@@ -309,6 +309,7 @@
                         kİşİ yazılması gerekmektedİr.)</small>
                 </td>
             </tr>
+            @dd($student->emergencyContact)
             <tr>
                 <td style="width:18%"><strong>Yakınlık Derecesi</strong></td>
                 <td style="width:32%">{{ $student->emergencyContact->relationship ?? '' }}</td>

@@ -628,6 +628,8 @@ class StudentController extends Controller
         $emergency->address = $request->emergency_address;
         $emergency->save();
 
+        dd($emergency);
+
         return redirect()->route('students.index')->with('success', 'Student updated successfully');
     }
     public function reCreate($id)
