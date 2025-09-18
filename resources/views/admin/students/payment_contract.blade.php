@@ -67,8 +67,8 @@
         @endforeach
         <tr>
             <th>TOPLAM</th>
+            <td></td>
             <td>{{ $payment->total_price }}</td>
-            <td>{{ $payment->total_price - $payment->payed_price }}TL</td>
         </tr>
     </table>
 

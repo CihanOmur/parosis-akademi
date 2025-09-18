@@ -1,6 +1,38 @@
 @extends('admin.layouts.app')
 @section('content')
     <div class="rounded-lg mb-4">
+        @if ($payment)
+            <div class="w-full bg-white rounded-lg border border-gray-200 mb-4">
+                <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                    <h3 class="text-md font-semibold text-gray-900 ">
+                        Taksit Bilgileri
+                    </h3>
+                </div>
+                <div class="py-10 px-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <!-- Baldem -->
+                        <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                            <div class="text-sm text-gray-500">Toplam Tutar</div>
+                            <div class="text-lg font-bold text-gray-800">{{ $payment->total_price }} ₺</div>
+                        </div>
+
+                        <!-- Kalan Ödenecek -->
+                        <div class="p-4 bg-yellow-50 rounded-lg shadow-sm">
+                            <div class="text-sm text-gray-500">Kalan Tutar</div>
+                            <div class="text-lg font-bold text-gray-800">
+                                {{ $payment->total_price - $payment->total_payed_price }} ₺</div>
+                        </div>
+
+                        <!-- Ödenen -->
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <div class="text-sm text-gray-500">Ödenen Tutar</div>
+                            <div class="text-lg font-bold text-gray-800">
+                                {{ $payment->total_payed_price }} ₺</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="w-full bg-white py-10 px-8 rounded-lg border border-gray-200">
             <form class="w-full" action="{{ route('students.paymentUpdate', ['id' => $payment->id]) }}" method="POST">
                 @csrf
@@ -38,7 +70,7 @@
 
                         @foreach ($payment->installments as $i => $inst)
                             <div
-                                class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg {{ $inst->payed_price > 0 ? 'bg-green-100' : 'bg-gray-50' }}">
+                                class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg {{ $inst->payed_price > 0 && $inst->payed_price >= $inst->installment_price ? 'bg-green-100' : 'bg-gray-50' }}">
                                 <div>#{{ $i + 1 }}</div>
                                 <div>
                                     <input type="date" name="installments[{{ $i }}][payment_date]"
@@ -100,12 +132,10 @@
             let remainingUnpaidCount = count - paidInstallments.length;
             if (remainingUnpaidCount < 0) remainingUnpaidCount = 0;
 
-            // Eğer fazla taksit varsa kes
+            // Fazla/az taksitleri ayarla
             if (unpaidInstallments.length > remainingUnpaidCount) {
                 unpaidInstallments = unpaidInstallments.slice(0, remainingUnpaidCount);
-            }
-            // Eğer az ise yeni taksit ekle
-            else if (unpaidInstallments.length < remainingUnpaidCount) {
+            } else if (unpaidInstallments.length < remainingUnpaidCount) {
                 let addCount = remainingUnpaidCount - unpaidInstallments.length;
                 for (let i = 0; i < addCount; i++) {
                     unpaidInstallments.push({
@@ -123,65 +153,62 @@
             $container.empty();
 
             let header = `<div class="grid grid-cols-6 gap-4 mb-2 font-semibold text-gray-700">
-                <div>#</div><div>Tarih</div><div>Ödenecek Tutar</div>
-                <div>Ödenen Tutar</div><div>Ödenen Tarih</div><div>Ödeme Türü</div>
-            </div>`;
+            <div>#</div><div>Tarih</div><div>Ödenecek Tutar</div>
+            <div>Ödenen Tarih</div><div>Ödenen Tutar</div><div>Ödeme Türü</div>
+        </div>`;
             $container.append(header);
 
-            // Ödenmiş taksitler
-            paidInstallments.forEach((inst, i) => {
-                let dateStr = inst.payment_date ? inst.payment_date.split('T')[0] : '';
-                let dateStrPayed = inst.payyed_date ? inst.payyed_date.split('T')[0] : '';
-                let row = `<div class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg bg-green-100">
-                    <div>#${i+1}</div>
-                    <div><input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full" ></div>
-                    <div><input type="number" step="0.01" name="installments[${i}][installment_price]" value="${inst.installment_price}" class="border rounded-lg p-1 w-full" ></div>
-                    <div><input type="date" name="installments[${i}][payyed_date]" value="${dateStrPayed}" class="border rounded-lg p-1 w-full" ></div>
-                    <div><input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price}" class="border rounded-lg p-1 w-full" ></div>
+            // Tüm taksitleri birleştir: ödenmiş + ödenmemiş
+            let allInstallments = [...paidInstallments, ...unpaidInstallments];
 
-                    <div>
-                        <select name="installments[${i}][payment_type]" class="border rounded-lg p-1 w-full">
-                            <option value="0" ${inst.payment_type == "Nakit" ? 'selected' : ''}>Nakit</option>
-                            <option value="1" ${inst.payment_type == "Havale" ? 'selected' : ''}>Havale</option>
-                            <option value="1" ${inst.payment_type == "Kredi Kartı/Banka" ? 'selected' : ''}>Kredi Kartı/Banka</option>
-                        </select>
-                    </div>
-                </div>`;
-                $container.append(row);
-            });
-
-            // Ödenmemiş taksitlerin yeni tutarı
+            // Kalan toplam tutar
             let remainingAmount = totalPayment - paidInstallments.reduce((sum, inst) => sum + parseFloat(inst.payed_price ||
                 0), 0);
             let newAmount = (remainingUnpaidCount ? (remainingAmount / remainingUnpaidCount).toFixed(2) : 0);
+
             let currentDate = new Date(startDate);
 
-            unpaidInstallments.forEach((inst, i) => {
+            allInstallments.forEach((inst, i) => {
                 if (i > 0) currentDate.setMonth(currentDate.getMonth() + 1);
                 let dateStr = currentDate.toISOString().split('T')[0];
+                let dateStrPayed = inst.payyed_date ? inst.payyed_date.split('T')[0] : '';
 
-                let row = `<div class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg bg-gray-50">
-                    <div>#${paidInstallments.length + i + 1}</div>
-                    <div><input type="date" name="installments[${paidInstallments.length + i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full"></div>
-                    <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][installment_price]" value="${newAmount}" class="border rounded-lg p-1 w-full"></div>
-                    <div><input type="date" name="installments[${paidInstallments.length + i}][payyed_date]" class="border rounded-lg p-1 w-full"></div>
-                    <div><input type="number" step="0.01" name="installments[${paidInstallments.length + i}][payed_price]" value="0.00" class="border rounded-lg p-1 w-full"></div>
+                // Satırın rengini belirle
+                let paid = Number(inst.payed_price);
+                let total = Number(inst.installment_price || newAmount);
+                let rowBgClass = '';
 
-                    <div>
-                        <select name="installments[${paidInstallments.length + i}][payment_type]" class="border rounded-lg p-1 w-full">
-                            <option value="Nakit" selected>Nakit</option>
-                            <option value="Havale">Havale</option>
-                            <option value="Kredi Kartı/Banka">Kredi Kartı/Banka</option>
-                        </select>
-                    </div>
-                </div>`;
+                if (paid >= total) {
+                    rowBgClass = 'bg-green-100'; // tam ödenmiş
+                } else if (paid > 0 && paid < total) {
+                    rowBgClass = 'bg-red-100'; // kısmen ödenmiş
+                } else {
+                    rowBgClass = 'bg-gray-50'; // hiç ödenmemiş
+                }
+
+                let installmentPrice = paid > 0 ? inst.installment_price : newAmount;
+
+                let row = `<div class="grid grid-cols-6 gap-4 mb-2 p-3 border rounded-lg ${rowBgClass}">
+                        <div>#${i + 1}</div>
+                        <div><input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full" ></div>
+                        <div><input type="number" step="0.01" name="installments[${i}][installment_price]" value="${installmentPrice}" class="border rounded-lg p-1 w-full" ></div>
+                        <div><input type="date" name="installments[${i}][payyed_date]" value="${dateStrPayed}" class="border rounded-lg p-1 w-full" ></div>
+                        <div><input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price || '0.00'}" class="border rounded-lg p-1 w-full" ></div>
+                        <div>
+                            <select name="installments[${i}][payment_type]" class="border rounded-lg p-1 w-full">
+                                <option value="Nakit" ${inst.payment_type == "Nakit" ? 'selected' : ''}>Nakit</option>
+                                <option value="Havale" ${inst.payment_type == "Havale" ? 'selected' : ''}>Havale</option>
+                                <option value="Kredi Kartı/Banka" ${inst.payment_type == "Kredi Kartı/Banka" ? 'selected' : ''}>Kredi Kartı/Banka</option>
+                            </select>
+                        </div>
+                    </div>`;
+
                 $container.append(row);
             });
         }
 
         $("#total_payment, #installments_count, #start_date").on("input change", generateInstallments);
-
-        // Sayfa yüklendiğinde de hesapla
         $(document).ready(generateInstallments);
     </script>
+
 @endsection
