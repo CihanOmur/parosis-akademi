@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>PAROSİS Robotik Kodlama Kayıt Formu</title>
+    <title>PAROSİS {{ $student->lessonClass->name }} Kayıt Formu</title>
     <style>
         :root {
             --red: #ff0000;
@@ -179,7 +179,7 @@
         <div class="watermark">PAROSİS</div>
 
 
-        <h1>PAROSİS ROBOTİK KODLAMA EĞİTİMİ<br>KAYIT FORMU</h1>
+        <h1>PAROSİS {{ Str::upperTr($student->lessonClass->name) }} EĞİTİMİ<br>KAYIT FORMU</h1>
 
         <!-- Buradaki HTML içeriği, form alanları, tablolar ve imzalar aynı kaldı -->
         <!-- ÖĞRENCİ BİLGİLERİ -->
@@ -339,10 +339,13 @@
         </div>
 
         <p class="consent">
-            Velisi bulunduğum {{ $student->birth_date }} doğumlu çocuğumun {{ $student->full_name }} hakkında vermiş
+            Velisi bulunduğum
+            {{ $student->birth_date ? \Carbon\Carbon::parse($student->birth_date)->format('d.m.Y') : '' }}
+            doğumlu çocuğumun {{ $student->full_name }} hakkında vermiş
             olduğum
             bilgilerin
-            doğruluğunu kabul ediyor ve robotik kodlama eğitimine kaydının yapılmasını istiyorum. Gereğini bilgilerinize
+            doğruluğunu kabul ediyor ve {{ Str::upperTr($student->lessonClass->name) }} eğitimine kaydının yapılmasını
+            istiyorum. Gereğini bilgilerinize
             rica ederim.
         </p>
 

@@ -62,18 +62,21 @@
             <tr>
                 <td>{{ $loop->iteration }}. Taksit</td>
                 <td>{{ \Carbon\Carbon::parse($installment->payment_date)->format('d/m/Y') }}</td>
-                <td>{{ $installment->installment_price }}TL</td>
+                <td>{{ number_format($installment->installment_price, 2, ',', '.') }}
+                    TL</td>
             </tr>
         @endforeach
         <tr>
             <th>TOPLAM</th>
             <td></td>
-            <td>{{ $payment->total_price }}</td>
+            <td>{{ number_format($payment->total_price, 2, ',', '.') }} TL</td>
         </tr>
     </table>
 
     <div class="footer-text">
-        Yukarıda belirtilen ödeme planına tam olarak uyacağımı, {{ $payment->total_price }} Türk Lirası toplam tutarı
+        Yukarıda belirtilen ödeme planına tam olarak uyacağımı,<b>
+            #{{ number_format($payment->total_price, 2, ',', '.') }}#</b>
+        <b>({{ numberToWords($payment->total_price) }})</b> Türk Lirası toplam tutarı
         <b>Parosis Pamukkale Robotik Sistemler ARGE A.Ş.</b>'ye ödemeyi gerçekleştireceğimi taahhüt ederim.
     </div>
 

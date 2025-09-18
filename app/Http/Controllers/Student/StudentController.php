@@ -162,7 +162,7 @@ class StudentController extends Controller
                 'guardian1_home_address' => 'required|string|max:500',
                 'guardian1_work_address' => 'required|string|max:500',
 
-                'guardian2_active' => 'nullable|in:1,2',
+                'guardian2_active' => 'nullable|in:on',
                 'guardian2_full_name'  => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_national_id'  => 'required_if:guardian2_active,1|string|max:11',
                 'guardian2_relationship' => 'required_if:guardian2_active,1|string|max:200',
@@ -278,7 +278,7 @@ class StudentController extends Controller
 
 
 
-        if ($request->has('guardian2_active')) {
+        if ($request->has('guardian2_active') && $request->has('guardian2_active') == 'on') {
             $studentGuardian2 = new StudentGuardian();
             $studentGuardian2->full_name = $request->guardian2_full_name;
             $studentGuardian2->national_id = $request->guardian2_national_id;
@@ -966,7 +966,6 @@ class StudentController extends Controller
         $payment = StudentPayments::with('installments')->findOrFail($id);
 
         if ($request->isMethod('post')) {
-            // Ana ödeme kaydını güncelle
             $payment->update([
                 'installment_count' => $request->installments ? count($request->installments) : 0,
                 'total_price'       => $request->total_payment,
@@ -974,10 +973,7 @@ class StudentController extends Controller
                 'start_date'        => $request->start_date,
             ]);
 
-            // Eski taksitleri silelim
             $payment->installments()->delete();
-
-            // Yeni taksitleri kaydedelim
             if ($request->has('installments')) {
                 foreach ($request->installments as $index => $inst) {
                     $payment->installments()->create([
@@ -993,7 +989,7 @@ class StudentController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
+            return redirect()->route('students.edit', ['id' => $payment->student_id])->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
         }
 
         return view('admin.students-payments.create', compact('payment'));

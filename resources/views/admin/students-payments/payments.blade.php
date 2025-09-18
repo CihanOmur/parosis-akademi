@@ -20,6 +20,9 @@
                                 Sınıf
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Gün
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 BT
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -45,19 +48,23 @@
                                 </th>
                                 <td class="px-6 py-4">
 
-                                    {{ $item->class->name }} ({{ $item->class->day }}
-                                    {{ $item->class->time }})
+                                    {{ $item->class->name }}
+                                </td>
+                                <td class="px-6 py-4">
+
+                                    ({{ $item->class->day }}
+                                    {{ $item->class->time ? \Carbon\Carbon::parse($item->class->time)->format('H:i') : '' }})
                                 </td>
 
                                 <td class="px-6 py-4">
                                     {{ $item->start_date ? \Carbon\Carbon::parse($item->start_date)->format('d.m.Y') : '' }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ number_format(str_replace(['.', ','], [' ', '.'], $item->total_payed_price ?? '0.00'), 2, ',', '') }}
+                                    {{ number_format($item->total_payed_price ?? '0.00', 2, ',', '') }}
                                     ₺
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ number_format(str_replace(['.', ','], [' ', '.'], $item->total_price - $item->total_payed_price), 2, ',', '') }}
+                                    {{ number_format($item->total_price - $item->total_payed_price, 2, ',', '') }}
                                     ₺
                                 </td>
                                 <td class="px-6 py-4">
