@@ -34,7 +34,29 @@ class UserController extends Controller
             'phone' => 'required|string|max:13|unique:users,phone',
             'password' => 'required|string|max:230',
             'role' => 'required|exists:roles,name',
+        ], [
+            'name.required' => 'İsim alanı zorunludur.',
+            'name.string' => 'İsim sadece metin olmalıdır.',
+            'name.max' => 'İsim en fazla 220 karakter olabilir.',
+
+            'email.required' => 'E-posta alanı zorunludur.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.max' => 'E-posta en fazla 220 karakter olabilir.',
+            'email.unique' => 'Bu e-posta zaten kullanılıyor.',
+
+            'phone.required' => 'Telefon numarası zorunludur.',
+            'phone.string' => 'Telefon numarası sadece rakam veya karakter olabilir.',
+            'phone.max' => 'Telefon numarası en fazla 13 karakter olabilir.',
+            'phone.unique' => 'Bu telefon numarası zaten kayıtlı.',
+
+            'password.required' => 'Şifre zorunludur.',
+            'password.string' => 'Şifre sadece metin olmalıdır.',
+            'password.max' => 'Şifre en fazla 230 karakter olabilir.',
+
+            'role.required' => 'Rol seçimi zorunludur.',
+            'role.exists' => 'Seçilen rol geçerli değil.',
         ]);
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -61,7 +83,28 @@ class UserController extends Controller
             'phone' => 'required|string|max:13|unique:users,phone,' . $id,
             'password' => 'nullable|string|max:230',
             'role' => 'required|exists:roles,name',
+        ], [
+            'name.required' => 'İsim alanı zorunludur.',
+            'name.string' => 'İsim sadece metin olmalıdır.',
+            'name.max' => 'İsim en fazla 220 karakter olabilir.',
+
+            'email.required' => 'E-posta alanı zorunludur.',
+            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
+            'email.max' => 'E-posta en fazla 220 karakter olabilir.',
+            'email.unique' => 'Bu e-posta zaten kullanılıyor.',
+
+            'phone.required' => 'Telefon numarası zorunludur.',
+            'phone.string' => 'Telefon numarası sadece rakam veya karakter olabilir.',
+            'phone.max' => 'Telefon numarası en fazla 13 karakter olabilir.',
+            'phone.unique' => 'Bu telefon numarası zaten kayıtlı.',
+
+            'password.string' => 'Şifre sadece metin olmalıdır.',
+            'password.max' => 'Şifre en fazla 230 karakter olabilir.',
+
+            'role.required' => 'Rol seçimi zorunludur.',
+            'role.exists' => 'Seçilen rol geçerli değil.',
         ]);
+
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;

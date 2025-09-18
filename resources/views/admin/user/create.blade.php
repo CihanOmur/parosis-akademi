@@ -12,44 +12,75 @@
             <form class="lg:w-1/2 w-full" action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
+
                 <div class="mb-6">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 ">Ad/Soyad</label>
                     <input type="text" name="name" id="name" aria-describedby="helper-text-explanation"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Başlık girin">
+                        placeholder="Başlık girin" value="{{ old('name') }}">
+                    <div class="text-red-500 text-xs mt-2">
+                        @error('name')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
+
                 <div class="mb-6">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
                     <input type="email" name="email" id="email" aria-describedby="helper-text-explanation"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Email girin">
+                        placeholder="Email girin" value="{{ old('email') }}">
+                    <div class="text-red-500 text-xs mt-2">
+                        @error('email')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
+
                 <div class="mb-6">
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 ">Telefon</label>
                     <input type="tel" name="phone" pattern="[0-9]*" inputmode="numeric"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="phone"
                         aria-describedby="helper-text-explanation" maxlength="13"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Telefon girin">
+                        placeholder="Telefon girin" value="{{ old('phone') }}">
+                    <div class="text-red-500 text-xs mt-2">
+                        @error('phone')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="mb-6">
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Şifre</label>
                     <input type="password" name="password" id="password" aria-describedby="helper-text-explanation"
                         maxlength="13"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Şifre girin">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder="Şifre girin" value="{{ old('password') }}">
+                    <div class="text-red-500 text-xs mt-2">
+                        @error('password')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
+
                 <div class="mb-6">
-                    <label for="role" class="block mb-2 text-sm font-medium text-gray-900 ">Rol
-                        Seçiniz</label>
+                    <label for="role" class="block mb-2 text-sm font-medium text-gray-900 ">Rol Seçiniz</label>
                     <select id="role" name="role"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         @foreach ($roles as $role)
-                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
+                                {{ $role->name }}
+                            </option>
                         @endforeach
                     </select>
+                    <div class="text-red-500 text-xs mt-2">
+                        @error('role')
+                            {{ $message }}
+                        @enderror
+                    </div>
                 </div>
+
                 <div class="">
                     <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Kaydet</button>
                 </div>
