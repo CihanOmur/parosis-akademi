@@ -112,7 +112,7 @@
         </div>
         <!-- Giriş metni -->
         <p>Bu sözleşme, <strong>Parosis Pamukkale Robotik Sistemler ARGE A.Ş.</strong> ile katılımcı arasında
-            <strong>{{ isset($student->payments->last()->start_date) ? \Carbon\Carbon::parse($student->payments->last()->start_date)->format('d.m.Y') : '' }}</strong>
+            <strong>{{ now()->format('d.m.Y') : '' }}</strong>
             tarihinde aşağıda belirtilen şartlarda akdedilmiştir.
         </p>
 
@@ -195,7 +195,7 @@
             <tr style="text-align: start;">
                 <td colspan="2" class="section-title">
                     TARİH:
-                    {{ isset($student->payments->last()->start_date) ? \Carbon\Carbon::parse($student->payments->last()->start_date)->format('d.m.Y') : '' }}
+                    {{ now()->format('d.m.Y') : '' }}
                 </td>
             </tr>
             <tr style="text-align: start;">
@@ -218,7 +218,7 @@
                 </td>
             </tr>
             <tr style="text-align: start;">
-                <td colspan="2" class="section-title">TARİH:</td>
+                <td colspan="2" class="section-title">TARİH: {{ now()->format('d.m.Y') : '' }}</td>
             </tr>
             <tr style="text-align: start;">
                 <td colspan="2" class="section-title">İMZA:</td>
