@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('lesson_classes', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Sınıf adı
-            $table->enum('day', ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']); // Günü
-            $table->time('time'); // Saati
+            $table->string('name')->nullable(); // Sınıf adı
+            $table->string('day', 230)->nullable(); // Günü
+            $table->time('time')->default('07:00:00'); // Saati
+            $table->time('end_time')->default('07:00:00'); // Saati
             $table->decimal('price', 12, 2); // Ücret
             $table->unsignedInteger('quota'); // Kontenjan
-            $table->string('teacher_name'); // Öğretmen adı (text)
+            $table->string('teacher_id'); // Öğretmen
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('course_time', 230)->nullable();

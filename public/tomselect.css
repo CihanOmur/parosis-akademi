@@ -15,7 +15,7 @@
 :root {
     --ts-pr-clear-button: 0;
     --ts-pr-caret: 0;
-    --ts-pr-min: .75rem;
+    --ts-pr-min: 0.75rem;
 }
 
 .ts-wrapper.single .ts-control,
@@ -24,10 +24,13 @@
 }
 
 .ts-control {
-    padding-right: max(var(--ts-pr-min), var(--ts-pr-clear-button) + var(--ts-pr-caret)) !important;
+    padding-right: max(
+        var(--ts-pr-min),
+        var(--ts-pr-clear-button) + var(--ts-pr-caret)
+    ) !important;
 }
 
-.ts-wrapper.plugin-drag_drop.multi>.ts-control>div.ui-sortable-placeholder {
+.ts-wrapper.plugin-drag_drop.multi > .ts-control > div.ui-sortable-placeholder {
     visibility: visible !important;
     background: #f2f2f2 !important;
     background: rgba(0, 0, 0, 0.06) !important;
@@ -123,20 +126,24 @@
     display: none !important;
 }
 
-.ts-wrapper.plugin-input_autogrow.has-items .ts-control>input {
+.ts-wrapper.plugin-input_autogrow.has-items .ts-control > input {
     min-width: 0;
 }
 
-.ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control>input {
+.ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control > input {
     flex: none;
     min-width: 4px;
 }
 
-.ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control>input::-ms-input-placeholder {
+.ts-wrapper.plugin-input_autogrow.has-items.focus
+    .ts-control
+    > input::-ms-input-placeholder {
     color: transparent;
 }
 
-.ts-wrapper.plugin-input_autogrow.has-items.focus .ts-control>input::placeholder {
+.ts-wrapper.plugin-input_autogrow.has-items.focus
+    .ts-control
+    > input::placeholder {
     color: transparent;
 }
 
@@ -272,12 +279,12 @@
     box-shadow: none;
 }
 
-.ts-control>* {
+.ts-control > * {
     vertical-align: baseline;
     display: inline-block;
 }
 
-.ts-wrapper.multi .ts-control>div {
+.ts-wrapper.multi .ts-control > div {
     cursor: pointer;
     margin: 0 3px 0px 0;
     padding: 2px 6px;
@@ -286,20 +293,20 @@
     border: 0px solid #d0d0d0;
 }
 
-.ts-wrapper.multi .ts-control>div.active {
+.ts-wrapper.multi .ts-control > div.active {
     background: #e8e8e8;
     color: #303030;
     border: 0px solid #cacaca;
 }
 
-.ts-wrapper.multi.disabled .ts-control>div,
-.ts-wrapper.multi.disabled .ts-control>div.active {
+.ts-wrapper.multi.disabled .ts-control > div,
+.ts-wrapper.multi.disabled .ts-control > div.active {
     color: #7d7d7d;
     background: white;
     border: 0px solid white;
 }
 
-.ts-control>input {
+.ts-control > input {
     flex: 1 1 auto;
     min-width: 7rem;
     display: inline-block !important;
@@ -319,15 +326,15 @@
     box-shadow: none !important;
 }
 
-.ts-control>input::-ms-clear {
+.ts-control > input::-ms-clear {
     display: none;
 }
 
-.ts-control>input:focus {
+.ts-control > input:focus {
     outline: none !important;
 }
 
-.has-items .ts-control>input {
+.has-items .ts-control > input {
     margin: 0px 4px !important;
 }
 
@@ -340,7 +347,7 @@
     right: auto;
 }
 
-.ts-control.rtl .ts-control>input {
+.ts-control.rtl .ts-control > input {
     margin: 0px 4px 0px -2px !important;
 }
 
@@ -349,7 +356,7 @@
     background-color: #fafafa;
 }
 
-.input-hidden .ts-control>input {
+.input-hidden .ts-control > input {
     opacity: 0;
     position: absolute;
     left: -10000px;

@@ -4,7 +4,8 @@
         @yield('page-title', 'Sınıflar' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <div class="flex items-center gap-2">
-        <a href="{{ route('class.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni Ekle</a>
+        <a href="{{ route('class.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
+            Ekle</a>
     </div>
 @endsection
 @section('content')
@@ -35,21 +36,20 @@
                     </thead>
                     <tbody>
                         @foreach ($classes as $item)
-                            <tr
-                                class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
 
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap">
+                                <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap">
                                     <a href="{{ route('class.edit', $item->id) }}">{{ $item->name }}</a>
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $dayNames[$item->day] ?? $item->day }}
+                                    {{ $item->day }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($item->time)->format('H:i') }}
+                                    {{ \Carbon\Carbon::parse($item->time)->format('H:i') }} -
+                                    {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $item->teacher_name }}
+                                    {{ $item->teacher->name }}
                                 </td>
 
                                 <td class="px-6 py-4 gap-2 ">
@@ -74,6 +74,6 @@
 
                     </tbody>
                 </table>
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection

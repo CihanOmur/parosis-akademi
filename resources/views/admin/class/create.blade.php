@@ -1,4 +1,8 @@
 @extends('admin.layouts.app')
+@section('styles')
+    <link href="{{ asset('tomselect.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+@endsection
 @section('page-banner')
     <h1 class="text-2xl font-semibold text-gray-800">
         @yield('page-title', 'Sınıf Ekle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
@@ -27,7 +31,7 @@
                     <div class="mb-6 w-full">
                         <label for="day" class="block mb-2 text-sm font-medium text-gray-900">
                             Günü</label>
-                        <select id="day" name="day"
+                        <select id="day" name="day[]" multiple
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @foreach ($days as $key => $label)
                                 <option value="{{ $key }}" {{ old('day') == $key ? 'selected' : '' }}>
@@ -37,20 +41,43 @@
                         </select>
                     </div>
 
+
+
+
                 </div>
-                <div class="flex w-full gap-4">
-                    {{-- Saati --}}
-                    <div class="mb-6 w-full">
-                        <label for="time" class="block mb-2 text-sm font-medium text-gray-900">
-                            Saati</label>
-                        <select id="time" name="time"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                            @foreach ($times as $value)
-                                <option value="{{ $value }}" {{ old('time') == $value ? 'selected' : '' }}>
-                                    {{ $value }}
-                                </option>
-                            @endforeach
-                        </select>
+                <div class="flex flex-col lg:flex-row lg:items-center w-full gap-x-4">
+                    <div class="flex w-full gap-4">
+                        {{-- Saati --}}
+                        <div class="mb-6 w-full">
+                            <label for="time" class="block mb-2 text-sm font-medium text-gray-900">
+                                Başlangıç Saati</label>
+                            <select id="time" name="time"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @php
+                                    $shortTime = substr($value, 0, 5); // 00:00:00 -> 00:00
+                                @endphp
+                                @foreach ($times as $value)
+                                    <option value="{{ $value }}" {{ old('time') == $value ? 'selected' : '' }}>
+                                        {{ $shortTime }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-6 w-full">
+                            <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">
+                                Bitiş Saati</label>
+                            <select id="end_time" name="end_time"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @foreach ($times as $value)
+                                    @php
+                                        $shortTime = substr($value, 0, 5); // 00:00:00 -> 00:00
+                                    @endphp
+                                    <option value="{{ $value }}" {{ old('end_time') == $value ? 'selected' : '' }}>
+                                        {{ $shortTime }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     {{-- Ücreti --}}
@@ -61,6 +88,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             placeholder="Ücret girin">
                     </div>
+
                 </div>
 
                 <div class="flex w-full gap-4">
@@ -74,12 +102,20 @@
                     </div>
 
                     {{-- Öğretmen Adı --}}
+
                     <div class="mb-6 w-full">
-                        <label for="teacher_name" class="block mb-2 text-sm font-medium text-gray-900">
-                            Öğretmen Adı</label>
-                        <input type="text" name="teacher_name" id="teacher_name" value="{{ old('teacher_name') }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="Öğretmen adı girin">
+                        <label for="teacher_id" class="block mb-2 text-sm font-medium text-gray-900">
+                            Öğretmen</label>
+                        <select id="teacher_id" name="teacher_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            @foreach ($teachers as $teacher)
+                                <option value="{{ $teacher->id }}"
+                                    {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                                    {{ $teacher->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
                     </div>
                 </div>
                 <div class="flex flex-col lg:flex-row lg:items-center w-full gap-x-4">
@@ -118,4 +154,28 @@
             </form>
         </div>
     </div>
+
+    <script>
+        new TomSelect('#day', {
+            create: false,
+            highlight: true,
+            persist: false,
+            openOnFocus: true,
+            allowEmptyOption: false,
+            placeholder: 'Eğitim günü seçin...',
+            hidePlaceholder: true,
+            maxItems: 4
+        });
+    </script>
+    <script>
+        new TomSelect('#teacher_id', {
+            create: false,
+            highlight: true,
+            persist: false,
+            openOnFocus: true,
+            allowEmptyOption: false,
+            placeholder: 'Öğretmen seçin...',
+            hidePlaceholder: true,
+        });
+    </script>
 @endsection

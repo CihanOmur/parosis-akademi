@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
 use App\Models\Class\LessonClass;
+use App\Models\User\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -11,122 +12,233 @@ class LessonClassController extends Controller
 {
     public function index()
     {
-        $dayNames = [
-            'Monday'    => 'Pazartesi',
-            'Tuesday'   => 'Salı',
-            'Wednesday' => 'Çarşamba',
-            'Thursday'  => 'Perşembe',
-            'Friday'    => 'Cuma',
-            'Saturday'  => 'Cumartesi',
-            'Sunday'    => 'Pazar',
-        ];
-        $classes = LessonClass::get();
+
+        $classes = LessonClass::with(['teacher'])->get();
         return view('admin.class.index', [
             'classes' => $classes,
-            'dayNames' => $dayNames
         ]);
     }
     public function create()
     {
         $days = [
-            'Monday' => 'Pazartesi',
-            'Tuesday' => 'Salı',
-            'Wednesday' => 'Çarşamba',
-            'Thursday' => 'Perşembe',
-            'Friday' => 'Cuma',
-            'Saturday' => 'Cumartesi',
-            'Sunday' => 'Pazar',
+            'Pazartesi' => 'Pazartesi',
+            'Salı' => 'Salı',
+            'Çarşamba' => 'Çarşamba',
+            'Perşembe' => 'Perşembe',
+            'Cuma' => 'Cuma',
+            'Cumartesi' => 'Cumartesi',
+            'Pazar' => 'Pazar',
         ];
 
         $times = [];
         $start = Carbon::createFromTime(7, 0);
         $end = Carbon::createFromTime(21, 0);
         while ($start <= $end) {
-            $times[$start->format('H:i')] = $start->format('H:i');
+            $times[$start->format('H:i:s')] = $start->format('H:i:s');
             $start->addMinutes(30);
         }
+        $teachers = User::role('Eğitmen')->get();
 
         return view('admin.class.create', [
             'days' => $days,
-            'times' => $times
+            'times' => $times,
+            'teachers' => $teachers
         ]);
     }
     public function store(Request $request)
     {
 
         $validated = $request->validate([
-            'name'         => 'required|string|max:255',
-            'day'          => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'name' => 'required|string|max:255',
+            'day' => 'required|array',
+            'day.*' => 'required|in:Pazartesi,Salı,Çarşamba,Perşembe,Cuma,Cumartesi,Pazar',
             'time' => [
                 'required',
-                'date_format:H:i',
+                'date_format:H:i:s',
                 function ($attribute, $value, $fail) {
-                    if ($value < '07:00' || $value > '21:00') {
+                    if ($value < '07:00:00' || $value > '21:00:00') {
                         $fail('Saat 07:00 ile 21:00 arasında olmalı.');
                     }
                 }
             ],
-            'price' => 'required|numeric|min:0|max:99999999.99',
-            'quota'        => 'required|integer|min:1',
-            'teacher_name' => 'required|string|max:255',
-            'start_date' => 'required',
-            'end_date' => 'required|after_or_equal:start_date',
+            'end_time' => [
+                'required',
+                'date_format:H:i:s',
+                function ($attribute, $value, $fail) {
+                    if ($value < '07:00:00' || $value > '21:00:00') {
+                        $fail('Saat 07:00 ile 21:00 arasında olmalı.');
+                    }
+                }
+            ],
+            'price'       => 'required|numeric|min:0|max:99999999.99',
+            'quota'       => 'required|integer|min:1',
+            'teacher_id'  => 'required|exists:users,id',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
             'course_time' => 'required|string|max:255',
+        ], [
+            'name.required'       => 'Kurs adı zorunludur.',
+            'name.string'         => 'Kurs adı geçerli bir metin olmalıdır.',
+            'name.max'            => 'Kurs adı en fazla 255 karakter olabilir.',
+
+            'day.required'   => 'En az bir gün seçmelisiniz.',
+            'day.array'      => 'Gün alanı birden fazla seçim yapılabilecek şekilde olmalıdır.',
+            'day.*.required' => 'Seçilen gün boş olamaz.',
+            'day.*.in'       => 'Geçerli bir gün seçmelisiniz. (Pazartesi - Pazar)',
+
+
+            'time.required'       => 'Saat alanı zorunludur.',
+            'time.date_format'    => 'Saat formatı geçersiz. (örn: 14:30)',
+
+            'price.required'      => 'Fiyat alanı zorunludur.',
+            'price.numeric'       => 'Fiyat sayısal olmalıdır.',
+            'price.min'           => 'Fiyat en az 0 olmalıdır.',
+            'price.max'           => 'Fiyat çok yüksek, lütfen geçerli bir değer girin.',
+
+            'quota.required'      => 'Kontenjan zorunludur.',
+            'quota.integer'       => 'Kontenjan sayısal olmalıdır.',
+            'quota.min'           => 'Kontenjan en az 1 olmalıdır.',
+
+            'teacher_id.required' => 'Öğretmen seçimi zorunludur.',
+            'teacher_id.exists'   => 'Seçilen öğretmen sistemde bulunamadı.',
+
+            'start_date.required' => 'Başlangıç tarihi zorunludur.',
+            'start_date.date'     => 'Başlangıç tarihi geçerli bir tarih olmalıdır.',
+
+            'end_date.required'   => 'Bitiş tarihi zorunludur.',
+            'end_date.date'       => 'Bitiş tarihi geçerli bir tarih olmalıdır.',
+            'end_date.after_or_equal' => 'Bitiş tarihi, başlangıç tarihinden önce olamaz.',
+
+            'course_time.required' => 'Kurs süresi zorunludur.',
+            'course_time.string'   => 'Kurs süresi metin olmalıdır.',
+            'course_time.max'      => 'Kurs süresi en fazla 255 karakter olabilir.',
         ]);
-        LessonClass::create($validated);
+        $lessonClass = new LessonClass();
+        $lessonClass->name        = $validated['name'];
+        $lessonClass->day         = implode(',', $validated['day']);
+        $lessonClass->time        = $validated['time'];
+        $lessonClass->end_time    = $validated['end_time'];
+        $lessonClass->price       = $validated['price'];
+        $lessonClass->quota       = $validated['quota'];
+        $lessonClass->teacher_id  = $validated['teacher_id'];
+        $lessonClass->start_date  = $validated['start_date'];
+        $lessonClass->end_date    = $validated['end_date'];
+        $lessonClass->course_time = $validated['course_time'];
+        $lessonClass->save();
+
         return redirect()->route('class.index')->with(['success' => 'Sınıf oluşturuldu']);
     }
     public function edit($id)
     {
-        $lessonClass = LessonClass::findOrFail($id);
+        $lessonClass = LessonClass::with(['teacher'])->findOrFail($id);
         $days = [
-            'Monday' => 'Pazartesi',
-            'Tuesday' => 'Salı',
-            'Wednesday' => 'Çarşamba',
-            'Thursday' => 'Perşembe',
-            'Friday' => 'Cuma',
-            'Saturday' => 'Cumartesi',
-            'Sunday' => 'Pazar',
+            'Pazartesi' => 'Pazartesi',
+            'Salı' => 'Salı',
+            'Çarşamba' => 'Çarşamba',
+            'Perşembe' => 'Perşembe',
+            'Cuma' => 'Cuma',
+            'Cumartesi' => 'Cumartesi',
+            'Pazar' => 'Pazar',
         ];
 
         // 07:00 - 21:00 arası 30 dk slotlar
         $times = [];
         $start = Carbon::createFromTime(7, 0);
         $end = Carbon::createFromTime(21, 0);
+
         while ($start <= $end) {
-            $times[$start->format('H:i')] = $start->format('H:i');
+            $times[$start->format('H:i:s')] = $start->format('H:i:s');
             $start->addMinutes(30);
         }
+        $teachers = User::role('Eğitmen')->get();
+
         return view('admin.class.edit', [
             'days' => $days,
             'times' => $times,
-            'lessonClass' => $lessonClass
+            'lessonClass' => $lessonClass,
+            'teachers' => $teachers
         ]);
     }
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'name'         => 'required|string|max:255',
-            'day'          => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
+            'name' => 'required|string|max:255',
+            'day' => 'required|array',
+            'day.*' => 'required|in:Pazartesi,Salı,Çarşamba,Perşembe,Cuma,Cumartesi,Pazar',
             'time' => [
                 'required',
-                'date_format:H:i',
+                'date_format:H:i:s',
                 function ($attribute, $value, $fail) {
-                    if ($value < '07:00' || $value > '21:00') {
+                    if ($value < '07:00:00' || $value > '21:00:00') {
                         $fail('Saat 07:00 ile 21:00 arasında olmalı.');
                     }
                 }
             ],
-            'price' => 'required|numeric|min:0|max:99999999.99',
-
-            'quota'        => 'required|integer|min:1',
-            'teacher_name' => 'required|string|max:255',
-            'start_date' => 'required',
-            'end_date' => 'required|after_or_equal:start_date',
+            'end_time' => [
+                'required',
+                'date_format:H:i:s',
+                function ($attribute, $value, $fail) {
+                    if ($value < '07:00:00' || $value > '21:00:00') {
+                        $fail('Saat 07:00 ile 21:00 arasında olmalı.');
+                    }
+                }
+            ],
+            'price'       => 'required|numeric|min:0|max:99999999.99',
+            'quota'       => 'required|integer|min:1',
+            'teacher_id'  => 'required|exists:users,id',
+            'start_date'  => 'required|date',
+            'end_date'    => 'required|date|after_or_equal:start_date',
             'course_time' => 'required|string|max:255',
+        ], [
+            'name.required'       => 'Kurs adı zorunludur.',
+            'name.string'         => 'Kurs adı geçerli bir metin olmalıdır.',
+            'name.max'            => 'Kurs adı en fazla 255 karakter olabilir.',
+
+            'day.required'   => 'En az bir gün seçmelisiniz.',
+            'day.array'      => 'Gün alanı birden fazla seçim yapılabilecek şekilde olmalıdır.',
+            'day.*.required' => 'Seçilen gün boş olamaz.',
+            'day.*.in'       => 'Geçerli bir gün seçmelisiniz. (Pazartesi - Pazar)',
+
+
+            'time.required'       => 'Saat alanı zorunludur.',
+            'time.date_format'    => 'Saat formatı geçersiz. (örn: 14:30)',
+
+            'price.required'      => 'Fiyat alanı zorunludur.',
+            'price.numeric'       => 'Fiyat sayısal olmalıdır.',
+            'price.min'           => 'Fiyat en az 0 olmalıdır.',
+            'price.max'           => 'Fiyat çok yüksek, lütfen geçerli bir değer girin.',
+
+            'quota.required'      => 'Kontenjan zorunludur.',
+            'quota.integer'       => 'Kontenjan sayısal olmalıdır.',
+            'quota.min'           => 'Kontenjan en az 1 olmalıdır.',
+
+            'teacher_id.required' => 'Öğretmen seçimi zorunludur.',
+            'teacher_id.exists'   => 'Seçilen öğretmen sistemde bulunamadı.',
+
+            'start_date.required' => 'Başlangıç tarihi zorunludur.',
+            'start_date.date'     => 'Başlangıç tarihi geçerli bir tarih olmalıdır.',
+
+            'end_date.required'   => 'Bitiş tarihi zorunludur.',
+            'end_date.date'       => 'Bitiş tarihi geçerli bir tarih olmalıdır.',
+            'end_date.after_or_equal' => 'Bitiş tarihi, başlangıç tarihinden önce olamaz.',
+
+            'course_time.required' => 'Kurs süresi zorunludur.',
+            'course_time.string'   => 'Kurs süresi metin olmalıdır.',
+            'course_time.max'      => 'Kurs süresi en fazla 255 karakter olabilir.',
         ]);
         $lessonClass = LessonClass::findOrFail($id);
-        $lessonClass->update($validated);
+
+        $lessonClass->name        = $validated['name'];
+        $lessonClass->day         = implode(',', $validated['day']);
+        $lessonClass->time        = $validated['time'];
+        $lessonClass->end_time    = $validated['end_time'];
+        $lessonClass->price       = $validated['price'];
+        $lessonClass->quota       = $validated['quota'];
+        $lessonClass->teacher_id  = $validated['teacher_id'];
+        $lessonClass->start_date  = $validated['start_date'];
+        $lessonClass->end_date    = $validated['end_date'];
+        $lessonClass->course_time = $validated['course_time'];
+        $lessonClass->save();
         return redirect()->route('class.index')->with(['success' => 'Sınıf Düzenlendi']);
     }
     public function delete($id)
