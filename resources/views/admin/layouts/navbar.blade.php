@@ -13,7 +13,7 @@
                             </path>
                         </svg>
                     </button>
-                    <a href="{{ route('dashboard.index') }}" class="flex ms-2 md:me-24">
+                    <a href="#" class="flex ms-2 md:me-24">
                         <img src="{{ asset('images/corwus-board-logo.svg') }}" class="h-4 me-3" alt="FlowBite Logo" />
 
                     </a>
