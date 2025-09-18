@@ -30,7 +30,7 @@
                     {{-- Günü --}}
                     <div class="mb-6 w-full">
                         <label for="day" class="block mb-2 text-sm font-medium text-gray-900">
-                            Günü</label>
+                            Ders Günleri</label>
                         <select id="day" name="day[]" multiple
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @foreach ($days as $key => $label)
@@ -81,10 +81,10 @@
                         </div>
                     </div>
 
-                    {{-- Ücreti --}}
+                    {{-- Ücret --}}
                     <div class="mb-6 w-full">
                         <label for="price" class="block mb-2 text-sm font-medium text-gray-900">
-                            Ücreti</label>
+                            Ücret</label>
                         <input type="number" step="0.01" name="price" id="price" value="{{ old('price') }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             placeholder="Ücret girin">
@@ -106,9 +106,10 @@
 
                     <div class="mb-6 w-full">
                         <label for="teacher_id" class="block mb-2 text-sm font-medium text-gray-900">
-                            Öğretmen</label>
+                            Eğitmen</label>
                         <select id="teacher_id" name="teacher_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="" disabled selected>Eğitmen seçin</option>
                             @foreach ($teachers as $teacher)
                                 <option value="{{ $teacher->id }}"
                                     {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
@@ -121,18 +122,18 @@
                 </div>
                 <div class="flex flex-col lg:flex-row lg:items-center w-full gap-x-4">
                     <div class="flex w-full gap-4">
-                        {{--  Kurs Başlangıç Tarihi --}}
+                        {{--  Başlangıç Tarihi --}}
                         <div class="mb-6 w-full">
                             <label for="start_date" class="block mb-2 text-sm font-medium text-gray-900">
-                                Kurs Başlangıç Tarihi</label>
+                                Başlangıç Tarihi</label>
                             <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
 
-                        {{--  Kurs Bitiş Tarihi --}}
+                        {{--  Bitiş Tarihi --}}
                         <div class="mb-6 w-full">
                             <label for="end_date" class="block mb-2 text-sm font-medium text-gray-900">
-                                Kurs Bitiş Tarihi</label>
+                                Bitiş Tarihi</label>
                             <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         </div>
@@ -166,17 +167,6 @@
             placeholder: 'Eğitim günü seçin...',
             hidePlaceholder: true,
             maxItems: 4
-        });
-    </script>
-    <script>
-        new TomSelect('#teacher_id', {
-            create: false,
-            highlight: true,
-            persist: false,
-            openOnFocus: true,
-            allowEmptyOption: false,
-            placeholder: 'Öğretmen seçin...',
-            hidePlaceholder: true,
         });
     </script>
 @endsection
