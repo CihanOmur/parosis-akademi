@@ -37,7 +37,7 @@ class StudentController extends Controller
             $validated = $request->validate([
                 'registiration_type' => 'required|in:1,2',
                 'full_name' => 'required|string|max:200',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
                 'gender' => 'nullable|in:Erkek,Kadın',
                 'birth_date' => 'required|date',
                 'school_name' => 'nullable|string|max:200',
@@ -147,7 +147,7 @@ class StudentController extends Controller
                 'registiration_type' => 'required|in:1,2',
                 'full_name' => 'required|string|max:200',
                 'gender' => 'required|in:Erkek,Kadın',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
                 'birth_date' => 'required|date',
                 'school_name' => 'required|string|max:200',
                 'tc_no' => 'required|string|max:11',
@@ -360,7 +360,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'nullable|string|max:11',
@@ -470,7 +470,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
                 'registiration_term' => 'required',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -686,7 +686,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
 
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -798,7 +798,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
                 'registiration_term' => 'required',
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -1250,7 +1250,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
 
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -1362,7 +1362,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
-                'student_phone' => 'required|string|max:200',
+                'student_phone' => 'nullable|string|max:200',
                 'registiration_term' => 'required',
 
                 'guardian1_full_name' => 'required|string|max:200',

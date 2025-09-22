@@ -130,7 +130,7 @@
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -562,8 +562,8 @@
                                 </div>
                                 <div
                                     class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="has_allergy" value="2" checked id="no_allergy"
-                                        {{ old('has_allergy') == '2' ? 'checked' : '' }}
+                                    <input type="radio" name="has_allergy" value="2" id="no_allergy"
+                                        {{ old('has_allergy') == '2' || old('has_allergy') == null ? 'checked' : '' }}
                                         class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
                                     <label for="no_allergy"
                                         class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Hayır</label>
@@ -689,14 +689,17 @@
 
                 // has_allergy radio
                 $('input[name="has_allergy"]').change(function() {
-                    if ($(this).val() === '1') { // 'yes' evet değerini temsil ediyor
+                    console.log($('input[name="has_allergy"]').val());
+
+                    if ($('input[name="has_allergy"]:checked').val() ===
+                        '1') { // 'yes' evet değerini temsil ediyor
                         $('#allergy_detail_field').show();
                     } else {
                         $('#allergy_detail_field').hide();
                     }
                 });
 
-                $('#allergy_detail_field').toggle($('input[name="has_allergy"]:checked').val() === 'yes');
+                $('input[name="has_allergy"]').trigger('change');
             });
         </script>
 
