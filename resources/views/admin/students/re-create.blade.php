@@ -513,55 +513,67 @@
 
 
                 {{-- Emergency --}}
-                <h3 class="mb-2 font-semibold">Acil Durumda Aranacak 3. Kişiler</h3>
-                <div class="grid grid-cols-4 gap-4">
-                    <div class="mb-6">
-                        <label class="block mb-2 font-medium">Adı Soyadı</label>
-                        <input type="text" name="emergency_full_name" placeholder="Adı Soyadı"
-                            value="{{ $student->emergencyContact->full_name ?? '' }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <div class="text-red-500 mt-2">
-                            @error('emergency_full_name')
-                                {{ $message }}
-                            @enderror
-                        </div>
+                <div class="w-full bg-white rounded-lg border border-gray-200">
+                    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                        <h3 class="text-md font-semibold text-gray-900 ">Acil Durumda Aranacak 3. Kişiler</h3>
                     </div>
-                    <div class="mb-6">
-                        <label class="block mb-2 font-medium">Yakınlık</label>
-                        <input type="text" name="emergency_relationship" placeholder="Yakınlık"
-                            value="{{ $student->emergencyContact->relationship ?? '' }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <div class="text-red-500 mt-2">
-                            @error('emergency_relationship')
-                                {{ $message }}
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <label class="block mb-2 font-medium">Telefon</label>
-                        <input type="text" name="emergency_phone" placeholder="Telefon"
-                            value="{{ $student->emergencyContact->phone ?? '' }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <div class="text-red-500 mt-2">
-                            @error('emergency_phone')
-                                {{ $message }}
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <label class="block mb-2 font-medium">Adres</label>
-                        <input type="text" name="emergency_address" placeholder="Adres"
-                            value="{{ $student->emergencyContact->address ?? '' }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        <div class="text-red-500 mt-2">
-                            @error('emergency_address')
-                                {{ $message }}
-                            @enderror
+                    <div class="py-10 px-5">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="mb-6">
+                                <label class="block mb-2 font-medium">Ad Soyad</label>
+                                <input type="text" name="emergency_full_name" placeholder="örn: Ahmet Yılmaz"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="{{ $student->emergencyContact->full_name ?? '' }}">
+                                <div class="text-red-500 text-xs mt-2">
+                                    @error('emergency_full_name')
+                                        {{ $message }}
+                                    @enderror
 
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block mb-2 font-medium">Yakınlık</label>
+                                <input type="text" name="emergency_relationship" placeholder="örn: Amcası"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="{{ $student->emergencyContact->relationship ?? '' }}">
+                                <div class="text-red-500 text-xs mt-2">
+                                    @error('emergency_relationship')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block mb-2 font-medium">Telefon</label>
+                                <input type="tel" pattern="[0-9]*" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="emergency_phone"
+                                    placeholder="örn: 12345678901"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="{{ $student->emergencyContact->phone ?? '' }}">
+                                <div class="text-red-500 text-xs mt-2">
+                                    @error('emergency_phone')
+                                        {{ $message }}
+                                    @enderror
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="w-full">
+                            <div class="mb-0">
+                                <label class="block mb-2 font-medium">Adres</label>
+                                <input type="text" name="emergency_address" placeholder="mahalle, sokak, no, ilçe, il"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="{{ $student->emergencyContact->address ?? '' }}">
+                                <div class="text-red-500 text-xs mt-2">
+                                    @error('emergency_address')
+                                        {{ $message }}
+                                    @enderror
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
 
                 {{-- Allergy --}}
                 <div class="w-full bg-white rounded-lg border border-gray-200">
