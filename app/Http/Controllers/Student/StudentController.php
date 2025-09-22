@@ -34,6 +34,7 @@ class StudentController extends Controller
             $validated = $request->validate([
                 'registiration_type' => 'required|in:1,2',
                 'full_name' => 'required|string|max:200',
+                'student_phone' => 'required|string|max:200',
                 'gender' => 'nullable|in:Erkek,Kadın',
                 'birth_date' => 'required|date',
                 'school_name' => 'nullable|string|max:200',
@@ -87,6 +88,8 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+                'student_phone.required' => 'Telefon numarası girilmelidir.',
+                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -141,6 +144,7 @@ class StudentController extends Controller
                 'registiration_type' => 'required|in:1,2',
                 'full_name' => 'required|string|max:200',
                 'gender' => 'required|in:Erkek,Kadın',
+                'student_phone' => 'required|string|max:200',
                 'birth_date' => 'required|date',
                 'school_name' => 'required|string|max:200',
                 'tc_no' => 'required|string|max:11',
@@ -193,6 +197,9 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+                'student_phone.required' => 'Telefon numarası girilmelidir.',
+                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
+
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -257,6 +264,7 @@ class StudentController extends Controller
         $student->class_id = $request->class_id;
         $student->has_allergy = $request->has_allergy;
         $student->allergy_detail = $request->allergy_detail;
+        $student->student_phone = $request->student_phone;
         $student->save();
 
 
@@ -344,6 +352,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
+                'student_phone' => 'required|string|max:200',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'nullable|string|max:11',
@@ -388,6 +397,8 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+                'student_phone.required' => 'Telefon numarası girilmelidir.',
+                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -450,6 +461,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
+                'student_phone' => 'required|string|max:200',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'required|string|max:11',
@@ -494,6 +506,9 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+
+                'student_phone.required' => 'Telefon numarası girilmelidir.',
+                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -556,6 +571,7 @@ class StudentController extends Controller
         $student->class_id = $request->class_id;
         $student->has_allergy = $request->has_allergy;
         $student->allergy_detail = $request->allergy_detail;
+        $student->student_phone = $request->student_phone;
         $student->save();
 
 
@@ -657,6 +673,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
+                'student_phone' => 'required|string|max:200',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'nullable|string|max:11',
@@ -701,6 +718,9 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+
+                'student_phone.required' => 'Telefon numarası girilmelidir.',
+                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -763,6 +783,9 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
+                'student_phone' => 'required|string|max:200',
+
+
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'required|string|max:11',
@@ -807,6 +830,8 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+                'student_phone.required' => 'Telefon numarası girilmelidir.',
+                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -869,6 +894,7 @@ class StudentController extends Controller
         $student->class_id = $request->class_id;
         $student->has_allergy = $request->has_allergy;
         $student->allergy_detail = $request->allergy_detail;
+        $student->student_phone = $request->student_phone;
         $student->save();
 
 
@@ -1034,5 +1060,13 @@ class StudentController extends Controller
             'payment' => $payment
         ])->setOptions(['defaultFont' => 'DejaVu Sans'])->setPaper('a4', 'portrait');
         return $pdf->download('payment_contract_' . $student->id . '.pdf');
+    }
+
+    public function changeActivity($id)
+    {
+        $student = Student::findOrFail($id);
+        $student->is_active = !$student->is_active;
+        $student->save();
+        return back()->with('success', 'Student updated successfully');
     }
 }

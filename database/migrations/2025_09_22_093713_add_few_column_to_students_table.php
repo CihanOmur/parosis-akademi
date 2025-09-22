@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            //
+            $table->boolean('is_active')->nullable()->default(true);
+            $table->string('student_phone', 230)->nullable();
+            $table->text('registiration_term')->nullable();
         });
     }
 
@@ -22,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            //
+            $table->dropColumn('is_active');
+            $table->dropColumn('student_phone');
+            $table->dropColumn('registiration_term');
         });
     }
 };
