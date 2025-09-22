@@ -16,7 +16,10 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->get();
-        return view('admin.students.index', compact('students'));
+        $normalCount = Student::where('registration_type', 2)->count();
+        $preCount = Student::where('registration_type', 1)->count();
+
+        return view('admin.students.index', compact('students', 'normalCount', 'preCount'));
     }
 
     public function create()
@@ -335,9 +338,10 @@ class StudentController extends Controller
         $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
 
         $student = Student::with(['guardians', 'emergencyContact'])->where('registration_type', '2')->findOrFail($id);
+        $normalCount = Student::where('registration_type', 2)->count();
+        $preCount = Student::where('registration_type', 1)->count();
 
-
-        return view('admin.students.edit', compact('student', 'classes', 'education_levels', 'jobs'));
+        return view('admin.students.edit', compact('student', 'classes', 'education_levels', 'jobs', 'normalCount', 'preCount'));
     }
 
     public function update(Request $request, $id)

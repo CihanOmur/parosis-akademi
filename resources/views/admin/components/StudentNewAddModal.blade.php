@@ -30,7 +30,9 @@
                                 class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100">
                                 <div class="block">
                                     <div class="w-full text-lg font-semibold">Ön Kayıt</div>
-                                    <div class="w-full text-gray-500 dark:text-gray-400">ön kayıt toplam sayısı</div>
+                                    <div class="w-full text-gray-500 dark:text-gray-400">Toplam {{ $preCount ?? 0 }}
+                                        Kayıt Bulunmaktadır
+                                    </div>
                                 </div>
                                 <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -47,7 +49,10 @@
                                 class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100">
                                 <div class="block">
                                     <div class="w-full text-lg font-semibold">Kesin Kayıt</div>
-                                    <div class="w-full text-gray-500 dark:text-gray-400">Kesin kayıt sayısı</div>
+                                    <div class="w-full text-gray-500 dark:text-gray-400">Toplam
+                                        {{ $normalCount ?? 0 }}
+                                        Kayıt Bulunmaktadır
+                                    </div>
                                 </div>
                                 <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
                                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"

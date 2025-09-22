@@ -9,7 +9,10 @@
         type="button">
         Yeni Ekle
     </button>
-    @include('admin.components.StudentNewAddModal')
+    @include('admin.components.StudentNewAddModal', [
+        'normalCount' => $normalCount,
+        'preCount' => $preCount,
+    ])
 @endsection
 @section('content')
     <div class="rounded-lg mb-4 h-[85%]">
