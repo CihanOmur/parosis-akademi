@@ -1,7 +1,7 @@
     <nav class="fixed top-0 z-40 w-full bg-white border-b border-gray-200">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
-                <div class="flex items-center justify-start rtl:justify-end">
+                <div class="flex items-center justify-start">
                     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
                         aria-controls="logo-sidebar" type="button"
                         class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200  ">
@@ -18,24 +18,29 @@
                     </a>
                 </div>
                 <div class="flex items-center">
-                <div class="hidden md:block px-3 text-sm text-gray-600 font-semibold">Parosis Arge A.Ş</div>
-<div id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-offset-distance="15" data-dropdown-offset-skidding="10" data-dropdown-placement="bottom-start" class="w-10 h-10 rounded-full cursor-pointer relative inline-flex items-center justify-center overflow-hidden bg-gray-600 ">
-    <span class="font-medium text-white">
-        {{ strtoupper(substr(explode(' ', auth()->user()->name)[0], 0, 1) . (isset(explode(' ', auth()->user()->name)[1]) ? substr(explode(' ', auth()->user()->name)[1], 0, 1) : '')) }}
-    </span>
-</div>
-<!-- Dropdown menu -->
-<div id="userDropdown" class="z-10 hidden bg-white divide-y divide-gray-200 rounded-lg border border-gray-200 shadow-sm w-44">
-    <div class="px-4 py-3 text-sm text-gray-900">
-      <div> {{ auth()->user()->name . ' ' . auth()->user()->surname }} </div>
-      <div class="font-medium truncate">{{ auth()->user()->email ?? 'Guest' }}</div>
-    </div>
-    <div class="py-1">
-        <form action="{{ route('logout') }}" method="post" id="logout">@csrf</form>
-                <a href="#" onclick="document.getElementById('logout').submit();" role="menuitem" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Çıkış Yap</a>
-    </div>
-</div>
-</div>
+                    <div class="hidden md:block px-3 text-sm text-gray-600 font-semibold">Parosis Arge A.Ş</div>
+                    <div id="avatarButton" type="button" data-dropdown-toggle="userDropdown"
+                        data-dropdown-offset-distance="15" data-dropdown-offset-skidding="10"
+                        data-dropdown-placement="bottom-start"
+                        class="w-10 h-10 rounded-full cursor-pointer relative inline-flex items-center justify-center overflow-hidden bg-gray-600 ">
+                        <span class="font-medium text-white">
+                            {{ strtoupper(substr(explode(' ', auth()->user()->name)[0], 0, 1) . (isset(explode(' ', auth()->user()->name)[1]) ? substr(explode(' ', auth()->user()->name)[1], 0, 1) : '')) }}
+                        </span>
+                    </div>
+                    <!-- Dropdown menu -->
+                    <div id="userDropdown"
+                        class="z-10 hidden bg-white divide-y divide-gray-200 rounded-lg border border-gray-200 shadow-sm w-44">
+                        <div class="px-4 py-3 text-sm text-gray-900">
+                            <div> {{ auth()->user()->name . ' ' . auth()->user()->surname }} </div>
+                            <div class="font-medium truncate">{{ auth()->user()->email ?? 'Guest' }}</div>
+                        </div>
+                        <div class="py-1">
+                            <form action="{{ route('logout') }}" method="post" id="logout">@csrf</form>
+                            <a href="#" onclick="document.getElementById('logout').submit();" role="menuitem"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Çıkış Yap</a>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- <div class="flex items-center">
                     <div class="flex items-center ms-3">
@@ -64,7 +69,7 @@
                                     <form action="{{ route('logout') }}" method="post" id="logout">
                                         @csrf
                                     </form>
-                                    <button form="logout" type="submit" 
+                                    <button form="logout" type="submit"
                                         class="w-full block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 cursor-pointer"
                                         role="menuitem">Çıkış Yap</butt>
                                 </li>
