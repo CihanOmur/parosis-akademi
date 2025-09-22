@@ -157,7 +157,7 @@ class StudentController extends Controller
                 'guardian1_education_level' => 'required|string|max:200',
                 'guardian1_job' => 'required|string|max:200',
                 'guardian1_phone_1' => 'required|string|max:200',
-                'guardian1_phone_2' => 'required|string|max:200',
+                'guardian1_phone_2' => 'nullable|string|max:200',
                 'guardian1_email' => 'required|email|max:200',
                 'guardian1_home_address' => 'required|string|max:500',
                 'guardian1_work_address' => 'required|string|max:500',
@@ -170,7 +170,7 @@ class StudentController extends Controller
                 'guardian2_education_level'  => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_job' => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_phone_1'  => 'required_if:guardian2_active,1|string|max:200',
-                'guardian2_phone_2'  => 'required_if:guardian2_active,1|string|max:200',
+                'guardian2_phone_2'  => 'nullable|string|max:200',
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
                 'guardian2_work_address'  => 'required_if:guardian2_active,1|string|max:500',
@@ -458,7 +458,7 @@ class StudentController extends Controller
                 'guardian1_education_level' => 'required|string|max:200',
                 'guardian1_job' => 'required|string|max:200',
                 'guardian1_phone_1' => 'required|string|max:200',
-                'guardian1_phone_2' => 'required|string|max:200',
+                'guardian1_phone_2' => 'nullable|string|max:200',
                 'guardian1_email' => 'required|email|max:200',
                 'guardian1_home_address' => 'required|string|max:500',
                 'guardian1_work_address' => 'required|string|max:500',
@@ -471,7 +471,7 @@ class StudentController extends Controller
                 'guardian2_education_level'  => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_job' => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_phone_1'  => 'required_if:guardian2_active,1|string|max:200',
-                'guardian2_phone_2'  => 'required_if:guardian2_active,1|string|max:200',
+                'guardian2_phone_2'  => 'nullable|string|max:200',
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
                 'guardian2_work_address'  => 'required_if:guardian2_active,1|string|max:500',
@@ -627,8 +627,6 @@ class StudentController extends Controller
         $emergency->phone = $request->emergency_phone;
         $emergency->address = $request->emergency_address;
         $emergency->save();
-
-        dd($emergency);
 
         return redirect()->route('students.index')->with('success', 'Student updated successfully');
     }
