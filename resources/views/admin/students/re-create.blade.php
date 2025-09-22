@@ -68,7 +68,7 @@
                         </h3>
                     </div>
                     <div class="py-10 px-5">
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-4 gap-4">
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Ad Soyad</label>
                                 <input type="text" name="full_name" value="{{ $student->full_name }}"
@@ -110,20 +110,8 @@
 
                                 </div>
                             </div>
+                            
                             <div class="mb-6">
-                                <label class="block mb-2 font-medium">Okul Adı</label>
-                                <input type="text" name="school_name" value="{{ $student->school_name }}"
-                                    placeholder="Öğrencinin eğitim aldığı okul"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    value="{{ old('school_name') }}">
-                                <div class="text-red-500 text-xs mt-2">
-                                    @error('school_name')
-                                        {{ $message }}
-                                    @enderror
-
-                                </div>
-                            </div>
-                            <div class="mb-0">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                                 <input type="text" name="tc_no" maxlength="11" inputmode="numeric"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
@@ -135,6 +123,18 @@
                                         {{ $message }}
                                     @enderror
 
+                                </div>
+                            </div>
+                            <div class="mb-0">
+                                <label class="block mb-2 font-medium">Telefon</label>
+                                <input type="text" name="" value=""
+                                    placeholder="örn: 05551234545"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="">
+                                <div class="text-red-500 text-xs mt-2">
+                                    @error('')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="mb-0">
@@ -158,6 +158,20 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="mb-0">
+                                <label class="block mb-2 font-medium">Okul Adı</label>
+                                <input type="text" name="school_name" value="{{ $student->school_name }}"
+                                    placeholder="Öğrencinin eğitim aldığı okul"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    value="{{ old('school_name') }}">
+                                <div class="text-red-500 text-xs mt-2">
+                                    @error('school_name')
+                                        {{ $message }}
+                                    @enderror
+
+                                </div>
+                            </div>
+                            
 
                         </div>
                     </div>
