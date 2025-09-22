@@ -3,16 +3,58 @@
     <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', 'Öğrenci Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-     <!-- Modal toggle -->
-    <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
-    Yeni Ekle
+    <!-- Modal toggle -->
+    <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+        class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        type="button">
+        Yeni Ekle
     </button>
     @include('admin.components.StudentNewAddModal')
-    
 @endsection
 
 @section('content')
+    <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
+        @csrf
+    </form>
     <div class="rounded-lg mb-4">
+
+        <div class="w-full bg-white rounded-lg border border-gray-200 mb-4">
+            <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
+                <h3 class="text-md font-semibold text-gray-900 ">
+                    Taksit Bilgileri
+                </h3>
+            </div>
+            <div class="py-10 px-5">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <!-- Baldem -->
+                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
+                        <div class="text-sm text-gray-500">ilk kayit tarihi </div>
+                        <div class="text-lg font-bold text-gray-800">
+                            {{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</div>
+                    </div>
+
+                    <!-- Kalan Ödenecek -->
+                    <div class="p-4 bg-yellow-50 rounded-lg shadow-sm">
+                        <div class="text-sm text-gray-500">Aktif mi </div>
+                        <div class="text-lg font-bold text-gray-800">
+                            {{ $student->is_active == '1' ? 'Aktif' : 'Pasif' }}
+                        </div>
+                    </div>
+
+                    <!-- Ödenen -->
+                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                        <div class="text-sm text-gray-500">Kaydi dondur</div>
+                        <div class="text-lg font-bold text-gray-800">
+                            <button form="changeActivityForm"
+                                class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                type="submit">
+                                {{ $student->is_active == '1' ? 'Kaydi Dondur' : 'Kaydi Aktif et' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div class="w-full">
@@ -40,9 +82,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                                                                                                <input type="radio" name="registiration_type" value="1">
-                                                                                                                <span>Ön Kayıt</span>
-                                                                                                            </div> -->
+                                                                                                                                                                                                                                    <input type="radio" name="registiration_type" value="1">
+                                                                                                                                                                                                                                    <span>Ön Kayıt</span>
+                                                                                                                                                                                                                                </div> -->
                             <div
                                 class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                 <input id="bordered-radio-2" type="radio" name="registiration_type" value="2"
@@ -53,9 +95,9 @@
                                     Kayıt</label>
                             </div>
                             <!-- <div class="flex items-center justify-start gap-2">
-                                                                                                                <input type="radio" name="registiration_type" checked value="2">
-                                                                                                                <span>Kesin Kayıt</span>
-                                                                                                            </div> -->
+                                                                                                                                                                                                                                    <input type="radio" name="registiration_type" checked value="2">
+                                                                                                                                                                                                                                    <span>Kesin Kayıt</span>
+                                                                                                                                                                                                                                </div> -->
                         </div>
                     </div>
                 </div>
@@ -111,7 +153,7 @@
 
                                 </div>
                             </div>
-                            
+
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                                 <input type="text" name="tc_no" maxlength="11" inputmode="numeric"
@@ -128,8 +170,7 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="text" name="" value=""
-                                    placeholder="örn: 05551234545"
+                                <input type="tel" name="student_phone" value="" placeholder="örn: 05551234545"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="">
                                 <div class="text-red-500 text-xs mt-2">
@@ -258,13 +299,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Meslek</label>
-                                        <select name="guardian1_job"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                            @foreach ($jobs as $job)
-                                                <option {{ $student->guardians[0]?->job ?? '' == $job ? 'selected' : '' }}
-                                                    value="{{ $job }}">{{ $job }}</option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" name="guardian1_job" placeholder="örn: Memur"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            value="{{ $student->guardians[0]?->job ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
                                             @error('guardian1_job')
                                                 {{ $message }}
@@ -432,15 +469,11 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Meslek</label>
-                                            <select name="guardian2_job"
-                                                {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                                @foreach ($jobs as $job)
-                                                    <option
-                                                        {{ $student->guardians[1]?->job ?? '' == $job ? 'selected' : '' }}
-                                                        value="{{ $job }}">{{ $job }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" name="guardian2_job"
+                                                placeholder="örn: Memur"{{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                value="{{ $student->guardians[1]?->job ?? '' }}">
+
                                             <div class="text-red-500 text-xs mt-2">
                                                 @error('guardian2_job')
                                                     {{ $message }}
@@ -530,7 +563,7 @@
                     </div>
                 </div>
 
-                 {{-- Emergency --}}
+                {{-- Emergency --}}
                 <div class="w-full bg-white rounded-lg border border-gray-200">
                     <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
                         <h3 class="text-md font-semibold text-gray-900 ">Acil Durumda Aranacak 3. Kişiler</h3>

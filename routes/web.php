@@ -50,6 +50,8 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::get('/{id}/re-create', [StudentController::class, 'reCreate'])->name('reCreate');
         Route::post('/{id}/re-create', [StudentController::class, 'reCreateUpdate'])->name('reCreateUpdate');
         Route::post('/{id}/update', [StudentController::class, 'update'])->name('update');
+        Route::post('/{id}/change-activity', [StudentController::class, 'changeActivity'])->name('changeActivity');
+
 
         Route::get('/{id}/payment', [StudentController::class, 'payment'])->name('payment');
         Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate');
