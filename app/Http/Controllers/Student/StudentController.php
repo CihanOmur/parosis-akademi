@@ -153,6 +153,7 @@ class StudentController extends Controller
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
+                'registiration_term' => 'required',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'required|string|max:11',
@@ -199,6 +200,7 @@ class StudentController extends Controller
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
                 'student_phone.required' => 'Telefon numarası girilmelidir.',
                 'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
+                'registiration_term.required' => 'Dönem girilmelidir.',
 
 
                 // Veli 1
@@ -265,6 +267,7 @@ class StudentController extends Controller
         $student->has_allergy = $request->has_allergy;
         $student->allergy_detail = $request->allergy_detail;
         $student->student_phone = $request->student_phone;
+        $student->registiration_term = implode(',', $request->registiration_term ?? []);
         $student->save();
 
 
@@ -316,6 +319,7 @@ class StudentController extends Controller
         $studentPayment = new StudentPayments();
         $studentPayment->student_id = $student->id;
         $studentPayment->class_id = $student->class_id;
+        $studentPayment->registiration_term = implode(',', $request->registiration_term ?? []);
         $studentPayment->save();
 
         if ($student->registration_type == '2') {
@@ -400,6 +404,7 @@ class StudentController extends Controller
                 'student_phone.required' => 'Telefon numarası girilmelidir.',
                 'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
 
+
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
                 'guardian1_full_name.max' => '1. velinin adı soyadı en fazla 200 karakter olabilir.',
@@ -462,6 +467,7 @@ class StudentController extends Controller
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
                 'student_phone' => 'required|string|max:200',
+                'registiration_term' => 'required',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'required|string|max:11',
@@ -506,6 +512,8 @@ class StudentController extends Controller
                 'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
                 'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
+                'registiration_term.required' => 'Dönem girilmelidir.',
+
 
                 'student_phone.required' => 'Telefon numarası girilmelidir.',
                 'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
@@ -572,6 +580,7 @@ class StudentController extends Controller
         $student->has_allergy = $request->has_allergy;
         $student->allergy_detail = $request->allergy_detail;
         $student->student_phone = $request->student_phone;
+        $student->registiration_term = implode(',', $request->registiration_term ?? []);
         $student->save();
 
 
@@ -675,6 +684,7 @@ class StudentController extends Controller
                 'notes' => 'required|string|max:1000',
                 'student_phone' => 'required|string|max:200',
 
+
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'nullable|string|max:11',
                 'guardian1_relationship' => 'required|string|max:200',
@@ -721,6 +731,7 @@ class StudentController extends Controller
 
                 'student_phone.required' => 'Telefon numarası girilmelidir.',
                 'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
+
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -784,8 +795,7 @@ class StudentController extends Controller
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'nullable|string|max:1000',
                 'student_phone' => 'required|string|max:200',
-
-
+                'registiration_term' => 'required',
 
                 'guardian1_full_name' => 'required|string|max:200',
                 'guardian1_national_id' => 'required|string|max:11',
@@ -832,6 +842,7 @@ class StudentController extends Controller
                 'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
                 'student_phone.required' => 'Telefon numarası girilmelidir.',
                 'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
+                'registiration_term.required' => 'Dönem girilmelidir.',
 
                 // Veli 1
                 'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
@@ -895,6 +906,7 @@ class StudentController extends Controller
         $student->has_allergy = $request->has_allergy;
         $student->allergy_detail = $request->allergy_detail;
         $student->student_phone = $request->student_phone;
+        $student->registiration_term = implode(',', $request->registiration_term ?? []);
         $student->save();
 
 
@@ -970,6 +982,7 @@ class StudentController extends Controller
         $studentPayment = new StudentPayments();
         $studentPayment->student_id = $student->id;
         $studentPayment->class_id = $student->class_id;
+        $studentPayment->registiration_term = implode(',', $request->registiration_term ?? []);
         $studentPayment->save();
 
         if ($student->registration_type == '2') {
