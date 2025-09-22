@@ -1,62 +1,34 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 ">
+<div>
+    <h1 class="text-xl font-semibold text-gray-800 ">
         @yield('page-title', 'Öğrenci Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-    <!-- Modal toggle -->
-    <button data-modal-target="select-modal" data-modal-toggle="select-modal"
-        class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        type="button">
-        Yeni Ekle
-    </button>
+    <div class="grid grid-cols-2 gap-4">
+        <p>İlk kayıt tarihi: {{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</p>
+        <p>Durum: {{ $student->is_active == '1' ? 'Aktif' : 'Pasif' }}</p>
+    </div>
+</div>
+    
+     <div class="flex gap-4">
+        <button form="changeActivityForm"
+            class="block cursor-pointer {{ $student->is_active == '1' ? 'bg-green-700' : 'bg-red-500' }} text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="submit">
+            {{ $student->is_active == '1' ? 'Dondur' : 'Aktif et' }}
+        </button>
+        <!-- Modal toggle -->
+        <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+            class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="button">Yeni Ekle</button>
     @include('admin.components.StudentNewAddModal')
+     </div>
+    
 @endsection
 
 @section('content')
     <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
         @csrf
     </form>
-    <div class="rounded-lg mb-4">
-
-        <div class="w-full bg-white rounded-lg border border-gray-200 mb-4">
-            <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
-                <h3 class="text-md font-semibold text-gray-900 ">
-                    Taksit Bilgileri
-                </h3>
-            </div>
-            <div class="py-10 px-5">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                    <!-- Baldem -->
-                    <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
-                        <div class="text-sm text-gray-500">ilk kayit tarihi </div>
-                        <div class="text-lg font-bold text-gray-800">
-                            {{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</div>
-                    </div>
-
-                    <!-- Kalan Ödenecek -->
-                    <div class="p-4 bg-yellow-50 rounded-lg shadow-sm">
-                        <div class="text-sm text-gray-500">Aktif mi </div>
-                        <div class="text-lg font-bold text-gray-800">
-                            {{ $student->is_active == '1' ? 'Aktif' : 'Pasif' }}
-                        </div>
-                    </div>
-
-                    <!-- Ödenen -->
-                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
-                        <div class="text-sm text-gray-500">Kaydi dondur</div>
-                        <div class="text-lg font-bold text-gray-800">
-                            <button form="changeActivityForm"
-                                class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                type="submit">
-                                {{ $student->is_active == '1' ? 'Kaydi Dondur' : 'Kaydi Aktif et' }}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <div class="w-full">
             <form class=" w-full space-y-6" action="{{ route('students.update', ['id' => $student->id]) }}" method="POST"
                 enctype="multipart/form-data">
@@ -156,7 +128,7 @@
 
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                <input type="text" name="tc_no" maxlength="11" inputmode="numeric"
+                                <input type="text" name="tc_no" max="11" inputmode="numeric"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                     value="{{ $student->national_id }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -170,7 +142,8 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="tel" name="student_phone" value="" placeholder="örn: 05551234545"
+                                <input max="11" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" name="student_phone" value="" placeholder="örn: 05551234545"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="">
                                 <div class="text-red-500 text-xs mt-2">
@@ -257,7 +230,8 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                        <input type="text" name="guardian1_national_id" placeholder="örn: 12345678901"
+                                        <input type="text" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" name="guardian1_national_id" placeholder="örn: 12345678901"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->national_id ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -311,8 +285,8 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                        <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->phone_1 ?? '' }}">
@@ -325,8 +299,8 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                        <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian1_phone_2" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[0]?->phone_2 ?? '' }}">
@@ -420,8 +394,7 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                            <input type="text" name="guardian2_national_id" maxlength="11"
-                                                inputmode="numeric"
+                                            <input type="text" name="guardian2_national_id" max="11" inputmode="numeric"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 placeholder="örn: 12345678901"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -483,8 +456,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 name="guardian2_phone_1" placeholder="05551234545"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
@@ -498,8 +471,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 name="guardian2_phone_2" placeholder="örn: 05551234545"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
@@ -595,8 +568,8 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="emergency_phone"
+                                <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                     placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ $student->emergencyContact->phone ?? '' }}">

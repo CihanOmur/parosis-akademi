@@ -101,7 +101,7 @@
 
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                <input type="text" name="tc_no" maxlength="11" inputmode="numeric"
+                                <input type="text" name="tc_no" max="11" inputmode="numeric"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                     placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -115,7 +115,8 @@
                             </div>
                             <div class="mb-0">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="tel" name="student_phone" value="" placeholder="örn: 05551234545"
+                                <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" name="student_phone" value="" placeholder="örn: 05551234545"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="">
                                 <div class="text-red-500 text-xs mt-2">
@@ -196,7 +197,7 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                        <input type="text" maxlength="11" inputmode="numeric"
+                                        <input type="text" max="11" inputmode="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian1_national_id" placeholder="örn: 12345678901"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -251,8 +252,8 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                        <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_phone_1') }}">
@@ -265,8 +266,8 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                        <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian1_phone_2" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ old('guardian1_phone_2') }}">
@@ -358,7 +359,7 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">T.C Kimlik No</label>
-                                            <input type="text" name="guardian1_national_id" maxlength="11"
+                                            <input type="text" name="guardian1_national_id" max="11"
                                                 inputmode="numeric"
                                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 placeholder="örn: 12345678901" disabled
@@ -415,8 +416,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 name="guardian2_phone_1" placeholder="örn: 05551234545" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian2_phone_1') }}">
@@ -429,8 +430,8 @@
                                         </div>
                                         <div class="mb-6">
                                             <label class="block mb-2 font-medium">Telefon</label>
-                                            <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                            <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                                 name="guardian2_phone_2" placeholder="örn: 05551234545" disabled
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                 value="{{ old('guardian2_phone_2') }}">
@@ -526,8 +527,8 @@
                             </div>
                             <div class="mb-6">
                                 <label class="block mb-2 font-medium">Telefon</label>
-                                <input type="tel" pattern="[0-9]*" inputmode="numeric"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="emergency_phone"
+                                <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" name="emergency_phone"
                                     placeholder="örn: 12345678901"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     value="{{ old('emergency_phone') }}">
