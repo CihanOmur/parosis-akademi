@@ -18,33 +18,7 @@
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
 
                 {{-- Registration Type --}}
-                <div class="w-full bg-white rounded-lg border border-gray-200">
-                    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
-                        <h3 class="text-md font-semibold text-gray-900 ">
-                            Kayıt Türü
-                        </h3>
-                    </div>
-                    <div class="py-10 px-5">
-                        <div class="flex items-center justify-start gap-4 ">
-                            <div
-                                class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
-                                <input id="bordered-radio-1" type="radio" name="registiration_type"
-                                    value="1"class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
-                                <label for="bordered-radio-1"
-                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Ön
-                                    Kayıt</label>
-                            </div>
-                            <div
-                                class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
-                                <input id="bordered-radio-2" type="radio" name="registiration_type" checked value="2"
-                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500 focus:ring-2 cursor-pointer">
-                                <label for="bordered-radio-2"
-                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Kesin
-                                    Kayıt</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <input id="bordered-radio-2" type="text" name="registiration_type" value="2" class="hidden">
 
                 {{-- Student Info --}}
                 <div class="w-full bg-white rounded-lg border border-gray-200">
@@ -707,7 +681,11 @@
 
                     // İçindeki tüm form elemanlarını aktif/pasif yap
                     $('#guardian2_fields').find('input, select, textarea').prop('disabled', !isChecked);
+                    $('#guardian2_fields').prop('hidden', !isChecked);
+
                 });
+                $('#guardian2_active').trigger('change');
+
 
 
                 // has_allergy radio

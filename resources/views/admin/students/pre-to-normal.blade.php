@@ -6,7 +6,7 @@
 @section('page-banner')
     <div>
         <h1 class="text-xl font-semibold text-gray-800 ">
-            @yield('page-title', 'Öğrenci Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+            @yield('page-title', 'Kayıt Yenileme' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
         </h1>
         <div class="grid grid-cols-2 gap-4">
             <p>İlk kayıt tarihi: {{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</p>
@@ -27,14 +27,14 @@
         @include('admin.components.StudentNewAddModal')
     </div>
 @endsection
-
 @section('content')
     <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
         @csrf
     </form>
+
     <div class="w-full">
-        <form class=" w-full space-y-6" action="{{ route('students.update', ['id' => $student->id]) }}" method="POST"
-            enctype="multipart/form-data">
+        <form class=" w-full space-y-6" action="{{ route('students.pre-to-normal.post', ['id' => $student->id]) }}"
+            method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
 
@@ -94,11 +94,11 @@
                             </div>
                         </div>
 
-                        <div class="mb-0">
+                        <div class="mb-6">
                             <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                             <input type="text" name="tc_no" max="11" inputmode="numeric"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                value="{{ $student->national_id }}"
+                                value="{{ $student->national_id }}" placeholder="örn: 12345678901"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('tc_no') }}">
                             <div class="text-red-500 text-xs mt-2">
@@ -110,7 +110,7 @@
                         </div>
                         <div class="mb-0">
                             <label class="block mb-2 font-medium">Telefon</label>
-                            <input max="11" inputmode="numeric"
+                            <input type="tel" max="11" inputmode="numeric"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" name="student_phone"
                                 value="{{ $student->student_phone }}" placeholder="örn: 05551234545"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -124,7 +124,6 @@
                             <label class="block mb-2 font-medium">Kan Grubu</label>
                             <select name="blood_type"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-
                                 @php
                                     $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-'];
                                     $selectedBloodType = old('blood_type', $student->blood_type);
@@ -142,10 +141,10 @@
                                 @enderror
                             </div>
                         </div>
-
-                        <div class="mb-6">
+                        <div class="mb-0">
                             <label class="block mb-2 font-medium">Okul Adı</label>
                             <input type="text" name="school_name" value="{{ $student->school_name }}"
+                                placeholder="Öğrencinin eğitim aldığı okul"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('school_name') }}">
                             <div class="text-red-500 text-xs mt-2">
@@ -155,6 +154,7 @@
 
                             </div>
                         </div>
+
 
                     </div>
                     <div class="mb-6 w-full">
@@ -351,7 +351,6 @@
                                 </div>
                             </div>
                             <div>
-
                                 <div class="mb-6 mt-8">
                                     <div
                                         class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
@@ -368,12 +367,12 @@
                                 <div id="guardian2_fields" class="grid grid-cols-4 gap-4">
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Yakınlık</label>
-                                        <input type="text" name="guardian2_relationship" placeholder="örn: Baba"
+                                        <input type="text" name="guardian1_relationship" placeholder="örn: Baba"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->relationship ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_relationship')
+                                            @error('guardian1_relationship')
                                                 {{ $message }}
                                             @enderror
 
@@ -381,12 +380,12 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Ad Soyad</label>
-                                        <input type="text" name="guardian2_full_name" placeholder="Mehmet Yılmaz"
+                                        <input type="text" name="guardian1_full_name" placeholder="Mehmet Yılmaz"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->full_name ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_full_name')
+                                            @error('guardian1_full_name')
                                                 {{ $message }}
                                             @enderror
 
@@ -394,15 +393,14 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">T.C. Kimlik No</label>
-                                        <input type="text" name="guardian2_national_id" max="11"
-                                            inputmode="numeric"
+                                        <input type="text" max="11" inputmode="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                            placeholder="örn: 12345678901"
+                                            name="guardian1_national_id" placeholder="örn: 12345678901"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->national_id ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_national_id')
+                                            @error('guardian1_national_id')
                                                 {{ $message }}
                                             @enderror
 
@@ -411,12 +409,12 @@
 
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Doğum Tarihi</label>
-                                        <input type="date" name="guardian2_birth_date" placeholder="Doğum Tarihi"
+                                        <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->birth_date ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_birth_date')
+                                            @error('guardian1_birth_date')
                                                 {{ $message }}
                                             @enderror
 
@@ -424,7 +422,7 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Eğitim Düzeyi</label>
-                                        <select name="guardian2_education_level"
+                                        <select name="guardian1_education_level"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -435,7 +433,7 @@
                                             @endforeach
                                         </select>
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_education_level')
+                                            @error('guardian1_education_level')
                                                 {{ $message }}
                                             @enderror
 
@@ -447,9 +445,8 @@
                                             placeholder="örn: Memur"{{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[1]?->job ?? '' }}">
-
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_job')
+                                            @error('guardian1_job')
                                                 {{ $message }}
                                             @enderror
 
@@ -459,12 +456,12 @@
                                         <label class="block mb-2 font-medium">Telefon</label>
                                         <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                            name="guardian2_phone_1" placeholder="05551234545"
+                                            name="guardian1_phone_1" placeholder="örn: 05551234545"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->phone_1 ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_phone_1')
+                                            @error('guardian1_phone_1')
                                                 {{ $message }}
                                             @enderror
 
@@ -474,24 +471,24 @@
                                         <label class="block mb-2 font-medium">Telefon</label>
                                         <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                            name="guardian2_phone_2" placeholder="örn: 05551234545"
+                                            name="guardian1_phone_2" placeholder="örn: 05551234545" disabled
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
-                                            value="{{ $student->guardians[1]?->phone_2 ?? '' }}"
+                                            value="{{ $student->guardians[1]?->phone_2 ?? '' }}" <div
                                             class="text-red-500 text-xs mt-2">
-                                        @error('guardian2_phone_2')
+                                        @error('guardian1_phone_2')
                                             {{ $message }}
                                         @enderror
 
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Email</label>
-                                        <input type="email" name="guardian2_email" placeholder="örn: ornek@parsis.com"
+                                        <input type="email" name="guardian1_email" placeholder="örn: ornek@parsis.com"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->email ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_email')
+                                            @error('guardian1_email')
                                                 {{ $message }}
                                             @enderror
 
@@ -499,13 +496,13 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Ev Adresi</label>
-                                        <input type="text" name="guardian2_home_address"
+                                        <input type="text" name="guardian1_home_address"
                                             placeholder="mahalle, sokak, no, ilçe, il"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->home_address ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_home_address')
+                                            @error('guardian1_home_address')
                                                 {{ $message }}
                                             @enderror
 
@@ -513,13 +510,13 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">İş Adresi</label>
-                                        <input type="text" name="guardian2_work_address"
+                                        <input type="text" name="guardian1_work_address"
                                             placeholder="mahalle, sokak, no, ilçe, il"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->work_address ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian2_work_address')
+                                            @error('guardian1_work_address')
                                                 {{ $message }}
                                             @enderror
 
@@ -535,6 +532,7 @@
 
                 </div>
             </div>
+
 
             {{-- Emergency --}}
             <div class="w-full bg-white rounded-lg border border-gray-200">
@@ -570,7 +568,7 @@
                             <label class="block mb-2 font-medium">Telefon</label>
                             <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                placeholder="örn: 12345678901"
+                                name="emergency_phone" placeholder="örn: 12345678901"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->emergencyContact->phone ?? '' }}">
                             <div class="text-red-500 text-xs mt-2">
@@ -598,7 +596,6 @@
                     </div>
                 </div>
             </div>
-
 
             {{-- Allergy --}}
             <div class="w-full bg-white rounded-lg border border-gray-200">
@@ -717,8 +714,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Güncellemeri
-                Kaydet</button>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Kaydet</button>
         </form>
     </div>
 
@@ -732,7 +728,6 @@
 
             });
             $('#guardian2_active').trigger('change');
-
 
             // has_allergy radio
             $('input[name="has_allergy"]').change(function() {

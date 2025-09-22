@@ -4,8 +4,10 @@
         @yield('page-title', 'Öğrenciler' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
     <!-- Modal toggle -->
-    <button data-modal-target="select-modal" data-modal-toggle="select-modal" class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
-    Yeni Ekle
+    <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+        class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        type="button">
+        Yeni Ekle
     </button>
     @include('admin.components.StudentNewAddModal')
 @endsection
@@ -37,7 +39,8 @@
                             <tr class="bg-white border-b   border-gray-200 hover:bg-gray-50 ">
 
                                 <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
-                                    <a href="{{ route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
+                                    <a
+                                        href="{{ $item->registration_type == '1' ? route('students.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
                                 </th>
 
                                 <td class="px-6 py-4">
@@ -86,39 +89,47 @@
                                                 class="z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
                                                 <ul class="py-2 text-sm text-gray-70"
                                                     aria-labelledby="languageDropdownButton{{ $item->id }}">
-                                                    <li>
-                                                        <form id="downloadRegistrationForm{{ $item->id }}"
-                                                            action="{{ route('students.downloadRegistrationForm') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="student_id"
-                                                                value="{{ $item->id }}">
-                                                        </form>
-                                                        <button form="downloadRegistrationForm{{ $item->id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100  w-full text-start cursor-pointer">Kayıt
-                                                            Formu İndir</button>
-                                                    </li>
-                                                    <li>
-                                                        <form id="downloadContract{{ $item->id }}"
-                                                            action="{{ route('students.downloadContract') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="student_id"
-                                                                value="{{ $item->id }}">
-                                                        </form>
-                                                        <button form="downloadContract{{ $item->id }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 w-full text-start cursor-pointer">Sözleşme
-                                                            İndir</button>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{ route('students.allPayments', $item->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100">Ödemeler</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="{{ route('students.reCreate', $item->id) }}"
-                                                            class="block px-4 py-2 hover:bg-gray-100 ">Kayıt
-                                                            Yenile</a>
-                                                    </li>
+                                                    @if ($item->registration_type == '2')
+                                                        <li>
+                                                            <form id="downloadRegistrationForm{{ $item->id }}"
+                                                                action="{{ route('students.downloadRegistrationForm') }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="student_id"
+                                                                    value="{{ $item->id }}">
+                                                            </form>
+                                                            <button form="downloadRegistrationForm{{ $item->id }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100  w-full text-start cursor-pointer">Kayıt
+                                                                Formu İndir</button>
+                                                        </li>
+                                                        <li>
+                                                            <form id="downloadContract{{ $item->id }}"
+                                                                action="{{ route('students.downloadContract') }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                <input type="hidden" name="student_id"
+                                                                    value="{{ $item->id }}">
+                                                            </form>
+                                                            <button form="downloadContract{{ $item->id }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 w-full text-start cursor-pointer">Sözleşme
+                                                                İndir</button>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('students.allPayments', $item->id) }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100">Ödemeler</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ route('students.reCreate', $item->id) }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 ">Kayıt
+                                                                Yenile</a>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="{{ route('students.pre-to-normal', $item->id) }}"
+                                                                class="block px-4 py-2 hover:bg-gray-100 ">Kayıt Et</a>
+                                                        </li>
+                                                    @endif
+
                                                 </ul>
                                             </div>
                                         </div>
