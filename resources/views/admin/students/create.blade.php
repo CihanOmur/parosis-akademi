@@ -130,40 +130,7 @@
                             </div>
 
                         </div>
-                        <div class="mb-6 w-full">
-                            <label for="registiration_term" class="block mb-2 text-sm font-medium text-gray-900">
-                                Eğitmen</label>
-                            @php
-                                use Carbon\Carbon;
-                                $startYear = 2020;
-                                $endYear = Carbon::now()->year + 1;
-                                $years = range($startYear, $endYear);
-                                rsort($years);
-                            @endphp
-                            <select id="registiration_term" name="registiration_term[]" multiple
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option value="" disabled selected>Eğitmen seçin</option>
-                                @foreach ($years as $year)
-                                    <option value="{{ $year }} Güz"
-                                        {{ old('registiration_term') == $year . ' Güz' ? 'selected' : '' }}>
-                                        {{ $year }} Güz
-                                    </option>
-                                    <option value="{{ $year }} Yaz"
-                                        {{ old('registiration_term') == $year . ' Yaz' ? 'selected' : '' }}>
-                                        {{ $year }} Yaz
-                                    </option>
-                                    <option value="{{ $year }} Bahar"
-                                        {{ old('registiration_term') == $year . ' Bahar' ? 'selected' : '' }}>
-                                        {{ $year }} Bahar
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="text-red-500 text-xs mt-2">
-                                @error('registiration_term')
-                                    {{ $message }}
-                                @enderror
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -628,7 +595,7 @@
                     <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
                         <h3 class="text-md font-semibold text-gray-900 ">Sınıf</h3>
                     </div>
-                    <div class="py-5 px-5">
+                    <div class="py-5 px-5 grid grid-cols-2 gap-4 ">
                         <div class="mb-0">
                             <select name="class_id"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -647,6 +614,38 @@
                                     {{ $message }}
                                 @enderror
 
+                            </div>
+                        </div>
+                        <div class="mb-0 w-full">
+                            @php
+                                use Carbon\Carbon;
+                                $startYear = 2020;
+                                $endYear = Carbon::now()->year + 1;
+                                $years = range($startYear, $endYear);
+                                rsort($years);
+                            @endphp
+                            <select id="registiration_term" name="registiration_term[]" multiple
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" disabled selected>Eğitmen seçin</option>
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }} Güz"
+                                        {{ old('registiration_term') == $year . ' Güz' ? 'selected' : '' }}>
+                                        {{ $year }} Güz
+                                    </option>
+                                    <option value="{{ $year }} Yaz"
+                                        {{ old('registiration_term') == $year . ' Yaz' ? 'selected' : '' }}>
+                                        {{ $year }} Yaz
+                                    </option>
+                                    <option value="{{ $year }} Bahar"
+                                        {{ old('registiration_term') == $year . ' Bahar' ? 'selected' : '' }}>
+                                        {{ $year }} Bahar
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="text-red-500 text-xs mt-2">
+                                @error('registiration_term')
+                                    {{ $message }}
+                                @enderror
                             </div>
                         </div>
                     </div>
