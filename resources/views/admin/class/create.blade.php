@@ -77,7 +77,9 @@
 
                             </div>
 
-                            <div class="mb-6 w-full">
+                          
+                        </div>
+                          <div class="mb-6 w-full">
                                 <label for="end_time" class="block mb-2 text-sm font-medium text-gray-900">
                                     Bitiş Saati</label>
                                 <select id="end_time" name="end_time"
@@ -99,7 +101,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
+                            </div>
 
                         {{-- Ücret --}}
                         <div class="mb-6 w-full">
