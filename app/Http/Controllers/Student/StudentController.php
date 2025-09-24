@@ -1042,9 +1042,13 @@ class StudentController extends Controller
     {
         $student = Student::where('registration_type', '2')->findOrFail($id);
         $payments = StudentPayments::with(['installments', 'class'])->where('student_id', $student->id)->orderBy('created_at', 'ASC')->get();
+        $normalCount = Student::where('registration_type', 2)->count();
+        $preCount = Student::where('registration_type', 1)->count();
         return view('admin.students-payments.payments', [
             'student' => $student,
-            'payments' => $payments
+            'payments' => $payments,
+            'normalCount' => $normalCount,
+            'preCount' => $preCount
         ]);
     }
 
@@ -1053,7 +1057,7 @@ class StudentController extends Controller
         $student = Student::with(['guardians', 'emergencyContact', 'lessonClass'])->where('registration_type', '2')->findOrFail($request->student_id);
 
         $pdf = Pdf::loadView('admin.students.registration_form', compact('student'))->setOptions(['defaultFont' => 'DejaVu Sans'])->setPaper('a4', 'portrait');
-        return $pdf->download('registration_form_' . $student->id . '.pdf');
+        return $pdf->download($student->full_name . '-kayıt-formu' . '.pdf');
     }
 
     public function downloadContract(Request $request)
@@ -1065,7 +1069,7 @@ class StudentController extends Controller
             'isHtml5ParserEnabled' => true,
             'isRemoteEnabled' => true,
         ])->setPaper('a4', 'portrait');
-        return $pdf->download('contract_' . $student->id . '.pdf');
+        return $pdf->download($student->full_name . '-sözleşme' . '.pdf');
     }
     public function downloadPayment(Request $request)
     {
@@ -1076,7 +1080,7 @@ class StudentController extends Controller
             'student' => $student,
             'payment' => $payment
         ])->setOptions(['defaultFont' => 'DejaVu Sans'])->setPaper('a4', 'portrait');
-        return $pdf->download('payment_contract_' . $student->id . '.pdf');
+        return $pdf->download($student->full_name . '-ödeme-planı' . '.pdf');
     }
 
     public function changeActivity($id)

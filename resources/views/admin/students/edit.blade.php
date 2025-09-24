@@ -6,7 +6,7 @@
 @section('page-banner')
     <div>
         <h1 class="text-xl font-semibold text-gray-800 ">
-            @yield('page-title', 'Öğrenci Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+            @yield('page-title', $student->full_name . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
         </h1>
         <div class="grid grid-cols-2 gap-4">
             <p>İlk kayıt tarihi: {{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</p>
@@ -30,8 +30,22 @@
         ])
     </div>
 @endsection
-
 @section('content')
+<div class="flex justify-between items-center">
+@include('admin.components.tabmenustudent')
+@include('admin.components.actionbuttonstudent')
+<!-- Action button -->
+ <div class="">
+    <button data-modal-target="actionbutton-modal" data-modal-toggle="actionbutton-modal" type="button" class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
+        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="4" d="M12 6h.01M12 12h.01M12 18h.01"/>
+        </svg>
+    </button>
+ </div>
+<!-- Action button -->
+ </div>
+
+
     <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
         @csrf
     </form>
