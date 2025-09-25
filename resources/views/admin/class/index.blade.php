@@ -3,8 +3,8 @@
     <h1 class="text-2xl font-semibold text-gray-800">
         @yield('page-title', 'Sınıflar' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-    <div class="flex items-center gap-2">
-        <a href="{{ route('class.create') }}" class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Yeni
+    <div class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+        <a href="{{ route('class.create') }}">Yeni
             Ekle</a>
     </div>
 @endsection
