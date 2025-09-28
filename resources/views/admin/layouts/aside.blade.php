@@ -39,7 +39,7 @@
                         </li>
                         <li>
                             <a href="{{ route('students.pre.students') }}"
-                                class="flex items-center text-sm w-full p-2 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5] {{ Route::is('students.pre.students') ? 'text-[#4F46E5]' : 'text-gray-900 ' }}">Ön
+                                class="flex items-center text-sm w-full p-2 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5] {{ Route::is('students.pre.*') ? 'text-[#4F46E5]' : 'text-gray-900 ' }}">Ön
                                 Kayıtlar</a>
                         </li>
 
