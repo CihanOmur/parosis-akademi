@@ -29,4 +29,9 @@ class LessonClass extends Model
     {
         return $this->hasOne(User::class, 'id', 'teacher_id');
     }
+
+    public function days()
+    {
+        return $this->hasMany(LessonClassDays::class, 'lesson_class_id', 'id');
+    }
 }

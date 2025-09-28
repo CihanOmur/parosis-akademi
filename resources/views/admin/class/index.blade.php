@@ -3,7 +3,8 @@
     <h1 class="text-2xl font-semibold text-gray-800">
         @yield('page-title', 'Sınıflar' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-    <div class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+    <div
+        class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
         <a href="{{ route('class.create') }}">Yeni
             Ekle</a>
     </div>
@@ -22,9 +23,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Günü
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Saat
-                            </th>
+
                             <th scope="col" class="px-6 py-3">
                                 Öğretmen
                             </th>
@@ -42,12 +41,12 @@
                                     <a href="{{ route('class.edit', $item->id) }}">{{ $item->name }}</a>
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $item->day }}
+                                    @foreach ($item->days as $day)
+                                        <span
+                                            class="inline-block bg-gray-200 text-gray-800 text-xs px-2.5 py-0.5 rounded mr-1 mb-1">{{ $day->day }}</span>
+                                    @endforeach
                                 </td>
-                                <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($item->time)->format('H:i') }} -
-                                    {{ \Carbon\Carbon::parse($item->end_time)->format('H:i') }}
-                                </td>
+
                                 <td class="px-6 py-4">
                                     {{ $item->teacher->name }}
                                 </td>

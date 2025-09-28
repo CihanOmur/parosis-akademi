@@ -52,7 +52,6 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/update', [StudentController::class, 'update'])->name('update');
         Route::post('/{id}/change-activity', [StudentController::class, 'changeActivity'])->name('changeActivity');
 
-
         Route::get('/{id}/payment', [StudentController::class, 'payment'])->name('payment');
         Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate');
         Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments');
@@ -68,6 +67,8 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
         Route::get('/{id}/pre-to-normal', [StudentController::class, 'preToNormal'])->name('pre-to-normal');
         Route::post('/{id}/pre-to-normal', [StudentController::class, 'preToNormalPost'])->name('pre-to-normal.post');
+
+        Route::get('/pre/students', [StudentController::class, 'preStudents'])->name('pre.students');
     });
 });
 Route::get('/', function () {

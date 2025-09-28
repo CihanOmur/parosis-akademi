@@ -26,22 +26,23 @@
     </div>
 @endsection
 @section('content')
-
     <div class="flex justify-between items-center">
         @include('admin.components.tabmenustudent')
-        @include('admin.components.actionbuttonstudent')
+        @include('admin.components.actionbuttonstudent', ['student' => $student])
         <!-- Action button -->
         <div class="">
-            <button data-modal-target="actionbutton-modal" data-modal-toggle="actionbutton-modal" type="button" class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-width="4" d="M12 6h.01M12 12h.01M12 18h.01"/>
+            <button data-modal-target="actionbutton-modal" data-modal-toggle="actionbutton-modal" type="button"
+                class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-width="4" d="M12 6h.01M12 12h.01M12 18h.01" />
                 </svg>
             </button>
         </div>
         <!-- Action button -->
     </div>
 
-   <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
+    <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
         @csrf
     </form>
     <div class="rounded-lg mb-4 h-[85%]">
@@ -109,21 +110,25 @@
                                 </td>
                                 <td class="px-6 py-4 gap-2 ">
                                     <div class="flex items-center gap-2">
-                                            <!-- ödeme planı indir -->
-                                            <form id="downloadContract{{ $item->id }}"
-                                                            action="{{ route('students.downloadPayment') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="student_id"
-                                                                value="{{ $item->student_id }}">
-                                                            <input type="hidden" name="payment_id"
-                                                                value="{{ $item->id }}">
-                                                        </form>
-                                            <button form="downloadContract{{ $item->id }}" type="submit" class=" cursor-pointer py-2 px-3 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
-                                                <svg class="w-3 h-3 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20"><path d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z"/><path d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
-                                                indir
-                                            </button>
-                                            <!-- ödeme planı indir -->
+                                        <!-- ödeme planı indir -->
+                                        <form id="downloadPayment{{ $item->id }}"
+                                            action="{{ route('students.downloadPayment') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="student_id" value="{{ $item->student_id }}">
+                                            <input type="hidden" name="payment_id" value="{{ $item->id }}">
+                                        </form>
+                                        <button form="downloadPayment{{ $item->id }}" type="submit"
+                                            class=" cursor-pointer py-2 px-3 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+                                            <svg class="w-3 h-3 me-1.5" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M14.707 7.793a1 1 0 0 0-1.414 0L11 10.086V1.5a1 1 0 0 0-2 0v8.586L6.707 7.793a1 1 0 1 0-1.414 1.414l4 4a1 1 0 0 0 1.416 0l4-4a1 1 0 0 0-.002-1.414Z" />
+                                                <path
+                                                    d="M18 12h-2.55l-2.975 2.975a3.5 3.5 0 0 1-4.95 0L4.55 12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+                                            </svg>
+                                            indir
+                                        </button>
+                                        <!-- ödeme planı indir -->
                                     </div>
                                 </td>
                             </tr>
@@ -131,5 +136,5 @@
                     </tbody>
                 </table>
             </div>
-    </div>
-@endsection
+        </div>
+    @endsection

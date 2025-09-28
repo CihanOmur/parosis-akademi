@@ -15,7 +15,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->get();
+        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
 
@@ -1558,5 +1558,14 @@ class StudentController extends Controller
         $studentPayment->save();
 
         return redirect()->route('students.payment', ['id' => $studentPayment->id]);
+    }
+
+    public function preStudents()
+    {
+        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 1)->get();
+        $normalCount = Student::where('registration_type', 2)->count();
+        $preCount = Student::where('registration_type', 1)->count();
+
+        return view('admin.students.pre-students', compact('students', 'normalCount', 'preCount'));
     }
 }
