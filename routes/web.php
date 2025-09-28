@@ -60,10 +60,10 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/downloadContract', [StudentController::class, 'downloadContract'])->name('downloadContract');
         Route::post('/downloadPayment', [StudentController::class, 'downloadPayment'])->name('downloadPayment');
 
-        Route::get('/create-pre-registiration', [StudentController::class, 'createPreRegistiration'])->name('createPreRegistiration');
-        Route::post('/store-pre-registiration', [StudentController::class, 'storePreRegistiration'])->name('storePreRegistiration');
-        Route::get('/{id}/edit-pre-registiration', [StudentController::class, 'editPreRegistiration'])->name('editPreRegistiration');
-        Route::post('/{id}/update-pre-registiration', [StudentController::class, 'updatePreRegistiration'])->name('updatePreRegistiration');
+        Route::get('/create-pre-registiration', [StudentController::class, 'createPreRegistiration'])->name('pre.createPreRegistiration');
+        Route::post('/store-pre-registiration', [StudentController::class, 'storePreRegistiration'])->name('pre.storePreRegistiration');
+        Route::get('/{id}/edit-pre-registiration', [StudentController::class, 'editPreRegistiration'])->name('pre.editPreRegistiration');
+        Route::post('/{id}/update-pre-registiration', [StudentController::class, 'updatePreRegistiration'])->name('pre.updatePreRegistiration');
 
         Route::get('/{id}/pre-to-normal', [StudentController::class, 'preToNormal'])->name('pre-to-normal');
         Route::post('/{id}/pre-to-normal', [StudentController::class, 'preToNormalPost'])->name('pre-to-normal.post');

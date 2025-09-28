@@ -45,7 +45,7 @@
 
                                 <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
                                     <a
-                                        href="{{ $item->registration_type == '1' ? route('students.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
+                                        href="{{ $item->registration_type == '1' ? route('students.pre.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
                                 </th>
 
                                 <td class="px-6 py-4">

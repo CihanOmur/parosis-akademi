@@ -24,8 +24,9 @@
     <div class="rounded-lg mb-4">
 
         <div class="w-full">
-            <form class=" w-full space-y-6" action="{{ route('students.updatePreRegistiration', ['id' => $student->id]) }}"
-                method="POST" enctype="multipart/form-data">
+            <form class=" w-full space-y-6"
+                action="{{ route('students.pre.updatePreRegistiration', ['id' => $student->id]) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
 
