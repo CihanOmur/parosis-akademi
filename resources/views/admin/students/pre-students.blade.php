@@ -27,7 +27,7 @@
                                 Ad/Soyad
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                T.C. Kimlik No
+                                Görüşme Durumu
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Kayıt Türü
@@ -49,7 +49,11 @@
                                 </th>
 
                                 <td class="px-6 py-4">
-                                    {{ $item->national_id ?? '-' }}
+                                    @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
+                                        <div>
+                                            {{ $item->meets_status == $meets_st ? $meets_st : '' }}
+                                        </div>
+                                    @endforeach
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $item->registration_type == '1' ? 'Ön Kayıt' : 'Kesin Kayıt' }}

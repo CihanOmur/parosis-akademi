@@ -1160,13 +1160,12 @@ class StudentController extends Controller
     public function editPreRegistiration($id)
     {
         $classes = LessonClass::all();
-        $education_levels = ['İlkokul', 'Ortaokul', 'Lise', 'Önlisans', 'Lisans', 'Diğer'];
-        $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
-
+        $normalCount = Student::where('registration_type', 2)->count();
+        $preCount = Student::where('registration_type', 1)->count();
         $student = Student::with(['guardians', 'emergencyContact'])->where('registration_type', '1')->findOrFail($id);
 
 
-        return view('admin.students.editPreRegistiration', compact('student', 'classes', 'education_levels', 'jobs'));
+        return view('admin.students.editPreRegistiration', compact('student', 'classes', 'normalCount', 'preCount'));
     }
 
     public function updatePreRegistiration(Request $request, $id)
@@ -1225,7 +1224,7 @@ class StudentController extends Controller
         $studentGuardian1->email = $request->guardian1_email;
         $studentGuardian1->save();
 
-        return redirect()->route('students.index')->with('success', 'Student updated successfully');
+        return redirect()->route('students.pre.students')->with('success', 'Student updated successfully');
     }
     public function preToNormal($id)
     {

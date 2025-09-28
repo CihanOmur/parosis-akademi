@@ -54,7 +54,7 @@
 
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -142,23 +142,23 @@
                     </div>
                     <div class="py-5 px-5">
                         <div class="mb-6">
-                                <label class="block mb-2 font-medium">Randevu Durumu</label>
-                                <select name="meets_status"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
-                                        <option {{ old('meets_status') == $meets_st ? 'selected' : '' }}
-                                            value="{{ $meets_st }}">
-                                            {{ $meets_st }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="text-red-500 text-xs mt-2">
-                                    @error('meets_status')
-                                        {{ $message }}
-                                    @enderror
+                            <label class="block mb-2 font-medium">Randevu Durumu</label>
+                            <select name="meets_status"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
+                                    <option {{ old('meets_status') == $meets_st ? 'selected' : '' }}
+                                        value="{{ $meets_st }}">
+                                        {{ $meets_st }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="text-red-500 text-xs mt-2">
+                                @error('meets_status')
+                                    {{ $message }}
+                                @enderror
 
-                                </div>
                             </div>
+                        </div>
                         <div class="mb-0">
                             <textarea name="notes" placeholder=""
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ old('notes') }}</textarea>

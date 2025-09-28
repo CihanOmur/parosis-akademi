@@ -7,6 +7,17 @@
     <h1 class="text-2xl font-semibold text-gray-800 ">
         @yield('page-title', 'Ön Kayıt Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
+
+
+    <div class="flex gap-4">
+        <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+            class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="button">Yeni Ekle</button>
+        @include('admin.components.StudentNewAddModal', [
+            'normalCount' => $normalCount,
+            'preCount' => $preCount,
+        ])
+    </div>
 @endsection
 
 @section('content')
@@ -54,24 +65,7 @@
 
                                 </div>
                             </div>
-                            <div class="mb-6">
-                                <label class="block mb-2 font-medium">Randevu Durumu</label>
-                                <select name="meets_status"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
-                                        <option {{ $student->meets_status == $meets_st ? 'selected' : '' }}
-                                            value="{{ $meets_st }}">
-                                            {{ $meets_st }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="text-red-500 text-xs mt-2">
-                                    @error('meets_status')
-                                        {{ $message }}
-                                    @enderror
 
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,6 +151,24 @@
                         <h3 class="text-md font-semibold text-gray-900 ">Not</h3>
                     </div>
                     <div class="py-5 px-5">
+                        <div class="mb-6">
+                            <label class="block mb-2 font-medium">Randevu Durumu</label>
+                            <select name="meets_status"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
+                                    <option {{ $student->meets_status == $meets_st ? 'selected' : '' }}
+                                        value="{{ $meets_st }}">
+                                        {{ $meets_st }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="text-red-500 text-xs mt-2">
+                                @error('meets_status')
+                                    {{ $message }}
+                                @enderror
+
+                            </div>
+                        </div>
                         <div class="mb-0">
                             <textarea name="notes" placeholder=""
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ $student->notes ?? '' }}</textarea>

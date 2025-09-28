@@ -32,7 +32,13 @@
                         </li>
                         <li>
                             <a href="{{ route('students.index') }}"
-                                class="flex items-center text-sm w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5]">Öğrenciler</a>
+                                class="flex items-center text-sm w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5]">Kesin
+                                Kayıtlar</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('students.pre.students') }}"
+                                class="flex items-center text-sm w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5]">Ön
+                                Kayıtlar</a>
                         </li>
 
                     </ul>
