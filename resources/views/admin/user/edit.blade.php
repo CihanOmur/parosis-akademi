@@ -8,6 +8,10 @@
             Ekle</a>
     </div>
 @endsection
+@section('styles')
+    <link href="{{ asset('tomselect.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+@endsection
 
 @section('content')
     <div class="rounded-lg mb-4">
@@ -71,12 +75,11 @@
 
                 <div class="mb-6">
                     <label for="role" class="block mb-2 text-sm font-medium text-gray-900 ">Rol Seçiniz</label>
-                    <select id="role" name="role"
+                    <select id="role" name="role[]" multiple
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         @foreach ($roles as $role)
-                        <option value="" disabled selected>Seçilmedi</option>
                             <option value="{{ $role->name }}"
-                                {{ old('role', $user->roles->pluck('name')->first()) == $role->name ? 'selected' : '' }}>
+                                {{ in_array($role->name, old('role', $user->roles->pluck('name')->toArray())) ? 'selected' : '' }}>
                                 {{ ucfirst($role->name) }}
                             </option>
                         @endforeach
@@ -94,4 +97,15 @@
             </form>
         </div>
     </div>
+    <script>
+        new TomSelect('#role', {
+            create: false,
+            highlight: true,
+            persist: false,
+            openOnFocus: true,
+            allowEmptyOption: false,
+            placeholder: 'Rol seçin...',
+            hidePlaceholder: true,
+        });
+    </script>
 @endsection

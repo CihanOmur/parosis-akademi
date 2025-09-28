@@ -33,7 +33,8 @@ class UserController extends Controller
             'email' => 'required|email|max:220|unique:users,email',
             'phone' => 'required|string|max:13|unique:users,phone',
             'password' => 'required|string|max:230',
-            'role' => 'required|exists:roles,name',
+            'role' => 'required|array',
+            'role.*' => 'exists:roles,name',
         ], [
             'name.required' => 'İsim alanı zorunludur.',
             'name.string' => 'İsim sadece metin olmalıdır.',
@@ -82,7 +83,8 @@ class UserController extends Controller
             'email' => 'required|email|max:220|unique:users,email,' . $id,
             'phone' => 'required|string|max:13|unique:users,phone,' . $id,
             'password' => 'nullable|string|max:230',
-            'role' => 'required|exists:roles,name',
+            'role' => 'required|array',
+            'role.*' => 'exists:roles,name',
         ], [
             'name.required' => 'İsim alanı zorunludur.',
             'name.string' => 'İsim sadece metin olmalıdır.',
@@ -113,7 +115,7 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->save();
-        $user->syncRoles([$request->role]);
+        $user->syncRoles($request->role);
         return redirect()->route('users.index')->with(['success' => 'Kulllanıcı Düzenlendi']);
     }
     public function delete($id)
