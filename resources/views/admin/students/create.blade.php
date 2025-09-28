@@ -20,28 +20,34 @@
                 {{-- Registration Type --}}
                 <input id="bordered-radio-2" type="text" name="registiration_type" value="2" class="hidden">
                 <div class="mb-3 flex w-full md:w-1/4 items-center gap-0.5">
-                                <label class="block font-medium w-auto whitespace-nowrap mr-2">Kayıt Tarihi:</label>
-                                <input type="date" name=""
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    value="{{ old('') }}">
-                                <div class="text-red-500 text-xs mt-2">
-                                    @error('')
-                                        {{ $message }}
-                                    @enderror
+                    <label class="block font-medium w-auto whitespace-nowrap mr-2">Kayıt Tarihi:</label>
+                    <input type="date" name="first_registration_date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value="{{ old('first_registration_date') }}">
+                    <div class="text-red-500 text-xs mt-2">
+                        @error('first_registration_date')
+                            {{ $message }}
+                        @enderror
 
-                                </div>
-                                <!-- Show tooltip on click -->
-                                <button data-tooltip-target="tooltip-click" data-tooltip-trigger="click" type="button" class="cursor-pointer text-gray-600 focus:ring-4 font-medium rounded-full text-sm  text-center inline-flex items-center">
-                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"/>
-                                </svg>
-                                </button>
-                                <div id="tooltip-click" role="tooltip" class="absolute z-50 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip max-w-md">
-                                    Eski kayıtlar için kayıt tarihi seçilebilir. Yeni kayıtlar için bir düzenleme yapılmasına ihtiyaç yoktur. Otomatik tarih alır.
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                </div>
-                            </div>
-                
+                    </div>
+                    <!-- Show tooltip on click -->
+                    <button data-tooltip-target="tooltip-click" data-tooltip-trigger="click" type="button"
+                        class="cursor-pointer text-gray-600 focus:ring-4 font-medium rounded-full text-sm  text-center inline-flex items-center">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div id="tooltip-click" role="tooltip"
+                        class="absolute z-50 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip max-w-md">
+                        Eski kayıtlar için kayıt tarihi seçilebilir. Yeni kayıtlar için bir düzenleme yapılmasına ihtiyaç
+                        yoktur. Otomatik tarih alır.
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                </div>
+
                 {{-- Student Info --}}
                 <div class="w-full bg-white rounded-lg border border-gray-200">
                     <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">

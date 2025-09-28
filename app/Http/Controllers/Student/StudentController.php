@@ -35,6 +35,7 @@ class StudentController extends Controller
     {
         if ($request->registiration_type == '1') {
             $validated = $request->validate([
+                'first_registration_date' => 'nullable|date',
                 'registiration_type' => 'required|in:1,2',
                 'full_name' => 'required|string|max:200',
                 'student_phone' => 'nullable|string|max:200',
@@ -73,6 +74,7 @@ class StudentController extends Controller
                 'guardian2_home_address'  => 'nullable|string|max:500',
                 'guardian2_work_address'  => 'nullable|string|max:500',
             ], [
+                'first_registration_date.date' => 'Kayıt tarihi geçerli bir tarih olmalıdır.',
                 // Genel
                 'registiration_type.required' => 'Kayıt türü seçilmelidir.',
                 'registiration_type.in' => 'Kayıt türü yalnızca 1 veya 2 olabilir.',
@@ -271,6 +273,7 @@ class StudentController extends Controller
         $student->allergy_detail = $request->allergy_detail;
         $student->student_phone = $request->student_phone;
         $student->registiration_term = implode(',', $request->registiration_term ?? []);
+        $student->created_at = $request->first_registration_date ?? now();
         $student->save();
 
 

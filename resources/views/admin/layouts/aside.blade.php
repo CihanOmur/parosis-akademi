@@ -9,6 +9,7 @@
                 <li>
                     <button type="button"
                         class="cursor-pointer flex items-center w-full p-3 text-gray-900 transition duration-75 rounded-lg group hover:bg-[#ECECEC] text-sm {{ Route::is('class.*') || Route::is('students.*') ? 'bg-[#ECECEC]' : '' }}"
+                        aria-expanded="{{ Route::is('class.*') || Route::is('students.*') ? 'true' : 'false' }}"
                         aria-controls="dropdown-education-sidebar-item"
                         data-collapse-toggle="dropdown-education-sidebar-item">
 
@@ -25,19 +26,20 @@
                                 d="m1 1 4 4 4-4" />
                         </svg>
                     </button>
-                    <ul id="dropdown-education-sidebar-item" class="hidden py-2 space-y-2">
+                    <ul id="dropdown-education-sidebar-item"
+                        class="{{ Route::is('class.*') || Route::is('students.*') ? 'block' : 'hidden' }} py-2 space-y-2">
                         <li>
                             <a href="{{ route('class.index') }}"
-                                class="flex items-center text-sm w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5]">Sınıflar</a>
+                                class="flex items-center text-sm w-full p-2 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5] {{ Route::is('class.*') ? 'text-[#4F46E5]' : 'text-gray-900 ' }}">Sınıflar</a>
                         </li>
                         <li>
                             <a href="{{ route('students.index') }}"
-                                class="flex items-center text-sm w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5]">Kesin
+                                class="flex items-center text-sm w-full p-2 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5] {{ Route::is('students.*') && !Route::is('students.pre.*') ? 'text-[#4F46E5]' : 'text-gray-900 ' }}">Kesin
                                 Kayıtlar</a>
                         </li>
                         <li>
                             <a href="{{ route('students.pre.students') }}"
-                                class="flex items-center text-sm w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5]">Ön
+                                class="flex items-center text-sm w-full p-2 transition duration-75 rounded-lg pl-11 group hover:text-[#4F46E5] {{ Route::is('students.pre.students') ? 'text-[#4F46E5]' : 'text-gray-900 ' }}">Ön
                                 Kayıtlar</a>
                         </li>
 
