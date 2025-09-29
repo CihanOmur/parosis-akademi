@@ -18,14 +18,14 @@
                         <tr>
 
                             <th scope="col" class="px-6 py-3">
-                                Sınıf Adı
+                                Sınıf
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Günü
+                                Gün
                             </th>
 
                             <th scope="col" class="px-6 py-3">
-                                Öğretmen
+                                Eğitmen
                             </th>
 
                             <th scope="col" class="px-6 py-3">

@@ -5,7 +5,7 @@
 @endsection
 @section('page-banner')
     <h1 class="text-2xl font-semibold text-gray-800 ">
-        @yield('page-title', 'Öğrenci Ekle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+        @yield('page-title', 'Kesin Kayıt Ekle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
 @endsection
 

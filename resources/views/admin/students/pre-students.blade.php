@@ -1,18 +1,13 @@
 @extends('admin.layouts.app')
 @section('page-banner')
     <h1 class="text-2xl font-semibold text-gray-800 ">
-        @yield('page-title', 'Öğrenciler' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+        @yield('page-title', 'Ön Kayıtlar' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
     </h1>
-    <!-- Modal toggle -->
-    <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+    <a href="{{ route('students.pre.createPreRegistiration') }}"
         class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         type="button">
         Yeni Ekle
-    </button>
-    @include('admin.components.StudentNewAddModal', [
-        'normalCount' => $normalCount,
-        'preCount' => $preCount,
-    ])
+    </a>
 @endsection
 @section('content')
     <div class="rounded-lg mb-4 h-[85%]">
@@ -27,7 +22,7 @@
                                 Ad/Soyad
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Görüşme Durumu
+                                Randevu
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Yaş
