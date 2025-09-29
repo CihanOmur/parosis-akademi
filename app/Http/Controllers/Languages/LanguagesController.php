@@ -21,6 +21,8 @@ class LanguagesController extends Controller
     {
         $request->validate([
             'id' => 'required|exists:languages,id'
+        ], [
+            'id.exists' => 'Böyle bir dil bulunamadı'
         ]);
         $language = Languages::where('id', $request->id)->first();
         if (!$language) {

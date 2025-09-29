@@ -144,7 +144,7 @@
 
 
                     </div>
-                   
+
                 </div>
             </div>
 
@@ -636,8 +636,6 @@
                                 <option {{ old('class_id') == $class->id ? 'selected' : '' }}
                                     value="{{ $class->id }}">
                                     {{ $class->name }} -
-                                    {{ $class->day }} -
-                                    {{ $class->time }} -
                                     {{ $class->teacher_name }}
                                 </option>
                             @endforeach
@@ -649,7 +647,7 @@
 
                         </div>
                     </div>
-                     <div class="mb-0">
+                    <div class="mb-0">
                         <label for="registiration_term" class="block text-sm font-medium text-gray-900">
                         </label>
                         @php

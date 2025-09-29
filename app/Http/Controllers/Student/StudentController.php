@@ -333,7 +333,7 @@ class StudentController extends Controller
         if ($student->registration_type == '2') {
             return redirect()->route('students.payment', ['id' => $studentPayment->id]);
         }
-        return redirect()->route('students.index')->with('success', 'Student created successfully');
+        return redirect()->route('students.index')->with('success', 'Öğrenci başarıyla eklendi.');
     }
 
     public function edit($id)
@@ -662,7 +662,7 @@ class StudentController extends Controller
         $emergency->address = $request->emergency_address;
         $emergency->save();
 
-        return redirect()->route('students.index')->with('success', 'Student updated successfully');
+        return redirect()->route('students.index')->with('success', 'Öğrenci başarıyla güncellendi.');
     }
     public function reCreate($id)
     {
@@ -997,7 +997,7 @@ class StudentController extends Controller
         if ($student->registration_type == '2') {
             return redirect()->route('students.payment', ['id' => $studentPayment->id]);
         }
-        return redirect()->route('students.index')->with('success', 'Student created successfully');
+        return redirect()->route('students.index')->with('success', 'Öğrenci başarıyla eklendi.');
     }
 
     public function payment(Request $request, $id)
@@ -1042,7 +1042,7 @@ class StudentController extends Controller
             return redirect()->route('students.allPayments', ['id' => $payment->student_id])->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
         }
 
-        return view('admin.students-payments.create', compact('payment'))->with('success', 'Student updated successfully');
+        return view('admin.students-payments.create', compact('payment'))->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
     }
 
     public function allPayments($id)
@@ -1095,7 +1095,7 @@ class StudentController extends Controller
         $student = Student::where('registration_type', '2')->findOrFail($id);
         $student->is_active = !$student->is_active;
         $student->save();
-        return back()->with('success', 'Student updated successfully');
+        return back()->with('success', 'Öğrenci durumu başarıyla güncellendi.');
     }
 
     public function createPreRegistiration()
@@ -1161,7 +1161,7 @@ class StudentController extends Controller
         $studentGuardian1->save();
 
 
-        return redirect()->route('students.pre.students')->with('success', 'Student created successfully');
+        return redirect()->route('students.pre.students')->with('success', 'Öğrenci başarıyla eklendi.');
     }
 
     public function editPreRegistiration($id)
@@ -1230,7 +1230,7 @@ class StudentController extends Controller
         $studentGuardian1->phone_2 = $request->guardian1_phone_2;
         $studentGuardian1->email = $request->guardian1_email;
         $studentGuardian1->save();
-        return redirect()->route('students.pre.students')->with('success', 'Student updated successfully');
+        return redirect()->route('students.pre.students')->with('success', 'Öğrenci başarıyla güncellendi.');
     }
     public function preToNormal($id)
     {
@@ -1562,7 +1562,7 @@ class StudentController extends Controller
         $studentPayment->registiration_term = implode(',', $request->registiration_term ?? []);
         $studentPayment->save();
 
-        return redirect()->route('students.payment', ['id' => $studentPayment->id])->with('success', 'Student updated successfully');
+        return redirect()->route('students.payment', ['id' => $studentPayment->id])->with('success', 'Öğrenci başarıyla normal kayda dönüştürüldü. Lütfen ödeme planını oluşturun.');
     }
 
     public function preStudents()
@@ -1579,6 +1579,6 @@ class StudentController extends Controller
     {
         $student = Student::findOrFail($id);
         $student->delete();
-        return back()->with('success', 'Student deleted successfully');
+        return back()->with('success', 'Öğrenci başarıyla silindi.');
     }
 }
