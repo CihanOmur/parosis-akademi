@@ -147,7 +147,10 @@
             </tr>
             <tr>
                 <td><strong>Ücret ve Ödeme Şartları</strong></td>
-                <td>: Kurs ücreti toplam {{ $student->payments->last()->total_price }} Türk Lirası olup, aşağıda
+
+                <td>: Kurs ücreti toplam<b>
+                        #{{ number_format($student->payments->last()->total_price, 2, ',', '.') }}#</b>
+                    <b>({{ numberToWords($student->payments->last()->total_price) }})</b> Türk Lirası olup, aşağıda
                     belirlenen ödeme planına göre ödenecektir.
                 </td>
             </tr>

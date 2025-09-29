@@ -560,7 +560,7 @@
                             <label class="block mb-2 font-medium">Telefon</label>
                             <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                placeholder="örn: 12345678901"
+                                placeholder="örn: 12345678901" name="emergency_phone"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->emergencyContact->phone ?? '' }}">
                             <div class="text-red-500 text-xs mt-2">

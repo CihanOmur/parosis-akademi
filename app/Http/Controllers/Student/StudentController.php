@@ -351,7 +351,7 @@ class StudentController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request->all());
+
         if ($request->registiration_type == '1') {
             $validated = $request->validate([
                 'registiration_type' => 'required|in:1,2',
@@ -1003,7 +1003,7 @@ class StudentController extends Controller
     public function payment(Request $request, $id)
     {
 
-        $payment = StudentPayments::with(['installments'])->findOrFail($id);
+        $payment = StudentPayments::with(['installments', 'student'])->findOrFail($id);
 
         return  view('admin.students-payments.create', [
             'payment' => $payment
@@ -1011,7 +1011,7 @@ class StudentController extends Controller
     }
     public function paymentUpdate(Request $request, $id)
     {
-        $payment = StudentPayments::with('installments')->findOrFail($id);
+        $payment = StudentPayments::with(['installments', 'student'])->findOrFail($id);
 
         if ($request->isMethod('post')) {
             $payment->update([

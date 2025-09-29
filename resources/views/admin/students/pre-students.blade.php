@@ -22,17 +22,19 @@
                                 Ad/Soyad
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Randevu
-                            </th>
-                            <th scope="col" class="px-6 py-3">
                                 Yaş
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Kayıt Tarihi
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Veli Adı
                             </th>
+                            <th scope="col" class="px-6 py-3">
+                                Randevu
+                            </th>
+
+                            <th scope="col" class="px-6 py-3">
+                                Kayıt Tarihi
+                            </th>
+
                             <th scope="col" class="px-6 py-3">
                                 <span>İşlem</span>
                             </th>
@@ -48,23 +50,31 @@
                                     <a
                                         href="{{ $item->registration_type == '1' ? route('students.pre.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
                                 </th>
-
-                                <td class="px-6 py-4">
-                                    @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
-                                        <div>
-                                            {{ $item->meets_status == $meets_st ? $meets_st : '' }}
-                                        </div>
-                                    @endforeach
-                                </td>
                                 <td class="px-6 py-4">
                                     {{ Carbon\Carbon::parse($item->birth_date)->age }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
-                                </td>
-                                <td class="px-6 py-4">
                                     {{ $item->guardians->first()?->full_name ?? 'Belirtilmemiş' }}
                                 </td>
+                                <td class="px-6 py-4">
+                                    @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
+                                        @if ($meets_st == 'Görüşüldü' && $item->meets_status == $meets_st)
+                                            <span
+                                                class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Görüşüldü</span>
+                                        @elseif($meets_st == 'Görüşülmedi' && $item->meets_status == $meets_st)
+                                            <span
+                                                class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Görüşülmedi</span>
+                                        @elseif($meets_st == 'Görüşülecek' && $item->meets_status == $meets_st)
+                                            <span
+                                                class="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">Görüşülecek</span>
+                                        @endif
+                                    @endforeach
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
+                                </td>
+
 
                                 <td class="px-6 py-4 gap-2 ">
                                     <div class="flex items-center gap-2">

@@ -63,7 +63,15 @@ if (!function_exists('numberToWords')) {
             if ($ten > 0) $chunkWords .= $tens[$ten] . ' ';
             if ($one > 0) $chunkWords .= $ones[$one] . ' ';
 
-            if ($chunk > 0) $words = trim($chunkWords) . ' ' . $thousands[$i] . ' ' . $words;
+            // 🔹 Özel kontrol: 1000 → "bin" (başına 'bir' gelmesin)
+            if ($i == 1 && trim($chunkWords) == 'bir') {
+                $chunkWords = '';
+            }
+
+            if ($chunk > 0) {
+                $words = trim($chunkWords) . ' ' . $thousands[$i] . ' ' . $words;
+            }
+
             $i++;
         }
 

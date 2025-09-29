@@ -1,18 +1,20 @@
 @extends('admin.layouts.app')
 @section('page-banner')
-<div class="flex justify-between items-center gap-3">
-    <a href=""
-        class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        type="button">
-        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
-        </svg>
+    <div class="flex justify-between items-center gap-3">
+        <a href="{{ route('students.allPayments', ['id' => $payment->student_id]) }}"
+            class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="button">
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 12h14M5 12l4-4m-4 4 4 4" />
+            </svg>
 
-    </a>
-    <h1 class="text-2xl font-semibold text-gray-800 ">
-        @yield('page-title', 'Öğrencil' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
-    </h1>
-</div>
+        </a>
+        <h1 class="text-2xl font-semibold text-gray-800 ">
+            @yield('page-title', $payment->student->full_name . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
+        </h1>
+    </div>
 @endsection
 @section('content')
     <div class="rounded-lg mb-4">
@@ -56,6 +58,9 @@
             </div>
         @endif
         <div class="w-full bg-white py-10 px-8 rounded-lg border border-gray-200">
+            @include('admin.components.payment-alert')
+            <button type="button" id="payment-alert-button" data-modal-target="payment-alert-modal"
+                data-modal-toggle="payment-alert-modal"></button>
             <form class="w-full" action="{{ route('students.paymentUpdate', ['id' => $payment->id]) }}" method="POST">
                 @csrf
 
@@ -136,7 +141,8 @@
                                         Türü:</label>
                                     <select name="installments[{{ $i }}][payment_type]"
                                         class="border rounded-lg p-1 w-full ">
-                                        <option value="Nakit" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>Nakit
+                                        <option value="Nakit" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>
+                                            Nakit
                                         </option>
                                         <option value="Havale" {{ $inst->payment_type == 'Havale' ? 'selected' : '' }}>
                                             Havale
@@ -156,12 +162,27 @@
                     @endif
                 </div>
 
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Kaydet</button>
+                <button type="button" id="sendButton"
+                    class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Kaydet</button>
             </form>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#sendButton").on("click", function() {
+
+            let totalPayment = parseFloat($("#total_payment").val()) || 0;
+            let tableTotal = parseFloat($("#table_total_price").text().replace(" ₺", "")) || 0;
+            if (totalPayment !== 0) {
+                if (totalPayment !== tableTotal) {
+                    $("#payment-alert-button").click();
+                    return;
+                }
+            }
+            $("form").submit();
+        });
+    </script>
     <script>
         function generateInstallments(isInitial = false) {
             let totalPayment = parseFloat($("#total_payment").val()) || 0;
@@ -205,7 +226,7 @@
             let header = `<div class="xl:grid xl:grid-cols-7 gap-4 mb-2 font-semibold text-gray-700 hidden">
             <div>#</div><div>Tarih</div><div>Ödenecek Tutar</div>
             <div>Ödenen Tarih</div><div>Ödenen Tutar</div><div>Ödeme Türü</div><div>Not</div>
-        </div>`;
+            </div>`;
             $container.append(header);
 
             // Tüm taksitler
@@ -282,6 +303,7 @@
         // Input değişince hesaplama çalışsın
         $("#total_payment, #installments_count, #start_date").on("input change", function() {
             generateInstallments(false);
+            updateTableTotals();
         });
 
         // Tablodaki toplamları hesapla ve göster

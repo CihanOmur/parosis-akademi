@@ -22,19 +22,21 @@
                                 Ad/Soyad
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                T.C. Kimlik No
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Kayıt Tarihi
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Sınıf
-                            </th>
-                            <th scope="col" class="px-6 py-3">
                                 Yaş
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                T.C. Kimlik No
+                            </th>
+
+                            <th scope="col" class="px-6 py-3">
+                                Sınıf
+                            </th>
+
+                            <th scope="col" class="px-6 py-3">
                                 Durum
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Kayıt Tarihi
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <span>İşlem</span>
@@ -51,19 +53,17 @@
                                     <a
                                         href="{{ $item->registration_type == '1' ? route('students.pre.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
                                 </th>
-
-                                <td class="px-6 py-4">
-                                    {{ $item->national_id ?? '-' }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $item->lessonClass->name ?? 'Belirtilmemiş' }}
-                                </td>
                                 <td class="px-6 py-4">
                                     {{ Carbon\Carbon::parse($item->birth_date)->age }}
                                 </td>
+                                <td class="px-6 py-4">
+                                    {{ $item->national_id ?? '-' }}
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    {{ $item->lessonClass->name ?? 'Belirtilmemiş' }}
+                                </td>
+
                                 <td class="px-6 py-4">
                                     @if ($item->is_active == 1)
                                         <span
@@ -72,6 +72,9 @@
                                         <span
                                             class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Pasif</span>
                                     @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
                                 </td>
                                 <td class="px-6 py-4 gap-2 ">
                                     <div class="flex items-center gap-2">
