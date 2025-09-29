@@ -1019,6 +1019,7 @@ class StudentController extends Controller
                 'total_price'       => $request->total_payment,
                 'total_payed_price' => collect($request->installments)->sum(fn($i) => $i['payed_price'] ?? 0),
                 'start_date'        => $request->start_date,
+
             ]);
 
             if ($request->has('installments')) {
@@ -1038,8 +1039,7 @@ class StudentController extends Controller
                 }
             }
 
-            // return redirect()->route('students.allPayments', ['id' => $payment->student_id])->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
-            return redirect()->back()->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
+            return redirect()->route('students.allPayments', ['id' => $payment->student_id])->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
         }
 
         return view('admin.students-payments.create', compact('payment'))->with('success', 'Student updated successfully');
@@ -1572,5 +1572,13 @@ class StudentController extends Controller
         $preCount = Student::where('registration_type', 1)->count();
 
         return view('admin.students.pre-students', compact('students', 'normalCount', 'preCount'));
+    }
+
+    //delete student
+    public function delete($id)
+    {
+        $student = Student::findOrFail($id);
+        $student->delete();
+        return back()->with('success', 'Student deleted successfully');
     }
 }

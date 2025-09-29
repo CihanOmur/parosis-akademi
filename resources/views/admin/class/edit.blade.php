@@ -74,7 +74,7 @@
                                 @foreach ($teachers as $teacher)
                                     <option value="{{ $teacher->id }}"
                                         {{ $lessonClass->teacher_id == $teacher->id ? 'selected' : '' }}>
-                                        {{ $teacher->name }}
+                                        {{ $teacher?->name }}
                                     </option>
                                 @endforeach
                             </select>

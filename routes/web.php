@@ -69,6 +69,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/pre-to-normal', [StudentController::class, 'preToNormalPost'])->name('pre-to-normal.post');
 
         Route::get('/pre/students', [StudentController::class, 'preStudents'])->name('pre.students');
+        Route::delete('/{id}', [StudentController::class, 'delete'])->name('delete');
     });
 });
 Route::get('/', function () {
