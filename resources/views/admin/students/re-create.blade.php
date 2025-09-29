@@ -636,7 +636,7 @@
                                 <option {{ old('class_id') == $class->id ? 'selected' : '' }}
                                     value="{{ $class->id }}">
                                     {{ $class->name }} -
-                                    {{ $class->teacher_name }}
+                                    {{ $class->teacher?->name }}
                                 </option>
                             @endforeach
                         </select>
