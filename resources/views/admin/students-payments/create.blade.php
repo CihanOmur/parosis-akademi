@@ -24,7 +24,7 @@
                     </h3>
                 </div>
                 <div class="py-10 px-5">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
                         <!-- Baldem -->
                         <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
                             <div class="text-sm text-gray-500">Toplam Tutar</div>
@@ -37,7 +37,11 @@
                             <div class="text-lg font-bold text-gray-800">
                                 {{ max($payment->total_price - $payment->total_payed_price, 0) }} ₺</div>
                         </div>
-
+                        <div class="p-4 bg-red-50 rounded-lg shadow-sm">
+                            <div class="text-sm text-gray-500">Tablo Toplam Tutar</div>
+                            <div class="text-lg font-bold text-gray-800" id="table_total_price">0.00
+                                ₺</div>
+                        </div>
                         <!-- Ödenen -->
                         <div class="p-4 bg-green-50 rounded-lg shadow-sm">
                             <div class="text-sm text-gray-500">Ödenen Tutar</div>
@@ -45,25 +49,8 @@
                                 {{ $payment->total_payed_price }} ₺</div>
                         </div>
                         <!-- Baldem -->
-                        <div class="p-4 bg-blue-50 rounded-lg shadow-sm">
-                            <div class="text-sm text-gray-500">Tablo Toplam Tutar</div>
-                            <div class="text-lg font-bold text-gray-800" id="table_total_price">0.00
-                                ₺</div>
-                        </div>
 
-                        <!-- Kalan Ödenecek -->
-                        <div class="p-4 bg-yellow-50 rounded-lg shadow-sm">
-                            <div class="text-sm text-gray-500">Tablo Kalan Tutar</div>
-                            <div class="text-lg font-bold text-gray-800" id="table_remaining_price">
-                                0.00 ₺</div>
-                        </div>
 
-                        <!-- Ödenen -->
-                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
-                            <div class="text-sm text-gray-500">Tablo Ödenen Tutar</div>
-                            <div class="text-lg font-bold text-gray-800" id="table_paid_price">
-                                0.00 ₺</div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -305,16 +292,10 @@
             $("input[name$='[installment_price]']").each(function() {
                 totalPrice += parseFloat($(this).val()) || 0;
             });
-            $("input[name$='[payed_price]']").each(function() {
-                paidPrice += parseFloat($(this).val()) || 0;
-            });
-            remainingPrice = totalPrice - paidPrice;
             $("#table_total_price").text(totalPrice.toFixed(2) + " ₺");
-            $("#table_paid_price").text(paidPrice.toFixed(2) + " ₺");
-            $("#table_remaining_price").text(remainingPrice.toFixed(2) + " ₺");
         }
         // Her input değişiminde toplamları güncelle
-        $(document).on("input", "input[name$='[installment_price]'], input[name$='[payed_price]']", function() {
+        $(document).on("input", "input[name$='[installment_price]']", function() {
             updateTableTotals();
         });
         // Sayfa yüklendiğinde bir kez çalıştır
