@@ -148,6 +148,7 @@
                             Çalışma Saatleri
                         </h3>
                     </div>
+
                     <div class="py-10 px-5">
 
                         {{-- Saatler --}}
@@ -215,11 +216,16 @@
                                 </div>
                             </div>
                         @endforeach
-
+                        @error('day_data*')
+                            <div id="working-hours-error" class="text-red-500 text-xs mt-2 mb-4">
+                                {{ $message }}
+                            </div>
+                        @enderror
 
                         {{-- Saatler --}}
 
                     </div>
+
                 </div>
             </div>
         </div>

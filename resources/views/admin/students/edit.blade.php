@@ -36,7 +36,8 @@
         @include('admin.components.actionbuttonstudent', ['student' => $student])
         <!-- Action button -->
         <div class="">
-            <button data-modal-target="actionbutton-modal" data-modal-toggle="actionbutton-modal" type="button"
+            <button data-modal-target="actionbutton-modal-{{ $student->id }}"
+                data-modal-toggle="actionbutton-modal-{{ $student->id }}" type="button"
                 class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                     viewBox="0 0 24 24">

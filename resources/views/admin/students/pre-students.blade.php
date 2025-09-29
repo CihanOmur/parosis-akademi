@@ -30,7 +30,13 @@
                                 Görüşme Durumu
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Kayıt Türü
+                                Yaş
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Kayıt Tarihi
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Veli Adı
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <span>İşlem</span>
@@ -56,15 +62,21 @@
                                     @endforeach
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $item->registration_type == '1' ? 'Ön Kayıt' : 'Kesin Kayıt' }}
+                                    {{ Carbon\Carbon::parse($item->birth_date)->age }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $item->guardians->first()?->full_name ?? 'Belirtilmemiş' }}
                                 </td>
 
                                 <td class="px-6 py-4 gap-2 ">
                                     <div class="flex items-center gap-2">
                                         <!-- Action button -->
                                         <div class="">
-                                            <button data-modal-target="actionbutton-modal"
-                                                data-modal-toggle="actionbutton-modal" type="button"
+                                            <button data-modal-target="actionbutton-modal-{{ $item->id }}"
+                                                data-modal-toggle="actionbutton-modal-{{ $item->id }}" type="button"
                                                 class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
                                                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                     fill="currentColor" viewBox="0 0 24 24">

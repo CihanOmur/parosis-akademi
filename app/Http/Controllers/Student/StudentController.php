@@ -9,7 +9,9 @@ use App\Models\Student\Student;
 use App\Models\Student\StudentGuardian;
 use App\Models\StudentPayments;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 class StudentController extends Controller
 {
@@ -1019,8 +1021,8 @@ class StudentController extends Controller
                 'start_date'        => $request->start_date,
             ]);
 
-            $payment->installments()->delete();
             if ($request->has('installments')) {
+                $payment->installments()->delete();
                 foreach ($request->installments as $index => $inst) {
                     $payment->installments()->create([
                         'student_payment_id' => $payment->id,
@@ -1031,14 +1033,16 @@ class StudentController extends Controller
                         'payed_price'       => $inst['payed_price'] ?? 0,
                         'payment_type'      => $inst['payment_type'] ?? 'Nakit',
                         'payyed_date'       => $inst['payyed_date'] ?? null,
+                        'note'             => $inst['note'] ?? null,
                     ]);
                 }
             }
 
-            return redirect()->route('students.edit', ['id' => $payment->student_id])->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
+            // return redirect()->route('students.allPayments', ['id' => $payment->student_id])->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
+            return redirect()->back()->with('success', 'Ödeme ve taksitler başarıyla güncellendi.');
         }
 
-        return view('admin.students-payments.create', compact('payment'));
+        return view('admin.students-payments.create', compact('payment'))->with('success', 'Student updated successfully');
     }
 
     public function allPayments($id)
@@ -1157,7 +1161,7 @@ class StudentController extends Controller
         $studentGuardian1->save();
 
 
-        return redirect()->route('students.index')->with('success', 'Student created successfully');
+        return redirect()->route('students.pre.students')->with('success', 'Student created successfully');
     }
 
     public function editPreRegistiration($id)
@@ -1226,7 +1230,6 @@ class StudentController extends Controller
         $studentGuardian1->phone_2 = $request->guardian1_phone_2;
         $studentGuardian1->email = $request->guardian1_email;
         $studentGuardian1->save();
-
         return redirect()->route('students.pre.students')->with('success', 'Student updated successfully');
     }
     public function preToNormal($id)
@@ -1559,12 +1562,12 @@ class StudentController extends Controller
         $studentPayment->registiration_term = implode(',', $request->registiration_term ?? []);
         $studentPayment->save();
 
-        return redirect()->route('students.payment', ['id' => $studentPayment->id]);
+        return redirect()->route('students.payment', ['id' => $studentPayment->id])->with('success', 'Student updated successfully');
     }
 
     public function preStudents()
     {
-        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 1)->get();
+        $students = Student::with('guardians')->where('registration_type', 1)->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
 

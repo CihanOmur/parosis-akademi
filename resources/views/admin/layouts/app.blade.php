@@ -20,7 +20,7 @@
 </head>
 
 <body class="h-screen relative bg-[#FAFAFB]" style="font-family: plus-jakarta-sans, sans-serif;">
-    {{-- @include('admin.layouts.toast') --}}
+    @include('admin.layouts.toast')
     @include('admin.layouts.navbar')
     @include('admin.layouts.aside')
 

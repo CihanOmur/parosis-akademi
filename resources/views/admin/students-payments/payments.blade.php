@@ -31,7 +31,8 @@
         @include('admin.components.actionbuttonstudent', ['student' => $student])
         <!-- Action button -->
         <div class="">
-            <button data-modal-target="actionbutton-modal" data-modal-toggle="actionbutton-modal" type="button"
+            <button data-modal-target="actionbutton-modal-{{ $student->id }}"
+                data-modal-toggle="actionbutton-modal-{{ $student->id }}" type="button"
                 class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                     viewBox="0 0 24 24">
@@ -52,13 +53,10 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                Kur
+                                Kayıt
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Sınıf
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Gün
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 BT
@@ -82,16 +80,11 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
 
                                 <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
-                                    <a href="{{ route('students.payment', $item->id) }}">{{ $loop->iteration }}. Kur</a>
+                                    <a href="{{ route('students.payment', $item->id) }}">{{ $loop->iteration }}. Kayıt</a>
                                 </th>
                                 <td class="px-6 py-4">
 
                                     {{ $item->class->name }}
-                                </td>
-                                <td class="px-6 py-4">
-
-                                    ({{ $item->class->day }}
-                                    {{ $item->class->time ? \Carbon\Carbon::parse($item->class->time)->format('H:i') : '' }})
                                 </td>
 
                                 <td class="px-6 py-4">
