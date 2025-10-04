@@ -30,7 +30,11 @@ class MakeRole extends Command
         $name = $this->argument('name');       // Zorunlu parametre
         $isVisible = $this->option('is_visible'); // Opsiyon
 
-
+        $existingRole = Role::where('name', $name)->first();
+        if ($existingRole) {
+            $this->error("Bu isimde zaten bir rol var: {$name}");
+            return;
+        }
         $role = new Role();
         $role->name = $name;
         $role->is_visible = $isVisible;

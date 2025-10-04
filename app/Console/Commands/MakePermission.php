@@ -28,11 +28,15 @@ class MakePermission extends Command
     {
         $name = $this->argument('name');       // Zorunlu parametre
 
-        $role = new Permission();
-        $role->name = $name;
-        $role->save();
+        $existingPermission = Permission::where('name', $name)->first();
+        if ($existingPermission) {
+            $this->error("Bu isimde zaten bir permission var: {$name}");
+            return;
+        }
+        $permission = new Permission();
+        $permission->name = $name;
+        $permission->save();
 
-
-        $this->info("Rol başarıyla oluşturuldu: {$name}");
+        $this->info("Permission başarıyla oluşturuldu: {$name}");
     }
 }

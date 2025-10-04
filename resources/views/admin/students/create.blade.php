@@ -131,6 +131,9 @@
                                     @php
                                         $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-'];
                                     @endphp
+                                    <option value="" disabled {{ old('blood_type') == '' ? 'selected' : '' }}>
+                                        Bir seçim yapın
+                                    </option>
                                     @foreach ($bloodTypes as $type)
                                         <option value="{{ $type }}"
                                             {{ old('blood_type') == $type ? 'selected' : '' }}>

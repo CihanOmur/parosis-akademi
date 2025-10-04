@@ -17,7 +17,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->get();
+        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->orderBy('full_name', 'asc')->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
 
@@ -155,7 +155,7 @@ class StudentController extends Controller
                 'birth_date' => 'required|date',
                 'school_name' => 'required|string|max:200',
                 'tc_no' => 'required|string|max:11',
-                'blood_type' => 'required|string|max:3',
+                'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
@@ -172,7 +172,7 @@ class StudentController extends Controller
                 'guardian1_phone_2' => 'nullable|string|max:200',
                 'guardian1_email' => 'required|email|max:200',
                 'guardian1_home_address' => 'required|string|max:500',
-                'guardian1_work_address' => 'required|string|max:500',
+                'guardian1_work_address' => 'nullable|string|max:500',
 
                 'guardian2_active' => 'nullable|in:on',
                 'guardian2_full_name'  => 'required_if:guardian2_active,1|string|max:200',
@@ -185,7 +185,7 @@ class StudentController extends Controller
                 'guardian2_phone_2'  => 'nullable|string|max:200',
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
-                'guardian2_work_address'  => 'required_if:guardian2_active,1|string|max:500',
+                'guardian2_work_address'  => 'nullable|string|max:500',
             ], [
                 // Genel
                 'registiration_type.required' => 'Kayıt türü seçilmelidir.',
@@ -331,7 +331,10 @@ class StudentController extends Controller
         $studentPayment->save();
 
         if ($student->registration_type == '2') {
-            return redirect()->route('students.payment', ['id' => $studentPayment->id]);
+            return view('admin.students-payments.create', [
+                'payment' => $studentPayment->load('student', 'installments'),
+                'first_create' => true
+            ]);
         }
         return redirect()->route('students.index')->with('success', 'Öğrenci başarıyla eklendi.');
     }
@@ -470,7 +473,7 @@ class StudentController extends Controller
                 'birth_date' => 'required|date',
                 'school_name' => 'required|string|max:200',
                 'tc_no' => 'required|string|max:11',
-                'blood_type' => 'required|string|max:3',
+                'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
@@ -488,7 +491,7 @@ class StudentController extends Controller
                 'guardian1_phone_2' => 'nullable|string|max:200',
                 'guardian1_email' => 'required|email|max:200',
                 'guardian1_home_address' => 'required|string|max:500',
-                'guardian1_work_address' => 'required|string|max:500',
+                'guardian1_work_address' => 'nullable|string|max:500',
 
                 'guardian2_active' => 'nullable|in:1,2',
                 'guardian2_full_name'  => 'required_if:guardian2_active,1|string|max:200',
@@ -501,7 +504,7 @@ class StudentController extends Controller
                 'guardian2_phone_2'  => 'nullable|string|max:200',
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
-                'guardian2_work_address'  => 'required_if:guardian2_active,1|string|max:500',
+                'guardian2_work_address'  => 'nullable|string|max:500',
             ], [
                 // Genel
                 'registiration_type.required' => 'Kayıt türü seçilmelidir.',
@@ -798,7 +801,7 @@ class StudentController extends Controller
                 'birth_date' => 'required|date',
                 'school_name' => 'required|string|max:200',
                 'tc_no' => 'required|string|max:11',
-                'blood_type' => 'required|string|max:3',
+                'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
@@ -816,7 +819,7 @@ class StudentController extends Controller
                 'guardian1_phone_2' => 'required|string|max:200',
                 'guardian1_email' => 'required|email|max:200',
                 'guardian1_home_address' => 'required|string|max:500',
-                'guardian1_work_address' => 'required|string|max:500',
+                'guardian1_work_address' => 'nullable|string|max:500',
 
                 'guardian2_active' => 'nullable|in:1,2',
                 'guardian2_full_name'  => 'required_if:guardian2_active,1|string|max:200',
@@ -829,7 +832,7 @@ class StudentController extends Controller
                 'guardian2_phone_2'  => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
-                'guardian2_work_address'  => 'required_if:guardian2_active,1|string|max:500',
+                'guardian2_work_address'  => 'nullable|string|max:500',
             ], [
                 // Genel
                 'registiration_type.required' => 'Kayıt türü seçilmelidir.',
@@ -995,7 +998,10 @@ class StudentController extends Controller
         $studentPayment->save();
 
         if ($student->registration_type == '2') {
-            return redirect()->route('students.payment', ['id' => $studentPayment->id]);
+            return view('admin.students-payments.create', [
+                'payment' => $studentPayment->load('student', 'installments'),
+                'first_create' => true
+            ]);
         }
         return redirect()->route('students.index')->with('success', 'Öğrenci başarıyla eklendi.');
     }
@@ -1366,7 +1372,7 @@ class StudentController extends Controller
                 'birth_date' => 'required|date',
                 'school_name' => 'required|string|max:200',
                 'tc_no' => 'required|string|max:11',
-                'blood_type' => 'required|string|max:3',
+                'blood_type' => 'nullable|string|max:3',
                 'class_id' => 'required|exists:lesson_classes,id',
                 'has_allergy' => 'nullable',
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
@@ -1384,7 +1390,7 @@ class StudentController extends Controller
                 'guardian1_phone_2' => 'required|string|max:200',
                 'guardian1_email' => 'required|email|max:200',
                 'guardian1_home_address' => 'required|string|max:500',
-                'guardian1_work_address' => 'required|string|max:500',
+                'guardian1_work_address' => 'nullable|string|max:500',
 
                 'guardian2_active' => 'nullable|in:1,2',
                 'guardian2_full_name'  => 'required_if:guardian2_active,1|string|max:200',
@@ -1397,7 +1403,7 @@ class StudentController extends Controller
                 'guardian2_phone_2'  => 'required_if:guardian2_active,1|string|max:200',
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
-                'guardian2_work_address'  => 'required_if:guardian2_active,1|string|max:500',
+                'guardian2_work_address'  => 'nullable|string|max:500',
             ], [
                 // Genel
                 'registiration_type.required' => 'Kayıt türü seçilmelidir.',
@@ -1567,7 +1573,7 @@ class StudentController extends Controller
 
     public function preStudents()
     {
-        $students = Student::with('guardians')->where('registration_type', 1)->get();
+        $students = Student::with('guardians')->where('registration_type', 1)->orderBy('full_name', 'asc')->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
 

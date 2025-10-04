@@ -68,20 +68,23 @@
                     <div class="mb-6">
                         <label>Ödeme Tutarı</label>
                         <input type="number" id="total_payment" name="total_payment" step="0.01"
+                            @cannot('accounting') {{ isset($first_create) && $first_create ? '' : 'disabled' }} @endcannot
                             value="{{ old('total_payment', $payment->total_price ?? '') }}"
-                            class="border rounded-lg p-2.5 w-full">
+                            class="@cannot('accounting') {{ isset($first_create) && $first_create ? '' : '!cursor-not-allowed' }} @endcannot border rounded-lg p-2.5 w-full">
                     </div>
                     <div class="mb-6">
                         <label>Taksit Sayısı</label>
                         <input type="number" id="installments_count"
+                            @cannot('accounting') {{ isset($first_create) && $first_create ? '' : 'disabled' }} @endcannot
                             value="{{ old('installments_count', $payment->installments->count() ?? '') }}"
-                            class="border rounded-lg p-2.5 w-full">
+                            class="@cannot('accounting') {{ isset($first_create) && $first_create ? '' : '!cursor-not-allowed' }} @endcannot border rounded-lg p-2.5 w-full">
                     </div>
                     <div class="mb-6">
                         <label>Başlangıç Tarihi</label>
                         <input type="date" id="start_date" name="start_date"
+                            @cannot('accounting') {{ isset($first_create) && $first_create ? '' : 'disabled' }} @endcannot
                             value="{{ old('start_date', optional($payment->installments->first())->payment_date ? \Carbon\Carbon::parse($payment->installments->first()->payment_date)->format('Y-m-d') : '') }}"
-                            class="border rounded-lg p-2.5 w-full">
+                            class="@cannot('accounting') {{ isset($first_create) && $first_create ? '' : '!cursor-not-allowed' }} @endcannot border rounded-lg p-2.5 w-full">
                     </div>
                 </div>
 
@@ -105,16 +108,18 @@
                                     <label for="installments[{{ $i }}][payment_date]"
                                         class="font-semibold text-gray-700 xl:hidden">Tarih:</label>
                                     <input type="date" name="installments[{{ $i }}][payment_date]"
-                                        class="border rounded-lg p-1 w-full "
+                                        @cannot('accounting') disabled @endcannot
+                                        class="@cannot('accounting') !cursor-not-allowed @endcannot border rounded-lg p-1 w-full "
                                         value="{{ \Carbon\Carbon::parse($inst->payment_date)->format('Y-m-d') }}">
                                 </div>
                                 <div class="">
                                     <label for="installments[{{ $i }}][installment_price]"
                                         class="font-semibold text-gray-700 xl:hidden">Ödenecek
                                         Tutar:</label>
-                                    <input type="number" step="0.01"
+                                    <input type="number" step="0.01" @cannot('accounting') disabled @endcannot
                                         name="installments[{{ $i }}][installment_price]"
-                                        value="{{ $inst->installment_price }}" class="border rounded-lg p-1 w-full ">
+                                        value="{{ $inst->installment_price }}"
+                                        class=" @cannot('accounting') !cursor-not-allowed @endcannot border rounded-lg p-1 w-full ">
                                 </div>
                                 <div class="">
                                     <label for="installments[{{ $i }}][payed_price]"
@@ -122,7 +127,8 @@
                                         Tutar:</label>
                                     <input type="number" step="0.01"
                                         name="installments[{{ $i }}][payed_price]"
-                                        class="border rounded-lg p-1 w-full "
+                                        @cannot('accounting') disabled @endcannot
+                                        class=" @cannot('accounting') !cursor-not-allowed @endcannot border rounded-lg p-1 w-full "
                                         value="{{ $inst->payed_price == 0 ? '0.00' : number_format($inst->payed_price, 2, '.', '') }}">
                                 </div>
                                 <div class="">
@@ -130,7 +136,8 @@
                                         class="font-semibold text-gray-700 xl:hidden">Ödenen
                                         Tarih:</label>
                                     <input type="date" name="installments[{{ $i }}][payyed_date]"
-                                        class="border rounded-lg p-1 w-full "
+                                        @cannot('accounting') disabled @endcannot
+                                        class=" @cannot('accounting') !cursor-not-allowed @endcannot border rounded-lg p-1 w-full "
                                         value="{{ $inst->payyed_date ? \Carbon\Carbon::parse($inst->payyed_date)->format('Y-m-d') : null }}">
                                 </div>
 
@@ -140,7 +147,8 @@
                                         class="font-semibold text-gray-700 xl:hidden">Ö.
                                         Türü:</label>
                                     <select name="installments[{{ $i }}][payment_type]"
-                                        class="border rounded-lg p-1 w-full ">
+                                        @cannot('accounting') disabled @endcannot
+                                        class=" @cannot('accounting') !cursor-not-allowed @endcannot border rounded-lg p-1 w-full ">
                                         <option value="Nakit" {{ $inst->payment_type == 'Nakit' ? 'selected' : '' }}>
                                             Nakit
                                         </option>
@@ -162,8 +170,15 @@
                     @endif
                 </div>
 
-                <button type="button" id="sendButton"
-                    class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Kaydet</button>
+                @can('accounting')
+                    <button type="button" id="sendButton"
+                        class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Kaydet</button>
+                @else
+                    @if (isset($first_create) && $first_create)
+                        <button type="button" id="sendButton"
+                            class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Kaydet</button>
+                    @endif
+                @endcan
             </form>
         </div>
     </div>
@@ -240,9 +255,11 @@
             let currentDate = new Date(startDate);
 
             allInstallments.forEach((inst, i) => {
-                if (i > 0) currentDate.setMonth(currentDate.getMonth() + 1);
-                let dateStr = inst.payment_date ? inst.payment_date.split('T')[0] : currentDate.toISOString().split(
-                    'T')[0];
+                // Tarih ayarlama
+                let currentInstallmentDate = new Date(startDate);
+                currentInstallmentDate.setMonth(currentInstallmentDate.getMonth() + i);
+                let dateStr = currentInstallmentDate.toISOString().split('T')[0];
+
                 let dateStrPayed = inst.payyed_date ? inst.payyed_date.split('T')[0] : '';
 
                 // Satır rengini belirle
@@ -261,38 +278,39 @@
                 let installmentPrice = paid > 0 ? inst.installment_price : newAmount;
 
                 let row = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4 mb-2 p-3 border rounded-lg ${rowBgClass}">
-                <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-1">#${i + 1}</div>
-                <div class="">
-                    <label for="installments[${i}][payment_date]" class="font-semibold text-gray-700 xl:hidden">Tarih:</label>
-                    <input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full" >
-                </div>
-                <div>
-                    <label for="installments[${i}][installment_price]" class="font-semibold text-gray-700 xl:hidden">Ödenecek Tutar:</label>
-                    <input type="number" step="0.01" name="installments[${i}][installment_price]" value="${installmentPrice}" class="border rounded-lg p-1 w-full" >
-                </div>
-                <div>
-                    <label for="installments[${i}][payyed_date]" class="font-semibold text-gray-700 xl:hidden">Ödenen Tarih:</label>
-                    <input type="date" name="installments[${i}][payyed_date]" value="${dateStrPayed}" class="border rounded-lg p-1 w-full" >
-                </div>
-                <div>
-                    <label for="installments[${i}][payed_price]" class="font-semibold text-gray-700 xl:hidden">Ödenen Tutar:</label>
-                    <input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price || '0.00'}" class="border rounded-lg p-1 w-full" >
-                </div>
-                <div>
-                    <label for="installments[${i}][payment_type]" class="font-semibold text-gray-700 xl:hidden">Ö. Türü:</label>
-                    <select name="installments[${i}][payment_type]" class="border rounded-lg p-1 w-full">
-                        <option value="Nakit" ${inst.payment_type == "Nakit" ? 'selected' : ''}>Nakit</option>
-                        <option value="Havale" ${inst.payment_type == "Havale" ? 'selected' : ''}>Havale</option>
-                        <option value="Kredi Kartı/Banka" ${inst.payment_type == "Kredi Kartı/Banka" ? 'selected' : ''}>Kredi Kartı/Banka</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="installments[${i}][note]" class="font-semibold text-gray-700 xl:hidden">Not:</label>
-                    <textarea name="installments[${i}][note]" class="border rounded-lg p-1 w-full" rows="1">${inst.note || ''}</textarea>
-            </div>`;
+                        <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-1">#${i + 1}</div>
+                        <div class="">
+                            <label for="installments[${i}][payment_date]" class="font-semibold text-gray-700 xl:hidden">Tarih:</label>
+                            <input type="date" name="installments[${i}][payment_date]" value="${dateStr}" class="border rounded-lg p-1 w-full" >
+                        </div>
+                        <div>
+                            <label for="installments[${i}][installment_price]" class="font-semibold text-gray-700 xl:hidden">Ödenecek Tutar:</label>
+                            <input type="number" step="0.01" name="installments[${i}][installment_price]" value="${installmentPrice}" class="border rounded-lg p-1 w-full" >
+                        </div>
+                        <div>
+                            <label for="installments[${i}][payyed_date]" class="font-semibold text-gray-700 xl:hidden">Ödenen Tarih:</label>
+                            <input type="date" name="installments[${i}][payyed_date]" value="${dateStrPayed}" class="border rounded-lg p-1 w-full" >
+                        </div>
+                        <div>
+                            <label for="installments[${i}][payed_price]" class="font-semibold text-gray-700 xl:hidden">Ödenen Tutar:</label>
+                            <input type="number" step="0.01" name="installments[${i}][payed_price]" value="${inst.payed_price || '0.00'}" class="border rounded-lg p-1 w-full" >
+                        </div>
+                        <div>
+                            <label for="installments[${i}][payment_type]" class="font-semibold text-gray-700 xl:hidden">Ö. Türü:</label>
+                            <select name="installments[${i}][payment_type]" class="border rounded-lg p-1 w-full">
+                                <option value="Nakit" ${inst.payment_type == "Nakit" ? 'selected' : ''}>Nakit</option>
+                                <option value="Havale" ${inst.payment_type == "Havale" ? 'selected' : ''}>Havale</option>
+                                <option value="Kredi Kartı/Banka" ${inst.payment_type == "Kredi Kartı/Banka" ? 'selected' : ''}>Kredi Kartı/Banka</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="installments[${i}][note]" class="font-semibold text-gray-700 xl:hidden">Not:</label>
+                            <textarea name="installments[${i}][note]" class="border rounded-lg p-1 w-full" rows="1">${inst.note || ''}</textarea>
+                        </div>`;
 
                 $container.append(row);
             });
+
         }
 
         // Sayfa ilk açıldığında sadece var olan değerleri koru

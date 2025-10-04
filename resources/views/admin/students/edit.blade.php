@@ -14,21 +14,23 @@
         </div>
     </div>
 
-    <div class="flex gap-4">
-        <button form="changeActivityForm"
-            class="block cursor-pointer {{ $student->is_active == '1' ? 'bg-green-700' : 'bg-red-500' }} text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            type="submit">
-            {{ $student->is_active == '1' ? 'Dondur' : 'Aktif et' }}
-        </button>
-        <!-- Modal toggle -->
-        <button data-modal-target="select-modal" data-modal-toggle="select-modal"
-            class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            type="button">Yeni Ekle</button>
-        @include('admin.components.StudentNewAddModal', [
-            'normalCount' => $normalCount,
-            'preCount' => $preCount,
-        ])
-    </div>
+    @can('student')
+        <div class="flex gap-4">
+            <button form="changeActivityForm"
+                class="block cursor-pointer {{ $student->is_active == '1' ? 'bg-green-700' : 'bg-red-500' }} text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                type="submit">
+                {{ $student->is_active == '1' ? 'Dondur' : 'Aktif et' }}
+            </button>
+            <!-- Modal toggle -->
+            <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+                class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                type="button">Yeni Ekle</button>
+            @include('admin.components.StudentNewAddModal', [
+                'normalCount' => $normalCount,
+                'preCount' => $preCount,
+            ])
+        </div>
+    @endcan
 @endsection
 @section('content')
     <div class="flex justify-between items-center">
@@ -49,9 +51,11 @@
     </div>
 
 
-    <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
-        @csrf
-    </form>
+    @can('student')
+        <form action="{{ route('students.changeActivity', ['id' => $student->id]) }}" method="post" id="changeActivityForm">
+            @csrf
+        </form>
+    @endcan
     <div class="w-full">
         <form class=" w-full space-y-6" action="{{ route('students.update', ['id' => $student->id]) }}" method="POST"
             enctype="multipart/form-data">
@@ -75,7 +79,8 @@
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Ad Soyad</label>
                             <input type="text" name="full_name" value="{{ $student->full_name }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('full_name') }}" placeholder="örn: Ahmet Yılmaz">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('full_name')
@@ -86,8 +91,8 @@
                         </div>
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Cinsiyet</label>
-                            <select name="gender"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <select name="gender" @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option value="" disabled selected>Bir seçim yapın</option>
                                 <option {{ $student->gender == 'Erkek' ? 'selected' : '' }} value="Erkek">Erkek
                                 </option>
@@ -104,7 +109,8 @@
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Doğum Tarihi</label>
                             <input type="date" name="birth_date" value="{{ $student->birth_date }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('birth_date') }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('birth_date')
@@ -117,9 +123,10 @@
                         <div class="mb-0">
                             <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                             <input type="text" name="tc_no" max="11" inputmode="numeric"
+                                @cannot('student') disabled @endcannot
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                 value="{{ $student->national_id }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                class="@cannot('student') !cursor-not-allowed @endcannot    bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('tc_no') }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('tc_no')
@@ -130,10 +137,10 @@
                         </div>
                         <div class="mb-0">
                             <label class="block mb-2 font-medium">Telefon</label>
-                            <input max="11" inputmode="numeric"
+                            <input max="11" inputmode="numeric" @cannot('student') disabled @endcannot
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" name="student_phone"
                                 value="{{ $student->student_phone }}" placeholder="örn: 05551234545"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('student_phone')
                                     {{ $message }}
@@ -142,8 +149,8 @@
                         </div>
                         <div class="mb-0">
                             <label class="block mb-2 font-medium">Kan Grubu</label>
-                            <select name="blood_type"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <select name="blood_type" @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
 
                                 @php
                                     $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-'];
@@ -166,7 +173,8 @@
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Okul Adı</label>
                             <input type="text" name="school_name" value="{{ $student->school_name }}"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('school_name') }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('school_name')
@@ -196,7 +204,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Yakınlık</label>
                                     <input type="text" name="guardian1_relationship" placeholder="örn: Anne"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        @cannot('student') disabled @endcannot
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->relationship ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_relationship')
@@ -208,7 +217,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Ad Soyad</label>
                                     <input type="text" name="guardian1_full_name" placeholder="Ayşe Yılmaz"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        @cannot('student') disabled @endcannot
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]->full_name ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_full_name')
@@ -220,9 +230,10 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                                     <input type="text" max="11" inputmode="numeric"
+                                        @cannot('student') disabled @endcannot
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                         name="guardian1_national_id" placeholder="örn: 12345678901"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->national_id ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_national_id')
@@ -235,7 +246,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Doğum Tarihi</label>
                                     <input type="date" name="guardian1_birth_date" placeholder="Doğum Tarihi"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        @cannot('student') disabled @endcannot
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->birth_date ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_birth_date')
@@ -246,8 +258,8 @@
                                 </div>
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Eğitim Düzeyi</label>
-                                    <select name="guardian1_education_level"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <select name="guardian1_education_level" @cannot('student') disabled @endcannot
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                         @foreach ($education_levels as $level)
                                             <option
                                                 {{ $student->guardians[0]?->education_level ?? '' == $level ? 'selected' : '' }}
@@ -264,7 +276,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Meslek</label>
                                     <input type="text" name="guardian1_job" placeholder="örn: Memur"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        @cannot('student') disabled @endcannot
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->job ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_job')
@@ -276,9 +289,10 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Telefon</label>
                                     <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                        @cannot('student') disabled @endcannot
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                         name="guardian1_phone_1" placeholder="örn: 05551234545"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->phone_1 ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_phone_1')
@@ -290,9 +304,10 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Telefon</label>
                                     <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                        @cannot('student') disabled @endcannot
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                         name="guardian1_phone_2" placeholder="örn: 05551234545"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->phone_2 ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_phone_2')
@@ -304,7 +319,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">E-mail</label>
                                     <input type="email" name="guardian1_email" placeholder="örn: ornek@parosis.com"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        @cannot('student') disabled @endcannot
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->email ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_email')
@@ -316,8 +332,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">Ev Adresi</label>
                                     <input type="text" name="guardian1_home_address"
-                                        placeholder="mahalle, sokak, no, ilçe, il"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        @cannot('student') disabled @endcannot placeholder="mahalle, sokak, no, ilçe, il"
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         value="{{ $student->guardians[0]?->home_address ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_home_address')
@@ -329,8 +345,8 @@
                                 <div class="mb-6">
                                     <label class="block mb-2 font-medium">İş Adresi</label>
                                     <input type="text" name="guardian1_work_address"
-                                        placeholder="mahalle, sokak, no, ilçe, il"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
+                                        @cannot('student') disabled @endcannot placeholder="mahalle, sokak, no, ilçe, il"
+                                        class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                         value="{{ $student->guardians[0]?->work_address ?? '' }}">
                                     <div class="text-red-500 text-xs mt-2">
                                         @error('guardian1_work_address')
@@ -346,8 +362,9 @@
                                     <div
                                         class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                         <input type="checkbox" id="guardian2_active" name="guardian2_active"
-                                            value="1" {{ count($student->guardians ?? []) > 1 ? 'checked' : '' }}
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 focus:ring-2 cursor-pointer">
+                                            @cannot('student') disabled @endcannot value="1"
+                                            {{ count($student->guardians ?? []) > 1 ? 'checked' : '' }}
+                                            class="@cannot('student') !cursor-not-allowed @endcannot w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 focus:ring-2 cursor-pointer">
                                         <label for="guardian2_active"
                                             class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Veli
                                             Ekle</label>
@@ -359,7 +376,8 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Yakınlık</label>
                                         <input type="text" name="guardian2_relationship" placeholder="örn: Baba"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            @cannot('student') disabled @endcannot
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->relationship ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -372,7 +390,8 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Ad Soyad</label>
                                         <input type="text" name="guardian2_full_name" placeholder="Mehmet Yılmaz"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            @cannot('student') disabled @endcannot
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->full_name ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -385,10 +404,10 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">T.C. Kimlik No</label>
                                         <input type="text" name="guardian2_national_id" max="11"
-                                            inputmode="numeric"
+                                            @cannot('student') disabled @endcannot inputmode="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             placeholder="örn: 12345678901"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->national_id ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -402,6 +421,7 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Doğum Tarihi</label>
                                         <input type="date" name="guardian2_birth_date" placeholder="Doğum Tarihi"
+                                            @cannot('student') disabled @endcannot
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->birth_date ?? '' }}">
@@ -414,10 +434,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Eğitim Düzeyi</label>
-                                        <select name="guardian2_education_level"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        <select name="guardian2_education_level" @cannot('student') disabled @endcannot
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                             @foreach ($education_levels as $level)
                                                 <option
                                                     {{ $student->guardians[1]?->education_level ?? '' == $level ? 'selected' : '' }}
@@ -433,9 +452,9 @@
                                     </div>
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Meslek</label>
-                                        <input type="text" name="guardian2_job"
+                                        <input type="text" name="guardian2_job" @cannot('student') disabled @endcannot
                                             placeholder="örn: Memur"{{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             value="{{ $student->guardians[1]?->job ?? '' }}">
 
                                         <div class="text-red-500 text-xs mt-2">
@@ -448,9 +467,10 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
                                         <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                            @cannot('student') disabled @endcannot
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian2_phone_1" placeholder="05551234545"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->phone_1 ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -463,9 +483,10 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Telefon</label>
                                         <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                            @cannot('student') disabled @endcannot
                                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                             name="guardian2_phone_2" placeholder="örn: 05551234545"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->phone_2 ?? '' }}"
                                             class="text-red-500 text-xs mt-2">
@@ -477,7 +498,8 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Email</label>
                                         <input type="email" name="guardian2_email" placeholder="örn: ornek@parsis.com"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            @cannot('student') disabled @endcannot
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->email ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -490,8 +512,9 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">Ev Adresi</label>
                                         <input type="text" name="guardian2_home_address"
+                                            @cannot('student') disabled @endcannot
                                             placeholder="mahalle, sokak, no, ilçe, il"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->home_address ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -504,8 +527,9 @@
                                     <div class="mb-6">
                                         <label class="block mb-2 font-medium">İş Adresi</label>
                                         <input type="text" name="guardian2_work_address"
+                                            @cannot('student') disabled @endcannot
                                             placeholder="mahalle, sokak, no, ilçe, il"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
+                                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 col-span-2"
                                             {{ count($student->guardians ?? []) > 1 ? '' : 'disabled' }}
                                             value="{{ $student->guardians[1]?->work_address ?? '' }}">
                                         <div class="text-red-500 text-xs mt-2">
@@ -536,7 +560,8 @@
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Ad Soyad</label>
                             <input type="text" name="emergency_full_name" placeholder="örn: Ahmet Yılmaz"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->emergencyContact->full_name ?? '' }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('emergency_full_name')
@@ -548,7 +573,8 @@
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Yakınlık</label>
                             <input type="text" name="emergency_relationship" placeholder="örn: Amcası"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->emergencyContact->relationship ?? '' }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('emergency_relationship')
@@ -559,9 +585,10 @@
                         <div class="mb-6">
                             <label class="block mb-2 font-medium">Telefon</label>
                             <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
+                                @cannot('student') disabled @endcannot
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
                                 placeholder="örn: 12345678901" name="emergency_phone"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->emergencyContact->phone ?? '' }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('emergency_phone')
@@ -576,7 +603,8 @@
                         <div class="mb-0">
                             <label class="block mb-2 font-medium">Adres</label>
                             <input type="text" name="emergency_address" placeholder="mahalle, sokak, no, ilçe, il"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                @cannot('student') disabled @endcannot
+                                class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ $student->emergencyContact->address ?? '' }}">
                             <div class="text-red-500 text-xs mt-2">
                                 @error('emergency_address')
@@ -601,8 +629,9 @@
                             <div
                                 class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                 <input type="radio" name="has_allergy" value="1" id="has_allergy"
+                                    @cannot('student') disabled @endcannot
                                     {{ $student->has_allergy == '1' ? 'checked' : '' }}
-                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
+                                    class="@cannot('student') !cursor-not-allowed @endcannot w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
                                 <label for="has_allergy"
                                     class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Evet</label>
                             </div>
@@ -615,8 +644,9 @@
                             <div
                                 class="flex items-center ps-4 border border-gray-300 rounded-lg w-1/4 bg-gray-50 cursor-pointer">
                                 <input type="radio" name="has_allergy" value="2" id="no_allergy"
+                                    @cannot('student') disabled @endcannot
                                     {{ $student->has_allergy == '2' ? 'checked' : '' }}
-                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
+                                    class="@cannot('student') !cursor-not-allowed @endcannot w-4 h-4 text-blue-600 bg-white border-gray-300 focus:ring-blue-500  focus:ring-2 cursor-pointer">
                                 <label for="no_allergy"
                                     class="w-full py-4 ms-2 text-sm font-medium text-gray-900 cursor-pointer">Hayır</label>
                             </div>
@@ -629,7 +659,8 @@
                     </div>
                     <div id="allergy_detail_field" class="hidden mb-0 mt-6">
                         <input type="text" name="allergy_detail" placeholder="Alerji Detayları"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            @cannot('student') disabled @endcannot
+                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ $student->allergy_detail }}">
                         <div class="text-red-500 text-xs mt-2">
                             @error('allergy_detail')
@@ -649,8 +680,8 @@
 
             <div id="allergy_detail_field" class="hidden mb-6">
                 <input type="text" name="allergy_detail" placeholder="Alerji Detayları"
-                    value="{{ $student->allergy_detail }}"
-                    class="bg-gray-50 border border-gray-300
+                    @cannot('student') disabled @endcannot value="{{ $student->allergy_detail }}"
+                    class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300
                         text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <div class="text-red-500 text-xs mt-2">
                     @error('allergy_detail')
@@ -666,8 +697,8 @@
                 </div>
                 <div class="py-5 px-5 grid grid-cols-2 gap-4">
                     <div class="mb-0">
-                        <select name="class_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <select name="class_id" @cannot('student') disabled @endcannot
+                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @foreach ($classes as $class)
                                 <option {{ old('class_id') == $class->id ? 'selected' : '' }}
                                     value="{{ $class->id }}">
@@ -698,7 +729,8 @@
 
                         @endphp
                         <select id="registiration_term" name="registiration_term[]" multiple
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            @cannot('student') disabled @endcannot
+                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @foreach ($years as $year)
                                 @foreach (['Güz', 'Yaz', 'Bahar'] as $term)
                                     <option value="{{ $year . ' ' . $term }}"
@@ -725,8 +757,8 @@
                 </div>
                 <div class="py-5 px-5">
                     <div class="mb-0">
-                        <textarea name="notes" placeholder=""
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ $student->notes }}</textarea>
+                        <textarea name="notes" placeholder="" @cannot('student') disabled @endcannot
+                            class="@cannot('student') !cursor-not-allowed @endcannot bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ $student->notes }}</textarea>
                         <div class="text-red-500 text-xs mt-2">
                             @error('notes')
                                 {{ $message }}
@@ -736,8 +768,10 @@
                 </div>
             </div>
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Güncellemeri
-                Kaydet</button>
+            @can('student')
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Güncellemeri
+                    Kaydet</button>
+            @endcan
         </form>
     </div>
 
@@ -746,7 +780,10 @@
             // guardian2 checkbox
             $('#guardian2_active').change(function() {
                 var isChecked = this.checked;
-                $('#guardian2_fields').find('input, select, textarea').prop('disabled', !isChecked);
+                @can('student')
+                    $('#guardian2_fields').find('input, select, textarea').prop('disabled', !isChecked);
+                @endcan
+
                 $('#guardian2_fields').prop('hidden', !isChecked);
 
             });
