@@ -43,7 +43,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::delete('/{id}', [LessonClassController::class, 'delete'])->name('delete')->middleware('can:class_delete');
     });
     Route::prefix('students')->name('students.')->group(function () {
-        Route::get('/', [StudentController::class, 'index'])->name('index')->middleware('can:student|student_delete|accounting');
+        Route::get('/', [StudentController::class, 'index'])->name('index')->middleware('can:SuperAdmin|Eğitmen|Muhasebe,Kordinatör');
         Route::get('/create', [StudentController::class, 'create'])->name('create')->middleware('can:student');
         Route::post('/store', [StudentController::class, 'store'])->name('store')->middleware('can:student');
         Route::get('/{id}/edit', [StudentController::class, 'edit'])->name('edit');
