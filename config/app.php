@@ -82,7 +82,7 @@ return [
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'tr'),
 
-    'faker_locale' => env('APP_FAKER_LOCALE', 'tr_TR'),
+    'faker_locale' => env('APP_FAKER_LOCALE', 'tr-tr'),
 
     /*
     |--------------------------------------------------------------------------
