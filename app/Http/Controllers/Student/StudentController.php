@@ -695,6 +695,7 @@ class StudentController extends Controller
                 'allergy_detail' => 'required_if:has_allergy,1|max:500',
                 'notes' => 'required|string|max:1000',
                 'student_phone' => 'nullable|string|max:200',
+                'recrate_registration_date' => 'nullable|date',
 
 
                 'guardian1_full_name' => 'required|string|max:200',
@@ -995,6 +996,7 @@ class StudentController extends Controller
         $studentPayment->student_id = $student->id;
         $studentPayment->class_id = $student->class_id;
         $studentPayment->registiration_term = implode(',', $request->registiration_term ?? []);
+        $studentPayment->created_at = $request->recrate_registration_date ?? now();
         $studentPayment->save();
 
         if ($student->registration_type == '2') {
