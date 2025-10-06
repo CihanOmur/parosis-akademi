@@ -35,7 +35,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::delete('/{id}', [UserController::class, 'delete'])->name('delete')->middleware('can:user_delete');
     });
     Route::prefix('class')->name('class.')->group(function () {
-        Route::get('/', [LessonClassController::class, 'index'])->name('index')->middleware('can:class,class_delete');
+        Route::get('/', [LessonClassController::class, 'index'])->name('index')->middleware('can:class|class_delete');
         Route::get('/create', [LessonClassController::class, 'create'])->name('create')->middleware('can:class');
         Route::post('/store', [LessonClassController::class, 'store'])->name('store')->middleware('can:class');
         Route::get('/{id}/edit', [LessonClassController::class, 'edit'])->name('edit')->middleware('can:class');
@@ -43,7 +43,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::delete('/{id}', [LessonClassController::class, 'delete'])->name('delete')->middleware('can:class_delete');
     });
     Route::prefix('students')->name('students.')->group(function () {
-        Route::get('/', [StudentController::class, 'index'])->name('index')->middleware('can:student,accounting,student_delete');
+        Route::get('/', [StudentController::class, 'index'])->name('index')->middleware('can:student|accounting|student_delete');
         Route::get('/create', [StudentController::class, 'create'])->name('create')->middleware('can:student');
         Route::post('/store', [StudentController::class, 'store'])->name('store')->middleware('can:student');
         Route::get('/{id}/edit', [StudentController::class, 'edit'])->name('edit');
@@ -52,13 +52,13 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/update', [StudentController::class, 'update'])->name('update')->middleware('can:student');
         Route::post('/{id}/change-activity', [StudentController::class, 'changeActivity'])->name('changeActivity')->middleware('can:student');
 
-        Route::get('/{id}/payment', [StudentController::class, 'payment'])->name('payment')->middleware('can:student,accounting');
-        Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('can:student,accounting');
-        Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments')->middleware('can:student,accounting');
+        Route::get('/{id}/payment', [StudentController::class, 'payment'])->name('payment')->middleware('can:student|accounting');
+        Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('can:student|accounting');
+        Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments')->middleware('can:student|accounting');
 
-        Route::post('/downloadRegistrationForm', [StudentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('can:student,student_delete,accounting');
-        Route::post('/downloadContract', [StudentController::class, 'downloadContract'])->name('downloadContract')->middleware('can:student,accounting,student_delete');
-        Route::post('/downloadPayment', [StudentController::class, 'downloadPayment'])->name('downloadPayment')->middleware('can:student,accounting,student_delete');
+        Route::post('/downloadRegistrationForm', [StudentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('can:student|student_delete|accounting');
+        Route::post('/downloadContract', [StudentController::class, 'downloadContract'])->name('downloadContract')->middleware('can:student|accounting|student_delete');
+        Route::post('/downloadPayment', [StudentController::class, 'downloadPayment'])->name('downloadPayment')->middleware('can:student|accounting|student_delete');
 
         Route::get('/create-pre-registiration', [StudentController::class, 'createPreRegistiration'])->name('pre.createPreRegistiration')->middleware('can:student');
         Route::post('/store-pre-registiration', [StudentController::class, 'storePreRegistiration'])->name('pre.storePreRegistiration')->middleware('can:student');
