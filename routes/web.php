@@ -54,7 +54,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
         Route::get('/{id}/payment', [StudentController::class, 'payment'])->name('payment')->middleware('can:student|accounting');
         Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('can:student|accounting');
-        Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments')->middleware('can:student|accounting');
+        Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments')->middleware('permission:student|accounting');
 
         Route::post('/downloadRegistrationForm', [StudentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('can:student|student_delete|accounting');
         Route::post('/downloadContract', [StudentController::class, 'downloadContract'])->name('downloadContract')->middleware('can:student|accounting|student_delete');
