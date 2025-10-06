@@ -17,6 +17,10 @@ class StudentController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        $user->roles; // atanmış roller
+        $user->getAllPermissions();
         $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->orderBy('full_name', 'asc')->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
