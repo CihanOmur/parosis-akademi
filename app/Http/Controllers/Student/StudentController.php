@@ -15,13 +15,24 @@ use Illuminate\Support\Facades\Log as FacadesLog;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->orderBy('full_name', 'asc')->get();
+        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->orderBy('full_name', 'asc')
+            ->when($request->input('name'), function ($query) use ($request) {
+                $query->where('full_name', 'like', '%' . $request->input('name') . '%');
+            })
+            ->when($request->input('class') && $request->input('class') != 'all', function ($query) use ($request) {
+                $query->where('class_id', $request->input('class'));
+            })
+            ->when($request->input('period') && $request->input('period') != 'all', function ($query) use ($request) {
+                $query->where('registiration_term', 'like', '%' . $request->input('period') . '%');
+            })
+            ->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
+        $classes = LessonClass::all();
 
-        return view('admin.students.index', compact('students', 'normalCount', 'preCount'));
+        return view('admin.students.index', compact('students', 'normalCount', 'preCount', 'classes'));
     }
 
     public function create()
@@ -1573,9 +1584,11 @@ class StudentController extends Controller
         return redirect()->route('students.payment', ['id' => $studentPayment->id])->with('success', 'Öğrenci başarıyla normal kayda dönüştürüldü. Lütfen ödeme planını oluşturun.');
     }
 
-    public function preStudents()
+    public function preStudents(Request $request)
     {
-        $students = Student::with('guardians')->where('registration_type', 1)->orderBy('full_name', 'asc')->get();
+        $students = Student::with('guardians')->where('registration_type', 1)->orderBy('full_name', 'asc')->when($request->name, function ($query) use ($request) {
+            $query->where('full_name', 'like', '%' . $request->name . '%');
+        })->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
 

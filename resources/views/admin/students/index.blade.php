@@ -12,6 +12,76 @@
     @endcan
 @endsection
 @section('content')
+    <form class="grid grid-cols-1 md:grid-cols-12 gap-3" method="GET" action="{{ route('students.index') }}" id="filterForm">
+        <div class="mb-0 w-full pb-2 lg:col-span-5 md:col-span-6">
+            <div class="relative w-full flex items-center">
+                <!-- Arama ikonu -->
+                <span class="absolute left-3 text-gray-400">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"></path>
+                    </svg>
+                </span>
+
+                <input type="text" name="name" id="name" value="{{ request()->input('name') }}"
+                    class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 py-2.5"
+                    placeholder="Ara...">
+            </div>
+        </div>
+
+
+        <div class="mb-0 w-full pb-2 lg:col-span-3 md:col-span-6">
+            <select id="class_id" name="class"
+                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option value="" disabled selected>Sınıf seçin</option>
+                <option value="all" {{ request()->input('class') == 'all' ? 'selected' : '' }}>Tüm Sınıflar</option>
+                @foreach ($classes as $class)
+                    <option value="{{ $class->id }}" {{ request()->input('class') == $class->id ? 'selected' : '' }}>
+                        {{ $class?->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        @php
+            $startYear = 2020;
+            $endYear = \Carbon\Carbon::now()->year + 1;
+            $years = range($startYear, $endYear);
+            rsort($years);
+            $requestValue = request()->input('period');
+        @endphp
+        <div class="mb-0 w-full pb-2 lg:col-span-3 md:col-span-6">
+            <select id="period" name="period"
+                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option value="" disabled selected>Dönem seçin</option>
+                <option value="all" {{ request()->input('period') == 'all' ? 'selected' : '' }}>Tüm Dönemler</option>
+                @foreach ($years as $year)
+                    <option value="{{ $year }} Güz"
+                        {{ request()->input('period') == $year . ' Güz' ? 'selected' : '' }}>
+                        {{ $year }} Güz
+                    </option>
+                    <option value="{{ $year }} Yaz"
+                        {{ request()->input('period') == $year . ' Yaz' ? 'selected' : '' }}>
+                        {{ $year }} Yaz
+                    </option>
+                    <option value="{{ $year }} Bahar"
+                        {{ request()->input('period') == $year . ' Bahar' ? 'selected' : '' }}>
+                        {{ $year }} Bahar
+                    </option>
+                @endforeach
+            </select>
+
+        </div>
+        <div class="mb-0 w-full pb-2 lg:col-span-1 md:col-span-6 flex items-center text-center">
+            <button type="submit" form="filterForm"
+                class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center lg:w-max w-full cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="mx-auto">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="1.5" d="M4.5 7.25h15M7.385 12h9.23m-6.345 4.75h3.46" />
+                </svg>
+            </button>
+        </div>
+    </form>
     <div class="rounded-lg mb-4 h-[85%]">
 
         <div class="w-full bg-white py-10 px-8 rounded-lg h-full border border-gray-200">

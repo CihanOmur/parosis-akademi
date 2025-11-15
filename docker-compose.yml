@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+    app:
+        image: ubuntu-22
+        container_name: parosis-akademi
+        working_dir: /var/www/parosis-akademi
+        command: bash -c "php artisan serve --host=0.0.0.0 --port=80 & npm run dev -- --host --port=5175"
+        volumes:
+            - /Users/cihanomur/Desktop/Projects/Parosis/parosis-akademi:/var/www/parosis-akademi
+        ports:
+            - "8014:80"
+            - "5175:5175"
+        networks:
+            - local
+
+networks:
+    local:
+        external: true
