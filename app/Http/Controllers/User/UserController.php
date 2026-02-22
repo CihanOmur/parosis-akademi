@@ -12,14 +12,14 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::where('is_visible', 1)->get();
+        $users = User::where('is_visible', 1)->paginate(15);
         return view('admin.user.index', [
             'users' => $users,
         ]);
     }
     public function create()
     {
-        $roles = Role::where('is_visible', 1)->get();
+        $roles = Role::where('is_visible', 1)->with('permissions')->get();
 
         return view('admin.user.create', [
             'roles' => $roles
@@ -70,7 +70,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::with(['roles'])->findOrFail($id);
-        $roles = Role::where('is_visible', 1)->get();
+        $roles = Role::where('is_visible', 1)->with('permissions')->get();
         return view('admin.user.edit', [
             'user' => $user,
             'roles' => $roles

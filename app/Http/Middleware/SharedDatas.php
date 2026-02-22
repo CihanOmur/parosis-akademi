@@ -16,9 +16,12 @@ class SharedDatas
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $activeLanguages = Languages::where('status', 1)->where('is_active', 1)->select('id', 'locale', 'name')->get();
+        $activeLanguages = Languages::where('status', 1)->where('is_active', 1)->select('id', 'locale', 'name', 'is_default')->get();
+        $defaultLanguage = $activeLanguages->firstWhere('is_default', 1)
+            ?? Languages::where('status', 1)->where('is_default', 1)->select('id', 'locale', 'name', 'is_default')->first();
         view()->share([
-            'activeLanguages' => $activeLanguages
+            'activeLanguages' => $activeLanguages,
+            'defaultLanguage' => $defaultLanguage,
         ]);
         return $next($request);
     }

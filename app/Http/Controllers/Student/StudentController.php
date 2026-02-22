@@ -17,22 +17,47 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->orderBy('full_name', 'asc')
-            ->when($request->input('name'), function ($query) use ($request) {
-                $query->where('full_name', 'like', '%' . $request->input('name') . '%');
-            })
-            ->when($request->input('class') && $request->input('class') != 'all', function ($query) use ($request) {
-                $query->where('class_id', $request->input('class'));
-            })
-            ->when($request->input('period') && $request->input('period') != 'all', function ($query) use ($request) {
-                $query->where('registiration_term', 'like', '%' . $request->input('period') . '%');
-            })
-            ->get();
-        $normalCount = Student::where('registration_type', 2)->count();
-        $preCount = Student::where('registration_type', 1)->count();
-        $classes = LessonClass::all();
+        if ($request->has('_clear')) {
+            session()->forget('students_filter');
+            return redirect()->route('students.index');
+        }
 
-        return view('admin.students.index', compact('students', 'normalCount', 'preCount', 'classes'));
+        if ($request->has('_rm')) {
+            $f = session('students_filter', []);
+            match ($request->_rm) {
+                'name'   => $f['name'] = '',
+                'class'  => $f['class'] = array_values(array_filter((array)($f['class'] ?? []), fn($id) => $id !== (int)$request->_val)),
+                'period' => $f['period'] = array_values(array_filter((array)($f['period'] ?? []), fn($p) => $p !== $request->_val)),
+                default  => null,
+            };
+            session(['students_filter' => $f]);
+            return redirect()->route('students.index');
+        }
+
+        if ($request->hasAny(['name', 'class', 'period'])) {
+            session(['students_filter' => [
+                'name'   => $request->input('name', ''),
+                'class'  => array_map('intval', (array)$request->input('class', [])),
+                'period' => (array)$request->input('period', []),
+            ]]);
+            return redirect()->route('students.index');
+        }
+
+        $f               = session('students_filter', []);
+        $filterName      = $f['name'] ?? '';
+        $selectedClasses = array_values(array_filter(array_map('intval', (array)($f['class'] ?? []))));
+        $selectedPeriods = array_values(array_filter((array)($f['period'] ?? [])));
+
+        $students = Student::with('guardians', 'emergencyContact', 'lessonClass')->where('registration_type', 2)->orderBy('full_name', 'asc')
+            ->when($filterName,      fn($q) => $q->where('full_name', 'like', '%' . $filterName . '%'))
+            ->when($selectedClasses, fn($q) => $q->whereIn('class_id', $selectedClasses))
+            ->when($selectedPeriods, fn($q) => $q->whereIn('registiration_term', $selectedPeriods))
+            ->paginate(20);
+        $normalCount = Student::where('registration_type', 2)->count();
+        $preCount    = Student::where('registration_type', 1)->count();
+        $classes     = LessonClass::all();
+
+        return view('admin.students.index', compact('students', 'normalCount', 'preCount', 'classes', 'filterName', 'selectedClasses', 'selectedPeriods'));
     }
 
     public function create()
@@ -1586,13 +1611,45 @@ class StudentController extends Controller
 
     public function preStudents(Request $request)
     {
-        $students = Student::with('guardians')->where('registration_type', 1)->orderBy('full_name', 'asc')->when($request->name, function ($query) use ($request) {
-            $query->where('full_name', 'like', '%' . $request->name . '%');
-        })->get();
-        $normalCount = Student::where('registration_type', 2)->count();
-        $preCount = Student::where('registration_type', 1)->count();
+        if ($request->has('_clear')) {
+            session()->forget('pre_students_filter');
+            return redirect()->route('students.pre.students');
+        }
 
-        return view('admin.students.pre-students', compact('students', 'normalCount', 'preCount'));
+        if ($request->has('_rm')) {
+            $f = session('pre_students_filter', []);
+            match ($request->_rm) {
+                'name'         => $f['name'] = '',
+                'meets_status' => $f['meets_status'] = array_values(array_filter((array)($f['meets_status'] ?? []), fn($s) => $s !== $request->_val)),
+                default        => null,
+            };
+            session(['pre_students_filter' => $f]);
+            return redirect()->route('students.pre.students');
+        }
+
+        if ($request->hasAny(['name', 'meets_status'])) {
+            session(['pre_students_filter' => [
+                'name'         => $request->input('name', ''),
+                'meets_status' => (array)$request->input('meets_status', []),
+            ]]);
+            return redirect()->route('students.pre.students');
+        }
+
+        $f                = session('pre_students_filter', []);
+        $filterName       = $f['name'] ?? '';
+        $selectedStatuses = array_values(array_filter((array)($f['meets_status'] ?? [])));
+
+        $students = Student::with('guardians')->where('registration_type', 1)->orderBy('full_name', 'asc')
+            ->when($filterName,       fn($q) => $q->where('full_name', 'like', '%' . $filterName . '%'))
+            ->when($selectedStatuses, fn($q) => $q->whereIn('meets_status', $selectedStatuses))
+            ->paginate(20);
+        $normalCount      = Student::where('registration_type', 2)->count();
+        $preCount         = Student::where('registration_type', 1)->count();
+        $metCount         = Student::where('registration_type', 1)->where('meets_status', 'Görüşüldü')->count();
+        $notMetCount      = Student::where('registration_type', 1)->where('meets_status', 'Görüşülmedi')->count();
+        $pendingMeetCount = Student::where('registration_type', 1)->where('meets_status', 'Görüşülecek')->count();
+
+        return view('admin.students.pre-students', compact('students', 'normalCount', 'preCount', 'metCount', 'notMetCount', 'pendingMeetCount', 'filterName', 'selectedStatuses'));
     }
 
     //delete student

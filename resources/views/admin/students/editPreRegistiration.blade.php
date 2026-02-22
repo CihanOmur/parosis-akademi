@@ -1,227 +1,391 @@
 @extends('admin.layouts.app')
-@section('styles')
-    <link href="{{ asset('tomselect.css') }}" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-@endsection
+
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 ">
-        @yield('page-title', 'Ön Kayıt Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
-    </h1>
-
-
-    <div class="flex gap-4">
-        <button data-modal-target="select-modal" data-modal-toggle="select-modal"
-            class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            type="button">Yeni Ekle</button>
-        @include('admin.components.StudentNewAddModal', [
-            'normalCount' => $normalCount,
-            'preCount' => $preCount,
-        ])
+    <div class="flex items-center gap-4">
+        <a href="{{ route('students.pre.students') }}"
+           class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300
+                  rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+            </svg>
+        </a>
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Ön Kayıt Düzenle</h1>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $student->full_name }}</p>
+        </div>
     </div>
+    <a href="{{ route('students.pre.createPreRegistiration') }}"
+       class="inline-flex items-center gap-2 px-6 py-3
+              bg-gradient-to-r from-fuchsia-500 to-purple-500
+              hover:from-fuchsia-600 hover:to-purple-600
+              text-white font-semibold rounded-xl
+              shadow-lg shadow-fuchsia-500/25 transition-all duration-200">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+        </svg>
+        Yeni Ön Kayıt
+    </a>
 @endsection
 
 @section('content')
-    <div class="rounded-lg mb-4">
+@php
+    $guardian = $student->guardians->first();
+@endphp
 
-        <div class="w-full">
-            <form class=" w-full space-y-6"
-                action="{{ route('students.pre.updatePreRegistiration', ['id' => $student->id]) }}" method="POST"
-                enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
+<form action="{{ route('students.pre.updatePreRegistiration', ['id' => $student->id]) }}" method="POST" enctype="multipart/form-data"
+      x-data="{
+          studentName: @js(old('full_name', $student->full_name)),
+          meetsStatus: @js(old('meets_status', $student->meets_status ?? 'Görüşülecek')),
+          get initials() {
+              const parts = this.studentName.trim().split(' ').filter(Boolean);
+              if (parts.length >= 2) return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+              if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+              return '??';
+          }
+      }">
+    @csrf
+    <input type="hidden" name="registiration_type" value="1">
 
-                {{-- Registration Type --}}
-                <input id="bordered-radio-1" type="text" name="registiration_type" value="1"class="hidden">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                {{-- Student Info --}}
-                <div class="w-full bg-white rounded-lg border border-gray-200">
-                    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
-                        <h3 class="text-md font-semibold text-gray-900 ">
-                            Öğrenci Bilgileri
-                        </h3>
+        {{-- Sol kolon --}}
+        <div class="lg:col-span-2 space-y-5">
+
+            {{-- Öğrenci Bilgileri --}}
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+                <div class="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+                    <div class="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4.5 h-4.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                        </svg>
                     </div>
-                    <div class="py-10 px-5">
-                        <div class="grid grid-cols-4 gap-4">
-                            <div class="mb-6">
-                                <label class="block mb-2 font-medium">Ad Soyad</label>
-                                <input type="text" name="full_name"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    value="{{ $student->full_name }}" placeholder="örn: Ahmet Yılmaz">
-                                <div class="text-red-500 text-xs mt-2">
-                                    @error('full_name')
-                                        {{ $message }}
-                                    @enderror
-
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <label class="block mb-2 font-medium">Doğum Tarihi</label>
-                                <input type="date" name="birth_date"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    value="{{ $student->birth_date }}">
-                                <div class="text-red-500 text-xs mt-2">
-                                    @error('birth_date')
-                                        {{ $message }}
-                                    @enderror
-
-                                </div>
-                            </div>
-
-                        </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">Öğrenci Bilgileri</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Öğrencinin temel bilgileri</p>
                     </div>
                 </div>
-
-                <div class="w-full">
-                    <div class="w-full bg-white rounded-lg border border-gray-200">
-                        <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
-                            <h3 class="text-md font-semibold text-gray-900 ">Veli Bilgileri</h3>
-                        </div>
-                        <div class="py-10 px-5">
-
-                            <div>
-
-                                <div class="grid grid-cols-4 gap-4">
-                                    <div class="mb-6">
-                                        <label class="block mb-2 font-medium">Yakınlık</label>
-                                        <input type="text" name="guardian1_relationship" placeholder="örn: Anne"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                            value="{{ $student->guardians[0]?->relationship ?? '' }}">
-                                        <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian1_relationship')
-                                                {{ $message }}
-                                            @enderror
-
-                                        </div>
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block mb-2 font-medium">Ad Soyad</label>
-                                        <input type="text" name="guardian1_full_name" placeholder="Ayşe Yılmaz"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                            value="{{ $student->guardians[0]?->full_name ?? '' }}">
-                                        <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian1_full_name')
-                                                {{ $message }}
-                                            @enderror
-
-                                        </div>
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                            name="guardian1_phone_1" placeholder="örn: 05551234545"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                            value="{{ $student->guardians[0]?->phone_1 ?? '' }}">
-                                        <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian1_phone_1')
-                                                {{ $message }}
-                                            @enderror
-
-                                        </div>
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block mb-2 font-medium">Telefon</label>
-                                        <input type="tel" pattern="[0-9]*" max="11" inputmode="numeric"
-                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                            name="guardian1_phone_2" placeholder="örn: 05551234545"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                            value="{{ $student->guardians[0]?->phone_2 ?? '' }}">
-                                        <div class="text-red-500 text-xs mt-2">
-                                            @error('guardian1_phone_2')
-                                                {{ $message }}
-                                            @enderror
-
-                                        </div>
-                                    </div>
-
-                                </div>
-
+                <div class="p-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        {{-- Ad Soyad --}}
+                        <div class="space-y-1">
+                            <label for="full_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Ad Soyad <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                                    </svg>
+                                </span>
+                                <input type="text" id="full_name" name="full_name" x-model="studentName"
+                                       placeholder="Örn: Ahmet Yılmaz"
+                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                              text-slate-900 dark:text-white placeholder-slate-400
+                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all
+                                              @error('full_name') ring-red-400 focus:ring-red-500/60 @enderror">
                             </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                {{-- Notes --}}
-                <div class="w-full bg-white rounded-lg border border-gray-200">
-                    <div class="flex items-start justify-between rounded-t border-b border-gray-200 p-5 py-5 px-5">
-                        <h3 class="text-md font-semibold text-gray-900 ">Not</h3>
-                    </div>
-                    <div class="py-5 px-5">
-                        <div class="mb-6">
-                            <label class="block mb-2 font-medium">Randevu Durumu</label>
-                            <select name="meets_status"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                @foreach (['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'] as $meets_st)
-                                    <option {{ $student->meets_status == $meets_st ? 'selected' : '' }}
-                                        value="{{ $meets_st }}">
-                                        {{ $meets_st }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="text-red-500 text-xs mt-2">
-                                @error('meets_status')
+                            @error('full_name')
+                                <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
                                     {{ $message }}
-                                @enderror
-
-                            </div>
+                                </p>
+                            @enderror
                         </div>
-                        <div class="mb-0">
-                            <textarea name="notes" placeholder=""
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 h-30">{{ $student->notes ?? '' }}</textarea>
-                            <div class="text-red-500 text-xs mt-2">
-                                @error('notes')
-                                    {{ $message }}
-                                @enderror
+
+                        {{-- Doğum Tarihi --}}
+                        <div class="space-y-1">
+                            <label for="birth_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Doğum Tarihi <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+                                    </svg>
+                                </span>
+                                <input type="date" id="birth_date" name="birth_date"
+                                       value="{{ old('birth_date', $student->birth_date) }}"
+                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                              text-slate-900 dark:text-white placeholder-slate-400
+                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all
+                                              @error('birth_date') ring-red-400 focus:ring-red-500/60 @enderror">
                             </div>
+                            @error('birth_date')
+                                <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">Kaydet</button>
-            </form>
+            </div>
+
+            {{-- Veli Bilgileri --}}
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+                <div class="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+                    <div class="w-9 h-9 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4.5 h-4.5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                  d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">Veli Bilgileri</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Öğrenci velisinin iletişim bilgileri</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        {{-- Yakınlık --}}
+                        <div class="space-y-1">
+                            <label for="guardian1_relationship" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Yakınlık <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="guardian1_relationship" name="guardian1_relationship"
+                                   placeholder="Örn: Anne"
+                                   value="{{ old('guardian1_relationship', $guardian?->relationship) }}"
+                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                          text-slate-900 dark:text-white placeholder-slate-400
+                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
+                                          @error('guardian1_relationship') ring-red-400 focus:ring-red-500/60 @enderror">
+                            @error('guardian1_relationship')
+                                <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        {{-- Ad Soyad --}}
+                        <div class="space-y-1">
+                            <label for="guardian1_full_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Ad Soyad <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="guardian1_full_name" name="guardian1_full_name"
+                                   placeholder="Örn: Ayşe Yılmaz"
+                                   value="{{ old('guardian1_full_name', $guardian?->full_name) }}"
+                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                          text-slate-900 dark:text-white placeholder-slate-400
+                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
+                                          @error('guardian1_full_name') ring-red-400 focus:ring-red-500/60 @enderror">
+                            @error('guardian1_full_name')
+                                <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        {{-- Telefon 1 --}}
+                        <div class="space-y-1">
+                            <label for="guardian1_phone_1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Telefon <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+                                    </svg>
+                                </span>
+                                <input type="tel" id="guardian1_phone_1" name="guardian1_phone_1"
+                                       placeholder="05XX XXX XX XX"
+                                       inputmode="numeric"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                                       value="{{ old('guardian1_phone_1', $guardian?->phone_1) }}"
+                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                              text-slate-900 dark:text-white placeholder-slate-400
+                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
+                                              @error('guardian1_phone_1') ring-red-400 focus:ring-red-500/60 @enderror">
+                            </div>
+                            @error('guardian1_phone_1')
+                                <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+
+                        {{-- Telefon 2 --}}
+                        <div class="space-y-1">
+                            <label for="guardian1_phone_2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Telefon 2 <span class="text-slate-400 text-xs font-normal">(Opsiyonel)</span>
+                            </label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+                                    </svg>
+                                </span>
+                                <input type="tel" id="guardian1_phone_2" name="guardian1_phone_2"
+                                       placeholder="05XX XXX XX XX"
+                                       inputmode="numeric"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                                       value="{{ old('guardian1_phone_2', $guardian?->phone_2) }}"
+                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                              text-slate-900 dark:text-white placeholder-slate-400
+                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
+                                              @error('guardian1_phone_2') ring-red-400 focus:ring-red-500/60 @enderror">
+                            </div>
+                            @error('guardian1_phone_2')
+                                <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Randevu & Notlar --}}
+            <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+                <div class="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+                    <div class="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4.5 h-4.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">Randevu & Notlar</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Görüşme durumu ve ek notlar</p>
+                    </div>
+                </div>
+                <div class="p-6 space-y-5">
+                    {{-- Randevu Durumu --}}
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Randevu Durumu
+                        </label>
+                        <div class="grid grid-cols-3 gap-3">
+                            {{-- Görüşülecek --}}
+                            <label class="relative cursor-pointer" @click="meetsStatus = 'Görüşülecek'">
+                                <input type="radio" name="meets_status" value="Görüşülecek" x-model="meetsStatus" class="sr-only">
+                                <div class="flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all"
+                                     :class="meetsStatus === 'Görüşülecek'
+                                         ? 'border-amber-400 bg-amber-50 dark:bg-amber-900/20'
+                                         : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'">
+                                    <svg class="w-4.5 h-4.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium" :class="meetsStatus === 'Görüşülecek' ? 'text-amber-700 dark:text-amber-300' : 'text-slate-700 dark:text-slate-300'">Görüşülecek</span>
+                                </div>
+                            </label>
+
+                            {{-- Görüşüldü --}}
+                            <label class="relative cursor-pointer" @click="meetsStatus = 'Görüşüldü'">
+                                <input type="radio" name="meets_status" value="Görüşüldü" x-model="meetsStatus" class="sr-only">
+                                <div class="flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all"
+                                     :class="meetsStatus === 'Görüşüldü'
+                                         ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
+                                         : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'">
+                                    <svg class="w-4.5 h-4.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium" :class="meetsStatus === 'Görüşüldü' ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-700 dark:text-slate-300'">Görüşüldü</span>
+                                </div>
+                            </label>
+
+                            {{-- Görüşülmedi --}}
+                            <label class="relative cursor-pointer" @click="meetsStatus = 'Görüşülmedi'">
+                                <input type="radio" name="meets_status" value="Görüşülmedi" x-model="meetsStatus" class="sr-only">
+                                <div class="flex items-center gap-2 px-4 py-3 rounded-xl border-2 transition-all"
+                                     :class="meetsStatus === 'Görüşülmedi'
+                                         ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
+                                         : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500'">
+                                    <svg class="w-4.5 h-4.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium" :class="meetsStatus === 'Görüşülmedi' ? 'text-red-700 dark:text-red-300' : 'text-slate-700 dark:text-slate-300'">Görüşülmedi</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{-- Notlar --}}
+                    <div class="space-y-1">
+                        <label for="notes" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                            Notlar <span class="text-slate-400 text-xs font-normal">(Opsiyonel)</span>
+                        </label>
+                        <textarea id="notes" name="notes" rows="4"
+                                  placeholder="Ek bilgi veya notlarınızı yazın..."
+                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
+                                         text-slate-900 dark:text-white placeholder-slate-400
+                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-amber-500/60 transition-all
+                                         resize-none @error('notes') ring-red-400 focus:ring-red-500/60 @enderror">{{ old('notes', $student->notes) }}</textarea>
+                        @error('notes')
+                            <p class="text-sm text-red-500 flex items-center gap-1.5">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <script>
-            $(document).ready(function() {
-                // guardian2 checkbox
-                $('#guardian2_active').change(function() {
-                    var isChecked = this.checked;
+        {{-- Sag kolon --}}
+        <div class="space-y-4 sticky top-24 self-start">
 
-                    // İçindeki tüm form elemanlarını aktif/pasif yap
-                    $('#guardian2_fields').find('input, select, textarea').prop('disabled', !isChecked);
-                    $('#guardian2_fields').prop('hidden', !isChecked);
+            {{-- Onizleme Karti --}}
+            <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg shadow-amber-500/25">
+                <div class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center mb-4">
+                    <span class="text-lg font-bold text-white" x-text="initials"></span>
+                </div>
+                <h4 class="text-lg font-bold leading-snug min-h-[1.75rem] mb-1" x-text="studentName || 'Öğrenci Adı'"></h4>
+                <p class="text-white/60 text-xs mb-4">Ön Kayıt</p>
+                <div class="pt-4 border-t border-white/20 space-y-2 text-sm">
+                    <div class="flex items-center justify-between">
+                        <span class="text-white/70">Randevu</span>
+                        <span class="font-bold text-xs px-2 py-0.5 rounded-lg bg-white/20" x-text="meetsStatus"></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-white/70">Kayıt Tarihi</span>
+                        <span class="font-medium">{{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</span>
+                    </div>
+                </div>
+            </div>
 
-                });
-                $('#guardian2_active').trigger('change');
-
-
-                // has_allergy radio
-                $('input[name="has_allergy"]').change(function() {
-                    if ($(this).val() === '1') { // 'yes' evet değerini temsil ediyor
-                        $('#allergy_detail_field').show();
-                    } else {
-                        $('#allergy_detail_field').hide();
-                    }
-                });
-
-                $('#allergy_detail_field').toggle($('input[name="has_allergy"]:checked').val() === 'yes');
-            });
-        </script>
-
+            {{-- Islemler --}}
+            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm p-5 space-y-3">
+                <button type="submit"
+                        class="w-full inline-flex items-center justify-center gap-2 px-6 py-3
+                               bg-gradient-to-r from-fuchsia-500 to-purple-500
+                               hover:from-fuchsia-600 hover:to-purple-600
+                               text-white font-semibold rounded-xl
+                               shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="m4.5 12.75 6 6 9-13.5"/>
+                    </svg>
+                    Değişiklikleri Kaydet
+                </button>
+                <a href="{{ route('students.pre-to-normal', $student->id) }}"
+                   class="w-full inline-flex items-center justify-center gap-2 px-6 py-3
+                          text-emerald-600 dark:text-emerald-400 font-medium rounded-xl
+                          bg-emerald-50 dark:bg-emerald-900/20
+                          hover:bg-emerald-100 dark:hover:bg-emerald-900/30
+                          border border-emerald-200 dark:border-emerald-700 transition-all">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                    Kesin Kayıta Çevir
+                </a>
+                <a href="{{ route('students.pre.students') }}"
+                   class="w-full inline-flex items-center justify-center gap-2 px-6 py-3
+                          text-slate-600 dark:text-slate-400 font-medium rounded-xl
+                          hover:bg-slate-50 dark:hover:bg-slate-700/50 border border-slate-200 dark:border-slate-700 transition-all">
+                    İptal
+                </a>
+            </div>
+        </div>
     </div>
-    <script>
-        new TomSelect('#registiration_term', {
-            create: false,
-            highlight: true,
-            persist: false,
-            openOnFocus: true,
-            allowEmptyOption: false,
-            placeholder: 'Eğitim dönemi seçin...',
-            hidePlaceholder: true,
-        });
-    </script>
+</form>
 @endsection

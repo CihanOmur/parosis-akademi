@@ -1,193 +1,612 @@
 @extends('admin.layouts.app')
+
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 ">
-        @yield('page-title', 'Kesin Kayıtlar ' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
-    </h1>
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Kesin Kayıtlar</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Kayıtlı öğrencileri yönetin</p>
+    </div>
     @can('student')
         <a href="{{ route('students.create') }}"
-            class="block cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            type="button">
-            Yeni Ekle
+           class="inline-flex items-center gap-2 px-6 py-3
+                  bg-gradient-to-r from-fuchsia-500 to-purple-500
+                  hover:from-fuchsia-600 hover:to-purple-600
+                  text-white font-semibold rounded-xl
+                  shadow-lg shadow-fuchsia-500/25 transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Yeni Kayıt
         </a>
     @endcan
 @endsection
+
 @section('content')
-    <form class="grid grid-cols-1 md:grid-cols-12 gap-3" method="GET" action="{{ route('students.index') }}" id="filterForm">
-        <div class="mb-0 w-full pb-2 lg:col-span-5 md:col-span-6">
-            <div class="relative w-full flex items-center">
-                <!-- Arama ikonu -->
-                <span class="absolute left-3 text-gray-400">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"></path>
+    {{-- Özet Kartları --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {{-- Toplam Kayıt --}}
+        <div class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-5">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
                     </svg>
-                </span>
-
-                <input type="text" name="name" id="name" value="{{ request()->input('name') }}"
-                    class="w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 pl-10 py-2.5"
-                    placeholder="Ara...">
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $normalCount }}</p>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Kesin Kayıt</p>
+                </div>
             </div>
+            <div class="absolute -right-3 -bottom-3 w-20 h-20 rounded-full bg-blue-500/5 dark:bg-blue-500/10"></div>
         </div>
 
-
-        <div class="mb-0 w-full pb-2 lg:col-span-3 md:col-span-6">
-            <select id="class_id" name="class"
-                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="" disabled selected>Sınıf seçin</option>
-                <option value="all" {{ request()->input('class') == 'all' ? 'selected' : '' }}>Tüm Sınıflar</option>
-                @foreach ($classes as $class)
-                    <option value="{{ $class->id }}" {{ request()->input('class') == $class->id ? 'selected' : '' }}>
-                        {{ $class?->name }}
-                    </option>
-                @endforeach
-            </select>
+        {{-- Aktif --}}
+        <div class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-5">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $students->where('is_active', 1)->count() }}</p>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Aktif</p>
+                </div>
+            </div>
+            <div class="absolute -right-3 -bottom-3 w-20 h-20 rounded-full bg-emerald-500/5 dark:bg-emerald-500/10"></div>
         </div>
-        @php
-            $startYear = 2020;
-            $endYear = \Carbon\Carbon::now()->year + 1;
-            $years = range($startYear, $endYear);
-            rsort($years);
-            $requestValue = request()->input('period');
-        @endphp
-        <div class="mb-0 w-full pb-2 lg:col-span-3 md:col-span-6">
-            <select id="period" name="period"
-                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="" disabled selected>Dönem seçin</option>
-                <option value="all" {{ request()->input('period') == 'all' ? 'selected' : '' }}>Tüm Dönemler</option>
-                @foreach ($years as $year)
-                    <option value="{{ $year }} Güz"
-                        {{ request()->input('period') == $year . ' Güz' ? 'selected' : '' }}>
-                        {{ $year }} Güz
-                    </option>
-                    <option value="{{ $year }} Yaz"
-                        {{ request()->input('period') == $year . ' Yaz' ? 'selected' : '' }}>
-                        {{ $year }} Yaz
-                    </option>
-                    <option value="{{ $year }} Bahar"
-                        {{ request()->input('period') == $year . ' Bahar' ? 'selected' : '' }}>
-                        {{ $year }} Bahar
-                    </option>
-                @endforeach
-            </select>
 
+        {{-- Pasif --}}
+        <div class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-5">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center shadow-lg shadow-red-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $students->where('is_active', 0)->count() }}</p>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Pasif</p>
+                </div>
+            </div>
+            <div class="absolute -right-3 -bottom-3 w-20 h-20 rounded-full bg-red-500/5 dark:bg-red-500/10"></div>
         </div>
-        <div class="mb-0 w-full pb-2 lg:col-span-1 md:col-span-6 flex items-center text-center">
-            <button type="submit" form="filterForm"
-                class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center lg:w-max w-full cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="mx-auto">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="1.5" d="M4.5 7.25h15M7.385 12h9.23m-6.345 4.75h3.46" />
+
+        {{-- Ön Kayıtlar --}}
+        <a href="{{ route('students.pre.students') }}"
+           class="relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-5
+                  hover:border-amber-300 dark:hover:border-amber-600 hover:shadow-md hover:shadow-amber-500/5 transition-all group">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20
+                            group-hover:scale-105 transition-transform">
+                    <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $preCount }}</p>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Ön Kayıt</p>
+                </div>
+            </div>
+            <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 dark:text-slate-600
+                        group-hover:text-amber-400 group-hover:translate-x-0.5 transition-all"
+                 fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+            </svg>
+            <div class="absolute -right-3 -bottom-3 w-20 h-20 rounded-full bg-amber-500/5 dark:bg-amber-500/10"></div>
+        </a>
+    </div>
+
+    {{-- Sekme Navigasyonu --}}
+    <div class="flex items-center gap-1 mb-5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-1.5">
+        <a href="{{ route('students.index') }}"
+           class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl
+                  bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white shadow-sm shadow-fuchsia-500/20">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            </svg>
+            Kesin Kayıtlar
+            <span class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold bg-white/20 rounded-md">{{ $normalCount }}</span>
+        </a>
+        <a href="{{ route('students.pre.students') }}"
+           class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium rounded-xl
+                  text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200
+                  hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            </svg>
+            Ön Kayıtlar
+            <span class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold
+                         bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-md">{{ $preCount }}</span>
+        </a>
+    </div>
+
+    {{-- Filtreler --}}
+    @php
+        $startYear   = 2020;
+        $endYear     = \Carbon\Carbon::now()->year + 1;
+        $allPeriods  = [];
+        for ($y = $endYear; $y >= $startYear; $y--) {
+            $allPeriods[] = $y . ' Güz';
+            $allPeriods[] = $y . ' Yaz';
+            $allPeriods[] = $y . ' Bahar';
+        }
+        $activeCount = ($filterName ? 1 : 0) + count($selectedClasses) + count($selectedPeriods);
+    @endphp
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 mb-5"
+         x-data="{ filtersOpen: {{ $activeCount > 0 ? 'true' : 'false' }} }">
+
+        {{-- Kart Başlığı --}}
+        <button @click="filtersOpen = !filtersOpen" type="button"
+                class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer select-none
+                       hover:bg-slate-50/50 dark:hover:bg-slate-700/20 transition-colors rounded-2xl"
+                :class="filtersOpen ? 'rounded-b-none border-b border-slate-100 dark:border-slate-700/50' : ''">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center shadow-sm shadow-fuchsia-500/20">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/>
+                    </svg>
+                </div>
+                <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">Filtreler</span>
+                @if($activeCount > 0)
+                    <span class="inline-flex items-center justify-center w-5 h-5 text-[11px] font-bold
+                                 bg-fuchsia-500 text-white rounded-full animate-pulse">{{ $activeCount }}</span>
+                @endif
+            </div>
+            <div class="flex items-center gap-3">
+                @if($activeCount > 0)
+                    <a href="{{ route('students.index', ['_clear' => 1]) }}"
+                       @click.stop
+                       class="inline-flex items-center gap-1 text-xs font-medium text-slate-400
+                              hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        Temizle
+                    </a>
+                @endif
+                <svg class="w-5 h-5 text-slate-400 transition-transform duration-300" :class="filtersOpen ? 'rotate-180' : ''"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
-            </button>
-        </div>
-    </form>
-    <div class="rounded-lg mb-4 h-[85%]">
+            </div>
+        </button>
 
-        <div class="w-full bg-white py-10 px-8 rounded-lg h-full border border-gray-200">
-            <div class="relative overflow-x-auto h-full">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
-                        <tr>
+        {{-- Filtre Girdileri --}}
+        <div x-show="filtersOpen" x-collapse>
+            <form method="GET" action="{{ route('students.index') }}" id="filterForm" class="px-5 py-4">
+                <div class="flex flex-wrap items-end gap-4">
 
-                            <th scope="col" class="px-6 py-3">
-                                Ad/Soyad
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Yaş
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                T.C. Kimlik No
-                            </th>
+                    {{-- Ad Soyad --}}
+                    <div class="flex-1 min-w-52">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Ad Soyad</label>
+                        <div class="relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
+                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+                            </svg>
+                            <input type="text" name="name" value="{{ $filterName }}" placeholder="Öğrenci ara…"
+                                   class="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl
+                                          border border-slate-200 dark:border-slate-600
+                                          bg-slate-50 dark:bg-slate-700/50
+                                          text-slate-900 dark:text-white placeholder-slate-400
+                                          focus:outline-none focus:ring-2 focus:ring-fuchsia-500/30 focus:border-fuchsia-400 transition-all">
+                        </div>
+                    </div>
 
-                            <th scope="col" class="px-6 py-3">
-                                Sınıf
-                            </th>
-
-                            <th scope="col" class="px-6 py-3">
-                                Durum
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Kayıt Tarihi
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                <span>İşlem</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($students as $item)
-                            @include('admin.components.actionbuttonstudent', ['student' => $item])
-
-                            <tr class="bg-white border-b   border-gray-200 hover:bg-gray-50 ">
-
-                                <th scope="row" class="px-6 py-4 font-medium text-blue-600 whitespace-nowrap ">
-                                    <a
-                                        href="{{ $item->registration_type == '1' ? route('students.pre.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}">{{ $item->full_name }}</a>
-                                </th>
-                                <td class="px-6 py-4">
-                                    {{ Carbon\Carbon::parse($item->birth_date)->age }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $item->national_id ?? '-' }}
-                                </td>
-
-                                <td class="px-6 py-4">
-                                    {{ $item->lessonClass->name ?? 'Belirtilmemiş' }}
-                                </td>
-
-                                <td class="px-6 py-4">
-                                    @if ($item->is_active == 1)
-                                        <span
-                                            class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Aktif</span>
-                                    @else
-                                        <span
-                                            class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Pasif</span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
-                                </td>
-                                <td class="px-6 py-4 gap-2 ">
-                                    <div class="flex items-center gap-2">
-                                        <!-- Action button -->
-                                        <div class="">
-                                            <button data-modal-target="actionbutton-modal-{{ $item->id }}"
-                                                data-modal-toggle="actionbutton-modal-{{ $item->id }}" type="button"
-                                                class="cursor-pointer text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-1.5 text-center inline-flex items-center me-2 ">
-                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="4"
-                                                        d="M12 6h.01M12 12h.01M12 18h.01" />
-                                                </svg>
-                                            </button>
+                    {{-- Sınıf — Alpine dropdown --}}
+                    @if($classes->isNotEmpty())
+                    <div class="relative min-w-44"
+                         x-data="{
+                             open: false,
+                             selected: {{ json_encode($selectedClasses) }},
+                             items: {{ json_encode($classes->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->values()) }},
+                             toggle(id) { const i = this.selected.indexOf(id); i === -1 ? this.selected.push(id) : this.selected.splice(i, 1); },
+                             label() {
+                                 if (!this.selected.length) return 'Tüm Sınıflar';
+                                 if (this.selected.length === 1) return this.items.find(i => i.id === this.selected[0])?.name ?? '1 Sınıf';
+                                 return this.selected.length + ' Sınıf Seçildi';
+                             }
+                         }"
+                         @click.outside="open = false"
+                         @dropdown-open.window="if ($event.detail.id !== 'class') open = false">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Sınıf</label>
+                        <button type="button" @click.stop="open = !open; if (open) $dispatch('dropdown-open', { id: 'class' })"
+                                :class="selected.length ? 'border-fuchsia-300 dark:border-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-900/20' : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'"
+                                class="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border transition-all cursor-pointer">
+                            <span :class="selected.length ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-700 dark:text-slate-300'"
+                                  x-text="label()"></span>
+                            <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
+                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+                             class="absolute z-30 mt-1 min-w-44 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
+                            <div class="max-h-52 overflow-y-auto">
+                                <template x-for="item in items" :key="item.id">
+                                    <div @click.stop="toggle(item.id)"
+                                         class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer transition-colors select-none">
+                                        <div :class="selected.includes(item.id) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700'"
+                                             class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
+                                            <svg x-show="selected.includes(item.id)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
                                         </div>
-
-                                        @can('student_delete')
-                                            <button type="button" data-modal-target="are-you-sure-modal-{{ $item->id }}"
-                                                data-modal-toggle="are-you-sure-modal-{{ $item->id }}"
-                                                class="cursor-pointer font-medium text-red-600 items-center hover:underline mb-3 md:mb-0 border-gray-200 border bg-none focus:outline-none rounded-lg text-sm px-2.5 py-2.5 text-center inline-flex ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                </svg>
-                                            </button>
-                                        @endcan
-
+                                        <span class="text-sm text-slate-700 dark:text-slate-300 flex-1" x-text="item.name"></span>
                                     </div>
-                                </td>
-                                @can('student_delete')
-                                    @include('admin.components.are-you-sure-modal', [
-                                        'id' => $item->id,
-                                        'route' => route('students.delete', $item->id),
-                                    ])
-                                @endcan
-                            </tr>
+                                </template>
+                            </div>
+                        </div>
+                        <template x-for="id in selected" :key="id">
+                            <input type="hidden" name="class[]" :value="id">
+                        </template>
+                    </div>
+                    @endif
+
+                    {{-- Dönem — Alpine dropdown --}}
+                    <div class="relative min-w-44"
+                         x-data="{
+                             open: false,
+                             selected: {{ json_encode($selectedPeriods) }},
+                             items: {{ json_encode($allPeriods) }},
+                             toggle(v) { const i = this.selected.indexOf(v); i === -1 ? this.selected.push(v) : this.selected.splice(i, 1); },
+                             label() {
+                                 if (!this.selected.length) return 'Tüm Dönemler';
+                                 if (this.selected.length === 1) return this.selected[0];
+                                 return this.selected.length + ' Dönem Seçildi';
+                             }
+                         }"
+                         @click.outside="open = false"
+                         @dropdown-open.window="if ($event.detail.id !== 'period') open = false">
+                        <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Dönem</label>
+                        <button type="button" @click.stop="open = !open; if (open) $dispatch('dropdown-open', { id: 'period' })"
+                                :class="selected.length ? 'border-fuchsia-300 dark:border-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-900/20' : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'"
+                                class="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border transition-all cursor-pointer">
+                            <span :class="selected.length ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-700 dark:text-slate-300'"
+                                  x-text="label()"></span>
+                            <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
+                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+                             class="absolute z-30 mt-1 w-44 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
+                            <div class="max-h-52 overflow-y-auto">
+                                <template x-for="v in items" :key="v">
+                                    <div @click.stop="toggle(v)"
+                                         class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer transition-colors select-none">
+                                        <div :class="selected.includes(v) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700'"
+                                             class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
+                                            <svg x-show="selected.includes(v)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm text-slate-700 dark:text-slate-300 flex-1" x-text="v"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <template x-for="v in selected" :key="v">
+                            <input type="hidden" name="period[]" :value="v">
+                        </template>
+                    </div>
+
+                    {{-- Filtrele --}}
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white rounded-xl
+                                   bg-gradient-to-r from-fuchsia-500 to-purple-500
+                                   hover:from-fuchsia-600 hover:to-purple-600
+                                   shadow-sm shadow-fuchsia-500/20 transition-all cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/>
+                        </svg>
+                        Filtrele
+                    </button>
+                </div>
+
+                {{-- Aktif Filtre Chip'leri --}}
+                @if($activeCount > 0)
+                    <div class="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+                        <span class="text-xs font-medium text-slate-400 dark:text-slate-500">Aktif:</span>
+
+                        @if($filterName)
+                            <a href="{{ route('students.index', ['_rm' => 'name']) }}"
+                               class="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-lg text-xs font-medium
+                                      bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-700 dark:text-fuchsia-300
+                                      border border-fuchsia-200/60 dark:border-fuchsia-700/40
+                                      hover:bg-fuchsia-100 dark:hover:bg-fuchsia-900/40 transition-colors">
+                                "{{ $filterName }}"
+                                <svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </a>
+                        @endif
+
+                        @foreach($selectedClasses as $cid)
+                            @php $cls = $classes->firstWhere('id', $cid); @endphp
+                            @if($cls)
+                                <a href="{{ route('students.index', ['_rm' => 'class', '_val' => $cid]) }}"
+                                   class="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-lg text-xs font-medium
+                                          bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300
+                                          border border-blue-200/60 dark:border-blue-700/40
+                                          hover:bg-blue-100 transition-colors">
+                                    {{ $cls->name }}
+                                    <svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </a>
+                            @endif
                         @endforeach
 
-                    </tbody>
-                </table>
-            </div>
+                        @foreach($selectedPeriods as $p)
+                            <a href="{{ route('students.index', ['_rm' => 'period', '_val' => $p]) }}"
+                               class="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-lg text-xs font-medium
+                                      bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300
+                                      border border-violet-200/60 dark:border-violet-700/40
+                                      hover:bg-violet-100 transition-colors">
+                                {{ $p }}
+                                <svg class="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </a>
+                        @endforeach
+                    </div>
+                @endif
+            </form>
         </div>
-    @endsection
+    </div>
+
+    {{-- Sonuç Bilgisi --}}
+    <div class="flex items-center justify-between mb-3 px-1">
+        <p class="text-sm text-slate-500 dark:text-slate-400">
+            <span class="font-semibold text-slate-700 dark:text-slate-200">{{ $students->total() }}</span> öğrenci bulundu
+            @if($activeCount > 0)
+                <span class="text-fuchsia-500 font-medium">(filtrelenmiş)</span>
+            @endif
+        </p>
+        <p class="text-xs text-slate-400 dark:text-slate-500">
+            Sayfa {{ $students->currentPage() }} / {{ $students->lastPage() }}
+        </p>
+    </div>
+
+    {{-- Tablo --}}
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead>
+                    <tr class="bg-gradient-to-r from-slate-50 to-slate-100/50 dark:from-slate-700/60 dark:to-slate-700/40
+                               [&>th:first-child]:rounded-tl-2xl [&>th:last-child]:rounded-tr-2xl">
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ad / Soyad</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Yaş</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden md:table-cell">T.C.</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sınıf</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Durum</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden lg:table-cell">Kayıt Tarihi</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-right">İşlem</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                    @forelse ($students as $item)
+                        @php
+                            $avatarColors = [
+                                'from-blue-400 to-indigo-500',
+                                'from-fuchsia-400 to-purple-500',
+                                'from-emerald-400 to-teal-500',
+                                'from-amber-400 to-orange-500',
+                                'from-rose-400 to-pink-500',
+                                'from-cyan-400 to-blue-500',
+                                'from-violet-400 to-purple-500',
+                                'from-lime-400 to-green-500',
+                            ];
+                            $colorIndex = crc32($item->full_name) % count($avatarColors);
+                        @endphp
+
+                        {{-- Flowbite action modal --}}
+                        @include('admin.components.actionbuttonstudent', ['student' => $item])
+
+                        <tr class="group hover:bg-fuchsia-50/30 dark:hover:bg-fuchsia-900/5 transition-colors duration-150">
+                            {{-- Ad Soyad --}}
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br {{ $avatarColors[$colorIndex] }}
+                                                flex items-center justify-center flex-shrink-0 shadow-sm
+                                                group-hover:shadow-md group-hover:scale-105 transition-all duration-200">
+                                        <span class="text-xs font-bold text-white uppercase">
+                                            {{ strtoupper(mb_substr($item->full_name, 0, 2)) }}
+                                        </span>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <a href="{{ $item->registration_type == '1' ? route('students.pre.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}"
+                                           class="font-semibold text-slate-900 dark:text-white
+                                                  hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors
+                                                  truncate block">
+                                            {{ $item->full_name }}
+                                        </a>
+                                        @if($item->registration_type == '1')
+                                            <span class="inline-flex items-center gap-1 text-[11px] font-medium text-amber-600 dark:text-amber-400 mt-0.5">
+                                                <span class="w-1 h-1 rounded-full bg-amber-500"></span>
+                                                Ön Kayıt
+                                            </span>
+                                        @elseif($item->lessonClass)
+                                            <span class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 block md:hidden">
+                                                {{ $item->lessonClass->name }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+
+                            {{-- Yaş --}}
+                            <td class="px-6 py-4">
+                                <span class="text-slate-700 dark:text-slate-300 font-medium">
+                                    {{ \Carbon\Carbon::parse($item->birth_date)->age }}
+                                </span>
+                                <span class="text-xs text-slate-400 ml-0.5">yaş</span>
+                            </td>
+
+                            {{-- TC --}}
+                            <td class="px-6 py-4 hidden md:table-cell">
+                                <span class="font-mono text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-700/50 px-2 py-1 rounded-lg">
+                                    {{ $item->national_id ?? '—' }}
+                                </span>
+                            </td>
+
+                            {{-- Sınıf --}}
+                            <td class="px-6 py-4">
+                                @if($item->lessonClass)
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium
+                                                 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300
+                                                 border border-blue-200/60 dark:border-blue-700/40">
+                                        <svg class="w-3 h-3 opacity-60" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342"/>
+                                        </svg>
+                                        {{ $item->lessonClass->name }}
+                                    </span>
+                                @else
+                                    <span class="text-xs text-slate-400 italic">Belirtilmemiş</span>
+                                @endif
+                            </td>
+
+                            {{-- Durum --}}
+                            <td class="px-6 py-4">
+                                @if ($item->is_active == 1)
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
+                                                 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400
+                                                 border border-emerald-200/60 dark:border-emerald-700/40">
+                                        <span class="relative flex h-2 w-2">
+                                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                        </span>
+                                        Aktif
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
+                                                 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400
+                                                 border border-red-200/60 dark:border-red-700/40">
+                                        <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                        Pasif
+                                    </span>
+                                @endif
+                            </td>
+
+                            {{-- Kayıt Tarihi --}}
+                            <td class="px-6 py-4 hidden lg:table-cell">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+                                    </svg>
+                                    <span class="text-slate-500 dark:text-slate-400 text-xs">
+                                        {{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}
+                                    </span>
+                                </div>
+                            </td>
+
+                            {{-- İşlem --}}
+                            <td class="px-6 py-4">
+                                <div class="flex items-center justify-end gap-1">
+                                    {{-- Düzenle --}}
+                                    <a href="{{ $item->registration_type == '1' ? route('students.pre.editPreRegistiration', $item->id) : route('students.edit', $item->id) }}"
+                                       class="p-2 text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400
+                                              hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 rounded-lg transition-all
+                                              opacity-0 group-hover:opacity-100"
+                                       title="Düzenle">
+                                        <svg class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/>
+                                        </svg>
+                                    </a>
+
+                                    {{-- Aksiyon butonu (Flowbite modal) --}}
+                                    <button data-modal-target="actionbutton-modal-{{ $item->id }}"
+                                            data-modal-toggle="actionbutton-modal-{{ $item->id }}"
+                                            type="button"
+                                            class="p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400
+                                                   hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all
+                                                   cursor-pointer"
+                                            title="İşlemler">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-width="3"
+                                                  d="M12 6h.01M12 12h.01M12 18h.01"/>
+                                        </svg>
+                                    </button>
+
+                                    {{-- Sil --}}
+                                    @can('student_delete')
+                                        <form action="{{ route('students.delete', $item->id) }}" method="POST"
+                                              x-data @submit.prevent="$dispatch('confirm-dialog', {
+                                                  title: 'Öğrenciyi Sil',
+                                                  message: '{{ addslashes($item->full_name) }} adlı öğrenciyi silmek istediğinize emin misiniz?',
+                                                  form: $el
+                                              })">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50
+                                                           dark:hover:bg-red-900/20 rounded-lg transition-all cursor-pointer
+                                                           opacity-0 group-hover:opacity-100"
+                                                    title="Sil">
+                                                <svg class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-20 text-center">
+                                <div class="flex flex-col items-center gap-4">
+                                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200
+                                                dark:from-slate-700 dark:to-slate-600
+                                                flex items-center justify-center shadow-inner">
+                                        <svg class="w-8 h-8 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-slate-700 dark:text-slate-300 font-medium">Kayıtlı öğrenci bulunamadı</p>
+                                        <p class="text-sm text-slate-400 dark:text-slate-500 mt-1">
+                                            @if($activeCount > 0)
+                                                Filtre kriterlerinize uygun sonuç yok.
+                                                <a href="{{ route('students.index', ['_clear' => 1]) }}"
+                                                   class="text-fuchsia-500 hover:text-fuchsia-600 font-medium">Filtreleri temizle</a>
+                                            @else
+                                                Henüz öğrenci kaydı eklenmemiş.
+                                            @endif
+                                        </p>
+                                    </div>
+                                    @if($activeCount == 0)
+                                        @can('student')
+                                            <a href="{{ route('students.create') }}"
+                                               class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl
+                                                      bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white
+                                                      hover:from-fuchsia-600 hover:to-purple-600 shadow-lg shadow-fuchsia-500/20 transition-all mt-2">
+                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                                                </svg>
+                                                İlk Kaydı Ekle
+                                            </a>
+                                        @endcan
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+        @if($students->hasPages())
+            <div class="border-t border-slate-100 dark:border-slate-700/50 px-6 py-3">
+                {{ $students->links() }}
+            </div>
+        @endif
+    </div>
+@endsection
+

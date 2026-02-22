@@ -11,13 +11,51 @@ use Illuminate\Http\Request;
 
 class LessonClassController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('_clear')) {
+            session()->forget('classes_filter');
+            return redirect()->route('class.index');
+        }
 
-        $classes = LessonClass::with(['teacher', 'days'])->get();
-        return view('admin.class.index', [
-            'classes' => $classes,
-        ]);
+        if ($request->has('_rm')) {
+            $f = session('classes_filter', []);
+            match ($request->_rm) {
+                'name'    => $f['name'] = '',
+                'day'     => $f['day'] = array_values(array_filter((array)($f['day'] ?? []), fn($d) => $d !== $request->_val)),
+                'teacher' => $f['teacher'] = array_values(array_filter((array)($f['teacher'] ?? []), fn($t) => $t !== (int)$request->_val)),
+                default   => null,
+            };
+            session(['classes_filter' => $f]);
+            return redirect()->route('class.index');
+        }
+
+        if ($request->hasAny(['name', 'day', 'teacher'])) {
+            session(['classes_filter' => [
+                'name'    => $request->input('name', ''),
+                'day'     => (array)$request->input('day', []),
+                'teacher' => array_map('intval', (array)$request->input('teacher', [])),
+            ]]);
+            return redirect()->route('class.index');
+        }
+
+        $f                = session('classes_filter', []);
+        $filterName       = $f['name'] ?? '';
+        $selectedDays     = array_values(array_filter((array)($f['day'] ?? [])));
+        $selectedTeachers = array_values(array_filter(array_map('intval', (array)($f['teacher'] ?? []))));
+
+        $classes = LessonClass::with(['teacher', 'days'])
+            ->when($filterName,       fn($q) => $q->where('name', 'like', '%' . $filterName . '%'))
+            ->when($selectedDays,     fn($q) => $q->whereHas('days', fn($dq) => $dq->whereIn('day', $selectedDays)))
+            ->when($selectedTeachers, fn($q) => $q->whereIn('teacher_id', $selectedTeachers))
+            ->paginate(20);
+
+        $teachers = User::select('id', 'name')
+            ->whereIn('id', LessonClass::whereNotNull('teacher_id')->select('teacher_id'))
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.class.index', compact('classes', 'teachers', 'filterName', 'selectedDays', 'selectedTeachers'));
     }
     public function create()
     {
