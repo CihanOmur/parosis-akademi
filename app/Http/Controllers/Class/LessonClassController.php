@@ -55,7 +55,7 @@ class LessonClassController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('admin.class.index', compact('classes', 'teachers', 'filterName', 'selectedDays', 'selectedTeachers'));
+        return view('admin.classes.index', compact('classes', 'teachers', 'filterName', 'selectedDays', 'selectedTeachers'));
     }
     public function create()
     {
@@ -78,7 +78,7 @@ class LessonClassController extends Controller
         }
         $teachers = User::role('Eğitmen')->get();
 
-        return view('admin.class.create', [
+        return view('admin.classes.create', [
             'days' => $days,
             'times' => $times,
             'teachers' => $teachers
@@ -193,7 +193,7 @@ class LessonClassController extends Controller
         }
         $teachers = User::role('Eğitmen')->get();
 
-        return view('admin.class.edit', [
+        return view('admin.classes.edit', [
             'days' => $days,
             'times' => $times,
             'lessonClass' => $lessonClass,

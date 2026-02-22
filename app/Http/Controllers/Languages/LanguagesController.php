@@ -12,7 +12,7 @@ class LanguagesController extends Controller
     public function index()
     {
         $languages = Languages::where('status', 1)->orderByDesc('is_default')->orderBy('locale')->paginate(20);
-        return view('admin.langauges.index', compact('languages'));
+        return view('admin.languages.index', compact('languages'));
     }
 
     /**
@@ -37,7 +37,7 @@ class LanguagesController extends Controller
     {
         $localeInfo   = getLocaleInfo($request->get('lang'));
         $selectedLang = $localeInfo['translateLang'];
-        return view('admin.langauges.create', compact('selectedLang'));
+        return view('admin.languages.create', compact('selectedLang'));
     }
 
     public function store(Request $request)
@@ -85,7 +85,7 @@ class LanguagesController extends Controller
         $language     = Languages::findOrFail($id);
         $localeInfo   = getLocaleInfo($request->get('lang'));
         $selectedLang = $localeInfo['translateLang'];
-        return view('admin.langauges.edit', compact('language', 'selectedLang'));
+        return view('admin.languages.edit', compact('language', 'selectedLang'));
     }
 
     public function update(Request $request, $id)

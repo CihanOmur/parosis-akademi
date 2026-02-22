@@ -3,7 +3,7 @@
 namespace App\Models\Student;
 
 use App\Models\Class\LessonClass;
-use App\Models\StudentPayments;
+use App\Models\Student\StudentPayments;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model

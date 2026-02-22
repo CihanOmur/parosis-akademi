@@ -338,7 +338,7 @@
                             $colorIndex = crc32($item->full_name) % count($avatarColors);
                         @endphp
 
-                        @include('admin.components.actionbuttonstudent', ['student' => $item])
+                        @include('admin.components.action-button-student', ['student' => $item])
 
                         <tr class="group hover:bg-amber-50/30 dark:hover:bg-amber-900/5 transition-colors duration-150">
                             {{-- Öğrenci --}}

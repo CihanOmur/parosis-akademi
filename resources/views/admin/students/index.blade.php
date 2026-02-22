@@ -407,7 +407,7 @@
                         @endphp
 
                         {{-- Flowbite action modal --}}
-                        @include('admin.components.actionbuttonstudent', ['student' => $item])
+                        @include('admin.components.action-button-student', ['student' => $item])
 
                         <tr class="group hover:bg-fuchsia-50/30 dark:hover:bg-fuchsia-900/5 transition-colors duration-150">
                             {{-- Ad Soyad --}}

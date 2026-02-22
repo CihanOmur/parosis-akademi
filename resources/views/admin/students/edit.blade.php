@@ -51,7 +51,7 @@
                 </svg>
                 Yeni Ekle
             </button>
-            @include('admin.components.StudentNewAddModal', [
+            @include('admin.components.student-new-add-modal', [
                 'normalCount' => $normalCount,
                 'preCount' => $preCount,
             ])
@@ -61,8 +61,8 @@
 
 @section('content')
     <div class="flex justify-between items-center mb-5">
-        @include('admin.components.tabmenustudent')
-        @include('admin.components.actionbuttonstudent', ['student' => $student])
+        @include('admin.components.tab-menu-student')
+        @include('admin.components.action-button-student', ['student' => $student])
         <div>
             <button data-modal-target="actionbutton-modal-{{ $student->id }}"
                 data-modal-toggle="actionbutton-modal-{{ $student->id }}" type="button"

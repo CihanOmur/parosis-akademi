@@ -4,7 +4,11 @@ use App\Http\Controllers\Class\LessonClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Languages\LanguagesController;
 use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\Student\PreRegistrationController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Student\StudentDocumentController;
+use App\Http\Controllers\Student\StudentPaymentController;
+use App\Http\Controllers\Student\StudentReCreateController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
@@ -57,33 +61,39 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
     // ─── Öğrenci Yönetimi ────────────────────────────────────────────────────────
     Route::prefix('students')->name('students.')->group(function () {
+        // Temel CRUD
         Route::get('/',              [StudentController::class, 'index'])->name('index')->middleware('permission:student|student_delete|accounting');
         Route::get('/create',        [StudentController::class, 'create'])->name('create')->middleware('permission:student');
         Route::post('/store',        [StudentController::class, 'store'])->name('store')->middleware('permission:student');
         Route::get('/{id}/edit',     [StudentController::class, 'edit'])->name('edit');
-        Route::get('/{id}/re-create',[StudentController::class, 'reCreate'])->name('reCreate')->middleware('permission:student');
-        Route::post('/{id}/re-create',[StudentController::class, 'reCreateUpdate'])->name('reCreateUpdate')->middleware('permission:student');
         Route::post('/{id}/update',  [StudentController::class, 'update'])->name('update')->middleware('permission:student');
         Route::post('/{id}/change-activity',[StudentController::class, 'changeActivity'])->name('changeActivity')->middleware('permission:student');
-
-        Route::get('/{id}/payment',  [StudentController::class, 'payment'])->name('payment')->middleware('permission:student|accounting');
-        Route::post('/{id}/payment', [StudentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('permission:student|accounting');
-        Route::get('/{id}/payments', [StudentController::class, 'allPayments'])->name('allPayments')->middleware('permission:student|accounting');
-
-        Route::post('/downloadRegistrationForm',[StudentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('permission:student|student_delete|accounting');
-        Route::post('/downloadContract',        [StudentController::class, 'downloadContract'])->name('downloadContract')->middleware('permission:student|accounting|student_delete');
-        Route::post('/downloadPayment',         [StudentController::class, 'downloadPayment'])->name('downloadPayment')->middleware('permission:student|accounting|student_delete');
-
-        Route::get('/create-pre-registiration', [StudentController::class, 'createPreRegistiration'])->name('pre.createPreRegistiration')->middleware('permission:student');
-        Route::post('/store-pre-registiration', [StudentController::class, 'storePreRegistiration'])->name('pre.storePreRegistiration')->middleware('permission:student');
-        Route::get('/{id}/edit-pre-registiration',[StudentController::class, 'editPreRegistiration'])->name('pre.editPreRegistiration')->middleware('permission:student');
-        Route::post('/{id}/update-pre-registiration',[StudentController::class, 'updatePreRegistiration'])->name('pre.updatePreRegistiration')->middleware('permission:student');
-
-        Route::get('/{id}/pre-to-normal',  [StudentController::class, 'preToNormal'])->name('pre-to-normal')->middleware('permission:student');
-        Route::post('/{id}/pre-to-normal', [StudentController::class, 'preToNormalPost'])->name('pre-to-normal.post')->middleware('permission:student');
-
-        Route::get('/pre/students',  [StudentController::class, 'preStudents'])->name('pre.students')->middleware('permission:student');
         Route::delete('/{id}',       [StudentController::class, 'delete'])->name('delete')->middleware('permission:student_delete');
+
+        // Kayıt Yenileme
+        Route::get('/{id}/re-create',[StudentReCreateController::class, 'show'])->name('reCreate')->middleware('permission:student');
+        Route::post('/{id}/re-create',[StudentReCreateController::class, 'update'])->name('reCreateUpdate')->middleware('permission:student');
+
+        // Ödeme İşlemleri
+        Route::get('/{id}/payment',  [StudentPaymentController::class, 'payment'])->name('payment')->middleware('permission:student|accounting');
+        Route::post('/{id}/payment', [StudentPaymentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('permission:student|accounting');
+        Route::get('/{id}/payments', [StudentPaymentController::class, 'allPayments'])->name('allPayments')->middleware('permission:student|accounting');
+
+        // PDF İndirme
+        Route::post('/downloadRegistrationForm',[StudentDocumentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('permission:student|student_delete|accounting');
+        Route::post('/downloadContract',        [StudentDocumentController::class, 'downloadContract'])->name('downloadContract')->middleware('permission:student|accounting|student_delete');
+        Route::post('/downloadPayment',         [StudentDocumentController::class, 'downloadPayment'])->name('downloadPayment')->middleware('permission:student|accounting|student_delete');
+
+        // Ön Kayıt Yönetimi
+        Route::get('/create-pre-registiration', [PreRegistrationController::class, 'create'])->name('pre.createPreRegistiration')->middleware('permission:student');
+        Route::post('/store-pre-registiration', [PreRegistrationController::class, 'store'])->name('pre.storePreRegistiration')->middleware('permission:student');
+        Route::get('/{id}/edit-pre-registiration',[PreRegistrationController::class, 'edit'])->name('pre.editPreRegistiration')->middleware('permission:student');
+        Route::post('/{id}/update-pre-registiration',[PreRegistrationController::class, 'update'])->name('pre.updatePreRegistiration')->middleware('permission:student');
+
+        Route::get('/{id}/pre-to-normal',  [PreRegistrationController::class, 'convertToNormal'])->name('pre-to-normal')->middleware('permission:student');
+        Route::post('/{id}/pre-to-normal', [PreRegistrationController::class, 'convertToNormalPost'])->name('pre-to-normal.post')->middleware('permission:student');
+
+        Route::get('/pre/students',  [PreRegistrationController::class, 'index'])->name('pre.students')->middleware('permission:student');
     });
 });
 
