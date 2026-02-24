@@ -2,26 +2,32 @@
 
 namespace App\Models\Blogs;
 
-use App\Models\Category\Category;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Translatable\HasTranslations;
 
 class Blog extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'content', 'short_description',
+        'image', 'published_at', 'is_active', 'sort_order',
+    ];
 
-    public $translatable = ['title', 'description'];
+    protected $casts = [
+        'is_active' => 'boolean',
+        'published_at' => 'datetime',
+    ];
 
-    /**
-     * Get all of the categories for the Blog
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function categories(): HasManyThrough
+    public $translatable = ['title', 'content', 'short_description'];
+
+    public function categories()
     {
-        return $this->hasManyThrough(Category::class, BlogCategories::class, 'blog_id', 'id', 'id', 'category_id');
+        return $this->belongsToMany(BlogCategory::class, 'blog_blog_category');
+    }
+
+    public function blogTags()
+    {
+        return $this->belongsToMany(BlogTag::class, 'blog_blog_tag');
     }
 }

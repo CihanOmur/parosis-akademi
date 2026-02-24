@@ -1,0 +1,1921 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parosis Akademi | Geleceğin Teknolojisine Yön Veren Akademi</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+
+    <!-- Site font -->
+    <link rel="stylesheet" href="assets/fonts/webfonts/poppins/stylesheet.css" />
+    <link rel="stylesheet" href="assets/fonts/webfonts/aeonik-pro-trial/stylesheet.css" />
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="assets/css/vendors/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="assets/css/vendors/jos.css" />
+    <link rel="stylesheet" href="assets/css/vendors/menu.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/custom.css" />
+
+    <!-- Development css -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Production css -->
+    <!-- <link rel="stylesheet" href="/assets/css/style.min.css" /> -->
+</head>
+
+<body class="element-wrapper bg-[#FAF9F6]">
+    <div class="page-wrapper relative">
+        <!--...::: Header Start :::... -->
+        <div class="absolute left-0 top-0 z-20 w-full">
+            <!-- Header Top Area -->
+            <div class="bg-transparent py-4">
+                <div class="container-expand">
+                    <div class="flex items-center gap-x-6 lg:gap-x-10 xl:gap-x-[76px]">
+                        <!-- Header Logo -->
+                        <a href="index.html" class="inline-flex">
+                            <img src="assets/img/logo-parosis-akademi.svg" alt="logo" width="137" height="33" />
+                        </a>
+                        <!-- Header Logo -->
+                        <!-- Header Right Block -->
+                        <div class="flex flex-1 items-center justify-end gap-x-4 lg:gap-x-9">
+                            <!-- Category & Search Block-->
+                            <div class="relative hidden w-full flex-1 rounded-[50px] border bg-white py-3.5 pr-8 text-sm font-medium md:flex xl:pr-36">
+                                <div class="flex w-full divide-[#B8B8B8] lg:divide-x">
+                                    <!-- Search Form Block -->
+                                    <form action="#" method="get" class="w-full flex-1 px-8">
+                                        <input type="search" placeholder="Kursunuzu arayın" class="w-full bg-transparent outline-none placeholder:text-colorBlackPearl/55" />
+                                        <button type="submit" class="absolute bottom-[5px] right-0 top-[5px] mr-[5px] inline-flex items-center justify-center gap-x-2.5 rounded-[50px] bg-colorPurpleBlue px-6 text-center text-sm text-white hover:bg-colorBlackPearl">
+                                            <span class="hidden xl:inline-block">Ara</span>
+                                            <img src="assets/img/icons/icon-white-search-line.svg" alt="icon-white-search-line" width="16" height="16" />
+                                        </button>
+                                    </form>
+                                    <!-- Search Form Block -->
+                                </div>
+                            </div>
+                            <!-- Category & Search Block-->
+
+                            <!-- Social Links -->
+                            <div class="hidden items-center gap-x-3.5 xl:flex">
+                                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="facebook">
+                                    <img src="assets/img/icons/icon-dark-facebook.svg" alt="icon-dark-facebook" width="20" height="20" class="h-auto w-[17px]" />
+                                </a>
+                                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" aria-label="twitter">
+                                    <img src="assets/img/icons/icon-dark-twitter.svg" alt="icon-dark-twitter" width="21" height="20" class="h-auto w-[17px]" />
+                                </a>
+                                <a href="https://www.dribbble.com" target="_blank" rel="noopener noreferrer" aria-label="dribbble">
+                                    <img src="assets/img/icons/icon-dark-dribbble.svg" alt="icon-dark-dribbble" width="21" height="20" class="h-auto w-[17px]" />
+                                </a>
+                                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="instagram">
+                                    <img src="assets/img/icons/icon-dark-instagram.svg" alt="icon-dark-instagram" width="21" height="20" class="h-auto w-[17px]" />
+                                </a>
+                            </div>
+                            <!-- Social Links -->
+
+                            <!-- User Event -->
+                            <div class="flex items-center gap-x-2.5">
+                                <button class="hidden h-10 rounded-[50Px] bg-colorBrightGold px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow sm:inline-block" onclick="signupBtn()">
+                                    Kayıt Ol
+                                </button>
+                                <button class="h-10 rounded-[50Px] bg-gradient-to-t from-[#D7E1D8] to-white px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow" onclick="signinBtn()">
+                                    Giriş Yap
+                                </button>
+                                <!-- Responsive Offcanvas Menu Button -->
+                                <div class="site-header inline-block lg:hidden">
+                                    <button id="openBtn" class="hamburger-menu mobile-menu-trigger">
+                                        <span class="bg-colorBlackPearl before:bg-colorBlackPearl after:bg-colorBlackPearl"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- User Event -->
+                        </div>
+                        <!-- Header Right Block -->
+                    </div>
+                </div>
+            </div>
+            <!-- Header Top Area -->
+            <!-- Header Bottom Area -->
+            <header class="site-header bg-white py-0 shadow-[0_4px_30px_16px] shadow-[#070229]/5 z-50">
+                <div class="container-expand">
+                    <div class="flex justify-between text-sm font-medium leading-none text-[#263238]">
+                        <!-- Header Navigation -->
+                        <div class="menu-block-wrapper">
+                            <div class="menu-overlay"></div>
+                            <nav class="menu-block" id="append-menu-header">
+                                <div class="mobile-menu-head">
+                                    <div class="go-back">
+                                        <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90" />
+                                    </div>
+                                    <div class="current-menu-title"></div>
+                                    <div class="mobile-menu-close">&times;</div>
+                                </div>
+                                <ul class="site-menu-main">
+                                    <li class="nav-item nav-item-has-children">
+                                        <a href="index.html" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">Home
+                                        </a>
+                                    </li>
+                                    <li class="nav-item nav-item-has-children">
+                                        <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">Courses
+                                            <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90 lg:rotate-0" />
+                                        </a>
+                                        <ul class="sub-menu" id="submenu-2">
+                                            <li class="sub-menu--item">
+                                                <a href="course-3.html">Course 3</a>
+                                            </li>
+                                            <li class="sub-menu--item">
+                                                <a href="course-details.html">Course Details</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item nav-item-has-children">
+                                        <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">Pages
+                                            <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90 lg:rotate-0" />
+                                        </a>
+                                        <ul class="sub-menu" id="submenu-3">
+                                            <li class="sub-menu--item nav-item-has-children">
+                                                <a href="#" data-menu-get="h3" class="drop-trigger">Products
+                                                    <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90" />
+                                                </a>
+                                                <ul class="sub-menu shape-none" id="submenu-4">
+                                                    <li class="sub-menu--item">
+                                                        <a href="product.html">Product</a>
+                                                    </li>
+                                                    <li class="sub-menu--item">
+                                                        <a href="product-details.html">Product Details</a>
+                                                    </li>
+                                                    <li class="sub-menu--item">
+                                                        <a href="cart.html">Product Cart</a>
+                                                    </li>
+                                                    <li class="sub-menu--item">
+                                                        <a href="checkout.html">Product Checkout</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="sub-menu--item nav-item-has-children">
+                                                <a href="#" data-menu-get="h3" class="drop-trigger">Teacher
+                                                    <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90" />
+                                                </a>
+                                                <ul class="sub-menu shape-none" id="submenu-5">
+                                                    <li class="sub-menu--item">
+                                                        <a href="teacher.html">Teacher</a>
+                                                    </li>
+                                                    <li class="sub-menu--item">
+                                                        <a href="teacher-details.html">Teacher Details</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="sub-menu--item">
+                                                <a href="faq.html" data-menu-get="h3" class="drop-trigger">FAQ’s
+                                                </a>
+                                            </li>
+                                            <li class="sub-menu--item">
+                                                <a href="404.html" data-menu-get="h3" class="drop-trigger">404 page
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item nav-item-has-children">
+                                        <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">News
+                                            <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90 lg:rotate-0" />
+                                        </a>
+                                        <ul class="sub-menu" id="submenu-6">
+                                            <li class="sub-menu--item">
+                                                <a href="blog.html">Blog</a>
+                                            </li>
+                                            <li class="sub-menu--item">
+                                                <a href="blog-details.html">Blog Details</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item nav-item-has-children">
+                                        <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">About
+                                            <img src="assets/img/icons/icon-small-dark-chevron-arrow-down.svg" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90 lg:rotate-0" />
+                                        </a>
+                                        <ul class="sub-menu" id="submenu-7">
+                                            <li class="sub-menu--item">
+                                                <a href="about-1.html">About 1</a>
+                                            </li>
+                                            <li class="sub-menu--item">
+                                                <a href="about-2.html">About 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">
+                                        <a href="contact.html" class="nav-link-item">Contact Us</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!-- Header Navigation -->
+
+                        <!-- Right Block -->
+                        <div class="flex flex-1 flex-row items-center justify-between gap-x-9 gap-y-3 py-5 lg:justify-end lg:py-0">
+                            <div class="flex flex-col gap-x-4 sm:flex-row sm:items-center">
+                                <a href="tel:+5323213333" class="text-sm text-[#263238]">+532 321 33 33</a>
+                                <div class="h-[5px] w-[5px] flex-1 rounded-[50%] bg-[#263238]/30"></div>
+                                <a href="mailto:helloCorwus@gmail.com" class="text-sm text-[#263238]">
+                                    helloCorwus@gmail.com</a>
+                            </div>
+                            <div class="flex items-center justify-between gap-x-5">
+                                <!-- Cart Button -->
+                                <button class="relative" onclick="sideAddToCartBtn()">
+                                    <img src="assets/img/icons/icon-grey-bag.svg" alt="icon-grey-bag" width="21" height="21" />
+                                    <span class="absolute left-2 top-full inline-flex h-[18px] min-w-[18px] -translate-y-3 items-center justify-center rounded-[50%] bg-colorPurpleBlue text-sm font-normal leading-none text-white">3</span>
+                                </button>
+                                <!-- Cart Button -->
+                                <!-- Side Info Button -->
+                                <button onclick="sideInfoBtn()">
+                                    <img src="assets/img/icons/icon-grey-menu-3-line.svg" alt="icon-grey-menu-3-line" width="20" height="20" />
+                                </button>
+                                <!-- Side Info Button -->
+                            </div>
+                        </div>
+                        <!-- Right Block -->
+                    </div>
+                </div>
+            </header>
+            <!-- Header Bottom Area -->
+        </div>
+        <!--...::: Header End :::... -->
+
+        <!-- Sign In Block  -->
+        <div class="signin-block fixed left-1/2 top-1/2 z-50 hidden -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
+            <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
+                &times;
+            </button>
+            <img src="assets/img/logo-small.png" alt="logo" width="117" height="28" class="mx-auto" />
+            <div class="my-7 text-center">
+                <h2 class="mb-3">Sign In Now</h2>
+                <p>
+                    Didn’t Create an account?
+                    <button class="signup-text-btn text-colorPurpleBlue" onclick="signupTextBtn()">
+                        Sign Up
+                    </button>
+                </p>
+            </div>
+            <!-- User Sign-in Form Block -->
+            <form action="#" method="post" class="grid w-80 grid-cols-1 gap-y-[22px] sm:w-[374px]">
+                <input type="text" placeholder="Enter user name" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
+
+                <input type="password" placeholder="Enter password" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
+                <label for="check-box-signin" class="mt-3.5 flex items-center gap-x-3 text-sm text-[#8D8D8D]">
+                    <span class="relative">
+                        <input type="checkbox" name="check-box-signin" id="check-box-signin" class="peer opacity-0" />
+                        <span class="absolute left-0 top-1/2 inline-block h-4 w-4 -translate-y-1/2 rounded-[50%] border border-colorBlackPearl/75 peer-checked:bg-colorBlackPearl/75"></span>
+                    </span>
+                    Remember me >
+                </label>
+
+                <div>
+                    <button type="submit" class="btn btn-primary is-icon group">
+                        Sign In
+                        <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                            <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                        </span>
+                        <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                            <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                        </span>
+                    </button>
+                </div>
+            </form>
+            <!-- User Sign-in Form Block -->
+            <span class="mb-7 mt-8 block text-center">Or Sign Up with</span>
+            <!-- Social Link Sign Up -->
+            <div class="flex justify-center gap-2.5">
+                <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-colorJasper/10">
+                    <img src="assets/img/icons/icon-origin-google.svg" alt="icon-origin-google" width="24" height="24" />
+                </button>
+                <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#1977F3]/10">
+                    <img src="assets/img/icons/icon-origin-facebook.svg" alt="icon-origin-facebook" width="24" height="24" />
+                </button>
+                <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#0077B5]/10">
+                    <img src="assets/img/icons/icon-origin-linkedin.svg" alt="icon-origin-linkedin" width="24" height="24" />
+                </button>
+            </div>
+            <!-- Social Link Sign Up -->
+        </div>
+        <!-- Sign In Block  -->
+
+        <!-- Sign Up Block  -->
+        <div class="signup-block fixed left-1/2 top-1/2 z-50 hidden -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
+            <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
+                &times;
+            </button>
+            <img src="assets/img/logo-small.png" alt="logo" width="117" height="28" class="mx-auto" />
+            <div class="my-7 text-center">
+                <h2 class="mb-3">Sign Up Now</h2>
+                <p>
+                    already have an account?
+                    <button class="text-colorPurpleBlue" onclick="signinTextBtn()">
+                        Sign In
+                    </button>
+                </p>
+            </div>
+            <!-- User Signup Form Block -->
+            <form action="#" method="post" class="grid w-80 grid-cols-1 gap-y-[22px] sm:w-[374px]">
+                <input type="text" placeholder="Enter name" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
+                <input type="text" placeholder="Enter user name" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
+                <input type="email" placeholder="Enter email" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
+                <input type="password" placeholder="Enter password" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
+                <label for="check-box-signup" class="mt-3.5 flex items-center gap-x-3 text-sm text-[#8D8D8D]">
+                    <span class="relative">
+                        <input type="checkbox" name="check-box-signup" id="check-box-signup" class="peer opacity-0" />
+                        <span class="absolute left-0 top-1/2 inline-block h-4 w-4 -translate-y-1/2 rounded-[50%] border border-colorBlackPearl/75 peer-checked:bg-colorBlackPearl/75"></span>
+                    </span>
+                    I agree with your
+                    <strong class="font-medium text-colorBlackPearl/65">Privacy Policy</strong>
+                </label>
+
+                <div>
+                    <button type="submit" class="btn btn-primary is-icon group">
+                        Kayıt Ol Now
+                        <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                            <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                        </span>
+                        <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                            <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                        </span>
+                    </button>
+                </div>
+            </form>
+            <!-- User Signup Form Block -->
+            <span class="mb-7 mt-8 block text-center">Or Sign Up with</span>
+            <!-- Social Link Sign Up -->
+            <div class="flex justify-center gap-2.5">
+                <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-colorJasper/10">
+                    <img src="assets/img/icons/icon-origin-google.svg" alt="icon-origin-google" width="24" height="24" />
+                </button>
+                <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#1977F3]/10">
+                    <img src="assets/img/icons/icon-origin-facebook.svg" alt="icon-origin-facebook" width="24" height="24" />
+                </button>
+                <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#0077B5]/10">
+                    <img src="assets/img/icons/icon-origin-linkedin.svg" alt="icon-origin-linkedin" width="24" height="24" />
+                </button>
+            </div>
+            <!-- Social Link Sign Up -->
+        </div>
+        <!-- Sign Up Block  -->
+
+        <!-- Offcanvas - Add to cart block -->
+        <div class="menu-add-to-cart fixed right-0 top-0 z-50 flex h-full w-80 translate-x-full flex-col overflow-y-clip bg-white px-6 py-2 transition-all duration-300 sm:w-96">
+            <!-- Offcanvas Header Block -->
+            <div>
+                <button class="absolute right-0 top-0 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
+                    &times;
+                </button>
+                <h5 class="flex items-center gap-x-2 leading-none">
+                    <img src="assets/img/icons/icon-grey-bag.svg" alt="icon-grey-bag" />
+                    Add to cart
+                </h5>
+            </div>
+            <!-- Offcanvas Header Block -->
+
+            <!-- Offcanvas Body Block -->
+            <!-- Product Cart List -->
+            <ul class="mt-10 grid grid-cols-1 gap-y-5 overflow-y-auto">
+                <li class="flex items-center gap-x-4">
+                    <a href="product-details.html" class="h-[65] w-[87px] rounded-[10px]">
+                        <img src="assets/img/images/th-1/product-add-cart-thumb-1.jpg" alt="product-add-cart-thumb-1" width="87" height="65" />
+                    </a>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between gap-x-2">
+                            <div class="text-sm font-medium leading-none text-[#263238]">
+                                1 x <span class="text-colorPurpleBlue">$20</span>
+                            </div>
+                            <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">
+                                &times;
+                            </button>
+                        </div>
+                        <a href="product-details.html" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">34 book demo</a>
+                    </div>
+                </li>
+                <li class="flex items-center gap-x-4">
+                    <a href="product-details.html" class="h-[65] w-[87px] rounded-[10px]">
+                        <img src="assets/img/images/th-1/product-add-cart-thumb-2.jpg" alt="product-add-cart-thumb-2" width="87" height="65" />
+                    </a>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between gap-x-2">
+                            <div class="text-sm font-medium leading-none text-[#263238]">
+                                1 x <span class="text-colorPurpleBlue">$32</span>
+                            </div>
+                            <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">
+                                &times;
+                            </button>
+                        </div>
+                        <a href="product-details.html" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">53 book demo</a>
+                    </div>
+                </li>
+                <li class="flex items-center gap-x-4">
+                    <a href="product-details.html" class="h-[65] w-[87px] rounded-[10px]">
+                        <img src="assets/img/images/th-1/product-add-cart-thumb-3.jpg" alt="product-add-cart-thumb-3" width="87" height="65" />
+                    </a>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between gap-x-2">
+                            <div class="text-sm font-medium leading-none text-[#263238]">
+                                1 x <span class="text-colorPurpleBlue">$98</span>
+                            </div>
+                            <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">
+                                &times;
+                            </button>
+                        </div>
+                        <a href="product-details.html" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Degital demo book</a>
+                    </div>
+                </li>
+            </ul>
+            <!-- Product Cart List -->
+            <!-- Offcanvas Body Block -->
+
+            <!-- Offcanvas Bottom Block -->
+            <div class="sticky bottom-0 mt-auto border-t border-colorBlackPearl/10 bg-white px-6 py-5">
+                <div class="flex justify-between font-title text-xl font-bold leading-none text-colorBlackPearl">
+                    Subtotal: <span>$150</span>
+                </div>
+                <a href="checkout.html" class="btn btn-primary mt-6 block border-2 border-colorPurpleBlue font-medium hover:bg-white hover:text-colorPurpleBlue">Checkout</a>
+            </div>
+            <!-- Offcanvas Bottom Block -->
+        </div>
+        <!-- Offcanvas - Add to cart block -->
+
+        <!-- Offcanvas - Info -->
+        <div class="menu-info fixed right-0 top-0 z-50 flex h-full w-80 translate-x-full flex-col overflow-y-clip bg-white px-6 py-2 transition-all duration-300 sm:w-96">
+            <!-- Offcanvas Header Block -->
+            <div>
+                <button class="absolute right-0 top-0 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
+                    &times;
+                </button>
+                <a href="index.html"><img src="assets/img/logo-parosis-akademi.svg" alt="logo" width="137" height="33" /></a>
+            </div>
+            <!-- Offcanvas Header Block -->
+
+            <!-- Offcanvas Body Block -->
+            <div class="mt-10">
+                <ul class="grid grid-cols-1 gap-y-10">
+                    <li>
+                        <h4 class="mb-3">Follow Us:</h4>
+                        <!-- Social Links -->
+                        <div class="flex items-center gap-x-3.5">
+                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="facebook">
+                                <img src="assets/img/icons/icon-dark-facebook.svg" alt="icon-dark-facebook" width="20" height="20" class="h-auto w-[17px]" />
+                            </a>
+                            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" aria-label="twitter">
+                                <img src="assets/img/icons/icon-dark-twitter.svg" alt="icon-dark-twitter" width="21" height="20" class="h-auto w-[17px]" />
+                            </a>
+                            <a href="https://www.dribbble.com" target="_blank" rel="noopener noreferrer" aria-label="dribbble">
+                                <img src="assets/img/icons/icon-dark-dribbble.svg" alt="icon-dark-dribbble" width="21" height="20" class="h-auto w-[17px]" />
+                            </a>
+                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="instagram">
+                                <img src="assets/img/icons/icon-dark-instagram.svg" alt="icon-dark-instagram" width="21" height="20" class="h-auto w-[17px]" />
+                            </a>
+                        </div>
+                        <!-- Social Links -->
+                    </li>
+                    <li>
+                        <h4 class="mb-3">Contacts Us:</h4>
+                        <!-- Contact Info List -->
+                        <ul class="flex flex-col gap-y-3">
+                            <li class="inline-flex gap-x-6">
+                                <div class="h-7 w-auto">
+                                    <img src="assets/img/icons/icon-purple-phone-ring.svg" alt="icon-purple-phone-ring" width="28" height="28" />
+                                </div>
+                                <div class="flex-1">
+                                    <span class="block">24/7 Support</span>
+                                    <a href="tel:++5323213333" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">+532 321 33 33</a>
+                                </div>
+                            </li>
+                            <li class="inline-flex gap-x-6">
+                                <div class="h-7 w-auto">
+                                    <img src="assets/img/icons/icon-purple-mail-open.svg" alt="icon-purple-mail-open" width="28" height="28" />
+                                </div>
+                                <div class="flex-1">
+                                    <span class="block">Send Message</span>
+                                    <a href="mailto:yourmail@email.com" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">yourmail@email.com</a>
+                                </div>
+                            </li>
+                            <li class="inline-flex gap-x-6">
+                                <div class="h-7 w-auto">
+                                    <img src="assets/img/icons/icon-purple-location.svg" alt="icon-purple-location" width="28" height="28" />
+                                </div>
+                                <div class="flex-1">
+                                    <span class="block">Our Locati0n</span>
+                                    <address class="font-title text-xl not-italic text-colorBlackPearl">
+                                        32/Jenin, London
+                                    </address>
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- Contact Info List -->
+                    </li>
+                    <li>
+                        <h4 class="mb-3">Subscribe Now:</h4>
+                        <form action="#" method="post" class="relative mt-4 text-sm font-medium">
+                            <input type="email" class="w-full rounded-[50px] border border-colorPurpleBlue bg-white px-7 py-2.5 outline-none" placeholder="Enter email" />
+                            <button type="submit" class="mt-4 inline-flex h-11 items-center justify-center gap-x-6 rounded-[50px] border border-colorPurpleBlue bg-colorPurpleBlue px-7 text-white hover:bg-[#4533bb]">
+                                Subscribe
+                                <img src="assets/img/icons/icon-white-arrow-right.svg" alt="icon-white-arrow-right" width="24" height="16" />
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <!-- Offcanvas Body Block -->
+        </div>
+        <!-- Offcanvas - Info -->
+
+        <!-- Overlay -->
+        <div class="overlay-bg absolute inset-0 z-40 hidden bg-black/50" onclick="hideElement()"></div>
+        <!-- Overlay -->
+
+        <!-- Main Wrapper -->
+        <main class="main-wrapper relative">
+            <!--...::: Hero Section Start :::... -->
+            <section class="section-hero">
+                <div class="relative z-10 overflow-hidden bg-[url(../img/images/th-1/hero-bg.svg)] bg-cover bg-center bg-no-repeat">
+                    <!-- Hero Space -->
+                    <div class="grid grid-cols-1 px-5 pt-[210px] md:pt-[235px] lg:px-0 lg:pb-[100px] lg:pl-20 lg:pt-[310px] xxl:pb-[166px] xxxl:pl-32 xxxxl:pl-[250px]">
+                        <!-- Hero Content Block -->
+                        <div class="lg:max-w-lg xxl:max-w-2xl">
+                            <h1 class="mb-[30px]">
+                                Best
+                                <span class="inline-flex rounded-md bg-colorBrightGold px-2">Online</span>
+                                Platform to Learn Everything
+                            </h1>
+                            <p class="mb-10 max-w-[400px] xl:max-w-[474px]">
+                                Excepteur sint occaecat cupidatat non proident sunt in culpa
+                                qui officia deserunt mollit.
+                            </p>
+                            <a href="course-1.html" class="btn btn-primary is-icon group">Tüm Kursları Görüntüle
+                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                                    <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                </span>
+                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                                    <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                </span>
+                            </a>
+                        </div>
+                        <!-- Hero Content Block -->
+
+                        <!-- Hero Image Block -->
+                        <div class="bottom-0 right-20 mt-10 lg:absolute lg:mt-0 xxxxl:right-44">
+                            <div class="relative z-10 flex items-end justify-center">
+                                <img src="assets/img/images/th-1/hero-img-1.png" alt="hero-img-1" width="653" height="740" class="element-move-x z-10 max-w-full -translate-x-[50px] md:max-w-md xl:max-w-lg xxl:max-w-full"/>
+                                <div class="jos absolute -bottom-28 left-1/2 -z-10 h-[400px] w-[400px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white xl:h-[500px] xl:w-[500px] xxl:h-[706px] xxl:w-[706px]" data-jos_animation="zoom-in-up"></div>
+                                <img src="assets/img/abstracts/abstract-dots-2.svg" alt="abstract-dots-2" width="49" height="79" class="element-move absolute bottom-[86px] left-24" />
+                            </div>
+                        </div>
+                        <!-- Hero Image Block -->
+                    </div>
+                    <!-- Hero Space -->
+
+                    <!-- Section Elements -->
+                    <img src="assets/img/abstracts/abstract-red-plus-1.svg" alt="abstract-red-plus-1" width="46" height="32" class="element-move absolute left-[125px] top-[296px] -z-10" />
+                    <img src="assets/img/abstracts/abstract-dots-1.svg" alt="abstract-dots-1" width="49" height="94" class="element-move absolute right-0 top-52 -z-10" />
+
+                    <img src="assets/img/abstracts/element-book-1.svg" alt="element-book-1" width="93" height="73" class="element-move absolute -bottom-40 left-[771px] -z-10" />
+                    <img src="assets/img/abstracts/element-crown-1.svg" alt="element-crown-1" width="47" height="39" class="absolute bottom-[86px] right-[63px] -z-10" />
+                    <!-- Section Elements -->
+                </div>
+            </section>
+            <!--...::: Hero Section Start :::... -->
+
+            <!--...::: Welcome Section Start :::... -->
+            <section class="section-welcome">
+                <div class="relative z-10">
+                    <!-- Section Space -->
+                    <div class="section-space-top">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <!-- Welcome Area -->
+                            <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-32">
+                                <!-- Welcome Left Block -->
+                                <div class="jos relative order-2 mx-auto lg:order-1" data-jos_animation="fade-right">
+                                    <img src="assets/img/images/th-1/welcome-img.png" alt="welcome-img" width="482" height="486" class="max-w-full" />
+
+                                    <!-- Card -->
+                                    <div class="jos absolute bottom-24 left-16 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-4 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10 xxl:-left-16 xxxl:-left-28">
+                                        <div class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#DF4343]/5">
+                                            <img src="assets/img/icons/icon-red-tomato-graduation-cap-line.svg" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
+                                        </div>
+                                        <div class="">
+                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">9394+</span>
+                                            <span>Enrolled Learners</span>
+                                        </div>
+                                    </div>
+                                    <!-- Card -->
+
+                                    <!-- Background Element -->
+                                    <img src="assets/img/abstracts/abstract-dots-2.svg" alt="abstract-dots-2" class="absolute -left-10 top-1/2 z-20 -translate-y-1/2 rotate-90" />
+                                    <img src="assets/img/abstracts/abstract-golden-yellow-bg-black-dash-1.svg" alt="abstract-dots-2" width="83" height="74" class="absolute bottom-5 right-0 z-20" />
+                                    <!-- Background Element -->
+                                </div>
+                                <!-- Welcome Left Block -->
+
+                                <!-- Welcome Right Block -->
+                                <div class="jos order-1 lg:order-2" data-jos_animation="fade-left">
+                                    <!-- Section Block -->
+                                    <div class="mb-6">
+                                        <span class="mb-5 block uppercase text-[#84994F]">WELCOME TO Corwus</span>
+                                        <h2>
+                                            Digital Online Academy: Your Path to Creative Excellence
+                                        </h2>
+                                    </div>
+                                    <!-- Section Block -->
+                                    <!-- Content Block -->
+                                    <div>
+                                        <p>
+                                            Excepteur sint occaecat cupidatat non proident sunt in
+                                            culpa qui officia deserunt mollit.
+                                        </p>
+                                        <ul class="mt-6 flex list-inside list-image-[url(../img/icons/icon-purple-check.svg)] flex-col gap-y-4 font-title text-colorBlackPearl">
+                                            <li>Our Expert Trainers</li>
+                                            <li>Online Remote Learning</li>
+                                            <li>Easy to follow curriculum</li>
+                                            <li>Lifetime Access</li>
+                                        </ul>
+                                    </div>
+                                    <!-- Content Block -->
+                                </div>
+                                <!-- Welcome Right Block -->
+                            </div>
+                            <!-- Welcome Area -->
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Section Space -->
+
+                    <!-- Section Elements -->
+                    <img src="assets/img/abstracts/abstract-element-regular.svg" alt="abstract-element-regular" width="133" height="154" class="absolute bottom-0 right-20 -z-10" />
+                    <div class="absolute -bottom-20 left-0 -z-10 h-[383px] w-[531px] -translate-x-1/2 rounded-[50%] bg-colorBrightGold/[23%] blur-3xl"></div>
+                    <!-- Section Elements -->
+                </div>
+            </section>
+            <!--...::: Welcome Section End :::... -->
+
+            <!--...::: Course Category Section Start :::... -->
+            <section class="section-course-category">
+                <!-- Section Space -->
+                <div class="section-space">
+                    <!-- Section Container  -->
+                    <div class="container">
+                        <!-- Section Block -->
+                        <div class="mb-10 flex flex-wrap items-center justify-between gap-8 lg:mb-[60px]">
+                            <div class="jos max-w-xl">
+                                <span class="mb-5 block uppercase">COURSE CATEGORIES</span>
+                                <h2>Top Categories You Want to Learn</h2>
+                            </div>
+                            <div class="jos inline-block">
+                                <a href="course-1.html" class="btn btn-primary is-icon group">Find Courses
+                                    <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                                        <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                    </span>
+                                    <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                                        <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Section Block -->
+
+                        <!-- Course Category List -->
+                        <ul class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                            <!-- Course Category Item -->
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DE1EF9]/10">
+                                        <img src="assets/img/icons/category-icon-1.svg" alt="category-icon-1" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Business</span>
+                                        <span class="text-sm">04 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#42AC98]/10">
+                                        <img src="assets/img/icons/category-icon-2.svg" alt="category-icon-2" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Marketing</span>
+                                        <span class="text-sm">88 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DF4343]/10">
+                                        <img src="assets/img/icons/category-icon-3.svg" alt="category-icon-3" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Design</span>
+                                        <span class="text-sm">23 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#543EE4]/10">
+                                        <img src="assets/img/icons/category-icon-4.svg" alt="category-icon-4" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Finance</span>
+                                        <span class="text-sm">02 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#543EE5]/10">
+                                        <img src="assets/img/icons/category-icon-5.svg" alt="category-icon-5" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Lifestyle</span>
+                                        <span class="text-sm">29 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DF4343]/10">
+                                        <img src="assets/img/icons/category-icon-6.svg" alt="category-icon-6" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Cyber</span>
+                                        <span class="text-sm">15 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DE1EF9]/10">
+                                        <img src="assets/img/icons/category-icon-7.svg" alt="category-icon-7" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Development</span>
+                                        <span class="text-sm">28 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="jos">
+                                <a href="course-1.html" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+                                    <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#42AC98]/10">
+                                        <img src="assets/img/icons/category-icon-8.svg" alt="category-icon-8" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Photography</span>
+                                        <span class="text-sm">03 Courses</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <!-- Course Category Item -->
+                        </ul>
+                        <!-- Course Category List -->
+                    </div>
+                    <!-- Section Container  -->
+                </div>
+                <!-- Section Space -->
+            </section>
+            <!--...::: Course Category Section End :::... -->
+
+            <!--...::: Feature Section Start :::... -->
+            <div class="section-feature">
+                <!-- Section Background -->
+                <div class="relative z-10 bg-colorBlackPearl">
+                    <!-- Section Space -->
+                    <div class="py-[60px] lg:py-[90px]">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <!-- Feature List -->
+                            <ul class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+                                <!-- Feature Item -->
+                                <li class="jos flex items-start gap-5">
+                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-colorBrightGold/10">
+                                        <img src="assets/img/icons/feature-icon-1.svg" alt="feature-icon-1" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-2 block font-title text-xl font-bold text-white">Educator Support</span>
+                                        <span class="text-white/80">Excepteur sint occaecat cupidatat non the proident sunt
+                                            in culpa</span>
+                                    </div>
+                                </li>
+                                <!-- Feature Item -->
+                                <!-- Feature Item -->
+                                <li class="jos flex items-start gap-5">
+                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-[#6FC081]/10">
+                                        <img src="assets/img/icons/feature-icon-2.svg" alt="feature-icon-2" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-2 block font-title text-xl font-bold text-white">Top Instructor</span>
+                                        <span class="text-white/80">Excepteur sint occaecat cupidatat non the proident sunt
+                                            in culpa</span>
+                                    </div>
+                                </li>
+                                <!-- Feature Item -->
+                                <!-- Feature Item -->
+                                <li class="jos flex items-start gap-5">
+                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-[#DF4343]/10">
+                                        <img src="assets/img/icons/feature-icon-3.svg" alt="feature-icon-3" width="30" height="30" />
+                                    </div>
+                                    <div class="flex-1">
+                                        <span class="mb-2 block font-title text-xl font-bold text-white">Award Wining</span>
+                                        <span class="text-white/80">Excepteur sint occaecat cupidatat non the proident sunt
+                                            in culpa</span>
+                                    </div>
+                                </li>
+                                <!-- Feature Item -->
+                            </ul>
+                            <!-- Feature List -->
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Section Space -->
+
+                    <!-- Background Elements -->
+                    <img src="assets/img/abstracts/abstract-dots-2.svg" alt="abstract-dots-2" width="49" height="79" class="absolute left-[100px] top-1/2 -z-10 hidden -translate-y-1/2 rotate-90 animate-pulse xxxl:inline-block" />
+                    <img src="assets/img/abstracts/abstract-golden-yellow-dash-1.svg" alt="abstract-golden-yellow-dash-1" width="45" height="37" class="absolute bottom-12 right-[100px] -z-10 hidden animate-bounce xxxl:inline-block" />
+                    <!-- Background Elements -->
+                </div>
+                <!-- Section Background -->
+            </div>
+            <!--...::: Feature Section End :::... -->
+
+            <!--...::: Course Section Start :::... -->
+            <section class="section-course">
+                <div class="bg-white">
+                    <!-- Section Space -->
+                    <div class="section-space">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <!-- Section Block -->
+                            <div class="mb-10 lg:mb-[60px]">
+                                <div class="jos mx-auto max-w-md text-center">
+                                    <span class="mb-5 block uppercase">ONLINE COURSES</span>
+                                    <h2>Get Your Course With Us</h2>
+                                </div>
+                            </div>
+                            <!-- Section Block -->
+
+                            <!-- Course List -->
+                            <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+                                <!-- Course Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden">
+                                            <img src="assets/img/images/th-1/course-img-1.jpg" alt="course-img-1" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="course-1.html" class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl hover:bg-colorBlackPearl hover:text-colorBrightGold">Data Science</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="bg-[#F5F5F5] px-5 py-8">
+                                            <!-- Course Meta -->
+                                            <div class="flex gap-9">
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-book-3-line.svg" alt="icon-grey-book-3-line" width="17" height="17" />
+                                                    <span class="flex-1">23 Lessons</span>
+                                                </span>
+                                                <a href="course-1.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-user-3-line.svg" alt="icon-grey-user-3-line" width="17" height="18" />
+                                                    <span class="flex-1">Harrison Stone</span>
+                                                </a>
+                                            </div>
+                                            <!-- Course Meta -->
+                                            <!-- Title Link -->
+                                            <a href="course-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Data Competitive Strategy law and Organization
+                                                Course</a>
+                                            <!-- Title Link -->
+                                            <!-- Review Star -->
+                                            <div class="inline-flex gap-x-[10px] text-sm">
+                                                <div class="inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <span>(09 Reviews)</span>
+                                            </div>
+                                            <!-- Review Star -->
+
+                                            <!-- Separator -->
+                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
+                                            <!-- Separator -->
+                                            <!-- Bottom Text -->
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">$674.00</span>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-graduation-cap-line.svg" alt="icon-grey-graduation-cap-line" width="17" height="17" />
+                                                    <span class="flex-1">673 Students</span>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom Text -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Course Item -->
+                                <!-- Course Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden">
+                                            <img src="assets/img/images/th-1/course-img-2.jpg" alt="course-img-2" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="course-1.html" class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl hover:bg-colorBlackPearl hover:text-colorBrightGold">Business</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="bg-[#F5F5F5] px-5 py-8">
+                                            <!-- Course Meta -->
+                                            <div class="flex gap-9">
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-book-3-line.svg" alt="icon-grey-book-3-line" width="17" height="17" />
+                                                    <span class="flex-1">04 Lessons</span>
+                                                </span>
+                                                <a href="course-1.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-user-3-line.svg" alt="icon-grey-user-3-line" width="17" height="18" />
+                                                    <span class="flex-1">Alexander Wells</span>
+                                                </a>
+                                            </div>
+                                            <!-- Course Meta -->
+                                            <!-- Title Link -->
+                                            <a href="course-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Grow Personal Financial Security Thinking &
+                                                Principles</a>
+                                            <!-- Title Link -->
+                                            <!-- Review Star -->
+                                            <div class="inline-flex gap-x-[10px] text-sm">
+                                                <div class="inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <span>(09 Reviews)</span>
+                                            </div>
+                                            <!-- Review Star -->
+
+                                            <!-- Separator -->
+                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
+                                            <!-- Separator -->
+                                            <!-- Bottom Text -->
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">$633.00</span>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-graduation-cap-line.svg" alt="icon-grey-graduation-cap-line" width="17" height="17" />
+                                                    <span class="flex-1">964 Students</span>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom Text -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Course Item -->
+                                <!-- Course Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden">
+                                            <img src="assets/img/images/th-1/course-img-3.jpg" alt="course-img-3" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="course-1.html" class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl hover:bg-colorBlackPearl hover:text-colorBrightGold">Design</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="bg-[#F5F5F5] px-5 py-8">
+                                            <!-- Course Meta -->
+                                            <div class="flex gap-9">
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-book-3-line.svg" alt="icon-grey-book-3-line" width="17" height="17" />
+                                                    <span class="flex-1">87 Lessons</span>
+                                                </span>
+                                                <a href="course-1.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-user-3-line.svg" alt="icon-grey-user-3-line" width="17" height="18" />
+                                                    <span class="flex-1">John Smith</span>
+                                                </a>
+                                            </div>
+                                            <!-- Course Meta -->
+                                            <!-- Title Link -->
+                                            <a href="course-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">The Complete Guide to Build RESTful API
+                                                Application</a>
+                                            <!-- Title Link -->
+                                            <!-- Review Star -->
+                                            <div class="inline-flex gap-x-[10px] text-sm">
+                                                <div class="inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <span>(65 Reviews)</span>
+                                            </div>
+                                            <!-- Review Star -->
+
+                                            <!-- Separator -->
+                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
+                                            <!-- Separator -->
+                                            <!-- Bottom Text -->
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">$383.00</span>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-graduation-cap-line.svg" alt="icon-grey-graduation-cap-line" width="17" height="17" />
+                                                    <span class="flex-1">316 Students</span>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom Text -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Course Item -->
+                                <!-- Course Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden">
+                                            <img src="assets/img/images/th-1/course-img-4.jpg" alt="course-img-4" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="course-1.html" class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl hover:bg-colorBlackPearl hover:text-colorBrightGold">Development</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="bg-[#F5F5F5] px-5 py-8">
+                                            <!-- Course Meta -->
+                                            <div class="flex gap-9">
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-book-3-line.svg" alt="icon-grey-book-3-line" width="17" height="17" />
+                                                    <span class="flex-1">04 Lessons</span>
+                                                </span>
+                                                <a href="course-1.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-user-3-line.svg" alt="icon-grey-user-3-line" width="17" height="18" />
+                                                    <span class="flex-1">Gabriel Cross</span>
+                                                </a>
+                                            </div>
+                                            <!-- Course Meta -->
+                                            <!-- Title Link -->
+                                            <a href="course-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Exploring Learning Landscapes in Academic Business</a>
+                                            <!-- Title Link -->
+                                            <!-- Review Star -->
+                                            <div class="inline-flex gap-x-[10px] text-sm">
+                                                <div class="inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <span>(94 Reviews)</span>
+                                            </div>
+                                            <!-- Review Star -->
+
+                                            <!-- Separator -->
+                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
+                                            <!-- Separator -->
+                                            <!-- Bottom Text -->
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">$356.00</span>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-graduation-cap-line.svg" alt="icon-grey-graduation-cap-line" width="17" height="17" />
+                                                    <span class="flex-1">352 Students</span>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom Text -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Course Item -->
+                                <!-- Course Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden">
+                                            <img src="assets/img/images/th-1/course-img-5.jpg" alt="course-img-5" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="course-1.html" class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl hover:bg-colorBlackPearl hover:text-colorBrightGold">Marketing</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="bg-[#F5F5F5] px-5 py-8">
+                                            <!-- Course Meta -->
+                                            <div class="flex gap-9">
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-book-3-line.svg" alt="icon-grey-book-3-line" width="17" height="17" />
+                                                    <span class="flex-1">04 Lessons</span>
+                                                </span>
+                                                <a href="course-1.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-user-3-line.svg" alt="icon-grey-user-3-line" width="17" height="18" />
+                                                    <span class="flex-1">Maxwell Ford</span>
+                                                </a>
+                                            </div>
+                                            <!-- Course Meta -->
+                                            <!-- Title Link -->
+                                            <a href="course-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Voices from the Learning Manage Education Hub</a>
+                                            <!-- Title Link -->
+                                            <!-- Review Star -->
+                                            <div class="inline-flex gap-x-[10px] text-sm">
+                                                <div class="inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <span>(09 Reviews)</span>
+                                            </div>
+                                            <!-- Review Star -->
+
+                                            <!-- Separator -->
+                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
+                                            <!-- Separator -->
+                                            <!-- Bottom Text -->
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">$643.00</span>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-graduation-cap-line.svg" alt="icon-grey-graduation-cap-line" width="17" height="17" />
+                                                    <span class="flex-1">553 Students</span>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom Text -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Course Item -->
+                                <!-- Course Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden">
+                                            <img src="assets/img/images/th-1/course-img-6.jpg" alt="course-img-6" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="course-1.html" class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl hover:bg-colorBlackPearl hover:text-colorBrightGold">Cyber Security</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="bg-[#F5F5F5] px-5 py-8">
+                                            <!-- Course Meta -->
+                                            <div class="flex gap-9">
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-book-3-line.svg" alt="icon-grey-book-3-line" width="17" height="17" />
+                                                    <span class="flex-1">04 Lessons</span>
+                                                </span>
+                                                <a href="course-1.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-user-3-line.svg" alt="icon-grey-user-3-line" width="17" height="18" />
+                                                    <span class="flex-1">Dominic Chase</span>
+                                                </a>
+                                            </div>
+                                            <!-- Course Meta -->
+                                            <!-- Title Link -->
+                                            <a href="course-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Starting SEO as your Home Based Business Courses</a>
+                                            <!-- Title Link -->
+                                            <!-- Review Star -->
+                                            <div class="inline-flex gap-x-[10px] text-sm">
+                                                <div class="inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <span>(09 Reviews)</span>
+                                            </div>
+                                            <!-- Review Star -->
+
+                                            <!-- Separator -->
+                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
+                                            <!-- Separator -->
+                                            <!-- Bottom Text -->
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">$275.00</span>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-graduation-cap-line.svg" alt="icon-grey-graduation-cap-line" width="17" height="17" />
+                                                    <span class="flex-1">254 Students</span>
+                                                </div>
+                                            </div>
+                                            <!-- Bottom Text -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Course Item -->
+                            </ul>
+                            <!-- Course List -->
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Section Space -->
+                </div>
+            </section>
+            <!--...::: Course Section End :::... -->
+
+            <!--...::: Content Section Start :::... -->
+            <section class="section-content">
+                <!-- Section Background -->
+                <div class="relative z-10">
+                    <!-- Section Space -->
+                    <div class="section-space-top pb-[286px]">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <!-- Content Area -->
+                            <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_1fr] xxl:gap-28">
+                                <!-- Content Left Block -->
+                                <div class="jos" data-jos_animation="fade-right">
+                                    <!-- Section Block -->
+                                    <div class="mb-6">
+                                        <span class="mb-5 block uppercase">WHY CHOOSE US</span>
+                                        <h2>
+                                            Transform Your Best Practice with Our Online Course
+                                        </h2>
+                                    </div>
+                                    <!-- Section Block -->
+                                    <!-- Content -->
+                                    <div class="mt-7">
+                                        <p>
+                                            Excepteur sint occaecat cupidatat non proident sunt in
+                                            culpa qui officia deserunt mollit. Excepteur sint
+                                            occaecat.
+                                        </p>
+
+                                        <ul class="mt-10 flex flex-col gap-y-10">
+                                            <li>
+                                                <div class="mb-5 flex items-center gap-x-5">
+                                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-colorLightSeaGreen/10">
+                                                        <img src="assets/img/icons/content-icon-1.svg" alt="content-icon-1" width="25" height="25" />
+                                                    </div>
+                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">Face-to-face Teaching</span>
+                                                </div>
+                                                <p>
+                                                    Excepteur sint occaecat cupidatat non proident sunt
+                                                    in culpa qui officia for this is a for that an
+                                                    deserunt mollit.
+                                                </p>
+                                            </li>
+                                            <li>
+                                                <div class="mb-5 flex items-center gap-x-5">
+                                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-colorJasper/10">
+                                                        <img src="assets/img/icons/content-icon-2.svg" alt="content-icon-2" width="25" height="25" />
+                                                    </div>
+                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">24/7 Support Available</span>
+                                                </div>
+                                                <p>
+                                                    Excepteur sint occaecat cupidatat non proident sunt
+                                                    in culpa qui officia for this is a for that an
+                                                    deserunt mollit.
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Content -->
+                                </div>
+                                <!-- Content Left Block -->
+
+                                <!-- Content Right Block -->
+                                <div class="jos relative z-10" data-jos_animation="fade-left">
+                                    <img src="assets/img/images/th-1/content-img-1.png" alt="content-img-1" width="586" height="585" class="max-w-full pl-5" />
+
+                                    <!-- Card -->
+                                    <div class="jos absolute bottom-[60px] left-0 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10">
+                                        <div class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#DF4343]/5">
+                                            <img src="assets/img/icons/icon-red-tomato-graduation-cap-line.svg" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
+                                        </div>
+                                        <div class="">
+                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">69K+</span>
+                                            <span>Satisfied Students</span>
+                                        </div>
+                                    </div>
+                                    <!-- Card -->
+
+                                    <!-- Background Shape -->
+                                    <div class="absolute left-0 top-0 -z-10 h-96 w-96 rounded-[50%] bg-[#6FC081] blur-[230px]"></div>
+                                    <img src="assets/img/abstracts/abstract-orange-1.svg" alt="abstract-orange-1" width="70" height="55" class="absolute left-1 top-[133px]" />
+                                    <img src="assets/img/abstracts/abstract-dots-3.svg" alt="aabstract-dots-3" width="79" height="50" class="absolute -right-5 bottom-[65px]" />
+                                    <!-- Background Shape -->
+                                </div>
+                                <!-- Content Right Block -->
+                            </div>
+                            <!-- Content Area -->
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Section Space -->
+
+                    <!-- Background Elements -->
+                    <img src="assets/img/abstracts/abstract-dots-2.svg" alt="abstract-dots-2" width="49" height="79" class="absolute left-28 top-28 -z-10 hidden animate-pulse xl:inline-block" />
+                    <img src="assets/img/abstracts/abstract-dots-3.svg" alt="abstract-dots-3" width="79" height="50" class="absolute bottom-16 right-96 -z-10 hidden animate-pulse xl:inline-block" />
+                    <div class="absolute -left-80 top-1/2 -z-10 h-[457px] w-[457px] -translate-y-1/2 rounded-[50%] bg-[#BFC06F] blur-[230px]"></div>
+                    <!-- Background Elements -->
+                </div>
+                <!-- Section Background -->
+            </section>
+            <!--...::: Content Section End :::... -->
+
+            <!--...::: Client Logo Section Start :::... -->
+            <div class="section-client-logo">
+                <!-- Section Background -->
+                <div class="bg-white">
+                    <!-- Fun-fact Area -->
+                    <div class="z-10 -mt-44">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <div class="rounded-lg bg-colorPurpleBlue p-5">
+                                <div class="grid grid-cols-1 items-center gap-x-28 gap-y-10 lg:grid-cols-2">
+                                    <!-- Countdown Left Block -->
+                                    <div class="overflow-hidden rounded-lg">
+                                        <img src="assets/img/images/th-1/funfact-image.png" alt="funfact-image" width="553" height="315" class="mx-auto max-w-full" />
+                                    </div>
+                                    <!-- Countdown Left Block -->
+                                    <!-- Countdown Right Block -->
+                                    <div>
+                                        <ul class="grid grid-cols-1 gap-x-[120px] gap-y-6 text-center sm:grid-cols-2 lg:gap-y-16 lg:text-left">
+                                            <li>
+                                                <div class="mb-2 font-title text-4xl font-bold text-white" data-module="countup">
+                                                    <span class="start-number" data-countup-number="5923">5923</span>+
+                                                </div>
+                                                <span class="text-white/80">Student enrolled</span>
+                                            </li>
+                                            <li>
+                                                <div class="mb-2 font-title text-4xl font-bold text-white" data-module="countup">
+                                                    <span class="start-number" data-countup-number="8497">8497</span>+
+                                                </div>
+                                                <span class="text-white/80">Classes completed</span>
+                                            </li>
+                                            <li>
+                                                <div class="mb-2 font-title text-4xl font-bold text-white" data-module="countup">
+                                                    <span class="start-number" data-countup-number="7554">7554</span>+
+                                                </div>
+                                                <span class="text-white/80">Learners report</span>
+                                            </li>
+                                            <li>
+                                                <div class="mb-2 font-title text-4xl font-bold text-white" data-module="countup">
+                                                    <span class="start-number" data-countup-number="2755">2755</span>+
+                                                </div>
+                                                <span class="text-white/80">Top instructors</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- Countdown Right Block -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Fun-fact Area -->
+                    <!-- Section Space -->
+                    <div class="section-space pt-[286px]">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <div class="mx-auto mb-10 max-w-xl lg:mb-[60px]">
+                                <p class="text-center text-lg text-colorBlackPearl">
+                                    Get in touch with the <strong>250+</strong> companies who
+                                    Collaboration us
+                                </p>
+                            </div>
+
+                            <!-- Slider main container -->
+                            <div class="swiper client-slider">
+                                <!-- Additional required wrapper -->
+                                <div class="swiper-wrapper ease-linear">
+                                    <!-- Slides -->
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-1.png" alt="client-logo-1" width="183" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-2.png" alt="client-logo-2" width="136" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-3.png" alt="client-logo-3" width="98" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-4.png" alt="client-logo-4" width="133" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-5.png" alt="client-logo-5" width="130" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-1.png" alt="client-logo-1" width="183" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-2.png" alt="client-logo-2" width="136" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-3.png" alt="client-logo-3" width="98" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-4.png" alt="client-logo-4" width="133" height="40" class="mx-auto" />
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <img src="assets/img/images/th-1/client-logo-5.png" alt="client-logo-5" width="130" height="40" class="mx-auto" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Section Space -->
+                </div>
+                <!-- Section Background -->
+            </div>
+            <!--...::: Client Logo Section End :::... -->
+
+            <!--...::: Testimonial Section Start :::... -->
+            <section class="section-testimonial">
+                <!-- Section Space -->
+                <div class="section-space">
+                    <!-- Section Container -->
+                    <div class="container">
+                        <!-- Testimonial Area -->
+                        <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-32">
+                            <!-- Testimonial Left Block -->
+                            <div class="jos" data-jos_animation="fade-left">
+                                <!-- Section Block -->
+                                <div class="mb-10 lg:mb-[60px]">
+                                    <span class="mb-5 block uppercase">OUR TESTIMONIAL</span>
+                                    <h2>What Student Say About Our Online Education Course</h2>
+                                </div>
+                                <!-- Section Block -->
+
+                                <!-- Testimonial Slider -->
+                                <div class="rounded-lg bg-white p-8">
+                                    <div class="swiper testimonial-slider-1">
+                                        <!-- Additional required wrapper -->
+                                        <div class="swiper-wrapper">
+                                            <!-- Slide Item -->
+                                            <div class="swiper-slide">
+                                                <!-- Review Star -->
+                                                <div class="mb-5 inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <!-- Review Star -->
+                                                <blockquote class="text-lg">
+                                                    “ Attending EduVibe School of Business was one of
+                                                    the best decisions I've ever made. The curriculum
+                                                    was practical and industry-focused, and I was able
+                                                    to apply what I learned in the classroom.”
+                                                </blockquote>
+                                                <div class="mt-8 flex items-center gap-x-4">
+                                                    <div class="h-[43px] w-[43px] overflow-hidden rounded-[50%]">
+                                                        <img src="assets/img/images/th-1/testimonial-avater-1.png" alt="testimonial-avater-1" width="43" height="43" class="h-full w-full object-cover" />
+                                                    </div>
+                                                    <div class="flex flex-col">
+                                                        <span class="block font-title text-xl font-bold text-colorBlackPearl">John Smith</span>
+                                                        <span class="block text-sm">Science Student</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Slide Item -->
+                                            <!-- Slide Item -->
+                                            <div class="swiper-slide">
+                                                <!-- Review Star -->
+                                                <div class="mb-5 inline-flex items-center gap-x-1">
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                    <img src="assets/img/icons/icon-yellow-star.svg" alt="icon-yellow-star" width="16" height="15" />
+                                                </div>
+                                                <!-- Review Star -->
+                                                <blockquote class="text-lg">
+                                                    “ Attending EduVibe School of Business was one of
+                                                    the best decisions I've ever made. The curriculum
+                                                    was practical and industry-focused, and I was able
+                                                    to apply what I learned in the classroom.”
+                                                </blockquote>
+                                                <div class="mt-8 flex items-center gap-x-4">
+                                                    <div class="h-[43px] w-[43px] overflow-hidden rounded-[50%]">
+                                                        <img src="assets/img/images/th-1/testimonial-avater-1.png" alt="testimonial-avater-1" width="43" height="43" class="h-full w-full object-cover" />
+                                                    </div>
+                                                    <div class="flex flex-col">
+                                                        <span class="block font-title text-xl font-bold text-colorBlackPearl">John Smith</span>
+                                                        <span class="block text-sm">Science Student</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Slide Item -->
+                                        </div>
+
+                                        <!-- If we need navigation buttons -->
+                                        <div class="absolute bottom-0 right-0 z-10 flex items-center gap-x-[18px]">
+                                            <div class="slider-button-prev static opacity-100 transition-all">
+                                                <img src="assets/img/icons/icon-purple-long-arrow-left.svg" alt="icon-purple-long-arrow-left" width="28" height="16" />
+                                            </div>
+                                            <div class="slider-button-next static opacity-100 transition-all">
+                                                <img src="assets/img/icons/icon-purple-long-arrow-right.svg" alt="icon-purple-long-arrow-right" width="28" height="16" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Testimonial Slider -->
+                            </div>
+                            <!-- Testimonial Left Block -->
+
+                            <!-- Testimonial Right Block -->
+                            <div class="jos relative mx-auto" data-jos_animation="fade-right">
+                                <img src="assets/img/images/th-1/testimonial-img.png" alt="testimonial-img" width="437" height="520" class="max-w-full" />
+
+                                <!-- Card -->
+                                <div class="jos absolute bottom-12 left-16 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10 xxl:-left-16 xxxl:-left-28">
+                                    <div class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#DF4343]/5">
+                                        <img src="assets/img/icons/icon-red-tomato-graduation-cap-line.svg" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
+                                    </div>
+                                    <div class="">
+                                        <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">667K+</span>
+                                        <span>Students worldwide</span>
+                                    </div>
+                                </div>
+                                <!-- Card -->
+
+                                <!-- Background Element -->
+                                <img src="assets/img/abstracts/abstract-dots-3.svg" alt="abstract-dots-2" class="absolute -right-10 top-1/2 z-20 -translate-y-1/2 animate-pulse" />
+                                <!-- Background Element -->
+                            </div>
+                            <!-- Testimonial Right Block -->
+                        </div>
+                        <!-- Testimonial Area -->
+                    </div>
+                    <!-- Section Container -->
+                </div>
+                <!-- Section Space -->
+            </section>
+            <!--...::: Testimonial Section End :::... -->
+
+            <!--...::: Blog Section Start :::... -->
+            <section class="section-blog">
+                <!-- Section Background -->
+                <div class="relative z-10 overflow-hidden bg-white pb-44">
+                    <!-- Section Space -->
+                    <div class="section-space">
+                        <!-- Section Container -->
+                        <div class="container">
+                            <!-- Section Block -->
+                            <div class="mb-10 lg:mb-[60px]">
+                                <div class="jos mx-auto max-w-md text-center">
+                                    <span class="mb-5 block uppercase">OUR NEWS</span>
+                                    <h2>Our New Articles</h2>
+                                </div>
+                            </div>
+                            <!-- Section Block -->
+
+                            <!-- Blog List -->
+                            <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+                                <!-- Blog Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden rounded-[10px]">
+                                            <img src="assets/img/images/th-1/blog-img-1.jpg" alt="blog-img-1" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="blog.html" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">Education</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="mt-7">
+                                            <!-- Blog Meta -->
+                                            <div class="flex gap-9">
+                                                <a href="blog.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-calendar.svg" alt="icon-grey-calendar" width="23" height="23" />
+                                                    <span class="flex-1">09 May, 2024</span>
+                                                </a>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-chat.svg" alt="icon-grey-chat" width="23" height="23" />
+                                                    <span class="flex-1">32 Comments</span>
+                                                </div>
+                                            </div>
+                                            <!-- Blog Meta -->
+                                            <!-- Title Link -->
+                                            <a href="blog-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Solutions Your All Problem With Online Courses For
+                                                Your Thinking</a>
+                                            <!-- Title Link -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Blog Item -->
+                                <!-- Blog Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden rounded-[10px]">
+                                            <img src="assets/img/images/th-1/blog-img-2.jpg" alt="blog-img-2" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="blog.html" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">Business</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="mt-7">
+                                            <!-- Blog Meta -->
+                                            <div class="flex gap-9">
+                                                <a href="blog.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-calendar.svg" alt="icon-grey-calendar" width="23" height="23" />
+                                                    <span class="flex-1">09 January, 2024</span>
+                                                </a>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-chat.svg" alt="icon-grey-chat" width="23" height="23" />
+                                                    <span class="flex-1">98 Comments</span>
+                                                </div>
+                                            </div>
+                                            <!-- Blog Meta -->
+                                            <!-- Title Link -->
+                                            <a href="blog-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Exploring Learning Landscapes in All Academic
+                                                Calendar For Season</a>
+                                            <!-- Title Link -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Blog Item -->
+                                <!-- Blog Item -->
+                                <li class="jos" data-jos_animation="flip-left">
+                                    <div class="group overflow-hidden rounded-lg transition-all duration-300">
+                                        <!-- Thumbnail -->
+                                        <div class="relative block overflow-hidden rounded-[10px]">
+                                            <img src="assets/img/images/th-1/blog-img-3.jpg" alt="blog-img-3" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+
+                                            <a href="blog.html" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">Marketing</a>
+                                        </div>
+                                        <!-- Thumbnail -->
+                                        <!-- Content -->
+                                        <div class="mt-7">
+                                            <!-- Blog Meta -->
+                                            <div class="flex gap-9">
+                                                <a href="blog.html" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                    <img src="assets/img/icons/icon-grey-calendar.svg" alt="icon-grey-calendar" width="23" height="23" />
+                                                    <span class="flex-1">03 June, 2024</span>
+                                                </a>
+                                                <div class="inline-flex items-center gap-1.5 text-sm">
+                                                    <img src="assets/img/icons/icon-grey-chat.svg" alt="icon-grey-chat" width="23" height="23" />
+                                                    <span class="flex-1">04 Comments</span>
+                                                </div>
+                                            </div>
+                                            <!-- Blog Meta -->
+                                            <!-- Title Link -->
+                                            <a href="blog-details.html" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Voices from the Learning Education Hub For Your
+                                                Children</a>
+                                            <!-- Title Link -->
+                                        </div>
+                                        <!-- Content -->
+                                    </div>
+                                </li>
+                                <!-- Blog Item -->
+                            </ul>
+                            <!-- Blog List -->
+                        </div>
+                        <!-- Section Container -->
+                    </div>
+                    <!-- Section Space -->
+
+                    <!-- Background Elements -->
+                    <div class="absolute -left-80 top-1/2 -z-10 h-[457px] w-[457px] -translate-y-1/2 rounded-[50%] bg-[#BFC06F] blur-[230px]"></div>
+                    <div class="absolute -right-40 -top-20 -z-10 h-[457px] w-[457px] -translate-y-1/2 rounded-[50%] bg-[#6FC081] blur-[230px]"></div>
+                    <!-- Background Elements -->
+                </div>
+                <!-- Section Background -->
+            </section>
+            <!--...::: Blog Section End :::... -->
+        </main>
+        <!-- Main Wrapper -->
+
+        <!--...::: Footer Section Start :::... -->
+        <footer class="section-footer">
+            <div class="-mt-48">
+                <!-- Section Container -->
+                <div class="container">
+                    <!-- CTA Area -->
+                    <div class="jos relative z-10 grid grid-cols-1 items-end overflow-hidden rounded-lg bg-colorPurpleBlue lg:grid-cols-[0.8fr_1fr] lg:gap-14">
+                        <!-- CTA Left Block -->
+                        <div class="relative order-2 lg:order-1">
+                            <img src="assets/img/images/th-1/cta-img.png" alt="cta-img" width="507" height="448" class="static bottom-0 left-0 lg:absolute" />
+                        </div>
+                        <!-- CTA Left Block -->
+                        <!-- CTA Right Block -->
+                        <div class="order-1 px-6 py-12 sm:px-10 lg:order-2 lg:px-0 xl:py-[90px]">
+                            <!-- Section Block -->
+                            <div class="max-w-[530px]">
+                                <div class="jos">
+                                    <span class="mb-5 block uppercase text-colorBrightGold">GET STARTED NOW</span>
+                                    <h2 class="text-white">
+                                        Affordable Your Online Courses & Learning Opportunities
+                                    </h2>
+                                </div>
+                                <p class="mb-[30px] mt-7 text-white/80">
+                                    Excepteur sint occaecat cupidatat non proident sunt in culpa
+                                    qui officia deserunt mollit. Excepteur sint occaecat.
+                                </p>
+                                <div class="inline-block">
+                                    <a href="course-1.html" class="btn btn-secondary is-icon group">Start Learning Today
+                                        <span class="btn-icon bg-colorBlackPearl group-hover:right-0 group-hover:translate-x-full">
+                                            <img src="assets/img/icons/icon-golden-yellow-arrow-right.svg" alt="icon-golden-yellow-arrow-right" width="13" height="12" />
+                                        </span>
+                                        <span class="btn-icon bg-colorBlackPearl group-hover:left-[5px] group-hover:translate-x-0">
+                                            <img src="assets/img/icons/icon-golden-yellow-arrow-right.svg" alt="icon-golden-yellow-arrow-right" width="13" height="12" />
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Section Block -->
+                        </div>
+                        <!-- CTA Right Block -->
+
+                        <!-- Background Element -->
+                        <img src="assets/img/abstracts/abstract-golden-yellow-dash-2.svg" alt="abstract-golden-yellow-dash-2" width="44" height="37" class="absolute left-[400px] top-16 -z-10" />
+                        <img src="assets/img/abstracts/curve-1.svg" alt="curve-1" width="155" height="155" class="absolute left-6 top-14 z-10 hidden lg:inline-block" />
+                        <img src="assets/img/abstracts/abstract-dots-4-white.svg" alt="curve-1" width="108" height="67" class="absolute bottom-0 right-0 -z-10" />
+                        <!-- Background Element -->
+                    </div>
+                    <!-- CTA Area -->
+                </div>
+                <!-- Section Container -->
+            </div>
+
+            <!-- Footer Top -->
+            <div class="relative z-10 overflow-hidden">
+                <!-- Section Space -->
+                <div class="section-space">
+                    <!-- Section Container -->
+                    <div class="container">
+                        <!-- Footer Area -->
+                        <div class="grid grid-cols-1 flex-wrap justify-between gap-10 sm:grid-cols-2 lg:flex">
+                            <!-- Footer Widget - About -->
+                            <div class="max-w-[298px]">
+                                <a href="index.html" class="">
+                                    <img src="assets/img/logo-parosis-akademi.svg" alt="logo" width="137" height="33" />
+                                </a>
+                                <p class="mb-8 mt-8">
+                                    Excepteur sint occaecat cupidatat non proident sunt in culpa
+                                    qui officia deserunt mollit.
+                                </p>
+                                <!-- Social Links -->
+                                <div class="flex items-center gap-x-6">
+                                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="facebook">
+                                        <img src="assets/img/icons/icon-dark-facebook.svg" alt="icon-dark-facebook" width="20" height="20" />
+                                    </a>
+                                    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" aria-label="twitter">
+                                        <img src="assets/img/icons/icon-dark-twitter.svg" alt="icon-dark-twitter" width="21" height="20" />
+                                    </a>
+                                    <a href="https://www.dribbble.com" target="_blank" rel="noopener noreferrer" aria-label="dribbble">
+                                        <img src="assets/img/icons/icon-dark-dribbble.svg" alt="icon-dark-dribbble" width="21" height="20" />
+                                    </a>
+                                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="instagram">
+                                        <img src="assets/img/icons/icon-dark-instagram.svg" alt="icon-dark-instagram" width="21" height="20" />
+                                    </a>
+                                </div>
+                                <!-- Social Links -->
+                            </div>
+                            <!-- Footer Widget - About -->
+
+                            <!-- Footer Widget - Nav -->
+                            <div>
+                                <!-- Footer Title -->
+                                <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">Links</span>
+                                <!-- Footer Title -->
+
+                                <!-- Footer Nav List -->
+                                <ul class="flex flex-col gap-y-3">
+                                    <li>
+                                        <a href="about-1.html" class="hover:text-colorBlackPearl hover:underline">About Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="course-1.html" class="hover:text-colorBlackPearl hover:underline">Our Courses</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="hover:text-colorBlackPearl hover:underline">Pricing Plan</a>
+                                    </li>
+                                    <li>
+                                        <a href="contact.html" class="hover:text-colorBlackPearl hover:underline">Contact Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog.html" class="hover:text-colorBlackPearl hover:underline">Our News</a>
+                                    </li>
+                                    <li>
+                                        <a href="faq.html" class="hover:text-colorBlackPearl hover:underline">FAQ’s</a>
+                                    </li>
+                                </ul>
+                                <!-- Footer Nav List -->
+                            </div>
+                            <!-- Footer Widget - Nav -->
+
+                            <!-- Footer Widget - Info -->
+                            <div>
+                                <!-- Footer Title -->
+                                <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">Contact</span>
+                                <!-- Footer Title -->
+
+                                <!-- Footer Info List -->
+                                <ul class="flex flex-col gap-y-3">
+                                    <li class="inline-flex gap-x-6">
+                                        <div class="h-7 w-auto">
+                                            <img src="assets/img/icons/icon-purple-phone-ring.svg" alt="icon-purple-phone-ring" width="28" height="28" />
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="block">24/7 Support</span>
+                                            <a href="tel:++5323213333" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">+532 321 33 33</a>
+                                        </div>
+                                    </li>
+                                    <li class="inline-flex gap-x-6">
+                                        <div class="h-7 w-auto">
+                                            <img src="assets/img/icons/icon-purple-mail-open.svg" alt="icon-purple-mail-open" width="28" height="28" />
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="block">Send Message</span>
+                                            <a href="mailto:yourmail@email.com" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">yourmail@email.com</a>
+                                        </div>
+                                    </li>
+                                    <li class="inline-flex gap-x-6">
+                                        <div class="h-7 w-auto">
+                                            <img src="assets/img/icons/icon-purple-location.svg" alt="icon-purple-location" width="28" height="28" />
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="block">Our Locati0n</span>
+                                            <address class="font-title text-xl not-italic text-colorBlackPearl">
+                                                32/Jenin, London
+                                            </address>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- Footer Info List -->
+                            </div>
+                            <!-- Footer Widget - Info -->
+
+                            <!-- Footer Widget - Newsletter -->
+                            <div class="md:max-w-80">
+                                <!-- Footer Title -->
+                                <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">Subscribe</span>
+                                <!-- Footer Title -->
+
+                                <p>
+                                    Enter your email address to Kayıt Ol to our newsletter
+                                    subscription
+                                </p>
+                                <form action="#" method="post" class="mt-4 text-sm font-medium">
+                                    <input type="email" class="w-full rounded-[50px] border border-[#EBEBEB] bg-white px-7 py-3.5 outline-none" placeholder="Enter email" />
+                                    <button type="submit" class="btn btn-primary is-icon group mt-[10px]">
+                                        Subscribe Now
+                                        <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                                            <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                        </span>
+                                        <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                                            <img src="assets/img/icons/icon-purple-arrow-right.svg" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                            <!-- Footer Widget - Newsletter -->
+                        </div>
+                        <!-- Footer Area -->
+                    </div>
+                    <!-- Section Container -->
+                </div>
+                <!-- Section Space -->
+
+                <!-- Background Element -->
+                <img src="assets/img/abstracts/footer-element-1.svg" alt="footer-element-1" width="119" height="121" class="absolute bottom-40 left-0 -z-10 hidden lg:inline-block" />
+                <img src="assets/img/abstracts/footer-element-2.svg" alt="footer-element-2" width="101" height="92" class="absolute right-64 top-72 -z-10 hidden lg:inline-block" />
+                <img src="assets/img/abstracts/abstract-element-regular.svg" alt="abstract-element-regular" width="133" height="154" class="absolute -right-9 bottom-0 -z-10 hidden lg:inline-block" />
+                <!-- Background Element -->
+            </div>
+            <!-- Footer Top -->
+
+            <!-- Footer Bottom -->
+            <div class="bg-[#F5F5F5] py-6 text-center text-sm">
+                Copyright 2024 Corwus | Developed Corwus. All Rights Reserved
+            </div>
+            <!-- Footer Bottom -->
+        </footer>
+        <!--...::: Footer Section Start :::... -->
+
+        <!-- Scroll to Top Button -->
+        <button id="scrollTopBtn" title="Go to top">Top</button>
+    </div>
+    
+    <!-- Preloader -->
+     <div class="preloader">
+        <div class="preloader-content">
+            <span class="typing-animation">Corwus</span>
+        </div>
+    </div>
+    <!-- Preloader -->
+
+
+    <!--Vendor js-->
+    <script src="assets/js/vendors/counterup.js" type="module"></script>
+    <script src="assets/js/vendors/swiper-bundle.min.js"></script>
+    <script src="assets/js/vendors/fslightbox.js"></script>
+    <script src="assets/js/vendors/jos.min.js"></script>
+    <script src="assets/js/vendors/menu.js"></script>
+
+    <!-- Main js -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

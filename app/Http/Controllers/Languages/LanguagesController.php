@@ -11,7 +11,7 @@ class LanguagesController extends Controller
 {
     public function index()
     {
-        $languages = Languages::where('status', 1)->orderByDesc('is_default')->orderBy('locale')->paginate(20);
+        $languages = Languages::where('status', 1)->orderBy('sort_order')->get();
         return view('admin.languages.index', compact('languages'));
     }
 
@@ -53,9 +53,10 @@ class LanguagesController extends Controller
         ]);
 
         $language = new Languages();
-        $language->locale    = $request->locale;
-        $language->status    = 1;
-        $language->is_active = $request->has('is_active') ? 1 : 0;
+        $language->locale     = $request->locale;
+        $language->status     = 1;
+        $language->is_active  = $request->has('is_active') ? 1 : 0;
+        $language->sort_order = Languages::max('sort_order') + 1;
 
         // Kendi locale'inde varsayılan isim
         $language->setTranslation('name', $request->locale, $request->default_name);
@@ -140,6 +141,20 @@ class LanguagesController extends Controller
             'message' => ($language->name ?: $language->locale) . ' varsayılan dil olarak ayarlandı.',
             'id'      => $language->id,
         ]);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $request->validate([
+            'order'   => 'required|array',
+            'order.*' => 'integer|exists:languages,id',
+        ]);
+
+        foreach ($request->order as $index => $id) {
+            Languages::where('id', $id)->update(['sort_order' => $index]);
+        }
+
+        return response()->json(['status' => 1, 'message' => 'Sıralama güncellendi.']);
     }
 
     public function delete($id)

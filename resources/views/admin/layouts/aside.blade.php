@@ -5,7 +5,7 @@
            sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72',
            sidebarCollapsed ? 'lg:translate-x-0 lg:w-20 sidebar-collapsed' : 'lg:translate-x-0 lg:w-72'
        ]"
-       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : '' }}' }">
+       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : '') }}' }">
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -255,6 +255,151 @@
             </div>
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Diller</span>
             <span class="lg:hidden">Diller</span>
+        </a>
+
+        {{-- Eğitmenler --}}
+        @php $isTeachers = Route::is('teachers.*'); @endphp
+        <a href="{{ route('teachers.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isTeachers
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isTeachers
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Eğitmenler</span>
+            <span class="lg:hidden">Eğitmenler</span>
+        </a>
+
+        {{-- Blog Dropdown --}}
+        @php $isBlogActive = Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*'); @endphp
+        <div class="group/blog relative">
+            <button @click="openMenu = openMenu === 'blog' ? '' : 'blog'"
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                           {{ $isBlogActive
+                               ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                            {{ $isBlogActive
+                                ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z"/>
+                    </svg>
+                </div>
+                <span x-show="!sidebarCollapsed" x-transition class="flex-1 text-left hidden lg:block">Blog</span>
+                <span class="flex-1 text-left lg:hidden">Blog</span>
+                <svg x-show="!sidebarCollapsed"
+                     class="w-4 h-4 transition-transform duration-200 hidden lg:block"
+                     :class="{ 'rotate-180': openMenu === 'blog' }"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+                <svg class="w-4 h-4 transition-transform duration-200 lg:hidden"
+                     :class="{ 'rotate-180': openMenu === 'blog' }"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+
+            <div x-show="openMenu === 'blog' && (!sidebarCollapsed || window.innerWidth < 1024)"
+                 x-collapse
+                 class="ml-12 mt-1 space-y-1">
+                <a href="{{ route('blogs.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('blogs.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Yazılar
+                </a>
+                <a href="{{ route('blogCategories.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('blogCategories.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Kategoriler
+                </a>
+                <a href="{{ route('blogTags.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('blogTags.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Etiketler
+                </a>
+            </div>
+
+            <template x-if="sidebarCollapsed">
+                <div class="hidden lg:group-hover/blog:block absolute left-full top-0 pl-2 z-[60]">
+                    <div class="w-52 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2">
+                        <p class="px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Blog</p>
+                        <a href="{{ route('blogs.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('blogs.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Yazılar
+                        </a>
+                        <a href="{{ route('blogCategories.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('blogCategories.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Kategoriler
+                        </a>
+                        <a href="{{ route('blogTags.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('blogTags.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Etiketler
+                        </a>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        {{-- SSS --}}
+        @php $isFaq = Route::is('faq.*'); @endphp
+        <a href="{{ route('faq.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isFaq
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isFaq
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">SSS</span>
+            <span class="lg:hidden">SSS</span>
+        </a>
+
+        {{-- Sayfalar --}}
+        @php $isPages = Route::is('pages.*'); @endphp
+        <a href="{{ route('pages.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isPages
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isPages
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Sayfalar</span>
+            <span class="lg:hidden">Sayfalar</span>
         </a>
 
     </nav>

@@ -13,6 +13,12 @@ class Faq extends Model
         'question',
         'answer',
         'category_id',
+        'sort_order',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public $translatable = [

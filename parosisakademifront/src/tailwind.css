@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html{
+    @apply scroll-smooth;
+  }
+  body,
+  .page-wrapper {
+    @apply min-h-screen font-body text-base leading-[1.75]  text-colorCarbonGrey ;
+  }
+
+  /* Default Heading */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-title font-bold text-colorBlackPearl;
+  }
+
+  h1 {
+    @apply text-4xl leading-[1.15] md:text-5xl lg:text-6xl xl:text-[80px] xl:-tracking-[3px];
+  }
+
+  h2 {
+    @apply text-3xl leading-[1.38] lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-3xl;
+  }
+
+  h4 {
+    @apply text-2xl;
+  }
+
+  h5 {
+    @apply text-xl;
+  }
+  h6 {
+    @apply text-lg;
+  }
+
+  a,
+  button {
+    @apply text-base transition-all duration-300;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply relative rounded-[52px] px-[30px] py-4 text-center;
+  }
+
+  .btn-primary {
+    @apply bg-colorPurpleBlue text-white;
+  }
+  .btn-secondary {
+    @apply bg-colorBrightGold text-colorBlackPearl;
+  }
+
+  .is-icon {
+    @apply relative inline-flex items-center overflow-hidden pr-[70px] hover:pl-[70px] hover:pr-[30px];
+  }
+
+  .btn-icon {
+    @apply absolute inline-flex h-11 w-11 items-center justify-center rounded-[50%] transition-all duration-300 first-of-type:right-[5px] last-of-type:-left-full;
+  }
+}
+
+/* Template CSS */
+.main-wrapper {
+  @apply overflow-hidden;
+}
+
+.container {
+  @apply mx-auto max-w-full px-5 sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1200px];
+}
+
+.container-expand {
+  @apply mx-auto max-w-full px-5 sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1200px] xxl:max-w-[1400px];
+}
+
+/* Section Space */
+.section-space {
+  @apply py-[70px] lg:py-[90px] xl:py-[110px];
+}
+.section-space-top {
+  @apply pt-[70px] lg:pt-[90px] xl:pt-[110px];
+}
+.section-space-bottom {
+  @apply pb-[70px] lg:pb-[90px] xl:pb-[110px];
+}
+
+/* Accordion */
+.accordion-item .accordion-body {
+  @apply h-0 overflow-y-clip transition-all duration-300;
+}
+.accordion-item.active .accordion-body {
+  @apply mt-5 h-auto border-t border-colorBlackPearl/5;
+}
+
+.accordion-item.active .accordion-icon {
+  @apply rotate-180 transition-all duration-300;
+}
+
+/* Swiper Pagination */
+.swiper-pagination {
+  @apply flex justify-center gap-x-3;
+}
+
+.swiper-pagination-bullet {
+  @apply relative h-4 w-4 overflow-hidden bg-colorPurpleBlue opacity-100 after:absolute after:left-1/2 after:top-1/2 after:h-3.5 after:w-3.5 after:-translate-x-1/2 after:-translate-y-1/2 after:rounded-[50%] after:bg-white;
+}
+
+.swiper-pagination-bullet-active {
+  @apply after:border after:border-white after:bg-colorPurpleBlue;
+}
+
+.rich-text-area {
+  @apply -mb-6;
+}
+
+.rich-text-area > * {
+  @apply mb-6;
+}
+/* .rich-text-area p {
+  @apply mb-6 last-of-type:mb-0;
+} */
+
+.tab-button.active {
+  @apply text-colorBlackPearl;
+}
+
+/* Scroll to Top Button */
+#scrollTopBtn {
+  @apply hidden fixed right-[30px] bottom-5 z-50 transition-all duration-300 cursor-pointer border-2 border-colorPurpleBlue rounded-[50%] bg-colorPurpleBlue w-14 h-14 text-white
+}

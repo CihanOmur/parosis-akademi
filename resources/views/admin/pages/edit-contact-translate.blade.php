@@ -1,106 +1,121 @@
 @extends('admin.layouts.app')
+
 @section('page-banner')
-    <h1 class="text-2xl font-semibold text-gray-800 ">
-        @yield('page-title', 'İletişim Sayfası Düzenle' . (isset($selectedLanguage) && $selectedLanguage ? ' - ' . $selectedLanguage : ''))
-    </h1>
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">İletişim Sayfası Çeviri</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            {{ isset($selectedLanguage) && $selectedLanguage ? $selectedLanguage . ' dilinde' : '' }} içerik çevirisi
+        </p>
+    </div>
+    <a href="{{ route('pages.index') }}"
+       class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium
+              text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800
+              border border-slate-200 dark:border-slate-700
+              hover:bg-slate-50 dark:hover:bg-slate-700
+              rounded-xl transition-all duration-200">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+        </svg>
+        Geri Dön
+    </a>
 @endsection
+
 @section('styles')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#editor').summernote({
-                height: 300,
-                placeholder: 'İçeriğini girin',
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear', 'strikethrough', 'superscript',
-                        'subscript', 'removeFormat', 'code'
-                    ]],
-                    ['font', ['fontname']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['insert', ['link', 'picture']]
-                ]
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#form_description').summernote({
-                height: 300,
-                placeholder: 'İçeriğini girin',
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear', 'strikethrough', 'superscript',
-                        'subscript', 'removeFormat', 'code'
-                    ]],
-                    ['font', ['fontname']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['insert', ['link', 'picture']]
-                ]
+            $('.summernote-editor').each(function() {
+                $(this).summernote({
+                    height: 200,
+                    placeholder: 'İçeriğini girin...',
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['fontname', 'fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['link', 'picture']]
+                    ]
+                });
             });
         });
     </script>
 @endsection
+
 @section('content')
-    <div class="rounded-lg mb-4">
+    {{-- Language Tabs --}}
+    <div class="mb-6">
+        @include('admin.components.language-tabs', ['selectedLang' => $selectedLang])
+    </div>
 
-        <div class="w-full bg-white py-10 px-8 rounded-lg">
-            <form class="lg:w-1/2 w-full" action="{{ route('pages.updateTranslate', ['id' => 'contact']) }}" method="POST"
-                enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
-                <div class="mb-6">
-                    <label for="title"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">Başlık</label>
-                    <input type="text" name="title" id="title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Başlık girin"
-                        value="{{ translateAttribute($contactPageInfo, 'title', request()->lang) }}">
+    <div class="max-w-2xl">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700/50">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-fuchsia-50 dark:bg-fuchsia-900/20 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-fuchsia-600 dark:text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Çevrilebilir İçerikler</h3>
+                        <p class="text-xs text-slate-400 dark:text-slate-500">Sadece metin içerikleri çevrilir, iletişim bilgileri ortaktır</p>
+                    </div>
                 </div>
-                <div class="mb-6">
-                    <label for="subtitle" class="block mb-2 text-sm font-medium text-gray-900 ">Alt
-                        Başlık</label>
-                    <input type="text" name="subtitle" id="subtitle" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Alt başlık girin"
-                        value="{{ translateAttribute($contactPageInfo, 'subtitle', request()->lang) }}">
+            </div>
+            <div class="p-6">
+                <form action="{{ route('pages.updateTranslate', ['id' => 'contact']) }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="lang" value="{{ $selectedLang }}">
 
-                </div>
+                    <div class="space-y-5">
+                        <div>
+                            <label for="title" class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Sayfa Başlığı</label>
+                            <input type="text" name="title" id="title"
+                                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-500 outline-none transition-all"
+                                placeholder="Başlık girin"
+                                value="{{ translateAttribute($contactPageInfo, 'title', $selectedLang) }}">
+                        </div>
+                        <div>
+                            <label for="subtitle" class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Alt Başlık</label>
+                            <input type="text" name="subtitle" id="subtitle"
+                                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-500 outline-none transition-all"
+                                placeholder="Alt başlık girin"
+                                value="{{ translateAttribute($contactPageInfo, 'subtitle', $selectedLang) }}">
+                        </div>
+                        <div>
+                            <label class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Açıklama</label>
+                            <textarea name="content" class="summernote-editor">{{ translateAttribute($contactPageInfo, 'description', $selectedLang) }}</textarea>
+                        </div>
+                        <div>
+                            <label for="form_title" class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Form Başlığı</label>
+                            <input type="text" name="form_title" id="form_title"
+                                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-500 outline-none transition-all"
+                                placeholder="Form başlığı girin"
+                                value="{{ translateAttribute($contactPageInfo, 'form_title', $selectedLang) }}">
+                        </div>
+                        <div>
+                            <label class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Form Açıklaması</label>
+                            <textarea name="form_description" class="summernote-editor">{{ translateAttribute($contactPageInfo, 'form_description', $selectedLang) }}</textarea>
+                        </div>
+                    </div>
 
-                <div class="mb-6">
-                    <label for="content"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">Açıklama</label>
-                    <textarea id="editor" name="content"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Açıklama girin">{{ translateAttribute($contactPageInfo, 'description', request()->lang) }}</textarea>
-                </div>
-
-                <div class="mb-6">
-                    <label for="form_title" class="block mb-2 text-sm font-medium text-gray-900 ">Form
-                        Başlık</label>
-                    <input type="text" name="form_title" id="form_title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Form başlığı girin"
-                        value="{{ translateAttribute($contactPageInfo, 'form_title', request()->lang) }}">
-                </div>
-
-                <div class="mb-6">
-                    <label for="form_description" class="block mb-2 text-sm font-medium text-gray-900 ">Form
-                        Açıklama</label>
-                    <textarea id="form_description" name="form_description"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Açıklama girin">{{ translateAttribute($contactPageInfo, 'form_description', request()->lang) }}</textarea>
-                </div>
-                <div class="">
-                    <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Kaydet</button>
-                </div>
-            </form>
+                    <div class="mt-6 flex justify-end">
+                        <button type="submit"
+                                class="inline-flex items-center gap-2 px-6 py-3
+                                       bg-gradient-to-r from-fuchsia-500 to-purple-500
+                                       hover:from-fuchsia-600 hover:to-purple-600
+                                       text-white font-semibold rounded-xl
+                                       shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                            Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

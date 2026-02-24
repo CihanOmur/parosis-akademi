@@ -2,8 +2,15 @@
 
 use App\Http\Controllers\Class\LessonClassController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Faq\FaqController;
+use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Languages\LanguagesController;
+use App\Http\Controllers\Pages\PagesController;
 use App\Http\Controllers\Role\RoleController;
+use App\Http\Controllers\Blog\BlogController;
+use App\Http\Controllers\Blog\BlogCategoryController;
+use App\Http\Controllers\Blog\BlogTagController;
+use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Student\PreRegistrationController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\StudentDocumentController;
@@ -20,8 +27,9 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
     // ─── Dil Yönetimi ───────────────────────────────────────────────────────────
     Route::prefix('languages')->name('languages.')->group(function () {
         Route::get('/',              [LanguagesController::class, 'index'])->name('index');
-        Route::post('/toggle',       [LanguagesController::class, 'toggleActive'])->name('toggle');
-        Route::post('/set-default',  [LanguagesController::class, 'setDefault'])->name('setDefault');
+        Route::post('/toggle',        [LanguagesController::class, 'toggleActive'])->name('toggle');
+        Route::post('/set-default',   [LanguagesController::class, 'setDefault'])->name('setDefault');
+        Route::post('/update-order',  [LanguagesController::class, 'updateOrder'])->name('updateOrder');
         Route::get('/create',        [LanguagesController::class, 'create'])->name('create');
         Route::post('/store',        [LanguagesController::class, 'store'])->name('store');
         Route::get('/{id}/edit',     [LanguagesController::class, 'edit'])->name('edit');
@@ -95,10 +103,104 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
         Route::get('/pre/students',  [PreRegistrationController::class, 'index'])->name('pre.students')->middleware('permission:student');
     });
+
+    // ─── SSS Yönetimi (CRUD) ──────────────────────────────────────────────────
+    Route::prefix('faq')->name('faq.')->group(function () {
+        Route::get('/',              [FaqController::class, 'index'])->name('index');
+        Route::get('/create',        [FaqController::class, 'create'])->name('create');
+        Route::post('/store',        [FaqController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [FaqController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [FaqController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [FaqController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [FaqController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [FaqController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [FaqController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [FaqController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Eğitmen Yönetimi (CRUD) ────────────────────────────────────────────────
+    Route::prefix('teachers')->name('teachers.')->group(function () {
+        Route::get('/',              [TeacherController::class, 'index'])->name('index');
+        Route::get('/create',        [TeacherController::class, 'create'])->name('create');
+        Route::post('/store',        [TeacherController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [TeacherController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [TeacherController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [TeacherController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [TeacherController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [TeacherController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [TeacherController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [TeacherController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Blog Yönetimi (CRUD) ────────────────────────────────────────────────
+    Route::prefix('blogs')->name('blogs.')->group(function () {
+        Route::get('/',              [BlogController::class, 'index'])->name('index');
+        Route::get('/create',        [BlogController::class, 'create'])->name('create');
+        Route::post('/store',        [BlogController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [BlogController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [BlogController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [BlogController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [BlogController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [BlogController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [BlogController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [BlogController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Blog Kategorileri ──────────────────────────────────────────────────
+    Route::prefix('blog-categories')->name('blogCategories.')->group(function () {
+        Route::get('/',              [BlogCategoryController::class, 'index'])->name('index');
+        Route::get('/create',        [BlogCategoryController::class, 'create'])->name('create');
+        Route::post('/store',        [BlogCategoryController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [BlogCategoryController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [BlogCategoryController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [BlogCategoryController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [BlogCategoryController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [BlogCategoryController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [BlogCategoryController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [BlogCategoryController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Blog Etiketleri ────────────────────────────────────────────────────
+    Route::prefix('blog-tags')->name('blogTags.')->group(function () {
+        Route::get('/',              [BlogTagController::class, 'index'])->name('index');
+        Route::get('/create',        [BlogTagController::class, 'create'])->name('create');
+        Route::post('/store',        [BlogTagController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [BlogTagController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [BlogTagController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [BlogTagController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [BlogTagController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [BlogTagController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [BlogTagController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [BlogTagController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────
+    Route::prefix('pages')->name('pages.')->group(function () {
+        Route::get('/',                              [PagesController::class, 'index'])->name('index');
+        Route::get('/edit/{id}',                     [PagesController::class, 'edit'])->name('edit');
+        Route::post('/update/{id}',                  [PagesController::class, 'update'])->name('update');
+        Route::get('/edit-translate/{lang}/{id}',    [PagesController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/update-translate/{id}',        [PagesController::class, 'updateTranslate'])->name('updateTranslate');
+        Route::post('/upload-image',                 [PagesController::class, 'uploadImage'])->name('uploadImage');
+    });
 });
 
-Route::get('/', function () {
-    return view('welcome');
+// ─── Frontend Sayfaları ─────────────────────────────────────────────────────
+Route::name('front.')->group(function () {
+    Route::get('/',                [FrontController::class, 'home'])->name('home');
+    Route::get('/hakkimizda',      [FrontController::class, 'about'])->name('about');
+    Route::get('/kurslar',         [FrontController::class, 'courses'])->name('courses');
+    Route::get('/kurs-detay',      [FrontController::class, 'courseDetails'])->name('course.details');
+    Route::get('/egitmenler',      [FrontController::class, 'teachers'])->name('teachers');
+    Route::get('/egitmen-detay/{id}', [FrontController::class, 'teacherDetails'])->name('teacher.details');
+    Route::get('/blog',            [FrontController::class, 'blog'])->name('blog');
+    Route::get('/blog-detay/{id}',  [FrontController::class, 'blogDetails'])->name('blog.details');
+    Route::get('/iletisim',        [FrontController::class, 'contact'])->name('contact');
+    Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
+    Route::get('/urunler',         [FrontController::class, 'products'])->name('products');
+    Route::get('/urun-detay',      [FrontController::class, 'productDetails'])->name('product.details');
+    Route::get('/sepet',           [FrontController::class, 'cart'])->name('cart');
+    Route::get('/odeme',           [FrontController::class, 'checkout'])->name('checkout');
 });
 Route::get('/panel/login', function () {
     return view('auth.login');

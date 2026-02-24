@@ -24,6 +24,7 @@
             <table class="w-full text-sm text-left">
                 <thead class="bg-slate-50 dark:bg-slate-700/50 [&>tr>th:first-child]:rounded-tl-2xl [&>tr>th:last-child]:rounded-tr-2xl">
                     <tr>
+                        <th class="w-10 px-3 py-4"></th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Dil Adı</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Locale</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Varsayılan</th>
@@ -31,9 +32,14 @@
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">İşlem</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                <tbody id="sortable-body" class="divide-y divide-slate-100 dark:divide-slate-700/50">
                     @forelse ($languages as $item)
-                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" id="row-{{ $item->id }}">
+                        <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" data-id="{{ $item->id }}" id="row-{{ $item->id }}">
+                            <td class="px-3 py-4 cursor-grab active:cursor-grabbing sortable-handle">
+                                <svg class="w-5 h-5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                                </svg>
+                            </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border
@@ -125,7 +131,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-16 text-center">
+                            <td colspan="6" class="px-6 py-16 text-center">
                                 <p class="text-slate-500 dark:text-slate-400">Henüz dil eklenmemiş.</p>
                             </td>
                         </tr>
@@ -133,14 +139,42 @@
                 </tbody>
             </table>
         </div>
-        {{ $languages->links() }}
     </div>
 @endsection
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 <script>
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+
+    // ── Sürükle & Bırak Sıralama ───────────────────────────────────────────
+    const sortableBody = document.getElementById('sortable-body');
+    if (sortableBody) {
+        Sortable.create(sortableBody, {
+            handle: '.sortable-handle',
+            animation: 150,
+            ghostClass: 'bg-fuchsia-50',
+            chosenClass: 'shadow-lg',
+            onEnd: function () {
+                const order = Array.from(sortableBody.querySelectorAll('tr[data-id]'))
+                    .map(function (row) { return parseInt(row.dataset.id); });
+
+                axios.post('{{ route("languages.updateOrder") }}', {
+                    order: order,
+                    _token: csrfToken
+                })
+                .then(function (response) {
+                    if (response.data.status === 1) {
+                        showToast('success', response.data.message);
+                    }
+                })
+                .catch(function () {
+                    showToast('error', 'Sıralama güncellenirken bir hata oluştu.');
+                });
+            }
+        });
+    }
 
     // ── Aktif / Pasif toggle ──────────────────────────────────────────────────
     document.querySelectorAll('.status-toggle').forEach(function (checkbox) {
