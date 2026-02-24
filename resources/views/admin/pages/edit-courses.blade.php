@@ -1,0 +1,1123 @@
+@extends('admin.layouts.app')
+
+@section('page-banner')
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Kurslar Sayfası</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Canlı önizleme — düzenlemek için alanlara tıklayın</p>
+    </div>
+    <div class="flex items-center gap-3">
+        <a href="{{ route('pages.index') }}"
+           class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium
+                  text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800
+                  border border-slate-200 dark:border-slate-700
+                  hover:bg-slate-50 dark:hover:bg-slate-700
+                  rounded-xl transition-all duration-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+            </svg>
+            Geri
+        </a>
+    </div>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('assets-front/fonts/webfonts/poppins/stylesheet.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets-front/fonts/webfonts/aeonik-pro-trial/stylesheet.css') }}" />
+    <style>
+        .lp {
+            font-family: Poppins, sans-serif;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: rgb(95 93 93);
+        }
+        .lp h1, .lp h2, .lp h3, .lp h4, .lp h5, .lp h6 {
+            font-family: 'Aeonik Pro TRIAL', sans-serif;
+            font-weight: 700;
+            color: rgb(1 28 26);
+        }
+        .lp h1 { font-size: 2.25rem; line-height: 1.15; }
+        .lp h2 { font-size: 1.875rem; line-height: 1.38; }
+
+        /* Editable zone */
+        .ez {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.15s;
+            border-radius: 6px;
+        }
+        .ez:hover {
+            outline: 2px dashed rgb(255 205 32);
+            outline-offset: 4px;
+        }
+        .ez:hover::after {
+            content: attr(data-label);
+            position: absolute;
+            top: -24px;
+            left: 0;
+            font-size: 11px;
+            font-family: Inter, sans-serif;
+            font-weight: 600;
+            color: rgb(1 28 26);
+            background: rgb(255 205 32);
+            padding: 2px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .ez-active {
+            outline: 3px solid rgb(215 59 62) !important;
+            outline-offset: 4px;
+            background: rgb(215 59 62 / 0.05);
+        }
+        .ez-active::after {
+            content: attr(data-label);
+            position: absolute;
+            top: -26px;
+            left: 0;
+            font-size: 11px;
+            font-family: Inter, sans-serif;
+            font-weight: 600;
+            color: white;
+            background: rgb(215 59 62);
+            padding: 2px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        /* Image editable */
+        .ez.ez-img:hover { outline: none !important; }
+        .ez.ez-img { position: relative; overflow: hidden; }
+        .ez.ez-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(1, 28, 26, 0.55);
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 2;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        .ez.ez-img::after {
+            content: attr(data-label) !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            font-size: 0.875rem !important;
+            font-family: Inter, sans-serif;
+            font-weight: 600;
+            background: rgb(255 205 32) !important;
+            color: rgb(1 28 26) !important;
+            padding: 8px 20px !important;
+            border-radius: 8px !important;
+            white-space: nowrap;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .ez.ez-img:hover::before { opacity: 1; }
+        .ez.ez-img:hover::after { opacity: 1 !important; }
+        .ez.ez-img.ez-active { outline: none !important; }
+        .ez.ez-img.ez-active::before { opacity: 1; background: rgba(215, 59, 62, 0.45); }
+        .ez.ez-img.ez-active::after { opacity: 1 !important; background: rgb(215 59 62) !important; color: white !important; }
+
+        /* Toast */
+        .toast-msg {
+            position: fixed; bottom: 24px; right: 24px; z-index: 10000;
+            padding: 12px 24px; border-radius: 12px; font-family: Inter, sans-serif;
+            font-size: 0.875rem; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transform: translateY(100px); opacity: 0; transition: all 0.3s ease;
+        }
+        .toast-msg.show { transform: translateY(0); opacity: 1; }
+        .toast-msg.success { background: rgb(84 62 232); color: white; }
+        .toast-msg.error { background: rgb(215 59 62); color: white; }
+
+        /* Upload */
+        .upload-drop-zone {
+            border: 2px dashed rgb(84 62 232 / 0.3); border-radius: 12px; padding: 2rem;
+            text-align: center; cursor: pointer; transition: all 0.2s;
+        }
+        .upload-drop-zone:hover, .upload-drop-zone.dragover {
+            border-color: rgb(84 62 232); background: rgb(84 62 232 / 0.04);
+        }
+
+        /* Modal input/textarea */
+        .modal-input {
+            width: 100%; padding: 0.75rem 1rem; border: 2px solid rgb(1 28 26 / 0.1);
+            border-radius: 10px; font-size: 1rem; outline: none; transition: border-color 0.2s;
+            font-family: Poppins, sans-serif; color: rgb(1 28 26); box-sizing: border-box;
+        }
+        .modal-input:focus { border-color: rgb(84 62 232); }
+        .modal-input-error, .modal-input-error:focus { border-color: rgb(215 59 62) !important; }
+        .modal-textarea { resize: vertical; }
+        .modal-apply-btn {
+            padding: 0.6rem 1.5rem; border-radius: 10px; font-size: 0.875rem; font-weight: 600;
+            color: white; border: none; background: rgb(84 62 232); cursor: pointer;
+            font-family: Poppins, sans-serif; box-shadow: 0 4px 12px rgba(84, 62, 232, 0.3); transition: opacity 0.2s;
+        }
+        .modal-apply-btn-disabled { opacity: 0.5; cursor: not-allowed !important; }
+
+        .img-tab { padding: 8px 16px; border-radius: 8px; font-size: 0.8125rem; font-weight: 500; border: none; cursor: pointer; transition: all 0.15s; font-family: Poppins, sans-serif; }
+        .img-tab.active { background: rgb(84 62 232); color: white; }
+        .img-tab:not(.active) { background: #F5F5F5; color: rgb(95 93 93); }
+        .img-tab:not(.active):hover { background: #EBEBEB; }
+
+        /* Course card preview */
+        .course-card-preview { border-radius: 10px; overflow: hidden; background: #f5f5f5; pointer-events: none; }
+        .course-card-img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .course-card-info { padding: 20px 16px 20px; }
+        .course-card-meta { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: rgb(95 93 93); }
+        .course-card-category { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 5px 14px; border-radius: 40px; background: rgb(255 205 32); color: rgb(1 28 26); position: absolute; left: 10px; top: 10px; }
+        .course-card-title { font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.05rem; font-weight: 700; color: rgb(1 28 26); line-height: 1.4; margin: 10px 0 6px; }
+        .course-card-desc { font-size: 0.8125rem; color: rgb(95 93 93); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .course-card-separator { height: 1px; background: #E9E5DA; margin: 16px 0; }
+        .course-card-bottom { display: flex; align-items: center; justify-content: space-between; }
+        .course-card-instructor { display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: rgb(1 28 26); }
+        .course-card-instructor img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+        .course-card-price { font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.125rem; font-weight: 700; color: rgb(84 62 232); }
+
+        /* Page tabs */
+        .page-tabs {
+            display: flex; gap: 4px; padding: 5px; background: #F1F0FB;
+            border-radius: 14px; font-family: Inter, sans-serif;
+        }
+        .page-tab {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 10px 20px; border-radius: 10px; font-size: 0.8125rem;
+            font-weight: 600; border: none; cursor: pointer;
+            transition: all 0.2s; color: rgb(95 93 93); background: transparent;
+            white-space: nowrap;
+        }
+        .page-tab svg { width: 16px; height: 16px; }
+        .page-tab:hover:not(.page-tab-active) { background: white; color: rgb(1 28 26); }
+        .page-tab-active {
+            background: white; color: rgb(84 62 232);
+            box-shadow: 0 2px 8px rgba(84, 62, 232, 0.1);
+        }
+        .page-tab-badge {
+            font-size: 0.625rem; font-weight: 700; padding: 2px 7px;
+            border-radius: 5px; background: rgb(84 62 232 / 0.08);
+            color: rgb(84 62 232); letter-spacing: 0.03em;
+        }
+        .page-tab-active .page-tab-badge { background: rgb(84 62 232); color: white; }
+
+        /* Sidebar widget */
+        .sw { border-radius: 8px; background: #f5f5f5; padding: 20px 24px; }
+        .sw-title {
+            font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.05rem; font-weight: 700;
+            color: rgb(1 28 26); margin-bottom: 18px;
+        }
+        .sw-info-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid #E9E5DA; font-size: 0.875rem;
+        }
+        .sw-info-row:last-child { border-bottom: none; }
+        .sw-info-label { font-weight: 600; color: #4E5450; }
+        .sw-info-value { font-weight: 400; color: rgb(1 28 26); }
+        .sw-info-value-bold { font-weight: 700; color: rgb(84 62 232); }
+        .sw-contact-row { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px; }
+        .sw-contact-row:last-child { margin-bottom: 0; }
+        .sw-contact-icon {
+            width: 28px; height: 28px; flex-shrink: 0; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .sw-contact-label { font-size: 0.8125rem; color: rgb(95 93 93); display: block; }
+        .sw-contact-value {
+            font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.05rem;
+            font-weight: 700; color: rgb(1 28 26); display: block; margin-top: 2px;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <div x-data="courseEditor()" x-cloak>
+
+        {{-- Language Tabs --}}
+        <div class="mb-5">
+            @include('admin.components.language-tabs', ['selectedLang' => $selectedLang])
+        </div>
+
+        {{-- Kaydet Bar --}}
+        <div class="mb-5 flex items-center justify-between bg-white dark:bg-slate-800 rounded-xl px-5 py-3 shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+            <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+                </svg>
+                <span x-show="!saving">Düzenlemek istediğiniz alana tıklayın</span>
+                <span x-show="saving" style="color: rgb(84 62 232);">Kaydediliyor...</span>
+            </div>
+            <button type="button" @click="saveAll()"
+                    :disabled="saving"
+                    class="inline-flex items-center gap-2 px-5 py-2.5
+                           bg-gradient-to-r from-fuchsia-500 to-purple-500
+                           hover:from-fuchsia-600 hover:to-purple-600
+                           text-white font-semibold rounded-xl text-sm
+                           shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer
+                           disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg x-show="!saving" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                </svg>
+                <svg x-show="saving" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                Kaydet
+            </button>
+        </div>
+
+        {{-- Page Tabs --}}
+        <div class="mb-5">
+            <div class="page-tabs" style="display: inline-flex;">
+                <button type="button" class="page-tab" :class="pageTab === 'liste' && 'page-tab-active'" @click="pageTab = 'liste'">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
+                    Kurs Listesi
+                    <span class="page-tab-badge">/kurslar</span>
+                </button>
+                <button type="button" class="page-tab" :class="pageTab === 'detay' && 'page-tab-active'" @click="pageTab = 'detay'">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+                    Kurs Detayı
+                    <span class="page-tab-badge">/kurs-detay/{id}</span>
+                </button>
+                <button type="button" class="page-tab" :class="pageTab === 'cta' && 'page-tab-active'" @click="pageTab = 'cta'">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
+                    CTA
+                </button>
+            </div>
+        </div>
+
+        {{-- ━━━━━━━━━━━ LIVE PREVIEW ━━━━━━━━━━━ --}}
+        <div class="lp" style="border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid rgba(226,232,240,0.5);">
+
+            {{-- ═══ TAB 1: KURS LİSTESİ ═══ --}}
+            <div x-show="pageTab === 'liste'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+
+            {{-- Breadcrumb --}}
+            <section style="position: relative; z-index: 10; overflow: hidden; background-color: #FAF9F6; margin: 16px 20px 0; border-radius: 12px;">
+                <div style="padding: 50px 0;">
+                    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
+                        <div style="text-align: center;">
+                            <div class="ez" :class="activeField === 'title' && 'ez-active'" data-label="Başlık" @click="openModal('title', 'Sayfa Başlığı')">
+                                <h1 style="margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal; font-size: 2rem;"
+                                    x-text="fields.title || 'Kurslarımız'"></h1>
+                            </div>
+                            <nav style="font-size: 0.9375rem; font-weight: 500; text-transform: uppercase;">
+                                <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
+                                    <li>
+                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
+                                              style="color: rgb(215 59 62);" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
+                                    </li>
+                                    <li style="color: rgb(95 93 93);">/</li>
+                                    <li>
+                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_current', 'Breadcrumb Mevcut')"
+                                              style="color: rgb(95 93 93);" x-text="fields.breadcrumb_current || 'KURSLAR'"></span>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: absolute; left: -192px; top: 0; z-index: -1; width: 371px; height: 327px; background: #BFC06F; filter: blur(250px);"></div>
+                <div style="position: absolute; right: -144px; bottom: 80px; z-index: -1; width: 371px; height: 327px; background: #AAC3E9; filter: blur(200px);"></div>
+            </section>
+
+            {{-- Search Bar + Course Grid --}}
+            <div style="background: white; padding: 28px 20px 36px;">
+                <div style="max-width: 1200px; margin: 0 auto;">
+
+                    {{-- Search Bar --}}
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        <div style="font-size: 0.875rem; color: rgb(95 93 93); display: flex; align-items: center; gap: 4px;">
+                            {{ $courses->count() }}
+                            <span class="ez" :class="activeField === 'result_text' && 'ez-active'" data-label="Düzenle" @click="openModal('result_text', 'Sonuç Yazısı')" x-text="fields.result_text || 'kurs bulundu'"></span>
+                        </div>
+                        <div style="position: relative; width: 400px;">
+                            <div class="ez" :class="activeField === 'search_placeholder' && 'ez-active'" data-label="Placeholder Düzenle" @click="openModal('search_placeholder', 'Arama Placeholder')">
+                                <input type="text" :placeholder="fields.search_placeholder || 'Kursunuzu arayın'" disabled
+                                       style="width: 100%; border-radius: 50px; border: 1px solid #D7D7D7; padding: 12px 140px 12px 24px; font-size: 0.875rem; color: #999; background: white; outline: none; pointer-events: none;" />
+                            </div>
+                            <div class="ez" :class="activeField === 'search_button_text' && 'ez-active'" data-label="Buton Düzenle" @click="openModal('search_button_text', 'Arama Buton Yazısı')"
+                                 style="position: absolute; right: 5px; top: 5px; bottom: 5px; display: flex; align-items: center;">
+                                <span style="display: inline-flex; align-items: center; gap: 8px; background: rgb(84 62 232); color: white; padding: 0 20px; border-radius: 50px; font-size: 0.875rem; height: 100%;"
+                                      x-text="fields.search_button_text || 'Ara'"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Course Cards Grid --}}
+                    @if($courses->count() > 0)
+                    <ul style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; list-style: none; padding: 0; margin: 0;">
+                        @foreach($courses as $course)
+                        <li class="course-card-preview">
+                            <div style="position: relative; overflow: hidden; border-radius: 10px 10px 0 0;">
+                                @if($course->image)
+                                    <img src="{{ asset($course->image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" class="course-card-img" />
+                                @else
+                                    <div style="width: 100%; height: 200px; background: #E8E8E8; display: flex; align-items: center; justify-content: center;">
+                                        <svg style="width: 40px; height: 40px; color: #ccc;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/></svg>
+                                    </div>
+                                @endif
+                                @if($course->categories->count())
+                                <span class="course-card-category">{{ $course->categories->first()->name }}</span>
+                                @endif
+                            </div>
+                            <div class="course-card-info">
+                                @if($course->lesson_count)
+                                <div class="course-card-meta">
+                                    <svg style="width:14px;height:14px;opacity:0.5;" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
+                                    {{ $course->lesson_count }} Ders
+                                </div>
+                                @endif
+                                <div class="course-card-title">{{ $course->getTranslation('title', app()->getLocale()) }}</div>
+                                @if($course->getTranslation('short_description', app()->getLocale()))
+                                <div class="course-card-desc">{{ $course->getTranslation('short_description', app()->getLocale()) }}</div>
+                                @endif
+                                <div class="course-card-separator"></div>
+                                <div class="course-card-bottom">
+                                    <div class="course-card-instructor">
+                                        @if($course->instructor_image)
+                                        <img src="{{ asset($course->instructor_image) }}" alt="{{ $course->instructor_name }}" />
+                                        @endif
+                                        @if($course->instructor_name)
+                                        <span>{{ $course->instructor_name }}</span>
+                                        @endif
+                                    </div>
+                                    @if($course->price)
+                                    <span class="course-card-price">{{ $course->price }}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                    <div style="text-align: center; margin-top: 1.25rem;">
+                        <span style="font-size: 0.75rem; color: #B0B0B0; font-family: Inter, sans-serif; font-style: italic;">Kurs kartları önizleme amaçlıdır — içerik Kurs Yönetimi'nden düzenlenir</span>
+                    </div>
+                    @else
+                    <div style="text-align: center; padding: 3rem 0; color: #8D8D8D; font-size: 0.875rem;">
+                        Henüz kurs eklenmemiş.
+                        <a href="{{ route('courses.index') }}" style="color: rgb(84 62 232); text-decoration: underline; margin-left: 4px;">Kurs Yönetimi'ne git</a>
+                    </div>
+                    @endif
+                </div>
+            </div>
+
+            </div>
+
+            {{-- ═══ TAB 2: KURS DETAYI ═══ --}}
+            <div x-show="pageTab === 'detay'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+
+            {{-- Detail Breadcrumb --}}
+            <section style="position: relative; z-index: 10; overflow: hidden; background-color: #FAF9F6; margin: 16px 20px 0; border-radius: 12px;">
+                <div style="padding: 40px 0;">
+                    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
+                        <div style="text-align: center;">
+                            <div class="ez" :class="activeField === 'detail_breadcrumb_current' && 'ez-active'" data-label="Başlık" @click="openModal('detail_breadcrumb_current', 'Detay Sayfa Başlığı')">
+                                <h1 style="margin-bottom: 1rem; text-transform: capitalize; letter-spacing: normal; font-size: 2rem;"
+                                    x-text="fields.detail_breadcrumb_current || 'Kurs Detayı'"></h1>
+                            </div>
+                            <nav style="font-size: 0.9375rem; font-weight: 500; text-transform: uppercase;">
+                                <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
+                                    <li>
+                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
+                                              style="color: rgb(215 59 62);" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
+                                    </li>
+                                    <li style="color: rgb(95 93 93);">/</li>
+                                    <li>
+                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_current', 'Breadcrumb Mevcut')"
+                                              style="color: rgb(215 59 62);" x-text="fields.breadcrumb_current || 'KURSLAR'"></span>
+                                    </li>
+                                    <li style="color: rgb(95 93 93);">/</li>
+                                    <li style="color: rgb(95 93 93);">Kurs Başlığı...</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: absolute; left: -192px; top: 0; z-index: -1; width: 371px; height: 327px; background: #BFC06F; filter: blur(250px);"></div>
+                <div style="position: absolute; right: -144px; bottom: 80px; z-index: -1; width: 371px; height: 327px; background: #AAC3E9; filter: blur(200px);"></div>
+            </section>
+
+            {{-- Course Detail: Content + Sidebar --}}
+            <div style="background: white; padding: 32px 20px 40px;">
+                <div style="max-width: 1200px; margin: 0 auto;">
+                    <div style="display: grid; grid-template-columns: 1fr minmax(0, 340px); gap: 30px;">
+
+                        {{-- LEFT: Course content preview (read-only from DB) --}}
+                        <div>
+                            @if($courses->count() > 0)
+                                @php $previewCourse = $courses->first(); @endphp
+                                @if($previewCourse->image)
+                                <div style="width: 100%; height: 260px; border-radius: 10px; overflow: hidden;">
+                                    <img src="{{ asset($previewCourse->image) }}" alt="{{ $previewCourse->getTranslation('title', app()->getLocale()) }}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+                                </div>
+                                @else
+                                <div style="width: 100%; height: 220px; border-radius: 10px; background: linear-gradient(135deg, #F0F0F0 0%, #E8E8E8 100%); display: flex; align-items: center; justify-content: center;">
+                                    <div style="text-align: center; color: #BBB;">
+                                        <svg style="width: 40px; height: 40px; margin: 0 auto 8px;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/></svg>
+                                        <span style="font-size: 0.8125rem; font-family: Inter, sans-serif;">Kurs Görseli</span>
+                                    </div>
+                                </div>
+                                @endif
+                                <div style="margin-top: 28px;">
+                                    <h2 style="font-size: 1.5rem; line-height: 1.35; margin-bottom: 16px;">{{ $previewCourse->getTranslation('title', app()->getLocale()) }}</h2>
+                                    @if($previewCourse->getTranslation('short_description', app()->getLocale()))
+                                    <p style="color: rgb(95 93 93); font-size: 0.9375rem; line-height: 1.75; margin-bottom: 16px;">{{ Str::limit($previewCourse->getTranslation('short_description', app()->getLocale()), 200) }}</p>
+                                    @endif
+                                    {{-- Content placeholder lines --}}
+                                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px;">
+                                        <div style="width: 100%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 95%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 88%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 100%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 60%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                    </div>
+
+                                    {{-- Editable section title: What You Learn --}}
+                                    <div class="ez" :class="activeField === 'detail_what_learn_title' && 'ez-active'" data-label="Başlığı Düzenle" @click="openModal('detail_what_learn_title', 'Neler Öğreneceksiniz Başlığı')">
+                                        <h5 style="font-size: 1.1rem; margin-bottom: 12px;" x-text="fields.detail_what_learn_title || 'Neler Öğreneceksiniz?'"></h5>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+                                        <div style="width: 90%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 80%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 85%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                    </div>
+
+                                    {{-- Editable section title: Why Choose --}}
+                                    <div class="ez" :class="activeField === 'detail_why_choose_title' && 'ez-active'" data-label="Başlığı Düzenle" @click="openModal('detail_why_choose_title', 'Neden Bu Kurs Başlığı')">
+                                        <h5 style="font-size: 1.1rem; margin-bottom: 12px;" x-text="fields.detail_why_choose_title || 'Neden Bu Kurs?'"></h5>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                        <div style="width: 85%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 90%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 70%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                    </div>
+                                </div>
+                            @else
+                                <div style="width: 100%; height: 220px; border-radius: 10px; background: linear-gradient(135deg, #F0F0F0 0%, #E8E8E8 100%); display: flex; align-items: center; justify-content: center;">
+                                    <div style="text-align: center; color: #BBB;">
+                                        <svg style="width: 40px; height: 40px; margin: 0 auto 8px;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/></svg>
+                                        <span style="font-size: 0.8125rem; font-family: Inter, sans-serif;">Kurs Görseli</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 28px;">
+                                    <div style="width: 70%; height: 20px; border-radius: 4px; background: #E8E8E8; margin-bottom: 16px;"></div>
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div style="width: 100%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 95%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                        <div style="width: 88%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
+                                    </div>
+                                </div>
+                            @endif
+                            <div style="margin-top: 20px; text-align: center;">
+                                <span style="font-size: 0.75rem; color: #B0B0B0; font-family: Inter, sans-serif; font-style: italic;">Kurs içeriği önizleme amaçlıdır — içerik Kurs Yönetimi'nden düzenlenir</span>
+                            </div>
+                        </div>
+
+                        {{-- RIGHT: Editable sidebar widgets --}}
+                        <aside>
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+
+                                {{-- Course Info Widget --}}
+                                <div class="sw">
+                                    <div class="ez" :class="activeField === 'sidebar_info_title' && 'ez-active'" data-label="Başlığı Düzenle" @click="openModal('sidebar_info_title', 'Kurs Bilgileri Başlığı')">
+                                        <h5 class="sw-title" x-text="fields.sidebar_info_title || 'Kurs Bilgileri:'"></h5>
+                                    </div>
+                                    <div>
+                                        {{-- Price --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_price_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_price_label', 'Fiyat Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_price_label || 'Fiyat:'"></span>
+                                            </div>
+                                            <span class="sw-info-value-bold">₺300</span>
+                                        </div>
+                                        {{-- Instructor --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_instructor_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_instructor_label', 'Eğitmen Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_instructor_label || 'Eğitmen:'"></span>
+                                            </div>
+                                            <span class="sw-info-value">Ahmet Yılmaz</span>
+                                        </div>
+                                        {{-- Certification --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_certification_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_certification_label', 'Sertifika Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_certification_label || 'Sertifika:'"></span>
+                                            </div>
+                                            <span class="sw-info-value">Evet</span>
+                                        </div>
+                                        {{-- Lessons --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_lessons_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_lessons_label', 'Dersler Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_lessons_label || 'Dersler:'"></span>
+                                            </div>
+                                            <span class="sw-info-value">24</span>
+                                        </div>
+                                        {{-- Duration --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_duration_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_duration_label', 'Süre Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_duration_label || 'Süre:'"></span>
+                                            </div>
+                                            <span class="sw-info-value">15 Hafta</span>
+                                        </div>
+                                        {{-- Language --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_language_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_language_label', 'Dil Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_language_label || 'Dil:'"></span>
+                                            </div>
+                                            <span class="sw-info-value">Türkçe</span>
+                                        </div>
+                                        {{-- Students --}}
+                                        <div class="sw-info-row">
+                                            <div class="ez" :class="activeField === 'sidebar_students_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_students_label', 'Öğrenciler Etiketi')" style="flex-shrink: 0;">
+                                                <span class="sw-info-label" x-text="fields.sidebar_students_label || 'Öğrenciler:'"></span>
+                                            </div>
+                                            <span class="sw-info-value">120</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Contact Widget --}}
+                                <div class="sw">
+                                    <div class="ez" :class="activeField === 'sidebar_contact_title' && 'ez-active'" data-label="Başlığı Düzenle" @click="openModal('sidebar_contact_title', 'İletişim Başlığı')">
+                                        <h5 class="sw-title" x-text="fields.sidebar_contact_title || 'İletişim'"></h5>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                                        {{-- Phone --}}
+                                        <div class="sw-contact-row">
+                                            <div class="sw-contact-icon">
+                                                <img src="{{ asset('assets-front/img/icons/icon-purple-phone-ring.svg') }}" alt="phone" width="28" height="28" />
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <div class="ez" :class="activeField === 'sidebar_contact_phone_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_phone_label', 'Telefon Etiketi')">
+                                                    <span class="sw-contact-label" x-text="fields.sidebar_contact_phone_label || '7/24 Destek'"></span>
+                                                </div>
+                                                <div class="ez" :class="activeField === 'sidebar_contact_phone' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_phone', 'Telefon Numarası')">
+                                                    <span class="sw-contact-value" x-text="fields.sidebar_contact_phone || '+90 555 123 4567'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- Email --}}
+                                        <div class="sw-contact-row">
+                                            <div class="sw-contact-icon">
+                                                <img src="{{ asset('assets-front/img/icons/icon-purple-mail-open.svg') }}" alt="email" width="28" height="28" />
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <div class="ez" :class="activeField === 'sidebar_contact_email_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_email_label', 'E-posta Etiketi')">
+                                                    <span class="sw-contact-label" x-text="fields.sidebar_contact_email_label || 'Mesaj Gönderin'"></span>
+                                                </div>
+                                                <div class="ez" :class="activeField === 'sidebar_contact_email' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_email', 'E-posta Adresi')">
+                                                    <span class="sw-contact-value" x-text="fields.sidebar_contact_email || 'info@example.com'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- Address --}}
+                                        <div class="sw-contact-row">
+                                            <div class="sw-contact-icon">
+                                                <img src="{{ asset('assets-front/img/icons/icon-purple-location.svg') }}" alt="location" width="28" height="28" />
+                                            </div>
+                                            <div style="flex: 1;">
+                                                <div class="ez" :class="activeField === 'sidebar_contact_address_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_address_label', 'Adres Etiketi')">
+                                                    <span class="sw-contact-label" x-text="fields.sidebar_contact_address_label || 'Adresimiz'"></span>
+                                                </div>
+                                                <div class="ez" :class="activeField === 'sidebar_contact_address' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_address', 'Adres', 'textarea')">
+                                                    <span class="sw-contact-value" style="font-size: 0.95rem;" x-text="fields.sidebar_contact_address || 'İstanbul, Türkiye'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </aside>
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+            {{-- ═══ TAB 3: CTA ═══ --}}
+            <div x-show="pageTab === 'cta'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+
+            <div style="padding: 16px 20px 20px; background: white;">
+                <div style="position: relative; z-index: 10; overflow: hidden; background: rgb(84 62 232); border-radius: 16px; display: grid; grid-template-columns: 0.8fr 1fr; gap: 56px;">
+                    {{-- CTA Image --}}
+                    <div style="position: relative; order: 1;">
+                        <div class="ez ez-img" :class="activeField === 'cta_image' && 'ez-active'" data-label="Resmi Düzenle" @click="openModal('cta_image', 'CTA Resmi', 'image')" style="height: 100%; display: flex; align-items: flex-end;">
+                            <img :src="fields.cta_image ? (fields.cta_image.startsWith('http') ? fields.cta_image : '{{ url('/') }}/' + fields.cta_image) : '{{ asset('assets-front/img/images/th-1/cta-img.png') }}'"
+                                 alt="cta-img" style="max-width: 100%; display: block;" />
+                        </div>
+                    </div>
+
+                    {{-- CTA Content --}}
+                    <div style="order: 2; padding: 48px 24px 48px 0;">
+                        <div style="max-width: 530px;">
+                            <div class="ez" :class="activeField === 'cta_label' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_label', 'CTA Etiket')" style="margin-bottom: 1.25rem;">
+                                <span x-text="fields.cta_label || 'HEMEN BASLAYIN'"
+                                      style="display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;"></span>
+                            </div>
+                            <div class="ez" :class="activeField === 'cta_title' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_title', 'CTA Başlık')">
+                                <h2 x-text="fields.cta_title || 'Eğitim yolculuğunuza bugün başlayın'"
+                                    style="color: white !important; font-size: 1.875rem; line-height: 1.38;"></h2>
+                            </div>
+                            <div class="ez" :class="activeField === 'cta_description' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_description', 'CTA Açıklama', 'textarea')" style="margin-top: 1.75rem; margin-bottom: 30px;">
+                                <p x-text="fields.cta_description || 'Uzman eğitmenlerimizle hedeflerinize ulaşın.'"
+                                   style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;"></p>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="ez" :class="activeField === 'cta_button_text' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_button_text', 'CTA Buton Yazısı')">
+                                    <div style="position: relative; display: inline-flex; align-items: center; overflow: hidden; border-radius: 52px; padding: 1rem 70px 1rem 30px; background-color: rgb(255 205 32); color: rgb(1 28 26); font-size: 1rem; line-height: 1.5rem;">
+                                        <span x-text="fields.cta_button_text || 'Hemen Kaydol'"></span>
+                                        <span style="position: absolute; right: 5px; display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border-radius: 50%; background: rgb(1 28 26);">
+                                            <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-arrow-right.svg') }}" alt="" width="13" height="12" />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="ez" :class="activeField === 'cta_button_url' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_button_url', 'CTA Buton URL')">
+                                    <span style="color: rgba(255,255,255,0.5); font-size: 0.75rem; font-family: monospace; border: 1px dashed rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 6px;"
+                                          x-text="fields.cta_button_url || '/kurslar'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Decorative --}}
+                    <img src="{{ asset('assets-front/img/abstracts/abstract-golden-yellow-dash-2.svg') }}" alt="" width="44" height="37" style="position: absolute; left: 400px; top: 64px; z-index: -1;" />
+                    <img src="{{ asset('assets-front/img/abstracts/curve-1.svg') }}" alt="" width="155" height="155" style="position: absolute; left: 24px; top: 56px; z-index: 10;" />
+                    <img src="{{ asset('assets-front/img/abstracts/abstract-dots-4-white.svg') }}" alt="" width="108" height="67" style="position: absolute; bottom: 0; right: 0; z-index: -1;" />
+                </div>
+            </div>
+            </div>
+
+        </div>
+
+        {{-- EDIT MODAL (text / textarea) --}}
+        <template x-teleport="body">
+        <div x-show="modal && modalType !== 'image'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+             style="position: fixed; inset: 0; z-index: 9999; padding: 1rem;"
+             @keydown.escape.window="closeModal()">
+            <div style="position: absolute; inset: 0; background: rgba(1,28,26,0.4);" @click="closeModal()"></div>
+            <div style="position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 100%;">
+            <div x-show="modal && modalType !== 'image'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                 style="background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(1,28,26,0.2); width: 100%; max-width: 540px; overflow: hidden;"
+                 @click.stop>
+
+                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid rgb(1 28 26 / 0.06); display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="width: 36px; height: 36px; background: rgb(84 62 232); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <svg style="width: 18px; height: 18px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125"/>
+                            </svg>
+                        </div>
+                        <h3 x-text="modalLabel" style="font-size: 1.125rem; font-weight: 600; color: rgb(1 28 26); font-family: 'Aeonik Pro TRIAL', sans-serif;"></h3>
+                    </div>
+                    <button type="button" @click="closeModal()"
+                            style="width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgb(95 93 93); cursor: pointer; border: none; background: #F5F5F5; transition: background 0.2s;"
+                            onmouseover="this.style.background='#EBEBEB'" onmouseout="this.style.background='#F5F5F5'">
+                        <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div style="padding: 1.5rem;">
+                    <template x-if="modalType === 'text'">
+                        <div>
+                            <input type="text" x-model="modalValue" x-ref="modalInput"
+                                   :maxlength="modalMaxLength > 0 ? modalMaxLength : undefined"
+                                   class="modal-input" :class="validationError && 'modal-input-error'"
+                                   @keydown.enter="applyAndSave()"
+                                   @input="validateField()">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; min-height: 20px;">
+                                <span x-show="validationError" x-text="validationError" style="font-size: 0.75rem; color: rgb(215 59 62); font-family: Poppins, sans-serif;"></span>
+                                <span x-show="modalMaxLength > 0" x-text="(modalValue?.length || 0) + '/' + modalMaxLength" style="font-size: 0.7rem; color: #8D8D8D; font-family: Poppins, sans-serif; margin-left: auto;"></span>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="modalType === 'textarea'">
+                        <div>
+                            <textarea x-model="modalValue" x-ref="modalTextarea" rows="4"
+                                      :maxlength="modalMaxLength > 0 ? modalMaxLength : undefined"
+                                      class="modal-input modal-textarea" :class="validationError && 'modal-input-error'"
+                                      @input="validateField()"></textarea>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; min-height: 20px;">
+                                <span x-show="validationError" x-text="validationError" style="font-size: 0.75rem; color: rgb(215 59 62); font-family: Poppins, sans-serif;"></span>
+                                <span x-show="modalMaxLength > 0" x-text="(modalValue?.length || 0) + '/' + modalMaxLength" style="font-size: 0.7rem; color: #8D8D8D; font-family: Poppins, sans-serif; margin-left: auto;"></span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div style="padding: 1rem 1.5rem; border-top: 1px solid rgb(1 28 26 / 0.06); display: flex; justify-content: flex-end; gap: 0.75rem;">
+                    <button type="button" @click="closeModal()"
+                            style="padding: 0.6rem 1.25rem; border-radius: 10px; font-size: 0.875rem; font-weight: 500; color: rgb(95 93 93); border: 1px solid rgb(1 28 26 / 0.1); background: white; cursor: pointer; font-family: Poppins, sans-serif; transition: background 0.2s;"
+                            onmouseover="this.style.background='#F5F5F5'" onmouseout="this.style.background='white'">
+                        İptal
+                    </button>
+                    <button type="button" @click="applyAndSave()"
+                            :disabled="saving || !!validationError"
+                            class="modal-apply-btn" :class="(validationError || saving) && 'modal-apply-btn-disabled'"
+                            onmouseover="if(!this.disabled) this.style.opacity='0.9'" onmouseout="if(!this.disabled) this.style.opacity='1'">
+                        <span x-show="!saving">Uygula</span>
+                        <span x-show="saving">Kaydediliyor...</span>
+                    </button>
+                </div>
+            </div>
+            </div>
+        </div>
+        </template>
+
+        {{-- IMAGE MODAL --}}
+        <template x-teleport="body">
+        <div x-show="modal && modalType === 'image'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+             style="position: fixed; inset: 0; z-index: 9999; padding: 1rem;"
+             @keydown.escape.window="closeModal()">
+            <div style="position: absolute; inset: 0; background: rgba(1,28,26,0.4);" @click="closeModal()"></div>
+            <div style="position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 100%;">
+            <div x-show="modal && modalType === 'image'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                 style="background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(1,28,26,0.2); width: 100%; max-width: 580px; overflow: hidden;"
+                 @click.stop>
+
+                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid rgb(1 28 26 / 0.06); display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="width: 36px; height: 36px; background: rgb(84 62 232); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                            <svg style="width: 18px; height: 18px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
+                            </svg>
+                        </div>
+                        <h3 x-text="modalLabel" style="font-size: 1.125rem; font-weight: 600; color: rgb(1 28 26); font-family: 'Aeonik Pro TRIAL', sans-serif;"></h3>
+                    </div>
+                    <button type="button" @click="closeModal()"
+                            style="width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: rgb(95 93 93); cursor: pointer; border: none; background: #F5F5F5; transition: background 0.2s;"
+                            onmouseover="this.style.background='#EBEBEB'" onmouseout="this.style.background='#F5F5F5'">
+                        <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div style="padding: 1rem 1.5rem 0; display: flex; gap: 0.5rem;">
+                    <button type="button" class="img-tab" :class="imgTab === 'upload' ? 'active' : ''" @click="imgTab = 'upload'">Dosya Yükle</button>
+                    <button type="button" class="img-tab" :class="imgTab === 'url' ? 'active' : ''" @click="imgTab = 'url'">URL Gir</button>
+                </div>
+
+                <div style="padding: 1.5rem;">
+                    <template x-if="imgPreview">
+                        <div style="margin-bottom: 1rem; border-radius: 10px; overflow: hidden; border: 1px solid rgb(1 28 26 / 0.08);">
+                            <img :src="imgPreview" style="max-width: 100%; max-height: 200px; display: block; margin: 0 auto;" />
+                        </div>
+                    </template>
+
+                    <div x-show="imgTab === 'upload'">
+                        <div class="upload-drop-zone" :class="imgDragover && 'dragover'"
+                             @click="$refs.fileInput.click()"
+                             @dragover.prevent="imgDragover = true"
+                             @dragleave.prevent="imgDragover = false"
+                             @drop.prevent="handleDrop($event)">
+                            <input type="file" x-ref="fileInput" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,.ico" style="display: none;" @change="handleFileSelect($event)" />
+                            <svg style="width: 2.5rem; height: 2.5rem; color: rgb(84 62 232); opacity: 0.5; margin: 0 auto 0.75rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                            </svg>
+                            <p style="font-size: 0.875rem; color: rgb(95 93 93); margin: 0;">
+                                <span x-show="!uploading">Tıklayın veya sürükleyip bırakın</span>
+                                <span x-show="uploading" style="color: rgb(84 62 232);">Yükleniyor...</span>
+                            </p>
+                            <p style="font-size: 0.75rem; color: #8D8D8D; margin: 0.25rem 0 0;">JPG, PNG, GIF, WEBP, SVG, ICO (max 5MB)</p>
+                        </div>
+                    </div>
+
+                    <div x-show="imgTab === 'url'">
+                        <input type="text" x-model="modalValue" placeholder="https://... veya uploads/pages/..."
+                               style="width: 100%; padding: 0.75rem 1rem; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 10px; font-size: 0.9375rem; outline: none; transition: border-color 0.2s; font-family: Poppins, sans-serif; color: rgb(1 28 26);"
+                               onfocus="this.style.borderColor='rgb(84 62 232)'" onblur="this.style.borderColor='rgb(1 28 26 / 0.1)'"
+                               @keydown.enter="applyAndSave()"
+                               @input="imgPreview = $event.target.value.startsWith('http') ? $event.target.value : ($event.target.value ? '{{ url('/') }}/' + $event.target.value : '')">
+                    </div>
+                </div>
+
+                <div style="padding: 1rem 1.5rem; border-top: 1px solid rgb(1 28 26 / 0.06); display: flex; justify-content: space-between; align-items: center;">
+                    <button type="button" @click="modalValue = ''; imgPreview = ''"
+                            style="padding: 0.6rem 1rem; border-radius: 10px; font-size: 0.8125rem; font-weight: 500; color: rgb(215 59 62); border: 1px solid rgb(215 59 62 / 0.2); background: white; cursor: pointer; font-family: Poppins, sans-serif;"
+                            onmouseover="this.style.background='rgb(215 59 62 / 0.04)'" onmouseout="this.style.background='white'">
+                        Resmi Kaldır
+                    </button>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button type="button" @click="closeModal()"
+                                style="padding: 0.6rem 1.25rem; border-radius: 10px; font-size: 0.875rem; font-weight: 500; color: rgb(95 93 93); border: 1px solid rgb(1 28 26 / 0.1); background: white; cursor: pointer; font-family: Poppins, sans-serif;"
+                                onmouseover="this.style.background='#F5F5F5'" onmouseout="this.style.background='white'">
+                            İptal
+                        </button>
+                        <button type="button" @click="applyAndSave()"
+                                :disabled="saving"
+                                style="padding: 0.6rem 1.5rem; border-radius: 10px; font-size: 0.875rem; font-weight: 600; color: white; border: none; background: rgb(84 62 232); cursor: pointer; font-family: Poppins, sans-serif; box-shadow: 0 4px 12px rgba(84 62 232 / 0.3);"
+                                onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                            <span x-show="!saving">Uygula</span>
+                            <span x-show="saving">Kaydediliyor...</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </template>
+
+        {{-- Toast --}}
+        <div id="toast-msg" class="toast-msg"></div>
+
+    </div>
+@endsection
+
+@section('scripts')
+<script>
+    function courseEditor() {
+        return {
+            modal: false,
+            modalField: '',
+            modalLabel: '',
+            modalValue: '',
+            modalType: 'text',
+            activeField: '',
+            saving: false,
+            imgTab: 'upload',
+            imgPreview: '',
+            imgDragover: false,
+            uploading: false,
+            pageTab: 'liste',
+            validationError: '',
+            modalMaxLength: 0,
+
+            fields: {
+                title: @json(translateAttribute($coursePageInfo, 'title', $selectedLang) ?? ''),
+                breadcrumb_home: @json(translateAttribute($coursePageInfo, 'breadcrumb_home', $selectedLang) ?? ''),
+                breadcrumb_current: @json(translateAttribute($coursePageInfo, 'breadcrumb_current', $selectedLang) ?? ''),
+                detail_breadcrumb_current: @json(translateAttribute($coursePageInfo, 'detail_breadcrumb_current', $selectedLang) ?? ''),
+                search_placeholder: @json(translateAttribute($coursePageInfo, 'search_placeholder', $selectedLang) ?? ''),
+                search_button_text: @json(translateAttribute($coursePageInfo, 'search_button_text', $selectedLang) ?? ''),
+                result_text: @json(translateAttribute($coursePageInfo, 'result_text', $selectedLang) ?? ''),
+                detail_what_learn_title: @json(translateAttribute($coursePageInfo, 'detail_what_learn_title', $selectedLang) ?? ''),
+                detail_why_choose_title: @json(translateAttribute($coursePageInfo, 'detail_why_choose_title', $selectedLang) ?? ''),
+                sidebar_info_title: @json(translateAttribute($coursePageInfo, 'sidebar_info_title', $selectedLang) ?? ''),
+                sidebar_price_label: @json(translateAttribute($coursePageInfo, 'sidebar_price_label', $selectedLang) ?? ''),
+                sidebar_instructor_label: @json(translateAttribute($coursePageInfo, 'sidebar_instructor_label', $selectedLang) ?? ''),
+                sidebar_certification_label: @json(translateAttribute($coursePageInfo, 'sidebar_certification_label', $selectedLang) ?? ''),
+                sidebar_lessons_label: @json(translateAttribute($coursePageInfo, 'sidebar_lessons_label', $selectedLang) ?? ''),
+                sidebar_duration_label: @json(translateAttribute($coursePageInfo, 'sidebar_duration_label', $selectedLang) ?? ''),
+                sidebar_language_label: @json(translateAttribute($coursePageInfo, 'sidebar_language_label', $selectedLang) ?? ''),
+                sidebar_students_label: @json(translateAttribute($coursePageInfo, 'sidebar_students_label', $selectedLang) ?? ''),
+                sidebar_contact_title: @json(translateAttribute($coursePageInfo, 'sidebar_contact_title', $selectedLang) ?? ''),
+                sidebar_contact_phone_label: @json(translateAttribute($coursePageInfo, 'sidebar_contact_phone_label', $selectedLang) ?? ''),
+                sidebar_contact_phone: @json(translateAttribute($coursePageInfo, 'sidebar_contact_phone', $selectedLang) ?? ''),
+                sidebar_contact_email_label: @json(translateAttribute($coursePageInfo, 'sidebar_contact_email_label', $selectedLang) ?? ''),
+                sidebar_contact_email: @json(translateAttribute($coursePageInfo, 'sidebar_contact_email', $selectedLang) ?? ''),
+                sidebar_contact_address_label: @json(translateAttribute($coursePageInfo, 'sidebar_contact_address_label', $selectedLang) ?? ''),
+                sidebar_contact_address: @json(translateAttribute($coursePageInfo, 'sidebar_contact_address', $selectedLang) ?? ''),
+                cta_label: @json(translateAttribute($coursePageInfo, 'cta_label', $selectedLang) ?? ''),
+                cta_title: @json(translateAttribute($coursePageInfo, 'cta_title', $selectedLang) ?? ''),
+                cta_description: @json(translateAttribute($coursePageInfo, 'cta_description', $selectedLang) ?? ''),
+                cta_button_text: @json(translateAttribute($coursePageInfo, 'cta_button_text', $selectedLang) ?? ''),
+                cta_button_url: @json($coursePageInfo->cta_button_url ?? ''),
+                cta_image: @json($coursePageInfo->cta_image ?? ''),
+            },
+
+            defaults: {
+                title: 'Kurslarımız',
+                breadcrumb_home: 'ANA SAYFA',
+                breadcrumb_current: 'KURSLAR',
+                detail_breadcrumb_current: 'Kurs Detayı',
+                search_placeholder: 'Kursunuzu arayın',
+                search_button_text: 'Ara',
+                result_text: 'kurs bulundu',
+                detail_what_learn_title: 'Neler Öğreneceksiniz?',
+                detail_why_choose_title: 'Neden Bu Kurs?',
+                sidebar_info_title: 'Kurs Bilgileri:',
+                sidebar_price_label: 'Fiyat:',
+                sidebar_instructor_label: 'Eğitmen:',
+                sidebar_certification_label: 'Sertifika:',
+                sidebar_lessons_label: 'Dersler:',
+                sidebar_duration_label: 'Süre:',
+                sidebar_language_label: 'Dil:',
+                sidebar_students_label: 'Öğrenciler:',
+                sidebar_contact_title: 'İletişim',
+                sidebar_contact_phone_label: '7/24 Destek',
+                sidebar_contact_phone: '+90 555 123 4567',
+                sidebar_contact_email_label: 'Mesaj Gönderin',
+                sidebar_contact_email: 'info@example.com',
+                sidebar_contact_address_label: 'Adresimiz',
+                sidebar_contact_address: 'İstanbul, Türkiye',
+                cta_label: 'HEMEN BASLAYIN',
+                cta_title: 'Eğitim yolculuğunuza bugün başlayın',
+                cta_description: 'Uzman eğitmenlerimizle hedeflerinize ulaşın.',
+                cta_button_text: 'Hemen Kaydol',
+            },
+
+            openModal(field, label, type = 'text') {
+                this.modalField = field;
+                this.modalLabel = label;
+                this.modalValue = this.fields[field] || this.defaults[field] || '';
+                this.modalType = type;
+                this.activeField = field;
+                this.validationError = '';
+                this.modalMaxLength = this.getMaxLength(field);
+                this.modal = true;
+
+                if (type === 'image') {
+                    this.imgTab = 'upload';
+                    this.imgDragover = false;
+                    const val = this.fields[field];
+                    if (val) {
+                        this.imgPreview = val.startsWith('http') ? val : '{{ url('/') }}/' + val;
+                    } else {
+                        this.imgPreview = '';
+                    }
+                }
+
+                this.$nextTick(() => {
+                    const input = this.$refs.modalInput || this.$refs.modalTextarea;
+                    if (input) input.focus();
+                });
+            },
+
+            closeModal() {
+                this.modal = false;
+                this.activeField = '';
+            },
+
+            async applyAndSave() {
+                this.validateField();
+                if (this.validationError) return;
+
+                this.fields[this.modalField] = this.modalValue;
+                this.modal = false;
+                this.activeField = '';
+                await this.saveAll();
+            },
+
+            getMaxLength(field) {
+                const limits = {
+                    title: 150,
+                    breadcrumb_home: 30, breadcrumb_current: 30,
+                    detail_breadcrumb_current: 50,
+                    search_placeholder: 80, search_button_text: 30, result_text: 50,
+                    detail_what_learn_title: 100, detail_why_choose_title: 100,
+                    sidebar_info_title: 80,
+                    sidebar_price_label: 50, sidebar_instructor_label: 50,
+                    sidebar_certification_label: 50, sidebar_lessons_label: 50,
+                    sidebar_duration_label: 50, sidebar_language_label: 50,
+                    sidebar_students_label: 50,
+                    sidebar_contact_title: 80,
+                    sidebar_contact_phone_label: 50, sidebar_contact_phone: 50,
+                    sidebar_contact_email_label: 50, sidebar_contact_email: 100,
+                    sidebar_contact_address_label: 50, sidebar_contact_address: 255,
+                    cta_label: 60, cta_title: 200,
+                    cta_button_text: 50,
+                };
+                return limits[field] || 0;
+            },
+
+            validateField() {
+                const val = (this.modalValue || '').trim();
+                this.validationError = '';
+
+                const maxLen = this.modalMaxLength;
+                if (maxLen > 0 && val.length > maxLen) {
+                    this.validationError = 'Maksimum ' + maxLen + ' karakter girebilirsiniz.';
+                }
+            },
+
+            async saveAll() {
+                this.saving = true;
+                try {
+                    const formData = new FormData();
+                    formData.append('lang', '{{ $selectedLang }}');
+                    formData.append('_token', '{{ csrf_token() }}');
+
+                    for (const [key, value] of Object.entries(this.fields)) {
+                        formData.append(key, value || '');
+                    }
+
+                    const res = await fetch('{{ route('pages.update', ['id' => 'courses']) }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                        },
+                        body: formData,
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        this.showToast('Kaydedildi', 'success');
+                    } else {
+                        this.showToast('Hata oluştu', 'error');
+                    }
+                } catch (e) {
+                    this.showToast('Bağlantı hatası', 'error');
+                }
+                this.saving = false;
+            },
+
+            showToast(msg, type) {
+                const el = document.getElementById('toast-msg');
+                el.textContent = msg;
+                el.className = 'toast-msg ' + type + ' show';
+                setTimeout(() => { el.classList.remove('show'); }, 2500);
+            },
+
+            handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file) this.uploadFile(file);
+            },
+
+            handleDrop(e) {
+                this.imgDragover = false;
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    this.uploadFile(file);
+                }
+            },
+
+            async uploadFile(file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    this.showToast('Dosya 5MB\'dan büyük olamaz', 'error');
+                    return;
+                }
+
+                this.uploading = true;
+                try {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    formData.append('_token', '{{ csrf_token() }}');
+
+                    const res = await fetch('{{ route('pages.uploadImage') }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json',
+                        },
+                        body: formData,
+                    });
+
+                    const data = await res.json();
+                    if (data.success) {
+                        this.modalValue = data.path;
+                        this.imgPreview = data.url;
+                        this.showToast('Resim yüklendi', 'success');
+                    } else {
+                        this.showToast('Yükleme hatası', 'error');
+                    }
+                } catch (e) {
+                    this.showToast('Yükleme hatası', 'error');
+                }
+                this.uploading = false;
+            },
+        };
+    }
+</script>
+@endsection

@@ -5,7 +5,7 @@
            sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72',
            sidebarCollapsed ? 'lg:translate-x-0 lg:w-20 sidebar-collapsed' : 'lg:translate-x-0 lg:w-72'
        ]"
-       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : '') }}' }">
+       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('courses.*') || Route::is('courseCategories.*') ? 'kurs' : '')) }}' }">
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -357,6 +357,79 @@
                                       ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                       : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
                             Etiketler
+                        </a>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        {{-- Kurslar Dropdown --}}
+        @php $isCourseActive = Route::is('courses.*') || Route::is('courseCategories.*'); @endphp
+        <div class="group/kurs relative">
+            <button @click="openMenu = openMenu === 'kurs' ? '' : 'kurs'"
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                           {{ $isCourseActive
+                               ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                            {{ $isCourseActive
+                                ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/>
+                    </svg>
+                </div>
+                <span x-show="!sidebarCollapsed" x-transition class="flex-1 text-left hidden lg:block">Kurslar</span>
+                <span class="flex-1 text-left lg:hidden">Kurslar</span>
+                <svg x-show="!sidebarCollapsed"
+                     class="w-4 h-4 transition-transform duration-200 hidden lg:block"
+                     :class="{ 'rotate-180': openMenu === 'kurs' }"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+                <svg class="w-4 h-4 transition-transform duration-200 lg:hidden"
+                     :class="{ 'rotate-180': openMenu === 'kurs' }"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+
+            <div x-show="openMenu === 'kurs' && (!sidebarCollapsed || window.innerWidth < 1024)"
+                 x-collapse
+                 class="ml-12 mt-1 space-y-1">
+                <a href="{{ route('courses.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('courses.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Kurslar
+                </a>
+                <a href="{{ route('courseCategories.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('courseCategories.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Kategoriler
+                </a>
+            </div>
+
+            <template x-if="sidebarCollapsed">
+                <div class="hidden lg:group-hover/kurs:block absolute left-full top-0 pl-2 z-[60]">
+                    <div class="w-52 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2">
+                        <p class="px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Kurslar</p>
+                        <a href="{{ route('courses.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('courses.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Kurslar
+                        </a>
+                        <a href="{{ route('courseCategories.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('courseCategories.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Kategoriler
                         </a>
                     </div>
                 </div>

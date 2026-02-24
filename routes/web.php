@@ -10,6 +10,8 @@ use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Blog\BlogCategoryController;
 use App\Http\Controllers\Blog\BlogTagController;
+use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Course\CourseCategoryController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Student\PreRegistrationController;
 use App\Http\Controllers\Student\StudentController;
@@ -174,6 +176,34 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/translate',       [BlogTagController::class, 'updateTranslate'])->name('updateTranslate');
     });
 
+    // ─── Kurs Yönetimi (CRUD) ──────────────────────────────────────────────────
+    Route::prefix('courses')->name('courses.')->group(function () {
+        Route::get('/',              [CourseController::class, 'index'])->name('index');
+        Route::get('/create',        [CourseController::class, 'create'])->name('create');
+        Route::post('/store',        [CourseController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [CourseController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [CourseController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [CourseController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [CourseController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [CourseController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [CourseController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [CourseController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Kurs Kategorileri ────────────────────────────────────────────────────
+    Route::prefix('course-categories')->name('courseCategories.')->group(function () {
+        Route::get('/',              [CourseCategoryController::class, 'index'])->name('index');
+        Route::get('/create',        [CourseCategoryController::class, 'create'])->name('create');
+        Route::post('/store',        [CourseCategoryController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [CourseCategoryController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [CourseCategoryController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [CourseCategoryController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [CourseCategoryController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [CourseCategoryController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [CourseCategoryController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [CourseCategoryController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
     // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/',                              [PagesController::class, 'index'])->name('index');
@@ -190,7 +220,7 @@ Route::name('front.')->group(function () {
     Route::get('/',                [FrontController::class, 'home'])->name('home');
     Route::get('/hakkimizda',      [FrontController::class, 'about'])->name('about');
     Route::get('/kurslar',         [FrontController::class, 'courses'])->name('courses');
-    Route::get('/kurs-detay',      [FrontController::class, 'courseDetails'])->name('course.details');
+    Route::get('/kurs-detay/{id}',  [FrontController::class, 'courseDetails'])->name('course.details');
     Route::get('/egitmenler',      [FrontController::class, 'teachers'])->name('teachers');
     Route::get('/egitmen-detay/{id}', [FrontController::class, 'teacherDetails'])->name('teacher.details');
     Route::get('/blog',            [FrontController::class, 'blog'])->name('blog');

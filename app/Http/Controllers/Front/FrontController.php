@@ -8,7 +8,10 @@ use App\Models\Pages\Contact\ContactPageInfo;
 use App\Models\Blogs\Blog;
 use App\Models\Blogs\BlogCategory;
 use App\Models\Blogs\BlogTag;
+use App\Models\Courses\Course;
+use App\Models\Courses\CourseCategory;
 use App\Models\Pages\Blog\BlogPageInfo;
+use App\Models\Pages\Course\CoursePageInfo;
 use App\Models\Pages\Faq\FaqPageInfo;
 use App\Models\Pages\Teacher\TeacherPageInfo;
 use App\Models\Teacher\Teacher;
@@ -27,12 +30,22 @@ class FrontController extends Controller
 
     public function courses()
     {
-        return view('front.pages.courses');
+        $coursePageInfo = CoursePageInfo::first();
+        $courses = Course::with('categories')->where('is_active', true)->orderBy('sort_order')->paginate(9);
+        $categories = CourseCategory::where('is_active', true)
+            ->withCount(['courses' => fn($q) => $q->where('is_active', true)])
+            ->orderBy('sort_order')
+            ->get();
+        $ctaInfo = $coursePageInfo;
+        return view('front.pages.courses', compact('coursePageInfo', 'courses', 'categories', 'ctaInfo'));
     }
 
-    public function courseDetails()
+    public function courseDetails($id)
     {
-        return view('front.pages.course-details');
+        $coursePageInfo = CoursePageInfo::first();
+        $course = Course::with('categories')->findOrFail($id);
+        $ctaInfo = $coursePageInfo;
+        return view('front.pages.course-details', compact('coursePageInfo', 'course', 'ctaInfo'));
     }
 
     public function teachers()

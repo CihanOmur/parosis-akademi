@@ -89,9 +89,6 @@
                                     <li class="sub-menu--item">
                                         <a href="{{ route('front.courses') }}">Kurslarımız</a>
                                     </li>
-                                    <li class="sub-menu--item">
-                                        <a href="{{ route('front.course.details') }}">Kurs Detayı</a>
-                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item nav-item-has-children">

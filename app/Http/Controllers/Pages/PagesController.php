@@ -11,6 +11,9 @@ use App\Models\Pages\Teacher\TeacherPageInfo;
 use App\Models\Blogs\Blog;
 use App\Models\Blogs\BlogCategory;
 use App\Models\Blogs\BlogTag;
+use App\Models\Courses\Course;
+use App\Models\Courses\CourseCategory;
+use App\Models\Pages\Course\CoursePageInfo;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
 
@@ -30,6 +33,7 @@ class PagesController extends Controller
             'faq'      => $this->editFaq($request),
             'teachers' => $this->editTeachers($request),
             'blog'     => $this->editBlog($request),
+            'courses'  => $this->editCourses($request),
             default    => abort(404),
         };
     }
@@ -41,6 +45,7 @@ class PagesController extends Controller
             'faq'      => $this->updateFaq($request),
             'teachers' => $this->updateTeachers($request),
             'blog'     => $this->updateBlog($request),
+            'courses'  => $this->updateCourses($request),
             default    => abort(404),
         };
     }
@@ -52,6 +57,7 @@ class PagesController extends Controller
             'faq'      => $this->editFaqTranslate($request, $lang),
             'teachers' => $this->editTeachersTranslate($request, $lang),
             'blog'     => $this->editBlogTranslate($request, $lang),
+            'courses'  => $this->editCoursesTranslate($request, $lang),
             default    => abort(404),
         };
     }
@@ -63,6 +69,7 @@ class PagesController extends Controller
             'faq'      => $this->updateFaqTranslate($request),
             'teachers' => $this->updateTeachersTranslate($request),
             'blog'     => $this->updateBlogTranslate($request),
+            'courses'  => $this->updateCoursesTranslate($request),
             default    => abort(404),
         };
     }
@@ -494,6 +501,121 @@ class PagesController extends Controller
         }
 
         $blogPageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Çeviri kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Çeviri başarıyla güncellendi.');
+    }
+
+    // ─── Courses Page ──────────────────────────────────────────────────────────
+
+    private function editCourses(Request $request)
+    {
+        $coursePageInfo = CoursePageInfo::first();
+        if (!$coursePageInfo) {
+            $coursePageInfo = CoursePageInfo::create([]);
+        }
+
+        $courses = Course::with('categories')->where('is_active', true)->orderBy('sort_order')->take(9)->get();
+
+        $categories = CourseCategory::where('is_active', true)
+            ->withCount(['courses' => fn($q) => $q->where('is_active', true)])
+            ->orderBy('sort_order')
+            ->get();
+
+        $localeInfo = getLocaleInfo($request->get('lang'));
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        return view('admin.pages.edit-courses', compact('coursePageInfo', 'courses', 'categories', 'selectedLang', 'selectedLanguage'));
+    }
+
+    private function updateCourses(Request $request)
+    {
+        $coursePageInfo = CoursePageInfo::first();
+        if (!$coursePageInfo) {
+            $coursePageInfo = CoursePageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
+            'search_placeholder', 'search_button_text', 'result_text',
+            'detail_what_learn_title', 'detail_why_choose_title',
+            'sidebar_info_title',
+            'sidebar_price_label', 'sidebar_instructor_label',
+            'sidebar_certification_label', 'sidebar_lessons_label',
+            'sidebar_duration_label', 'sidebar_language_label', 'sidebar_students_label',
+            'sidebar_contact_title',
+            'sidebar_contact_phone_label', 'sidebar_contact_phone',
+            'sidebar_contact_email_label', 'sidebar_contact_email',
+            'sidebar_contact_address_label', 'sidebar_contact_address',
+            'cta_label', 'cta_title', 'cta_description', 'cta_button_text',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $coursePageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Non-translatable fields
+        $nonTranslatableFields = ['cta_button_url', 'cta_image'];
+
+        foreach ($nonTranslatableFields as $field) {
+            if ($request->has($field)) {
+                $coursePageInfo->$field = $request->$field;
+            }
+        }
+
+        $coursePageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Kurslar sayfası başarıyla güncellendi.');
+    }
+
+    private function editCoursesTranslate(Request $request, $lang)
+    {
+        return redirect()->route('pages.edit', ['id' => 'courses', 'lang' => $lang]);
+    }
+
+    private function updateCoursesTranslate(Request $request)
+    {
+        $coursePageInfo = CoursePageInfo::first();
+        if (!$coursePageInfo) {
+            $coursePageInfo = CoursePageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
+            'search_placeholder', 'search_button_text', 'result_text',
+            'detail_what_learn_title', 'detail_why_choose_title',
+            'sidebar_info_title',
+            'sidebar_price_label', 'sidebar_instructor_label',
+            'sidebar_certification_label', 'sidebar_lessons_label',
+            'sidebar_duration_label', 'sidebar_language_label', 'sidebar_students_label',
+            'sidebar_contact_title',
+            'sidebar_contact_phone_label', 'sidebar_contact_phone',
+            'sidebar_contact_email_label', 'sidebar_contact_email',
+            'sidebar_contact_address_label', 'sidebar_contact_address',
+            'cta_label', 'cta_title', 'cta_description', 'cta_button_text',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $coursePageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        $coursePageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Çeviri kaydedildi.']);
