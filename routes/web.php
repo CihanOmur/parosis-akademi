@@ -18,6 +18,10 @@ use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\StudentDocumentController;
 use App\Http\Controllers\Student\StudentPaymentController;
 use App\Http\Controllers\Student\StudentReCreateController;
+use App\Http\Controllers\ClientLogo\ClientLogoController;
+use App\Http\Controllers\Testimonial\TestimonialController;
+use App\Http\Controllers\Slider\SliderController;
+use App\Http\Controllers\Slider\SliderItemController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
@@ -202,6 +206,58 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/toggle',  [CourseCategoryController::class, 'toggleActive'])->name('toggle');
         Route::get('/{id}/translate/{lang}', [CourseCategoryController::class, 'editTranslate'])->name('editTranslate');
         Route::post('/{id}/translate',       [CourseCategoryController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Öğrenci Yorumları ───────────────────────────────────────────────────────
+    Route::prefix('testimonials')->name('testimonials.')->group(function () {
+        Route::get('/',              [TestimonialController::class, 'index'])->name('index');
+        Route::get('/create',        [TestimonialController::class, 'create'])->name('create');
+        Route::post('/store',        [TestimonialController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [TestimonialController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [TestimonialController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [TestimonialController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [TestimonialController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [TestimonialController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}', [TestimonialController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',       [TestimonialController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── İş Ortağı Logoları ──────────────────────────────────────────────────────
+    Route::prefix('client-logos')->name('client-logos.')->group(function () {
+        Route::get('/',              [ClientLogoController::class, 'index'])->name('index');
+        Route::get('/create',        [ClientLogoController::class, 'create'])->name('create');
+        Route::post('/store',        [ClientLogoController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [ClientLogoController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [ClientLogoController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [ClientLogoController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [ClientLogoController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [ClientLogoController::class, 'toggleActive'])->name('toggle');
+    });
+
+    // ─── Slider Yönetimi ────────────────────────────────────────────────────────
+    Route::prefix('sliders')->name('sliders.')->group(function () {
+        Route::get('/',              [SliderController::class, 'index'])->name('index');
+        Route::get('/create',        [SliderController::class, 'create'])->name('create');
+        Route::post('/store',        [SliderController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [SliderController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [SliderController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [SliderController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [SliderController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [SliderController::class, 'toggleActive'])->name('toggle');
+
+        // Slider Items
+        Route::prefix('/{sliderId}/items')->name('items.')->group(function () {
+            Route::get('/',              [SliderItemController::class, 'index'])->name('index');
+            Route::get('/create',        [SliderItemController::class, 'create'])->name('create');
+            Route::post('/store',        [SliderItemController::class, 'store'])->name('store');
+            Route::get('/{id}/edit',     [SliderItemController::class, 'edit'])->name('edit');
+            Route::post('/{id}/update',  [SliderItemController::class, 'update'])->name('update');
+            Route::delete('/{id}',       [SliderItemController::class, 'delete'])->name('delete');
+            Route::post('/update-order', [SliderItemController::class, 'updateOrder'])->name('updateOrder');
+            Route::post('/{id}/toggle',  [SliderItemController::class, 'toggleActive'])->name('toggle');
+            Route::get('/{id}/translate/{lang}', [SliderItemController::class, 'editTranslate'])->name('editTranslate');
+            Route::post('/{id}/translate',       [SliderItemController::class, 'updateTranslate'])->name('updateTranslate');
+        });
     });
 
     // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────

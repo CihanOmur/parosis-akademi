@@ -2,10 +2,10 @@
 
 @section('page-banner')
     <div>
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Kurs Kategorileri</h1>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Kurs kategorilerini yönetin</p>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">İş Ortağı Logoları</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">İş ortağı logolarını yönetin</p>
     </div>
-    <a href="{{ route('courseCategories.create') }}"
+    <a href="{{ route('client-logos.create') }}"
        class="inline-flex items-center gap-2 px-6 py-3
               bg-gradient-to-r from-fuchsia-500 to-purple-500
               hover:from-fuchsia-600 hover:to-purple-600
@@ -14,7 +14,7 @@
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
-        Yeni Kategori Ekle
+        Yeni Logo Ekle
     </a>
 @endsection
 
@@ -25,14 +25,14 @@
                 <thead class="bg-slate-50 dark:bg-slate-700/50">
                     <tr>
                         <th class="w-10 px-3 py-4"></th>
-                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-16">İkon</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-24">Logo</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ad</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-28">Durum</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-48">İşlem</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-36">İşlem</th>
                     </tr>
                 </thead>
                 <tbody id="sortable-body" class="divide-y divide-slate-100 dark:divide-slate-700/50">
-                    @forelse ($categories as $item)
+                    @forelse ($logos as $item)
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" data-id="{{ $item->id }}" id="row-{{ $item->id }}">
                             <td class="px-3 py-4 cursor-grab active:cursor-grabbing sortable-handle">
                                 <svg class="w-5 h-5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -40,21 +40,24 @@
                                 </svg>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ ($item->color ?? '#DE1EF9') . '1a' }}">
-                                    @if($item->icon)
-                                        <img src="{{ asset($item->icon) }}" alt="" class="w-5 h-5 object-contain">
-                                    @else
-                                        <svg class="w-5 h-5" style="color: {{ $item->color ?? '#DE1EF9' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342"/>
+                                @if($item->image)
+                                    <img src="{{ asset($item->image) }}" alt="{{ $item->name }}" class="h-10 max-w-[120px] object-contain">
+                                @else
+                                    <div class="h-10 w-20 bg-slate-100 dark:bg-slate-700 rounded flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
                                         </svg>
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('courseCategories.edit', $item->id) }}"
+                                <a href="{{ route('client-logos.edit', $item->id) }}"
                                    class="font-semibold text-slate-900 dark:text-white hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors">
-                                    {{ $item->name }}
+                                    {{ $item->name ?: 'İsimsiz Logo' }}
                                 </a>
+                                @if($item->url)
+                                    <p class="text-xs text-slate-400 mt-0.5 truncate max-w-[200px]">{{ $item->url }}</p>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 <label class="inline-flex items-center gap-2.5 cursor-pointer">
@@ -69,47 +72,15 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-1">
-                                    <a href="{{ route('courseCategories.edit', $item->id) }}"
+                                    <a href="{{ route('client-logos.edit', $item->id) }}"
                                        class="p-2 text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 rounded-lg transition-all" title="Düzenle">
                                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/>
                                         </svg>
                                     </a>
 
-                                    {{-- Çeviriler dropdown --}}
-                                    <div class="relative" x-data="{ open: false }">
-                                        <button @click="open = !open" type="button"
-                                                class="p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all cursor-pointer" title="Çeviriler">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m10.5 21 5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 0 1 6-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138c.896.061 1.785.147 2.666.257m-4.589 8.495a18.023 18.023 0 0 1-3.827-5.802"/>
-                                            </svg>
-                                        </button>
-                                        <div x-show="open" @click.away="open = false"
-                                             x-transition:enter="transition ease-out duration-100"
-                                             x-transition:enter-start="opacity-0 scale-95"
-                                             x-transition:enter-end="opacity-100 scale-100"
-                                             x-transition:leave="transition ease-in duration-75"
-                                             x-transition:leave-start="opacity-100 scale-100"
-                                             x-transition:leave-end="opacity-0 scale-95"
-                                             class="absolute right-0 mt-1 w-48 z-20 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 py-1 overflow-hidden">
-                                            @foreach ($activeLanguages as $activeLang)
-                                                <a href="{{ route('courseCategories.editTranslate', ['id' => $item->id, 'lang' => $activeLang->locale]) }}"
-                                                   class="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium
-                                                          text-slate-600 dark:text-slate-300
-                                                          hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20
-                                                          hover:text-fuchsia-600 dark:hover:text-fuchsia-400
-                                                          transition-all">
-                                                    <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-[10px] font-bold text-slate-500 dark:text-slate-400 flex-shrink-0">
-                                                        {{ strtoupper(substr($activeLang->locale, 0, 2)) }}
-                                                    </span>
-                                                    {{ $activeLang->name ?: $activeLang->locale }}
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    </div>
-
-                                    <form action="{{ route('courseCategories.delete', $item->id) }}" method="POST"
-                                          x-data @submit.prevent="$dispatch('confirm-dialog', { title: 'Kategoriyi Sil', message: 'Bu kurs kategorisini silmek istediğinize emin misiniz?', form: $el })">
+                                    <form action="{{ route('client-logos.delete', $item->id) }}" method="POST"
+                                          x-data @submit.prevent="$dispatch('confirm-dialog', { title: 'Logoyu Sil', message: 'Bu logoyu silmek istediğinize emin misiniz?', form: $el })">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all cursor-pointer" title="Sil">
@@ -126,12 +97,11 @@
                             <td colspan="5" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center gap-3">
                                     <svg class="w-12 h-12 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
                                     </svg>
-                                    <p class="text-slate-500 dark:text-slate-400">Henüz kurs kategorisi eklenmemiş.</p>
-                                    <a href="{{ route('courseCategories.create') }}" class="text-fuchsia-600 dark:text-fuchsia-400 hover:underline text-sm font-medium">
-                                        İlk kategoriyi ekleyin
+                                    <p class="text-slate-500 dark:text-slate-400">Henüz logo eklenmemiş.</p>
+                                    <a href="{{ route('client-logos.create') }}" class="text-fuchsia-600 dark:text-fuchsia-400 hover:underline text-sm font-medium">
+                                        İlk logoyu ekleyin
                                     </a>
                                 </div>
                             </td>
@@ -161,7 +131,7 @@
                 const order = Array.from(sortableBody.querySelectorAll('tr[data-id]'))
                     .map(function (row) { return parseInt(row.dataset.id); });
 
-                axios.post('{{ route("courseCategories.updateOrder") }}', {
+                axios.post('{{ route("client-logos.updateOrder") }}', {
                     order: order,
                     _token: csrfToken
                 })
@@ -185,7 +155,7 @@
             const prevState = !this.checked;
             const self      = this;
 
-            axios.post('/panel/course-categories/' + itemId + '/toggle', { _token: csrfToken })
+            axios.post('/panel/client-logos/' + itemId + '/toggle', { _token: csrfToken })
             .then(function (response) {
                 if (response.data.status === 1) {
                     showToast('success', response.data.message);

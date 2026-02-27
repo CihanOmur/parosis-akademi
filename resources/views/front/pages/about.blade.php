@@ -1,6 +1,12 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | Hakkımızda')
+@section('title', 'Parosis Akademi | ' . ($aboutPageInfo?->getTranslation('breadcrumb_title', app()->getLocale(), false) ?: __('Hakkımızda')))
+
+@php
+    $locale = app()->getLocale();
+    $t = fn($field, $fallback = '') => $aboutPageInfo?->getTranslation($field, $locale, false) ?: $fallback;
+    $v = fn($field, $fallback = '') => $aboutPageInfo?->$field ?: $fallback;
+@endphp
 
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
@@ -12,14 +18,14 @@
                         <div class="container">
                             <div class="text-center">
                                 <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    About Us
+                                    {{ $t('breadcrumb_title', 'Hakkımızda') }}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">HOME</a>
+                                            <a href="{{ route('front.home') }}">{{ $t('breadcrumb_home', 'ANA SAYFA') }}</a>
                                         </li>
-                                        <li>ABOUT US</li>
+                                        <li>{{ $t('breadcrumb_current', 'HAKKIMIZDA') }}</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -52,47 +58,59 @@
                                 <div class="jos" data-jos_animation="fade-right">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">WHY CHOOSE US</span>
+                                        <span class="mb-5 block uppercase">{{ $t('section1_label', 'NEDEN BIZ') }}</span>
                                         <h2>
-                                            Transform Your Best Practice with Our Online Course
+                                            {{ $t('section1_title', 'Online Kurslarımızla En İyi Uygulamalarınızı Dönüştürün') }}
                                         </h2>
                                     </div>
                                     <!-- Section Block -->
                                     <!-- Content -->
                                     <div class="mt-7">
                                         <p>
-                                            Excepteur sint occaecat cupidatat non proident sunt in
-                                            culpa qui officia deserunt mollit. Excepteur sint
-                                            occaecat.
+                                            {{ $t('section1_description', 'Uzman eğitmenlerimiz ve kapsamlı müfredatımızla hedeflerinize ulaşmanıza yardımcı oluyoruz.') }}
                                         </p>
 
+                                        @php
+                                            $s1features = $aboutPageInfo?->getTranslation('section1_features', $locale, false);
+                                            if (!is_array($s1features) || count($s1features) === 0) {
+                                                $s1features = [];
+                                                $f1t = $t('section1_feature1_title', '');
+                                                if ($f1t) $s1features[] = ['title' => $f1t, 'description' => $t('section1_feature1_description', ''), 'icon' => $aboutPageInfo?->section1_feature1_icon ?? '', 'bg_color' => '#42AC98'];
+                                                $f2t = $t('section1_feature2_title', '');
+                                                if ($f2t) $s1features[] = ['title' => $f2t, 'description' => $t('section1_feature2_description', ''), 'icon' => $aboutPageInfo?->section1_feature2_icon ?? '', 'bg_color' => '#D73B3E'];
+                                                if (empty($s1features)) {
+                                                    $s1features = [
+                                                        ['title' => 'Yüz Yüze Eğitim', 'description' => 'Uzman eğitmenlerimizle birebir etkileşimli öğrenme deneyimi yaşayın.', 'icon' => 'assets-front/img/icons/content-icon-1.svg', 'bg_color' => '#42AC98'],
+                                                        ['title' => '7/24 Destek', 'description' => 'İhtiyacınız olduğu her an yanınızda olan destek ekibimizle tanışın.', 'icon' => 'assets-front/img/icons/content-icon-2.svg', 'bg_color' => '#D73B3E'],
+                                                    ];
+                                                }
+                                            }
+                                        @endphp
                                         <ul class="mt-10 flex flex-col gap-y-10">
+                                            @foreach($s1features as $fIdx => $feat)
+                                            @php $fColor = $feat['bg_color'] ?? '#42AC98'; @endphp
                                             <li>
                                                 <div class="mb-5 flex items-center gap-x-5">
-                                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-colorLightSeaGreen/10">
-                                                        <img src="{{ asset('assets-front/img/icons/content-icon-1.svg') }}" alt="content-icon-1" width="25" height="25" />
+                                                    <div class="inline-flex h-[60px] w-[60px] min-w-[60px] items-center justify-center rounded-[50%]" style="background: {{ $fColor }}1a">
+                                                        @if(!empty($feat['icon']))
+                                                            <img src="{{ asset($feat['icon']) }}" alt="{{ $feat['title'] ?? '' }}" width="25" height="25" />
+                                                        @else
+                                                            <svg class="h-[25px] w-[25px]" style="color: {{ $fColor }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                                @if($fIdx % 3 === 0)
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342"/>
+                                                                @elseif($fIdx % 3 === 1)
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
+                                                                @else
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/>
+                                                                @endif
+                                                            </svg>
+                                                        @endif
                                                     </div>
-                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">Face-to-face Teaching</span>
+                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">{{ $feat['title'] ?? '' }}</span>
                                                 </div>
-                                                <p>
-                                                    Excepteur sint occaecat cupidatat non proident sunt
-                                                    in culpa qui officia for this is a for that an
-                                                    deserunt mollit.
-                                                </p>
+                                                <p>{{ $feat['description'] ?? '' }}</p>
                                             </li>
-                                            <li>
-                                                <div class="mb-5 flex items-center gap-x-5">
-                                                    <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%] bg-colorJasper/10">
-                                                        <img src="{{ asset('assets-front/img/icons/content-icon-2.svg') }}" alt="content-icon-2" width="25" height="25" />
-                                                    </div>
-                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">24/7 Support Available</span>
-                                                </div>
-                                                <p>
-                                                    Excepteur sint occaecat cupidatat non proident sunt
-                                                    in culpa qui officia for this is a for that an
-                                                    deserunt mollit.
-                                                </p>
-                                            </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <!-- Content -->
@@ -101,8 +119,8 @@
 
                                 <!-- Content Right Block -->
                                 <div class="relative z-10">
-                                    <img src="{{ asset('assets-front/img/images/th-3/content-img-1.jpg') }}" alt="content-img-1" width="456" height="465" class="jos ml-auto max-w-full rounded-lg" />
-                                    <img src="{{ asset('assets-front/img/images/th-3/content-img-2.jpg') }}" alt="content-img-1" width="355" height="263" class="jos -mt-[106px] max-w-full rounded-lg" />
+                                    <img src="{{ asset($v('section1_image1', 'assets-front/img/images/th-3/content-img-1.jpg')) }}" alt="content-img-1" width="456" height="465" class="jos ml-auto max-w-full rounded-lg" />
+                                    <img src="{{ asset($v('section1_image2', 'assets-front/img/images/th-3/content-img-2.jpg')) }}" alt="content-img-2" width="355" height="263" class="jos -mt-[106px] max-w-full rounded-lg" />
 
                                     <!-- Card -->
                                     <div class="jos absolute bottom-[30px] right-0 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10" data-jos_animation="fade-right">
@@ -110,8 +128,8 @@
                                             <img src="{{ asset('assets-front/img/icons/icon-red-tomato-graduation-cap-line.svg') }}" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
                                         </div>
                                         <div class="">
-                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">69K+</span>
-                                            <span>Satisfied Students</span>
+                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">{{ $v('section1_stat_number', '69K+') }}</span>
+                                            <span>{{ $t('section1_stat_text', 'Memnun Öğrenci') }}</span>
                                         </div>
                                     </div>
                                     <!-- Card -->
@@ -146,11 +164,11 @@
                             <!-- Section Block -->
                             <div class="mb-10 flex flex-wrap items-center justify-between gap-8 lg:mb-[60px]">
                                 <div class="jos max-w-xl">
-                                    <span class="mb-5 block uppercase">COURSE CATEGORIES</span>
-                                    <h2>Top Categories You Want to Learn</h2>
+                                    <span class="mb-5 block uppercase">{{ $t('categories_label', 'KURS KATEGORİLERİ') }}</span>
+                                    <h2>{{ $t('categories_title', 'Öğrenmek İstediğiniz Popüler Kategoriler') }}</h2>
                                 </div>
                                 <div class="jos inline-block">
-                                    <a href="{{ route('front.courses') }}" class="btn btn-primary is-icon group">Find Courses
+                                    <a href="{{ route('front.courses') }}" class="btn btn-primary is-icon group">{{ $t('categories_button_text', 'Kursları Keşfet') }}
                                         <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                             <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
                                         </span>
@@ -164,96 +182,27 @@
 
                             <!-- Course Category List -->
                             <ul class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                <!-- Course Category Item -->
+                                @php $defaultColors = ['#DE1EF9', '#42AC98', '#DF4343', '#543EE4', '#FF6B35', '#2196F3', '#E91E63', '#009688']; @endphp
+                                @foreach($courseCategories as $cat)
+                                @php $catColor = $cat->color ?? $defaultColors[$loop->index % count($defaultColors)]; @endphp
                                 <li class="jos">
                                     <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DE1EF9]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-1.svg') }}" alt="category-icon-1" width="30" height="30" />
+                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%]" style="background-color: {{ $catColor }}1a">
+                                            @if($cat->icon)
+                                                <img src="{{ asset($cat->icon) }}" alt="{{ $cat->getTranslation('name', app()->getLocale()) }}" width="30" height="30" />
+                                            @else
+                                                <svg class="w-[30px] h-[30px]" style="color: {{ $catColor }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342"/>
+                                                </svg>
+                                            @endif
                                         </div>
                                         <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Business</span>
-                                            <span class="text-sm">04 Courses</span>
+                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">{{ $cat->getTranslation('name', app()->getLocale()) }}</span>
+                                            <span class="text-sm">{{ str_pad($cat->courses_count, 2, '0', STR_PAD_LEFT) }} {{ __('Kurs') }}</span>
                                         </div>
                                     </a>
                                 </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#42AC98]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-2.svg') }}" alt="category-icon-2" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Marketing</span>
-                                            <span class="text-sm">88 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DF4343]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-3.svg') }}" alt="category-icon-3" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Design</span>
-                                            <span class="text-sm">23 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#543EE4]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-4.svg') }}" alt="category-icon-4" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Finance</span>
-                                            <span class="text-sm">02 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#543EE5]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-5.svg') }}" alt="category-icon-5" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Lifestyle</span>
-                                            <span class="text-sm">29 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DF4343]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-6.svg') }}" alt="category-icon-6" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Cyber</span>
-                                            <span class="text-sm">15 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#DE1EF9]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-7.svg') }}" alt="category-icon-7" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Development</span>
-                                            <span class="text-sm">28 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="jos">
-                                    <a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
-                                        <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%] bg-[#42AC98]/10">
-                                            <img src="{{ asset('assets-front/img/icons/category-icon-8.svg') }}" alt="category-icon-8" width="30" height="30" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">Photography</span>
-                                            <span class="text-sm">03 Courses</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <!-- Course Category Item -->
+                                @endforeach
                             </ul>
                             <!-- Course Category List -->
                         </div>
@@ -275,9 +224,9 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="jos relative flex items-center justify-center">
-                                <img src="{{ asset('assets-front/img/images/th-2/video-img.jpg') }}" alt="video-img" width="1170" height="500" class="h-96 w-full rounded-bl-[80px] rounded-tr-[80px] object-cover md:h-auto md:max-w-full" />
+                                <img src="{{ asset($v('video_image', 'assets-front/img/images/th-2/video-img.jpg')) }}" alt="video-img" width="1170" height="500" class="h-96 w-full rounded-bl-[80px] rounded-tr-[80px] object-cover md:h-auto md:max-w-full" />
 
-                                <a data-fslightbox="gallery" href="https://www.youtube.com/watch?v=3nQNiWdeH2Q" class="absolute inline-flex h-20 w-20 items-center justify-center rounded-[50%] border-[5px] border-colorBrightGold bg-transparent lg:h-[120px] lg:w-[120px]" aria-label="video-play">
+                                <a data-fslightbox="gallery" href="{{ $v('video_url', 'https://www.youtube.com/watch?v=3nQNiWdeH2Q') }}" class="absolute inline-flex h-20 w-20 items-center justify-center rounded-[50%] border-[5px] border-colorBrightGold bg-transparent lg:h-[120px] lg:w-[120px]" aria-label="video-play">
                                     <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-play.svg') }}" alt="icon-golden-yellow-play" width="20" height="24" />
                                 </a>
 
@@ -306,8 +255,7 @@
                         <div class="container">
                             <div class="mx-auto mb-10 max-w-xl lg:mb-[60px]">
                                 <p class="text-center text-lg text-colorBlackPearl">
-                                    Get in touch with the <strong>250+</strong> companies who
-                                    Collaboration us
+                                    {!! $t('logos_text', 'Bizimle iş birliği yapan <strong>250+</strong> şirketle tanışın') !!}
                                 </p>
                             </div>
 
@@ -316,36 +264,17 @@
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper ease-linear">
                                     <!-- Slides -->
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-1.png') }}" alt="client-logo-1" width="183" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-2.png') }}" alt="client-logo-2" width="136" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-3.png') }}" alt="client-logo-3" width="98" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-4.png') }}" alt="client-logo-4" width="133" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-5.png') }}" alt="client-logo-5" width="130" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-1.png') }}" alt="client-logo-1" width="183" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-2.png') }}" alt="client-logo-2" width="136" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-3.png') }}" alt="client-logo-3" width="98" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-4.png') }}" alt="client-logo-4" width="133" height="40" class="mx-auto" />
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="{{ asset('assets-front/img/images/th-1/client-logo-5.png') }}" alt="client-logo-5" width="130" height="40" class="mx-auto" />
-                                    </div>
+                                    @foreach($clientLogos as $logo)
+                                        <div class="swiper-slide">
+                                            @if($logo->url)
+                                                <a href="{{ $logo->url }}" target="_blank" rel="noopener noreferrer">
+                                                    <img src="{{ asset($logo->image) }}" alt="{{ $logo->name ?? 'client-logo' }}" height="40" class="mx-auto h-10 object-contain" />
+                                                </a>
+                                            @else
+                                                <img src="{{ asset($logo->image) }}" alt="{{ $logo->name ?? 'client-logo' }}" height="40" class="mx-auto h-10 object-contain" />
+                                            @endif
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -367,7 +296,7 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-28">
                             <!-- Content Left Block -->
                             <div class="relative z-10 order-2 lg:order-1">
-                                <img src="{{ asset('assets-front/img/images/th-3/content-img-3.png') }}" alt="content-img-3" width="399" height="543" class="bottom-0 mx-auto max-w-full lg:absolute lg:left-1/2 lg:-translate-x-1/2" />
+                                <img src="{{ asset($v('cta_image', 'assets-front/img/images/th-3/content-img-3.png')) }}" alt="content-img-3" width="399" height="543" class="bottom-0 mx-auto max-w-full lg:absolute lg:left-1/2 lg:-translate-x-1/2" />
                                 <img src="{{ asset('assets-front/img/abstracts/abstract-dots-4-white.svg') }}" alt="abstract-dots-4-white" width="108" height="67" class="absolute left-0 top-56 -z-10 inline-block" />
                                 <div class="absolute bottom-0 left-1/2 -z-10 inline-block h-[470px] w-[470px] -translate-x-1/2 translate-y-1/4 rounded-[50%] bg-white/10 xl:h-[537px] xl:w-[537px]"></div>
                             </div>
@@ -377,17 +306,16 @@
                                 <!-- Section Block -->
                                 <div class="max-w-[530px]">
                                     <div class="jos">
-                                        <span class="mb-5 block uppercase text-colorBrightGold">ONLINE COURSES</span>
+                                        <span class="mb-5 block uppercase text-colorBrightGold">{{ $t('cta_label', 'ONLİNE KURSLAR') }}</span>
                                         <h2 class="text-white">
-                                            Find Your Right Learning Path For Your Future
+                                            {{ $t('cta_title', 'Geleceğiniz İçin Doğru Öğrenme Yolunu Bulun') }}
                                         </h2>
                                     </div>
                                     <p class="mb-[30px] mt-7 text-white/80">
-                                        Excepteur sint occaecat cupidatat non proident sunt in
-                                        culpa qui officia deserunt mollit.
+                                        {{ $t('cta_description', 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.') }}
                                     </p>
                                     <div class="inline-block">
-                                        <a href="{{ route('front.courses') }}" class="btn btn-secondary is-icon group">Start Learning Today
+                                        <a href="{{ route('front.courses') }}" class="btn btn-secondary is-icon group">{{ $t('cta_button_text', 'Hemen Öğrenmeye Başlayın') }}
                                             <span class="btn-icon bg-colorBlackPearl group-hover:right-0 group-hover:translate-x-full">
                                                 <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-arrow-right.svg') }}" alt="icon-golden-yellow-arrow-right" width="13" height="12" />
                                             </span>
@@ -427,23 +355,37 @@
                                 <div class="jos" data-jos_animation="fade-left">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">WHY CHOOSE Corwus</span>
+                                        <span class="mb-5 block uppercase">{{ $t('section2_label', 'NEDEN BİZİ SEÇMELİSİNİZ') }}</span>
                                         <h2>
-                                            Digital Online Academy: Your Path to Creative Excellence
+                                            {{ $t('section2_title', 'Dijital Online Akademi: Yaratıcı Mükemmelliğe Giden Yolunuz') }}
                                         </h2>
                                     </div>
                                     <!-- Section Block -->
                                     <!-- Content Block -->
                                     <div>
                                         <p>
-                                            Excepteur sint occaecat cupidatat non proident sunt in
-                                            culpa qui officia deserunt mollit.
+                                            {{ $t('section2_description', 'Alanında uzman eğitmenlerle pratik odaklı eğitim anlayışımızla fark yaratıyoruz.') }}
                                         </p>
-                                        <ul class="mb-10 mt-6 flex list-inside list-image-[url(../img/icons/icon-purple-check.svg)] flex-col gap-y-4 font-title text-colorBlackPearl">
-                                            <li>Our Expert Trainers</li>
-                                            <li>Online Remote Learning</li>
-                                            <li>Easy to follow curriculum</li>
-                                            <li>Lifetime Access</li>
+                                        @php
+                                            $s2features = $aboutPageInfo?->getTranslation('section2_features', $locale, false);
+                                            if (is_string($s2features) && $s2features) {
+                                                $s2features = array_values(array_filter(array_map('trim', explode("\n", $s2features))));
+                                            }
+                                            if (!is_array($s2features) || count($s2features) === 0) {
+                                                $s2features = ['Uzman Eğitmenler', 'Online Uzaktan Eğitim', 'Kolay Takip Edilebilir Müfredat', 'Ömür Boyu Erişim'];
+                                            }
+                                        @endphp
+                                        <ul class="mb-10 mt-6 flex flex-col gap-y-4 font-title text-colorBlackPearl">
+                                            @foreach($s2features as $feature)
+                                                @if(trim($feature))
+                                                    <li class="flex items-center gap-x-3">
+                                                        <svg class="h-5 w-5 flex-shrink-0 text-colorPurpleBlue" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                                        </svg>
+                                                        <span>{{ trim($feature) }}</span>
+                                                    </li>
+                                                @endif
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <!-- Content Block -->
@@ -452,15 +394,15 @@
 
                                 <!-- Content Right Block -->
                                 <div class="jos relative mx-auto" data-jos_animation="fade-right">
-                                    <img src="{{ asset('assets-front/img/images/th-3/content-img-4.png') }}" alt="content-img-4" width="482" height="486" class="max-w-full" />
+                                    <img src="{{ asset($v('section2_image', 'assets-front/img/images/th-3/content-img-4.png')) }}" alt="content-img-4" width="482" height="486" class="max-w-full" />
                                     <!-- Card -->
                                     <div class="jos absolute bottom-20 left-16 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-3.5 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10 xxl:-left-16 xxxl:-left-28">
                                         <div class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#DF4343]/5">
                                             <img src="{{ asset('assets-front/img/icons/icon-red-tamato-emotion-laugh-line.svg') }}" alt="icon-red-tamato-emotion-laugh-line" width="28" height="28" />
                                         </div>
                                         <div>
-                                            <span class="block font-title text-[28px] font-bold leading-none text-[#DF4343]">3458+</span>
-                                            <span>Satisfied Students</span>
+                                            <span class="block font-title text-[28px] font-bold leading-none text-[#DF4343]">{{ $v('section2_stat_number', '3458+') }}</span>
+                                            <span>{{ $t('section2_stat_text', 'Memnun Öğrenci') }}</span>
                                         </div>
                                     </div>
                                     <!-- Card -->
@@ -492,8 +434,8 @@
                             <!-- Section Block -->
                             <div class="mb-10 lg:mb-[60px]">
                                 <div class="jos mx-auto max-w-lg text-center">
-                                    <span class="mb-5 block uppercase">OUR TESTIMONIAL</span>
-                                    <h2>Student Thinking About Us</h2>
+                                    <span class="mb-5 block uppercase">{{ $t('testimonial_label', 'REFERANSLARIMIZ') }}</span>
+                                    <h2>{{ $t('testimonial_title', 'Öğrencilerimiz Hakkımızda Ne Düşünüyor') }}</h2>
                                 </div>
                             </div>
                             <!-- Section Block -->
@@ -504,181 +446,41 @@
                             <div class="swiper testimonial-slider-3">
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper">
-                                    <!-- Slides -->
+                                    @php $bgColors = ['bg-colorJasper/10', 'bg-colorLightSeaGreen/10', 'bg-colorPurpleBlue/10', 'bg-colorHotPurple/10']; @endphp
+                                    @foreach($testimonials as $testimonial)
                                     <div class="swiper-slide">
-                                        <div class="bg-colorJasper/10 p-[30px]">
+                                        <div class="{{ $bgColors[$loop->index % count($bgColors)] }} p-[30px]">
                                             <!-- Review Star -->
-                                            <div class="inline-flex items-center gap-x-1">
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
+                                            <div class="inline-flex items-center gap-x-0.5">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-[18px] h-[18px] {{ $i <= $testimonial->rating ? 'text-amber-400' : 'text-slate-300/40' }}" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    </svg>
+                                                @endfor
                                             </div>
                                             <!-- Review Star -->
                                             <blockquote class="mt-4 text-lg">
-                                                " Attending EduVibe School of Business was one of the
-                                                best decisions I've ever made. The curriculum was
-                                                practical and industry-focused, and I was able to
-                                                apply what I learned in the classroom."
+                                                "{{ $testimonial->getTranslation('quote', app()->getLocale()) }}"
                                             </blockquote>
 
                                             <div class="mt-8 flex items-center gap-x-4">
                                                 <div class="h-11 w-11 overflow-hidden rounded-[50%]">
-                                                    <img src="{{ asset('assets-front/img/images/th-3/testimonial-img-1.jpg') }}" alt="testimonial-img-1" width="43" height="43" class="h-full w-full object-cover" />
+                                                    @if($testimonial->image)
+                                                        <img src="{{ asset($testimonial->image) }}" alt="{{ $testimonial->name }}" width="43" height="43" class="h-full w-full object-cover" />
+                                                    @else
+                                                        <div class="h-full w-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 font-bold">
+                                                            {{ strtoupper(substr($testimonial->name, 0, 1)) }}
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <div>
-                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">Isaac Ramirez</span>
-                                                    <span class="text-sm">Science Student</span>
+                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">{{ $testimonial->name }}</span>
+                                                    <span class="text-sm">{{ $testimonial->getTranslation('role', app()->getLocale()) }}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="swiper-slide">
-                                        <div class="bg-colorLightSeaGreen/10 p-[30px]">
-                                            <!-- Review Star -->
-                                            <div class="inline-flex items-center gap-x-1">
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                            </div>
-                                            <!-- Review Star -->
-                                            <blockquote class="mt-4 text-lg">
-                                                " Attending EduVibe School of Business was one of the
-                                                best decisions I've ever made. The curriculum was
-                                                practical and industry-focused, and I was able to
-                                                apply what I learned in the classroom."
-                                            </blockquote>
-
-                                            <div class="mt-8 flex items-center gap-x-4">
-                                                <div class="h-11 w-11 overflow-hidden rounded-[50%]">
-                                                    <img src="{{ asset('assets-front/img/images/th-3/testimonial-img-2.jpg') }}" alt="testimonial-img-2" width="43" height="43" class="h-full w-full object-cover" />
-                                                </div>
-                                                <div>
-                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">Franklin Chen</span>
-                                                    <span class="text-sm">Art Student</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="bg-colorPurpleBlue/10 p-[30px]">
-                                            <!-- Review Star -->
-                                            <div class="inline-flex items-center gap-x-1">
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                            </div>
-                                            <!-- Review Star -->
-                                            <blockquote class="mt-4 text-lg">
-                                                " Attending EduVibe School of Business was one of the
-                                                best decisions I've ever made. The curriculum was
-                                                practical and industry-focused, and I was able to
-                                                apply what I learned in the classroom."
-                                            </blockquote>
-
-                                            <div class="mt-8 flex items-center gap-x-4">
-                                                <div class="h-11 w-11 overflow-hidden rounded-[50%]">
-                                                    <img src="{{ asset('assets-front/img/images/th-3/testimonial-img-3.jpg') }}" alt="testimonial-img-3" width="43" height="43" class="h-full w-full object-cover" />
-                                                </div>
-                                                <div>
-                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">James Parker</span>
-                                                    <span class="text-sm">Math Student</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="bg-colorHotPurple/10 p-[30px]">
-                                            <!-- Review Star -->
-                                            <div class="inline-flex items-center gap-x-1">
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                            </div>
-                                            <!-- Review Star -->
-                                            <blockquote class="mt-4 text-lg">
-                                                " Attending EduVibe School of Business was one of the
-                                                best decisions I've ever made. The curriculum was
-                                                practical and industry-focused, and I was able to
-                                                apply what I learned in the classroom."
-                                            </blockquote>
-
-                                            <div class="mt-8 flex items-center gap-x-4">
-                                                <div class="h-11 w-11 overflow-hidden rounded-[50%]">
-                                                    <img src="{{ asset('assets-front/img/images/th-3/testimonial-img-4.jpg') }}" alt="testimonial-img-4" width="43" height="43" class="h-full w-full object-cover" />
-                                                </div>
-                                                <div>
-                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">Charles Morgan</span>
-                                                    <span class="text-sm">Globe Student</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="bg-colorJasper/10 p-[30px]">
-                                            <!-- Review Star -->
-                                            <div class="inline-flex items-center gap-x-1">
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                            </div>
-                                            <!-- Review Star -->
-                                            <blockquote class="mt-4 text-lg">
-                                                " Attending EduVibe School of Business was one of the
-                                                best decisions I've ever made. The curriculum was
-                                                practical and industry-focused, and I was able to
-                                                apply what I learned in the classroom."
-                                            </blockquote>
-
-                                            <div class="mt-8 flex items-center gap-x-4">
-                                                <div class="h-11 w-11 overflow-hidden rounded-[50%]">
-                                                    <img src="{{ asset('assets-front/img/images/th-3/testimonial-img-1.jpg') }}" alt="testimonial-img-1" width="43" height="43" class="h-full w-full object-cover" />
-                                                </div>
-                                                <div>
-                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">Isaac Ramirez</span>
-                                                    <span class="text-sm">Science Student</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="bg-colorLightSeaGreen/10 p-[30px]">
-                                            <!-- Review Star -->
-                                            <div class="inline-flex items-center gap-x-1">
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                            </div>
-                                            <!-- Review Star -->
-                                            <blockquote class="mt-4 text-lg">
-                                                " Attending EduVibe School of Business was one of the
-                                                best decisions I've ever made. The curriculum was
-                                                practical and industry-focused, and I was able to
-                                                apply what I learned in the classroom."
-                                            </blockquote>
-
-                                            <div class="mt-8 flex items-center gap-x-4">
-                                                <div class="h-11 w-11 overflow-hidden rounded-[50%]">
-                                                    <img src="{{ asset('assets-front/img/images/th-3/testimonial-img-2.jpg') }}" alt="testimonial-img-2" width="43" height="43" class="h-full w-full object-cover" />
-                                                </div>
-                                                <div>
-                                                    <span class="block font-title text-xl font-bold text-colorBlackPearl">Franklin Chen</span>
-                                                    <span class="text-sm">Art Student</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                 <div class="swiper-pagination static mt-14"></div>
                             </div>
@@ -702,10 +504,10 @@
                                 <!-- FAQ Left Block -->
                                 <div class="relative z-10 order-2 mx-auto lg:order-1">
                                     <div class="flex items-start gap-7">
-                                        <img src="{{ asset('assets-front/img/images/th-2/faq-img-1.png') }}" alt="faq-img-1" width="258" height="440" class="jos max-w-full" />
+                                        <img src="{{ asset($v('faq_image1', 'assets-front/img/images/th-2/faq-img-1.png')) }}" alt="faq-img-1" width="258" height="440" class="jos max-w-full rounded-lg" />
                                         <div class="hidden md:inline-block">
-                                            <img src="{{ asset('assets-front/img/images/th-2/faq-img-2.png') }}" alt="faq-img-2" width="258" height="172" class="jos mb-6 max-w-full xl:mb-14" />
-                                            <img src="{{ asset('assets-front/img/images/th-2/faq-img-3.png') }}" alt="faq-img-3" width="258" height="371" class="jos max-w-full" />
+                                            <img src="{{ asset($v('faq_image2', 'assets-front/img/images/th-2/faq-img-2.png')) }}" alt="faq-img-2" width="258" height="172" class="jos mb-6 max-w-full rounded-lg xl:mb-14" />
+                                            <img src="{{ asset($v('faq_image3', 'assets-front/img/images/th-2/faq-img-3.png')) }}" alt="faq-img-3" width="258" height="371" class="jos max-w-full rounded-lg" />
                                         </div>
                                     </div>
                                     <img src="{{ asset('assets-front/img/abstracts/abstract-element-regular.svg') }}" alt="abstract-element-regular" width="133" height="154" class="jos absolute bottom-10 left-14 -z-10 hidden rotate-180 sm:inline-block lg:bottom-36 xl:bottom-10" />
@@ -716,19 +518,19 @@
                                 <div class="jos order-1 lg:order-2" data-jos_animation="fade-right">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">FREQUENTLY ASKED QUESTIONS</span>
-                                        <h2>Most Popular Questions About Our Online Courses</h2>
+                                        <span class="mb-5 block uppercase">{{ $t('faq_label', 'SIKÇA SORULAN SORULAR') }}</span>
+                                        <h2>{{ $t('faq_title', 'Online Kurslarımız Hakkında En Çok Sorulan Sorular') }}</h2>
                                     </div>
                                     <!-- Section Block -->
 
                                     <!-- Accordion List -->
                                     <ul class="mt-7 grid grid-cols-1 gap-y-4">
-                                        <!-- Accordion Item -->
-                                        <li class="accordion-item active rounded-lg bg-white px-6 py-5">
+                                        @foreach($faqs as $faq)
+                                        <li class="accordion-item {{ $loop->first ? 'active' : '' }} rounded-lg bg-white px-6 py-5">
                                             <!-- Accordion Header -->
                                             <div class="accordion-header flex items-center justify-between gap-6 font-title text-lg font-bold text-colorBlackPearl">
                                                 <button class="flex-1 text-left">
-                                                    How can I start with your online class?
+                                                    {{ $faq->getTranslation('question', app()->getLocale()) }}
                                                 </button>
                                                 <div class="accordion-icon">
                                                     <img src="{{ asset('assets-front/img/icons/icon-dark-arrow-solid-down.svg') }}" alt="icon-dark-arrow-solid-down" width="13" height="7" />
@@ -738,79 +540,12 @@
                                             <!-- Accordion Body -->
                                             <div class="accordion-body">
                                                 <p class="pt-5">
-                                                    Excepteur sint occaecat cupidatat non proident sunta
-                                                    in culpa qui officia for this is a for that tempor.
+                                                    {{ $faq->getTranslation('answer', app()->getLocale()) }}
                                                 </p>
                                             </div>
                                             <!-- Accordion Body -->
                                         </li>
-                                        <!-- Accordion Item -->
-                                        <!-- Accordion Item -->
-                                        <li class="accordion-item rounded-lg bg-white px-6 py-5">
-                                            <!-- Accordion Header -->
-                                            <div class="accordion-header flex items-center justify-between gap-6 font-title text-lg font-bold text-colorBlackPearl">
-                                                <button class="flex-1 text-left">
-                                                    How can I Kayıt Ol to your website to learn?
-                                                </button>
-                                                <div class="accordion-icon">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-dark-arrow-solid-down.svg') }}" alt="icon-dark-arrow-solid-down" width="13" height="7" />
-                                                </div>
-                                            </div>
-                                            <!-- Accordion Header -->
-                                            <!-- Accordion Body -->
-                                            <div class="accordion-body">
-                                                <p class="pt-5">
-                                                    Excepteur sint occaecat cupidatat non proident sunta
-                                                    in culpa qui officia for this is a for that tempor.
-                                                </p>
-                                            </div>
-                                            <!-- Accordion Body -->
-                                        </li>
-                                        <!-- Accordion Item -->
-                                        <!-- Accordion Item -->
-                                        <li class="accordion-item rounded-lg bg-white px-6 py-5">
-                                            <!-- Accordion Header -->
-                                            <div class="accordion-header flex items-center justify-between gap-6 font-title text-lg font-bold text-colorBlackPearl">
-                                                <button class="flex-1 text-left">
-                                                    Can i get lifetime access for your any courses?
-                                                </button>
-                                                <div class="accordion-icon">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-dark-arrow-solid-down.svg') }}" alt="icon-dark-arrow-solid-down" width="13" height="7" />
-                                                </div>
-                                            </div>
-                                            <!-- Accordion Header -->
-                                            <!-- Accordion Body -->
-                                            <div class="accordion-body">
-                                                <p class="pt-5">
-                                                    Excepteur sint occaecat cupidatat non proident sunta
-                                                    in culpa qui officia for this is a for that tempor.
-                                                </p>
-                                            </div>
-                                            <!-- Accordion Body -->
-                                        </li>
-                                        <!-- Accordion Item -->
-                                        <!-- Accordion Item -->
-                                        <li class="accordion-item rounded-lg bg-white px-6 py-5">
-                                            <!-- Accordion Header -->
-                                            <div class="accordion-header flex items-center justify-between gap-6 font-title text-lg font-bold text-colorBlackPearl">
-                                                <button class="flex-1 text-left">
-                                                    How can I contact a school directly?
-                                                </button>
-                                                <div class="accordion-icon">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-dark-arrow-solid-down.svg') }}" alt="icon-dark-arrow-solid-down" width="13" height="7" />
-                                                </div>
-                                            </div>
-                                            <!-- Accordion Header -->
-                                            <!-- Accordion Body -->
-                                            <div class="accordion-body">
-                                                <p class="pt-5">
-                                                    Excepteur sint occaecat cupidatat non proident sunta
-                                                    in culpa qui officia for this is a for that tempor.
-                                                </p>
-                                            </div>
-                                            <!-- Accordion Body -->
-                                        </li>
-                                        <!-- Accordion Item -->
+                                        @endforeach
                                     </ul>
                                     <!-- Accordion List -->
                                 </div>
@@ -836,113 +571,50 @@
                             <!-- Section Block -->
                             <div class="mb-10 lg:mb-[60px]">
                                 <div class="jos mx-auto max-w-md text-center">
-                                    <span class="mb-5 block uppercase">OUR NEWS</span>
-                                    <h2>Our New Articles</h2>
+                                    <span class="mb-5 block uppercase">{{ $t('blog_label', 'HABERLER') }}</span>
+                                    <h2>{{ $t('blog_title', 'Son Yazılarımız') }}</h2>
                                 </div>
                             </div>
                             <!-- Section Block -->
 
                             <!-- Blog List -->
                             <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
-                                <!-- Blog Item -->
+                                @foreach($blogs as $blog)
                                 <li class="jos" data-jos_animation="flip-left">
                                     <div class="group overflow-hidden rounded-lg transition-all duration-300">
                                         <!-- Thumbnail -->
                                         <div class="relative block overflow-hidden rounded-[10px]">
-                                            <img src="{{ asset('assets-front/img/images/th-1/blog-img-1.jpg') }}" alt="blog-img-1" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                            @if($blog->image)
+                                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                            @else
+                                                <img src="{{ asset('assets-front/img/images/th-1/blog-img-1.jpg') }}" alt="blog" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                            @endif
 
-                                            <a href="{{ route('front.blog') }}" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">Education</a>
+                                            @if($blog->categories->count())
+                                                <a href="{{ route('front.blog') }}" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">{{ $blog->categories->first()->name }}</a>
+                                            @endif
                                         </div>
                                         <!-- Thumbnail -->
                                         <!-- Content -->
                                         <div class="mt-7">
                                             <!-- Blog Meta -->
                                             <div class="flex gap-9">
-                                                <a href="{{ route('front.blog') }}" class="inline-flex items-center gap-1.5 text-sm hover:underline">
+                                                @if($blog->published_at)
+                                                <span class="inline-flex items-center gap-1.5 text-sm">
                                                     <img src="{{ asset('assets-front/img/icons/icon-grey-calendar.svg') }}" alt="icon-grey-calendar" width="23" height="23" />
-                                                    <span class="flex-1">09 May, 2024</span>
-                                                </a>
-                                                <div class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-chat.svg') }}" alt="icon-grey-chat" width="23" height="23" />
-                                                    <span class="flex-1">32 Comments</span>
-                                                </div>
+                                                    <span class="flex-1">{{ $blog->published_at->format('d M, Y') }}</span>
+                                                </span>
+                                                @endif
                                             </div>
                                             <!-- Blog Meta -->
                                             <!-- Title Link -->
-                                            <a href="{{ route('front.blog.details') }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Solutions Your All Problem With Online Courses For
-                                                Your Thinking</a>
+                                            <a href="{{ route('front.blog.details', $blog->id) }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">{{ $blog->getTranslation('title', app()->getLocale()) }}</a>
                                             <!-- Title Link -->
                                         </div>
                                         <!-- Content -->
                                     </div>
                                 </li>
-                                <!-- Blog Item -->
-                                <!-- Blog Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group overflow-hidden rounded-lg transition-all duration-300">
-                                        <!-- Thumbnail -->
-                                        <div class="relative block overflow-hidden rounded-[10px]">
-                                            <img src="{{ asset('assets-front/img/images/th-1/blog-img-2.jpg') }}" alt="blog-img-2" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
-
-                                            <a href="{{ route('front.blog') }}" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">Business</a>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="mt-7">
-                                            <!-- Blog Meta -->
-                                            <div class="flex gap-9">
-                                                <a href="{{ route('front.blog') }}" class="inline-flex items-center gap-1.5 text-sm hover:underline">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-calendar.svg') }}" alt="icon-grey-calendar" width="23" height="23" />
-                                                    <span class="flex-1">09 January, 2024</span>
-                                                </a>
-                                                <div class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-chat.svg') }}" alt="icon-grey-chat" width="23" height="23" />
-                                                    <span class="flex-1">98 Comments</span>
-                                                </div>
-                                            </div>
-                                            <!-- Blog Meta -->
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.blog.details') }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Exploring Learning Landscapes in All Academic
-                                                Calendar For Season</a>
-                                            <!-- Title Link -->
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Blog Item -->
-                                <!-- Blog Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group overflow-hidden rounded-lg transition-all duration-300">
-                                        <!-- Thumbnail -->
-                                        <div class="relative block overflow-hidden rounded-[10px]">
-                                            <img src="{{ asset('assets-front/img/images/th-1/blog-img-3.jpg') }}" alt="blog-img-3" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
-
-                                            <a href="{{ route('front.blog') }}" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">Marketing</a>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="mt-7">
-                                            <!-- Blog Meta -->
-                                            <div class="flex gap-9">
-                                                <a href="{{ route('front.blog') }}" class="inline-flex items-center gap-1.5 text-sm hover:underline">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-calendar.svg') }}" alt="icon-grey-calendar" width="23" height="23" />
-                                                    <span class="flex-1">03 June, 2024</span>
-                                                </a>
-                                                <div class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-chat.svg') }}" alt="icon-grey-chat" width="23" height="23" />
-                                                    <span class="flex-1">04 Comments</span>
-                                                </div>
-                                            </div>
-                                            <!-- Blog Meta -->
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.blog.details') }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Voices from the Learning Education Hub For Your
-                                                Children</a>
-                                            <!-- Title Link -->
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Blog Item -->
+                                @endforeach
                             </ul>
                             <!-- Blog List -->
                         </div>

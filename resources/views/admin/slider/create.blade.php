@@ -2,7 +2,7 @@
 
 @section('page-banner')
     <div class="flex items-center gap-4">
-        <a href="{{ route('courseCategories.index') }}"
+        <a href="{{ route('sliders.index') }}"
            class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300
                   rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -10,14 +10,14 @@
             </svg>
         </a>
         <div>
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Yeni Kurs Kategorisi</h1>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Yeni bir kurs kategorisi ekleyin</p>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Yeni Slider Ekle</h1>
+            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Slider grubu oluşturun</p>
         </div>
     </div>
 @endsection
 
 @section('content')
-<form action="{{ route('courseCategories.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('sliders.store') }}" method="POST">
     @csrf
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -25,87 +25,37 @@
         {{-- Sol kolon --}}
         <div class="lg:col-span-2 space-y-5">
 
-            {{-- Kategori Adı --}}
+            {{-- Slider Bilgileri --}}
             <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-50/60 via-transparent to-purple-50/40 dark:from-fuchsia-950/20 dark:to-purple-950/10 pointer-events-none"></div>
 
                 <div class="relative flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center shadow-md shadow-fuchsia-500/20 flex-shrink-0">
                         <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z"/>
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">Kategori Bilgisi</h3>
-                        <p class="text-xs text-slate-400 mt-0.5">Varsayılan dilde kategori adını yazın</p>
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">Slider Bilgileri</h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Slider grubunun bilgilerini girin</p>
                     </div>
                 </div>
 
                 <div class="relative p-6 space-y-5">
+                    {{-- Ad --}}
                     <div class="space-y-1">
                         <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kategori Adı <span class="text-red-500">*</span>
+                            Slider Adı <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="name" id="name"
                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
                                       text-slate-900 dark:text-white placeholder-slate-400 text-sm
                                       ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Kategori adını yazın..."
+                               placeholder="Örn: Ana Sayfa Slider"
                                value="{{ old('name') }}" required>
                         @error('name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
+                            <p class="text-sm text-red-500">{{ $message }}</p>
                         @enderror
-                    </div>
-
-                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
-
-                    {{-- Renk --}}
-                    <div class="space-y-1">
-                        <label for="color" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Renk
-                        </label>
-                        <div class="flex items-center gap-3" x-data="{ color: '{{ old('color', '#DE1EF9') }}' }">
-                            <input type="color" name="color" id="color" x-model="color"
-                                   class="w-12 h-12 rounded-xl border-0 cursor-pointer bg-transparent p-0.5
-                                          ring-1 ring-slate-200 dark:ring-slate-600">
-                            <input type="text" x-model="color" readonly
-                                   class="w-28 px-3 py-2 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-lg
-                                          text-slate-600 dark:text-slate-300 text-xs font-mono
-                                          ring-1 ring-slate-200 dark:ring-slate-600">
-                        </div>
-                    </div>
-
-                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
-
-                    {{-- İkon --}}
-                    <div class="space-y-1" x-data="{ preview: null }">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            İkon Görseli
-                        </label>
-                        <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden border-2 border-dashed border-slate-300 dark:border-slate-600">
-                                <template x-if="preview">
-                                    <img :src="preview" class="w-full h-full object-contain p-2">
-                                </template>
-                                <template x-if="!preview">
-                                    <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5"/>
-                                    </svg>
-                                </template>
-                            </div>
-                            <label class="cursor-pointer px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 text-sm font-medium rounded-xl transition-all">
-                                Dosya Seç
-                                <input type="file" name="icon" accept="image/*" class="hidden"
-                                       @change="if($event.target.files[0]) preview = URL.createObjectURL($event.target.files[0])">
-                            </label>
-                        </div>
-                        <p class="text-xs text-slate-400">SVG, PNG, JPG (max 1MB)</p>
                     </div>
                 </div>
             </div>
@@ -113,8 +63,6 @@
 
         {{-- Sağ kolon --}}
         <div class="space-y-5 sticky top-24 self-start">
-
-            {{-- Aksiyonlar --}}
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-5 space-y-3">
                 <button type="submit"
                         class="w-full inline-flex items-center justify-center gap-2 px-5 py-3
@@ -128,7 +76,7 @@
                     </svg>
                     Kaydet
                 </button>
-                <a href="{{ route('courseCategories.index') }}"
+                <a href="{{ route('sliders.index') }}"
                    class="w-full inline-flex items-center justify-center gap-2 px-5 py-3
                           bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700
                           text-slate-600 dark:text-slate-400 font-medium text-sm rounded-xl
@@ -141,7 +89,6 @@
                 </a>
             </div>
 
-            {{-- İpucu --}}
             <div class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200/60 dark:border-amber-800/30 rounded-2xl p-4">
                 <div class="flex gap-3">
                     <svg class="w-4.5 h-4.5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -150,7 +97,7 @@
                     <div class="space-y-1.5">
                         <p class="text-xs font-semibold text-amber-800 dark:text-amber-400">Bilgi</p>
                         <p class="text-xs text-amber-700 dark:text-amber-500">
-                            Kategori adı varsayılan dilde kaydedilir. Diğer dillerdeki çevirilerini düzenleme sayfasından ekleyebilirsiniz.
+                            Slider oluşturduktan sonra slaytları ekleyebilirsiniz.
                         </p>
                     </div>
                 </div>

@@ -2,10 +2,10 @@
 
 @section('page-banner')
     <div>
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Kurs Kategorileri</h1>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Kurs kategorilerini yönetin</p>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Öğrenci Yorumları</h1>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Öğrenci yorumlarını yönetin</p>
     </div>
-    <a href="{{ route('courseCategories.create') }}"
+    <a href="{{ route('testimonials.create') }}"
        class="inline-flex items-center gap-2 px-6 py-3
               bg-gradient-to-r from-fuchsia-500 to-purple-500
               hover:from-fuchsia-600 hover:to-purple-600
@@ -14,7 +14,7 @@
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
-        Yeni Kategori Ekle
+        Yeni Yorum Ekle
     </a>
 @endsection
 
@@ -25,14 +25,16 @@
                 <thead class="bg-slate-50 dark:bg-slate-700/50">
                     <tr>
                         <th class="w-10 px-3 py-4"></th>
-                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-16">İkon</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ad</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-16">Foto</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Ad Soyad</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Rol</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-24">Puan</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-28">Durum</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-48">İşlem</th>
                     </tr>
                 </thead>
                 <tbody id="sortable-body" class="divide-y divide-slate-100 dark:divide-slate-700/50">
-                    @forelse ($categories as $item)
+                    @forelse ($testimonials as $item)
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" data-id="{{ $item->id }}" id="row-{{ $item->id }}">
                             <td class="px-3 py-4 cursor-grab active:cursor-grabbing sortable-handle">
                                 <svg class="w-5 h-5 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -40,21 +42,31 @@
                                 </svg>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: {{ ($item->color ?? '#DE1EF9') . '1a' }}">
-                                    @if($item->icon)
-                                        <img src="{{ asset($item->icon) }}" alt="" class="w-5 h-5 object-contain">
-                                    @else
-                                        <svg class="w-5 h-5" style="color: {{ $item->color ?? '#DE1EF9' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342"/>
-                                        </svg>
-                                    @endif
-                                </div>
+                                @if($item->image)
+                                    <img src="{{ asset($item->image) }}" alt="{{ $item->name }}" class="w-10 h-10 rounded-full object-cover">
+                                @else
+                                    <div class="w-10 h-10 rounded-full bg-fuchsia-100 dark:bg-fuchsia-900/30 flex items-center justify-center text-fuchsia-600 dark:text-fuchsia-400 font-bold text-sm">
+                                        {{ strtoupper(substr($item->name, 0, 1)) }}
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
-                                <a href="{{ route('courseCategories.edit', $item->id) }}"
+                                <a href="{{ route('testimonials.edit', $item->id) }}"
                                    class="font-semibold text-slate-900 dark:text-white hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors">
                                     {{ $item->name }}
                                 </a>
+                            </td>
+                            <td class="px-6 py-4 text-slate-500 dark:text-slate-400">
+                                {{ $item->role }}
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-0.5">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <svg class="w-4 h-4 {{ $i <= $item->rating ? 'text-amber-400' : 'text-slate-200 dark:text-slate-600' }}" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                    @endfor
+                                </div>
                             </td>
                             <td class="px-6 py-4">
                                 <label class="inline-flex items-center gap-2.5 cursor-pointer">
@@ -69,7 +81,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-1">
-                                    <a href="{{ route('courseCategories.edit', $item->id) }}"
+                                    <a href="{{ route('testimonials.edit', $item->id) }}"
                                        class="p-2 text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 rounded-lg transition-all" title="Düzenle">
                                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/>
@@ -93,7 +105,7 @@
                                              x-transition:leave-end="opacity-0 scale-95"
                                              class="absolute right-0 mt-1 w-48 z-20 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 py-1 overflow-hidden">
                                             @foreach ($activeLanguages as $activeLang)
-                                                <a href="{{ route('courseCategories.editTranslate', ['id' => $item->id, 'lang' => $activeLang->locale]) }}"
+                                                <a href="{{ route('testimonials.editTranslate', ['id' => $item->id, 'lang' => $activeLang->locale]) }}"
                                                    class="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium
                                                           text-slate-600 dark:text-slate-300
                                                           hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20
@@ -108,8 +120,8 @@
                                         </div>
                                     </div>
 
-                                    <form action="{{ route('courseCategories.delete', $item->id) }}" method="POST"
-                                          x-data @submit.prevent="$dispatch('confirm-dialog', { title: 'Kategoriyi Sil', message: 'Bu kurs kategorisini silmek istediğinize emin misiniz?', form: $el })">
+                                    <form action="{{ route('testimonials.delete', $item->id) }}" method="POST"
+                                          x-data @submit.prevent="$dispatch('confirm-dialog', { title: 'Yorumu Sil', message: 'Bu yorumu silmek istediğinize emin misiniz?', form: $el })">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all cursor-pointer" title="Sil">
@@ -123,15 +135,14 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-16 text-center">
+                            <td colspan="7" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center gap-3">
                                     <svg class="w-12 h-12 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
                                     </svg>
-                                    <p class="text-slate-500 dark:text-slate-400">Henüz kurs kategorisi eklenmemiş.</p>
-                                    <a href="{{ route('courseCategories.create') }}" class="text-fuchsia-600 dark:text-fuchsia-400 hover:underline text-sm font-medium">
-                                        İlk kategoriyi ekleyin
+                                    <p class="text-slate-500 dark:text-slate-400">Henüz yorum eklenmemiş.</p>
+                                    <a href="{{ route('testimonials.create') }}" class="text-fuchsia-600 dark:text-fuchsia-400 hover:underline text-sm font-medium">
+                                        İlk yorumu ekleyin
                                     </a>
                                 </div>
                             </td>
@@ -149,7 +160,6 @@
 <script>
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
-    // Sürükle & Bırak Sıralama
     const sortableBody = document.getElementById('sortable-body');
     if (sortableBody) {
         Sortable.create(sortableBody, {
@@ -161,7 +171,7 @@
                 const order = Array.from(sortableBody.querySelectorAll('tr[data-id]'))
                     .map(function (row) { return parseInt(row.dataset.id); });
 
-                axios.post('{{ route("courseCategories.updateOrder") }}', {
+                axios.post('{{ route("testimonials.updateOrder") }}', {
                     order: order,
                     _token: csrfToken
                 })
@@ -177,7 +187,6 @@
         });
     }
 
-    // Aktif / Pasif toggle
     document.querySelectorAll('.status-toggle').forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
             const itemId    = this.dataset.id;
@@ -185,7 +194,7 @@
             const prevState = !this.checked;
             const self      = this;
 
-            axios.post('/panel/course-categories/' + itemId + '/toggle', { _token: csrfToken })
+            axios.post('/panel/testimonials/' + itemId + '/toggle', { _token: csrfToken })
             .then(function (response) {
                 if (response.data.status === 1) {
                     showToast('success', response.data.message);

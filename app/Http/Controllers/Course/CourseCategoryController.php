@@ -22,15 +22,26 @@ class CourseCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:200',
+            'name'  => 'required|string|max:200',
+            'icon'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
+            'color' => 'nullable|string|max:20',
         ]);
 
         $locale = app()->getLocale();
 
         $category = new CourseCategory();
         $category->setTranslation('name', $locale, $request->name);
+        $category->color = $request->color;
         $category->sort_order = CourseCategory::max('sort_order') + 1;
         $category->is_active = true;
+
+        if ($request->hasFile('icon')) {
+            $file = $request->file('icon');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/course-categories'), $filename);
+            $category->icon = 'uploads/course-categories/' . $filename;
+        }
+
         $category->save();
 
         return redirect()->route('courseCategories.index')
@@ -46,13 +57,27 @@ class CourseCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:200',
+            'name'  => 'required|string|max:200',
+            'icon'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
+            'color' => 'nullable|string|max:20',
         ]);
 
         $category = CourseCategory::findOrFail($id);
         $locale = app()->getLocale();
 
         $category->setTranslation('name', $locale, $request->name);
+        $category->color = $request->color;
+
+        if ($request->hasFile('icon')) {
+            if ($category->icon && file_exists(public_path($category->icon))) {
+                unlink(public_path($category->icon));
+            }
+            $file = $request->file('icon');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/course-categories'), $filename);
+            $category->icon = 'uploads/course-categories/' . $filename;
+        }
+
         $category->save();
 
         return redirect()->route('courseCategories.index')

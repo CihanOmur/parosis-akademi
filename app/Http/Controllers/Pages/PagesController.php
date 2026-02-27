@@ -14,6 +14,8 @@ use App\Models\Blogs\BlogTag;
 use App\Models\Courses\Course;
 use App\Models\Courses\CourseCategory;
 use App\Models\Pages\Course\CoursePageInfo;
+use App\Models\Pages\AboutUs\AboutUsPageInfo;
+use App\Models\Pages\Home\HomePageInfo;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
 
@@ -29,6 +31,8 @@ class PagesController extends Controller
     public function edit(Request $request, $id)
     {
         return match ($id) {
+            'home'     => $this->editHome($request),
+            'about'    => $this->editAbout($request),
             'contact'  => $this->editContact($request),
             'faq'      => $this->editFaq($request),
             'teachers' => $this->editTeachers($request),
@@ -41,6 +45,8 @@ class PagesController extends Controller
     public function update(Request $request, $id)
     {
         return match ($id) {
+            'home'     => $this->updateHome($request),
+            'about'    => $this->updateAbout($request),
             'contact'  => $this->updateContact($request),
             'faq'      => $this->updateFaq($request),
             'teachers' => $this->updateTeachers($request),
@@ -53,6 +59,8 @@ class PagesController extends Controller
     public function editTranslate(Request $request, $lang, $id)
     {
         return match ($id) {
+            'home'     => $this->editHomeTranslate($request, $lang),
+            'about'    => $this->editAboutTranslate($request, $lang),
             'contact'  => $this->editContactTranslate($request, $lang),
             'faq'      => $this->editFaqTranslate($request, $lang),
             'teachers' => $this->editTeachersTranslate($request, $lang),
@@ -65,6 +73,8 @@ class PagesController extends Controller
     public function updateTranslate(Request $request, $id)
     {
         return match ($id) {
+            'home'     => $this->updateHomeTranslate($request),
+            'about'    => $this->updateAboutTranslate($request),
             'contact'  => $this->updateContactTranslate($request),
             'faq'      => $this->updateFaqTranslate($request),
             'teachers' => $this->updateTeachersTranslate($request),
@@ -72,6 +82,362 @@ class PagesController extends Controller
             'courses'  => $this->updateCoursesTranslate($request),
             default    => abort(404),
         };
+    }
+
+    // ─── Home Page ──────────────────────────────────────────────────────────
+
+    private function editHome(Request $request)
+    {
+        $homePageInfo = HomePageInfo::first();
+        if (!$homePageInfo) {
+            $homePageInfo = HomePageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($request->get('lang'));
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        return view('admin.pages.edit-home', compact('homePageInfo', 'selectedLang', 'selectedLanguage'));
+    }
+
+    private function updateHome(Request $request)
+    {
+        $homePageInfo = HomePageInfo::first();
+        if (!$homePageInfo) {
+            $homePageInfo = HomePageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'welcome_label', 'welcome_title', 'welcome_description',
+            'welcome_stat_text',
+            'categories_label', 'categories_title', 'categories_button_text',
+            'why_label', 'why_title', 'why_description', 'why_stat_text',
+            'client_logo_text',
+            'courses_label', 'courses_title',
+            'blog_label', 'blog_title',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $homePageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Welcome features — JSON array of strings
+        if ($request->has('welcome_features')) {
+            $decoded = json_decode($request->welcome_features, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('welcome_features', $locale, $decoded);
+            }
+        }
+
+        // Features — JSON array [{title, description, icon, bg_color}]
+        if ($request->has('features')) {
+            $decoded = json_decode($request->features, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('features', $locale, $decoded);
+            }
+        }
+
+        // Why items — JSON array [{title, description, icon, bg_color}]
+        if ($request->has('why_items')) {
+            $decoded = json_decode($request->why_items, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('why_items', $locale, $decoded);
+            }
+        }
+
+        // Fun-fact items — JSON array [{number, text}]
+        if ($request->has('funfact_items')) {
+            $decoded = json_decode($request->funfact_items, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('funfact_items', $locale, $decoded);
+            }
+        }
+
+        // Non-translatable fields
+        $nonTranslatableFields = ['welcome_image', 'welcome_stat_number', 'categories_button_url', 'why_image', 'why_stat_number', 'funfact_image'];
+
+        foreach ($nonTranslatableFields as $field) {
+            if ($request->has($field)) {
+                $homePageInfo->$field = $request->$field;
+            }
+        }
+
+        $homePageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Ana sayfa başarıyla güncellendi.');
+    }
+
+    private function editHomeTranslate(Request $request, $lang)
+    {
+        return redirect()->route('pages.edit', ['id' => 'home', 'lang' => $lang]);
+    }
+
+    private function updateHomeTranslate(Request $request)
+    {
+        $homePageInfo = HomePageInfo::first();
+        if (!$homePageInfo) {
+            $homePageInfo = HomePageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'welcome_label', 'welcome_title', 'welcome_description',
+            'welcome_stat_text',
+            'categories_label', 'categories_title', 'categories_button_text',
+            'why_label', 'why_title', 'why_description', 'why_stat_text',
+            'client_logo_text',
+            'courses_label', 'courses_title',
+            'blog_label', 'blog_title',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $homePageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Welcome features — JSON array of strings
+        if ($request->has('welcome_features')) {
+            $decoded = json_decode($request->welcome_features, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('welcome_features', $locale, $decoded);
+            }
+        }
+
+        // Features — JSON array [{title, description, icon, bg_color}]
+        if ($request->has('features')) {
+            $decoded = json_decode($request->features, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('features', $locale, $decoded);
+            }
+        }
+
+        // Why items — JSON array [{title, description, icon, bg_color}]
+        if ($request->has('why_items')) {
+            $decoded = json_decode($request->why_items, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('why_items', $locale, $decoded);
+            }
+        }
+
+        // Fun-fact items — JSON array [{number, text}]
+        if ($request->has('funfact_items')) {
+            $decoded = json_decode($request->funfact_items, true);
+            if (is_array($decoded)) {
+                $homePageInfo->setTranslation('funfact_items', $locale, $decoded);
+            }
+        }
+
+        $homePageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Çeviri kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Çeviri başarıyla güncellendi.');
+    }
+
+    // ─── About Page ──────────────────────────────────────────────────────────
+
+    private function editAbout(Request $request)
+    {
+        $aboutPageInfo = AboutUsPageInfo::first();
+        if (!$aboutPageInfo) {
+            $aboutPageInfo = AboutUsPageInfo::create([]);
+        }
+
+        $footerCtaInfo = ContactPageInfo::first();
+        if (!$footerCtaInfo) {
+            $footerCtaInfo = ContactPageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($request->get('lang'));
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        return view('admin.pages.edit-about', compact('aboutPageInfo', 'footerCtaInfo', 'selectedLang', 'selectedLanguage'));
+    }
+
+    private function updateAbout(Request $request)
+    {
+        $aboutPageInfo = AboutUsPageInfo::first();
+        if (!$aboutPageInfo) {
+            $aboutPageInfo = AboutUsPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'breadcrumb_title', 'breadcrumb_home', 'breadcrumb_current',
+            'section1_label', 'section1_title', 'section1_description',
+            'section1_stat_text',
+            'categories_label', 'categories_title', 'categories_button_text',
+            'logos_text',
+            'cta_label', 'cta_title', 'cta_description', 'cta_button_text',
+            'section2_label', 'section2_title', 'section2_description',
+            'section2_stat_text',
+            'testimonial_label', 'testimonial_title',
+            'faq_label', 'faq_title',
+            'blog_label', 'blog_title',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $aboutPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Section 1 features — JSON array [{title, description, icon, bg_color}]
+        if ($request->has('section1_features')) {
+            $features = json_decode($request->section1_features, true);
+            if (is_array($features)) {
+                $aboutPageInfo->setTranslation('section1_features', $locale, $features);
+            }
+        }
+
+        // Section 2 features — JSON array of strings
+        if ($request->has('section2_features')) {
+            $s2features = json_decode($request->section2_features, true);
+            if (is_array($s2features)) {
+                $aboutPageInfo->setTranslation('section2_features', $locale, $s2features);
+            } else {
+                // backward compat: newline-separated string
+                $aboutPageInfo->setTranslation('section2_features', $locale, $request->section2_features);
+            }
+        }
+
+        $nonTranslatableFields = [
+            'section1_image1', 'section1_image2', 'section1_stat_number',
+            'video_image', 'video_url',
+            'cta_image',
+            'section2_image', 'section2_stat_number',
+            'faq_image1', 'faq_image2', 'faq_image3',
+        ];
+
+        foreach ($nonTranslatableFields as $field) {
+            if ($request->has($field)) {
+                $aboutPageInfo->$field = $request->$field;
+            }
+        }
+
+        $aboutPageInfo->save();
+
+        // Footer CTA (ContactPageInfo)
+        $footerCtaTranslatable = ['footer_cta_label', 'footer_cta_title', 'footer_cta_description', 'footer_cta_button_text'];
+        $hasFooterCta = false;
+        foreach ($footerCtaTranslatable as $field) {
+            if ($request->has($field)) { $hasFooterCta = true; break; }
+        }
+        if ($hasFooterCta || $request->has('footer_cta_image') || $request->has('footer_cta_button_url')) {
+            $footerCta = ContactPageInfo::first() ?? ContactPageInfo::create([]);
+            $fieldMap = [
+                'footer_cta_label' => 'cta_label', 'footer_cta_title' => 'cta_title',
+                'footer_cta_description' => 'cta_description', 'footer_cta_button_text' => 'cta_button_text',
+            ];
+            foreach ($fieldMap as $reqField => $dbField) {
+                if ($request->has($reqField)) {
+                    $footerCta->setTranslation($dbField, $locale, $request->$reqField);
+                }
+            }
+            if ($request->has('footer_cta_image')) { $footerCta->cta_image = $request->footer_cta_image; }
+            if ($request->has('footer_cta_button_url')) { $footerCta->cta_button_url = $request->footer_cta_button_url; }
+            $footerCta->save();
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Hakkımızda sayfası başarıyla güncellendi.');
+    }
+
+    private function editAboutTranslate(Request $request, $lang)
+    {
+        return redirect()->route('pages.edit', ['id' => 'about', 'lang' => $lang]);
+    }
+
+    private function updateAboutTranslate(Request $request)
+    {
+        $aboutPageInfo = AboutUsPageInfo::first();
+        if (!$aboutPageInfo) {
+            $aboutPageInfo = AboutUsPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'breadcrumb_title', 'breadcrumb_home', 'breadcrumb_current',
+            'section1_label', 'section1_title', 'section1_description',
+            'section1_stat_text',
+            'categories_label', 'categories_title', 'categories_button_text',
+            'logos_text',
+            'section2_label', 'section2_title', 'section2_description',
+            'section2_stat_text',
+            'testimonial_label', 'testimonial_title',
+            'faq_label', 'faq_title',
+            'blog_label', 'blog_title',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $aboutPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Section 1 features
+        if ($request->has('section1_features')) {
+            $features = json_decode($request->section1_features, true);
+            if (is_array($features)) {
+                $aboutPageInfo->setTranslation('section1_features', $locale, $features);
+            }
+        }
+
+        // Section 2 features
+        if ($request->has('section2_features')) {
+            $s2features = json_decode($request->section2_features, true);
+            if (is_array($s2features)) {
+                $aboutPageInfo->setTranslation('section2_features', $locale, $s2features);
+            } else {
+                $aboutPageInfo->setTranslation('section2_features', $locale, $request->section2_features);
+            }
+        }
+
+        $aboutPageInfo->save();
+
+        // Footer CTA (ContactPageInfo) translate
+        $footerCtaTranslatable = ['footer_cta_label', 'footer_cta_title', 'footer_cta_description', 'footer_cta_button_text'];
+        $hasFooterCta = false;
+        foreach ($footerCtaTranslatable as $field) {
+            if ($request->has($field)) { $hasFooterCta = true; break; }
+        }
+        if ($hasFooterCta) {
+            $footerCta = ContactPageInfo::first() ?? ContactPageInfo::create([]);
+            $fieldMap = [
+                'footer_cta_label' => 'cta_label', 'footer_cta_title' => 'cta_title',
+                'footer_cta_description' => 'cta_description', 'footer_cta_button_text' => 'cta_button_text',
+            ];
+            foreach ($fieldMap as $reqField => $dbField) {
+                if ($request->has($reqField)) {
+                    $footerCta->setTranslation($dbField, $locale, $request->$reqField);
+                }
+            }
+            $footerCta->save();
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Çeviri kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Çeviri başarıyla güncellendi.');
     }
 
     // ─── Contact Page ──────────────────────────────────────────────────────────

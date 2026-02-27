@@ -9,7 +9,7 @@ class CourseCategory extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['name', 'is_active', 'sort_order'];
+    protected $fillable = ['name', 'icon', 'color', 'is_active', 'sort_order'];
 
     protected $casts = [
         'is_active' => 'boolean',
