@@ -11,6 +11,11 @@ class BlogPageInfo extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'field_styles' => 'array',
+        'default_styles' => 'array',
+    ];
+
     public $translatable = [
         'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'sidebar_search_title', 'sidebar_search_placeholder',

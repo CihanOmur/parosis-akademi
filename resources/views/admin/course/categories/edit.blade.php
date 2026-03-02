@@ -84,28 +84,11 @@
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- İkon --}}
-                    <div class="space-y-1" x-data="{ preview: {{ $category->icon ? '\'' . asset($category->icon) . '\'' : 'null' }} }">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             İkon Görseli
                         </label>
-                        <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden border-2 border-dashed border-slate-300 dark:border-slate-600">
-                                <template x-if="preview">
-                                    <img :src="preview" class="w-full h-full object-contain p-2">
-                                </template>
-                                <template x-if="!preview">
-                                    <svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5"/>
-                                    </svg>
-                                </template>
-                            </div>
-                            <label class="cursor-pointer px-4 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 text-sm font-medium rounded-xl transition-all">
-                                Dosya Seç
-                                <input type="file" name="icon" accept="image/*" class="hidden"
-                                       @change="if($event.target.files[0]) preview = URL.createObjectURL($event.target.files[0])">
-                            </label>
-                        </div>
-                        <p class="text-xs text-slate-400">SVG, PNG, JPG (max 1MB)</p>
+                        <x-image-upload name="icon" :existing="$category->icon ? asset($category->icon) : null" />
                     </div>
                 </div>
             </div>

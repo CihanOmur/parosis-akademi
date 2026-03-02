@@ -13,6 +13,8 @@ class AboutUsPageInfo extends Model
 
     protected $casts = [
         'section1_features' => 'array',
+        'field_styles' => 'array',
+        'default_styles' => 'array',
     ];
 
     public $translatable = [

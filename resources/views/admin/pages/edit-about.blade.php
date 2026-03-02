@@ -88,6 +88,98 @@
             color: rgb(84 62 232); letter-spacing: 0.03em;
         }
         .page-tab-active .page-tab-badge { background: rgb(84 62 232); color: white; }
+
+        /* Style controls */
+        .style-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgb(1 28 26 / 0.08); }
+        .style-section-title {
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            color: rgb(84 62 232); margin-bottom: 0.75rem; font-family: Inter, sans-serif;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .style-row { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.625rem; }
+        .style-label {
+            font-size: 0.8125rem; font-weight: 500; color: rgb(95 93 93);
+            font-family: Poppins, sans-serif; min-width: 55px; flex-shrink: 0;
+        }
+        .style-select {
+            flex: 1; padding: 0.5rem 0.75rem; border: 2px solid rgb(1 28 26 / 0.1);
+            border-radius: 8px; font-size: 0.875rem; outline: none; transition: border-color 0.2s;
+            font-family: Poppins, sans-serif; color: rgb(1 28 26); background: white;
+            cursor: pointer; appearance: auto;
+        }
+        .style-select:focus { border-color: rgb(84 62 232); }
+        .style-color-wrap { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+        .style-color-input {
+            width: 40px; height: 36px; border: 2px solid rgb(1 28 26 / 0.1);
+            border-radius: 8px; cursor: pointer; padding: 2px; background: white;
+        }
+        .style-color-input:focus { border-color: rgb(84 62 232); outline: none; }
+        .style-color-hex {
+            flex: 1; padding: 0.5rem 0.75rem; border: 2px solid rgb(1 28 26 / 0.1);
+            border-radius: 8px; font-size: 0.8125rem; outline: none; transition: border-color 0.2s;
+            font-family: monospace; color: rgb(1 28 26); width: 90px;
+        }
+        .style-color-hex:focus { border-color: rgb(84 62 232); }
+        .style-opacity-wrap { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+        .style-opacity-range {
+            flex: 1; height: 6px; -webkit-appearance: none; appearance: none;
+            background: linear-gradient(to right, transparent, currentColor);
+            border-radius: 3px; outline: none; cursor: pointer;
+        }
+        .style-opacity-range::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+            background: white; border: 2px solid rgb(84 62 232); cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+        .style-opacity-range::-moz-range-thumb {
+            width: 18px; height: 18px; border-radius: 50%;
+            background: white; border: 2px solid rgb(84 62 232); cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+        .style-opacity-val {
+            min-width: 44px; padding: 0.4rem 0.5rem; border: 2px solid rgb(1 28 26 / 0.1);
+            border-radius: 8px; font-size: 0.8125rem; outline: none; text-align: center;
+            font-family: monospace; color: rgb(1 28 26); transition: border-color 0.2s;
+        }
+        .style-opacity-val:focus { border-color: rgb(84 62 232); }
+        .style-reset-btn {
+            padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 500;
+            color: rgb(95 93 93); border: 1px solid rgb(1 28 26 / 0.1); background: white;
+            cursor: pointer; font-family: Poppins, sans-serif; transition: all 0.15s; white-space: nowrap;
+        }
+        .style-reset-btn:hover { background: #F5F5F5; }
+        .style-toggle-group { display: flex; gap: 4px; flex: 1; }
+        .style-toggle {
+            width: 36px; height: 36px; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            background: white; transition: all 0.15s; flex-shrink: 0;
+        }
+        .style-toggle:hover { border-color: rgb(84 62 232 / 0.4); background: rgb(84 62 232 / 0.04); }
+        .style-toggle.active { border-color: rgb(84 62 232); background: rgb(84 62 232 / 0.08); }
+        .style-toggle svg { width: 16px; height: 16px; color: rgb(95 93 93); }
+        .style-toggle.active svg { color: rgb(84 62 232); }
+
+        /* Developer panel */
+        .dev-row { display: grid; grid-template-columns: 220px 1fr 110px 140px 40px; gap: 0; align-items: center; padding: 10px 20px; border-bottom: 1px solid #F3F4F6; transition: background 0.15s; }
+        .dev-row:hover { background: #F3F4F6; }
+        .dev-row-modified { background: #FFFBEB; }
+        .dev-row-modified:hover { background: #FDE68A40; }
+        .dev-reset-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #FECACA; background: #FEF2F2; color: #DC2626; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; transition: all 0.15s; }
+        .dev-reset-btn:hover { background: #FEE2E2; border-color: #F87171; }
+        .dev-color-input { width: 32px; height: 32px; border: 2px solid #D1D5DB; cursor: pointer; border-radius: 6px; padding: 2px; flex-shrink: 0; transition: border-color 0.15s; }
+        .dev-color-input:hover { border-color: #F59E0B; }
+        .dev-text-input { width: 90px; font-size: 0.8125rem; color: #374151; font-family: ui-monospace, monospace; background: #F9FAFB; border: 1.5px solid #E5E7EB; border-radius: 6px; padding: 5px 8px; outline: none; transition: all 0.15s; }
+        .dev-text-input:hover { border-color: #D1D5DB; }
+        .dev-text-input:focus { border-color: #F59E0B; background: #fff; box-shadow: 0 0 0 2px rgba(245,158,11,0.15); }
+        .dev-select { font-size: 0.8125rem; padding: 5px 6px; border: 1.5px solid #E5E7EB; border-radius: 6px; background: #F9FAFB; color: #374151; cursor: pointer; outline: none; width: 90px; transition: all 0.15s; }
+        .dev-select:hover { border-color: #D1D5DB; }
+        .dev-select:focus { border-color: #F59E0B; background: #fff; box-shadow: 0 0 0 2px rgba(245,158,11,0.15); }
+        .dev-align-btn { width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #D1D5DB; border-radius: 8px; cursor: pointer; background: #F9FAFB; color: #9CA3AF; transition: all 0.15s; }
+        .dev-align-btn:hover { border-color: #F59E0B; color: #6B7280; background: #FFFBEB; }
+        .dev-align-btn.active { background: #FEF3C7; border-color: #F59E0B; color: #92400E; }
+        .dev-save-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: #F59E0B; color: white; font-weight: 600; border-radius: 8px; font-size: 0.8125rem; border: none; cursor: pointer; transition: all 0.15s; }
+        .dev-save-btn:hover { background: #D97706; box-shadow: 0 2px 8px rgba(217,119,6,0.3); }
+        .dev-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 @endsection
 
@@ -108,13 +200,26 @@
                 <span x-show="!saving">Duzenlemek istediginiz alana tiklayin</span>
                 <span x-show="saving" style="color: rgb(84 62 232);">Kaydediliyor...</span>
             </div>
-            <button type="button" @click="saveAll()" :disabled="saving"
-                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-fuchsia-500 to-purple-500 hover:from-fuchsia-600 hover:to-purple-600 text-white font-semibold rounded-xl text-sm shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg x-show="!saving" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                <svg x-show="saving" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
-                Kaydet
-            </button>
+            <div class="flex items-center gap-2">
+                <button type="button" @click="devMode = !devMode" :class="devMode && 'ring-2 ring-amber-400'"
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all duration-200 cursor-pointer"
+                        :style="devMode ? 'background: #FEF3C7; border-color: #F59E0B;' : ''"
+                        title="Gelistirici Modu">
+                    <svg class="w-5 h-5" :style="devMode ? 'color: #D97706;' : 'color: #94A3B8;'" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                    </svg>
+                </button>
+                <button type="button" @click="saveAll()" :disabled="saving"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-fuchsia-500 to-purple-500 hover:from-fuchsia-600 hover:to-purple-600 text-white font-semibold rounded-xl text-sm shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg x-show="!saving" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                    <svg x-show="saving" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    Kaydet
+                </button>
+            </div>
         </div>
+
+        @include('admin.pages.partials.dev-panel')
 
         {{-- ═════════════ TAB NAVIGATION ═════════════ --}}
         <div class="page-tabs mb-5" style="display: inline-flex;">
@@ -149,16 +254,16 @@
                         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                             <div style="text-align: center;">
                                 <div class="ez" :class="activeField === 'breadcrumb_title' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_title', 'Sayfa Basligi')">
-                                    <h1 style="margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal;" x-text="fields.breadcrumb_title || 'Hakkimizda'"></h1>
+                                    <h1 style="margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal;" :style="getFieldStyle('breadcrumb_title')" x-html="nl2br(fields.breadcrumb_title || 'Hakkimizda')"></h1>
                                 </div>
                                 <nav style="font-size: 1rem; font-weight: 500; text-transform: uppercase;">
                                     <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
                                         <li>
-                                            <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')" style="color: rgb(215 59 62);" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
+                                            <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')" style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_home')" x-html="nl2br(fields.breadcrumb_home || 'ANA SAYFA')"></span>
                                         </li>
                                         <li style="color: rgb(95 93 93);">/</li>
                                         <li>
-                                            <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_current', 'Mevcut Sayfa')" style="color: rgb(95 93 93);" x-text="fields.breadcrumb_current || 'HAKKIMIZDA'"></span>
+                                            <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_current', 'Mevcut Sayfa')" style="color: rgb(95 93 93);" :style="getFieldStyle('breadcrumb_current')" x-html="nl2br(fields.breadcrumb_current || 'HAKKIMIZDA')"></span>
                                         </li>
                                     </ul>
                                 </nav>
@@ -183,14 +288,14 @@
                                 <div>
                                     <div style="margin-bottom: 1.5rem;">
                                         <div class="ez" :class="activeField === 'section1_label' && 'ez-active'" data-label="Duzenle" @click="openModal('section1_label', 'Etiket')" style="margin-bottom: 1.25rem;">
-                                            <span x-text="fields.section1_label || 'WHY CHOOSE US'" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);"></span>
+                                            <span x-html="nl2br(fields.section1_label || 'WHY CHOOSE US')" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);" :style="getFieldStyle('section1_label')"></span>
                                         </div>
                                         <div class="ez" :class="activeField === 'section1_title' && 'ez-active'" data-label="Duzenle" @click="openModal('section1_title', 'Baslik')">
-                                            <h2 x-text="fields.section1_title || 'Transform Your Best Practice with Our Online Course'"></h2>
+                                            <h2 :style="getFieldStyle('section1_title')" x-html="nl2br(fields.section1_title || 'Transform Your Best Practice with Our Online Course')"></h2>
                                         </div>
                                     </div>
                                     <div class="ez" :class="activeField === 'section1_description' && 'ez-active'" data-label="Duzenle" @click="openModal('section1_description', 'Aciklama', 'textarea')" style="margin-top: 1.75rem;">
-                                        <p x-text="fields.section1_description || 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.'" style="color: rgb(95 93 93); line-height: 1.75;"></p>
+                                        <p x-html="nl2br(fields.section1_description || 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.')" style="color: rgb(95 93 93); line-height: 1.75;" :style="getFieldStyle('section1_description')"></p>
                                     </div>
 
                                     {{-- Dynamic Features --}}
@@ -203,7 +308,7 @@
                                                         <img :src="feature.icon ? (feature.icon.startsWith('http') ? feature.icon : baseUrl + '/' + feature.icon) : '{{ asset('assets-front/img/icons/content-icon-1.svg') }}'" alt="" width="25" height="25" />
                                                     </div>
                                                     <div class="ez" :class="activeField === ('feature_' + fIdx + '_title') && 'ez-active'" data-label="Duzenle" @click="openFeatureModal(fIdx, 'title', 'Ozellik ' + (fIdx+1) + ' Baslik')" style="flex: 1;">
-                                                        <span x-text="feature.title || ('Ozellik ' + (fIdx+1))" style="font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.25rem; font-weight: 700; color: rgb(1 28 26);"></span>
+                                                        <span x-text="feature.title || ('Ozellik ' + (fIdx+1))" :style="getFieldStyle('feature_' + fIdx + '_title', 'font-family: \'Aeonik Pro TRIAL\', sans-serif; font-size: 1.25rem; font-weight: 700; color: rgb(1 28 26);')"></span>
                                                     </div>
                                                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                                                         <input type="color" :value="feature.bg_color || '#42AC98'" @input="feature.bg_color = $event.target.value" @change="saveAll()" style="width: 28px; height: 28px; border: none; cursor: pointer; border-radius: 6px; padding: 0;" title="Ikon Arka Plan Rengi" />
@@ -213,7 +318,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="ez" :class="activeField === ('feature_' + fIdx + '_description') && 'ez-active'" data-label="Duzenle" @click="openFeatureModal(fIdx, 'description', 'Ozellik ' + (fIdx+1) + ' Aciklama', 'textarea')">
-                                                    <p x-text="feature.description || 'Aciklama ekleyin...'" style="color: rgb(95 93 93); line-height: 1.75;"></p>
+                                                    <p x-text="feature.description || 'Aciklama ekleyin...'" :style="getFieldStyle('feature_' + fIdx + '_description', 'color: rgb(95 93 93); line-height: 1.75;')"></p>
                                                 </div>
                                             </div>
                                         </template>
@@ -238,10 +343,10 @@
                                         </div>
                                         <div>
                                             <div class="ez" :class="activeField === 'section1_stat_number' && 'ez-active'" data-label="Duzenle" @click="openModal('section1_stat_number', 'Istatistik Sayisi')">
-                                                <span x-text="fields.section1_stat_number || '69K+'" style="display: block; font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1.73; color: #DF4343;"></span>
+                                                <span x-html="nl2br(fields.section1_stat_number || '69K+')" style="display: block; font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1.73; color: #DF4343;"></span>
                                             </div>
                                             <div class="ez" :class="activeField === 'section1_stat_text' && 'ez-active'" data-label="Duzenle" @click="openModal('section1_stat_text', 'Istatistik Metni')">
-                                                <span x-text="fields.section1_stat_text || 'Satisfied Students'" style="color: rgb(95 93 93);"></span>
+                                                <span x-html="nl2br(fields.section1_stat_text || 'Satisfied Students')" style="color: rgb(95 93 93);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -263,15 +368,15 @@
                             <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; margin-bottom: 3rem;">
                                 <div style="max-width: 580px;">
                                     <div class="ez" :class="activeField === 'categories_label' && 'ez-active'" data-label="Duzenle" @click="openModal('categories_label', 'Kategoriler Etiket')" style="margin-bottom: 1.25rem;">
-                                        <span x-text="fields.categories_label || 'COURSE CATEGORIES'" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);"></span>
+                                        <span x-html="nl2br(fields.categories_label || 'COURSE CATEGORIES')" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);" :style="getFieldStyle('categories_label')"></span>
                                     </div>
                                     <div class="ez" :class="activeField === 'categories_title' && 'ez-active'" data-label="Duzenle" @click="openModal('categories_title', 'Kategoriler Baslik')">
-                                        <h2 x-text="fields.categories_title || 'Top Categories You Want to Learn'"></h2>
+                                        <h2 :style="getFieldStyle('categories_title')" x-html="nl2br(fields.categories_title || 'Top Categories You Want to Learn')"></h2>
                                     </div>
                                 </div>
                                 <div class="ez" :class="activeField === 'categories_button_text' && 'ez-active'" data-label="Duzenle" @click="openModal('categories_button_text', 'Buton Yazisi')">
                                     <div style="position: relative; display: inline-flex; align-items: center; overflow: hidden; border-radius: 52px; padding: 1rem 70px 1rem 30px; background-color: rgb(84 62 232); color: #fff; font-size: 1rem;">
-                                        <span x-text="fields.categories_button_text || 'Find Courses'"></span>
+                                        <span x-html="nl2br(fields.categories_button_text || 'Find Courses')"></span>
                                         <span style="position: absolute; right: 5px; display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border-radius: 50%; background: white;">
                                             <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="" width="13" height="12" />
                                         </span>
@@ -329,8 +434,8 @@
                     <div style="padding: 50px 0;">
                         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                             <div style="max-width: 580px; margin: 0 auto; margin-bottom: 2.5rem;">
-                                <div class="ez" :class="activeField === 'logos_text' && 'ez-active'" data-label="Duzenle" @click="openModal('logos_text', 'Logolar Metni')">
-                                    <p style="text-align: center; font-size: 1.125rem; color: rgb(1 28 26);" x-html="fields.logos_text || 'Get in touch with the <strong>250+</strong> companies who Collaboration us'"></p>
+                                <div class="ez" :class="activeField === 'logos_text' && 'ez-active'" data-label="Duzenle" @click="openModal('logos_text', 'Logolar Metni', 'textarea')">
+                                    <p :style="getFieldStyle('logos_text', 'text-align: center; font-size: 1.125rem; color: rgb(1 28 26);')" x-html="fields.logos_text || 'Get in touch with the <strong>250+</strong> companies who Collaboration us'"></p>
                                 </div>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center; gap: 3rem; opacity: 0.4;">
@@ -358,17 +463,17 @@
                     <div style="order: 2; padding: 48px 24px 48px 0;">
                         <div style="max-width: 530px;">
                             <div class="ez" :class="activeField === 'cta_label' && 'ez-active'" data-label="Duzenle" @click="openModal('cta_label', 'CTA Etiket')" style="margin-bottom: 1.25rem;">
-                                <span x-text="fields.cta_label || 'ONLINE COURSES'" style="display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;"></span>
+                                <span x-html="nl2br(fields.cta_label || 'ONLINE COURSES')" style="display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;" :style="getFieldStyle('cta_label')"></span>
                             </div>
                             <div class="ez" :class="activeField === 'cta_title' && 'ez-active'" data-label="Duzenle" @click="openModal('cta_title', 'CTA Baslik')">
-                                <h2 x-text="fields.cta_title || 'Find Your Right Learning Path For Your Future'" style="color: white !important; font-size: 1.875rem; line-height: 1.38;"></h2>
+                                <h2 x-html="nl2br(fields.cta_title || 'Find Your Right Learning Path For Your Future')" style="color: white !important; font-size: 1.875rem; line-height: 1.38;" :style="getFieldStyle('cta_title')"></h2>
                             </div>
                             <div class="ez" :class="activeField === 'cta_description' && 'ez-active'" data-label="Duzenle" @click="openModal('cta_description', 'CTA Aciklama', 'textarea')" style="margin-top: 1.75rem; margin-bottom: 30px;">
-                                <p x-text="fields.cta_description || 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.'" style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;"></p>
+                                <p x-html="nl2br(fields.cta_description || 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.')" style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;" :style="getFieldStyle('cta_description')"></p>
                             </div>
                             <div class="ez" :class="activeField === 'cta_button_text' && 'ez-active'" data-label="Duzenle" @click="openModal('cta_button_text', 'CTA Buton')">
                                 <div style="position: relative; display: inline-flex; align-items: center; overflow: hidden; border-radius: 52px; padding: 1rem 70px 1rem 30px; background-color: rgb(255 205 32); color: rgb(1 28 26); font-size: 1rem;">
-                                    <span x-text="fields.cta_button_text || 'Start Learning Today'"></span>
+                                    <span x-html="nl2br(fields.cta_button_text || 'Start Learning Today')"></span>
                                     <span style="position: absolute; right: 5px; display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border-radius: 50%; background: rgb(1 28 26);">
                                         <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-arrow-right.svg') }}" alt="" width="13" height="12" />
                                     </span>
@@ -393,14 +498,14 @@
                                 <div>
                                     <div style="margin-bottom: 1.5rem;">
                                         <div class="ez" :class="activeField === 'section2_label' && 'ez-active'" data-label="Duzenle" @click="openModal('section2_label', 'Etiket')" style="margin-bottom: 1.25rem;">
-                                            <span x-text="fields.section2_label || 'WHY CHOOSE US'" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);"></span>
+                                            <span x-html="nl2br(fields.section2_label || 'WHY CHOOSE US')" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);" :style="getFieldStyle('section2_label')"></span>
                                         </div>
                                         <div class="ez" :class="activeField === 'section2_title' && 'ez-active'" data-label="Duzenle" @click="openModal('section2_title', 'Baslik')">
-                                            <h2 x-text="fields.section2_title || 'Digital Online Academy: Your Path to Creative Excellence'"></h2>
+                                            <h2 :style="getFieldStyle('section2_title')" x-html="nl2br(fields.section2_title || 'Digital Online Academy: Your Path to Creative Excellence')"></h2>
                                         </div>
                                     </div>
                                     <div class="ez" :class="activeField === 'section2_description' && 'ez-active'" data-label="Duzenle" @click="openModal('section2_description', 'Aciklama', 'textarea')">
-                                        <p x-text="fields.section2_description || 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.'" style="color: rgb(95 93 93); line-height: 1.75;"></p>
+                                        <p x-html="nl2br(fields.section2_description || 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit.')" style="color: rgb(95 93 93); line-height: 1.75;" :style="getFieldStyle('section2_description')"></p>
                                     </div>
 
                                     {{-- Dynamic Section 2 Features --}}
@@ -409,7 +514,9 @@
                                             <template x-for="(item, sIdx) in fields.section2_features" :key="sIdx">
                                                 <li style="display: flex; align-items: center; gap: 0.75rem;">
                                                     <svg style="width: 18px; height: 18px; color: rgb(84 62 232); flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                                                    <input type="text" x-model="fields.section2_features[sIdx]" @change="saveAll()" class="s2-input" />
+                                                    <div class="ez" :class="activeField === ('s2f_' + sIdx) && 'ez-active'" data-label="Duzenle" @click="openS2FeatureModal(sIdx)" style="flex: 1; cursor: pointer;">
+                                                        <span :style="getFieldStyle('s2f_' + sIdx, 'font-family: \'Aeonik Pro TRIAL\', sans-serif; font-weight: 700; color: rgb(1 28 26);')" x-text="item || ('Madde ' + (sIdx+1))"></span>
+                                                    </div>
                                                     <button type="button" @click="removeSection2Feature(sIdx)" class="del-btn" title="Sil">
                                                         <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
                                                     </button>
@@ -434,10 +541,10 @@
                                         </div>
                                         <div>
                                             <div class="ez" :class="activeField === 'section2_stat_number' && 'ez-active'" data-label="Duzenle" @click="openModal('section2_stat_number', 'Istatistik Sayisi')">
-                                                <span x-text="fields.section2_stat_number || '3458+'" style="display: block; font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1; color: #DF4343;"></span>
+                                                <span x-html="nl2br(fields.section2_stat_number || '3458+')" style="display: block; font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1; color: #DF4343;"></span>
                                             </div>
                                             <div class="ez" :class="activeField === 'section2_stat_text' && 'ez-active'" data-label="Duzenle" @click="openModal('section2_stat_text', 'Istatistik Metni')" style="margin-top: 0.25rem;">
-                                                <span x-text="fields.section2_stat_text || 'Satisfied Students'" style="color: rgb(95 93 93);"></span>
+                                                <span x-html="nl2br(fields.section2_stat_text || 'Satisfied Students')" style="color: rgb(95 93 93);"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -460,10 +567,10 @@
                         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                             <div style="max-width: 500px; margin: 0 auto; text-align: center; margin-bottom: 3rem;">
                                 <div class="ez" :class="activeField === 'testimonial_label' && 'ez-active'" data-label="Duzenle" @click="openModal('testimonial_label', 'Yorumlar Etiket')" style="margin-bottom: 1.25rem;">
-                                    <span x-text="fields.testimonial_label || 'OUR TESTIMONIAL'" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);"></span>
+                                    <span x-html="nl2br(fields.testimonial_label || 'OUR TESTIMONIAL')" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);" :style="getFieldStyle('testimonial_label')"></span>
                                 </div>
                                 <div class="ez" :class="activeField === 'testimonial_title' && 'ez-active'" data-label="Duzenle" @click="openModal('testimonial_title', 'Yorumlar Baslik')">
-                                    <h2 x-text="fields.testimonial_title || 'Student Thinking About Us'"></h2>
+                                    <h2 :style="getFieldStyle('testimonial_title')" x-html="nl2br(fields.testimonial_title || 'Student Thinking About Us')"></h2>
                                 </div>
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
@@ -514,10 +621,10 @@
                                 <div>
                                     <div style="margin-bottom: 1.5rem;">
                                         <div class="ez" :class="activeField === 'faq_label' && 'ez-active'" data-label="Duzenle" @click="openModal('faq_label', 'SSS Etiket')" style="margin-bottom: 1.25rem;">
-                                            <span x-text="fields.faq_label || 'FREQUENTLY ASKED QUESTIONS'" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);"></span>
+                                            <span x-html="nl2br(fields.faq_label || 'FREQUENTLY ASKED QUESTIONS')" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);" :style="getFieldStyle('faq_label')"></span>
                                         </div>
                                         <div class="ez" :class="activeField === 'faq_title' && 'ez-active'" data-label="Duzenle" @click="openModal('faq_title', 'SSS Baslik')">
-                                            <h2 x-text="fields.faq_title || 'Most Popular Questions About Our Online Courses'"></h2>
+                                            <h2 :style="getFieldStyle('faq_title')" x-html="nl2br(fields.faq_title || 'Most Popular Questions About Our Online Courses')"></h2>
                                         </div>
                                     </div>
                                     <div style="margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1rem;">
@@ -548,10 +655,10 @@
                         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                             <div style="max-width: 450px; margin: 0 auto; text-align: center; margin-bottom: 3rem;">
                                 <div class="ez" :class="activeField === 'blog_label' && 'ez-active'" data-label="Duzenle" @click="openModal('blog_label', 'Blog Etiket')" style="margin-bottom: 1.25rem;">
-                                    <span x-text="fields.blog_label || 'OUR NEWS'" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);"></span>
+                                    <span x-html="nl2br(fields.blog_label || 'OUR NEWS')" style="display: block; text-transform: uppercase; font-size: 1rem; color: rgb(95 93 93);" :style="getFieldStyle('blog_label')"></span>
                                 </div>
                                 <div class="ez" :class="activeField === 'blog_title' && 'ez-active'" data-label="Duzenle" @click="openModal('blog_title', 'Blog Baslik')">
-                                    <h2 x-text="fields.blog_title || 'Our New Articles'"></h2>
+                                    <h2 :style="getFieldStyle('blog_title')" x-html="nl2br(fields.blog_title || 'Our New Articles')"></h2>
                                 </div>
                             </div>
                             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
@@ -585,17 +692,17 @@
                     <div style="order: 2; padding: 48px 24px 48px 0;">
                         <div style="max-width: 530px;">
                             <div class="ez" :class="activeField === 'footer_cta_label' && 'ez-active'" data-label="Duzenle" @click="openModal('footer_cta_label', 'Footer CTA Etiket')" style="margin-bottom: 1.25rem;">
-                                <span x-text="fields.footer_cta_label || 'HEMEN BASLAYIN'" style="display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;"></span>
+                                <span x-html="nl2br(fields.footer_cta_label || 'HEMEN BASLAYIN')" style="display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;" :style="getFieldStyle('footer_cta_label')"></span>
                             </div>
                             <div class="ez" :class="activeField === 'footer_cta_title' && 'ez-active'" data-label="Duzenle" @click="openModal('footer_cta_title', 'Footer CTA Baslik')">
-                                <h2 x-text="fields.footer_cta_title || 'Uygun Fiyatli Online Kurslar & Ogrenme Firsatlari'" style="color: white !important; font-size: 1.875rem; line-height: 1.38;"></h2>
+                                <h2 x-html="nl2br(fields.footer_cta_title || 'Uygun Fiyatli Online Kurslar & Ogrenme Firsatlari')" style="color: white !important; font-size: 1.875rem; line-height: 1.38;" :style="getFieldStyle('footer_cta_title')"></h2>
                             </div>
                             <div class="ez" :class="activeField === 'footer_cta_description' && 'ez-active'" data-label="Duzenle" @click="openModal('footer_cta_description', 'Footer CTA Aciklama', 'textarea')" style="margin-top: 1.75rem; margin-bottom: 30px;">
-                                <p x-text="fields.footer_cta_description || 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.'" style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;"></p>
+                                <p x-html="nl2br(fields.footer_cta_description || 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.')" style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;" :style="getFieldStyle('footer_cta_description')"></p>
                             </div>
                             <div class="ez" :class="activeField === 'footer_cta_button_text' && 'ez-active'" data-label="Duzenle" @click="openModal('footer_cta_button_text', 'Footer CTA Buton')">
                                 <div style="position: relative; display: inline-flex; align-items: center; overflow: hidden; border-radius: 52px; padding: 1rem 70px 1rem 30px; background-color: rgb(255 205 32); color: rgb(1 28 26); font-size: 1rem;">
-                                    <span x-text="fields.footer_cta_button_text || 'Ogrenmeye Basla'"></span>
+                                    <span x-html="nl2br(fields.footer_cta_button_text || 'Ogrenmeye Basla')"></span>
                                     <span style="position: absolute; right: 5px; display: inline-flex; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border-radius: 50%; background: rgb(1 28 26);">
                                         <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-arrow-right.svg') }}" alt="" width="13" height="12" />
                                     </span>
@@ -622,8 +729,8 @@
             <div style="position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 100%;">
             <div x-show="modal && modalType !== 'image'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                  x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                 style="background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(1,28,26,0.2); width: 100%; max-width: 540px; overflow: hidden;" @click.stop>
-                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid rgb(1 28 26 / 0.06); display: flex; align-items: center; justify-content: space-between;">
+                 style="background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(1,28,26,0.2); width: 100%; max-width: 540px; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column;" @click.stop>
+                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid rgb(1 28 26 / 0.06); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <div style="width: 36px; height: 36px; background: rgb(84 62 232); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                             <svg style="width: 18px; height: 18px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125"/></svg>
@@ -634,27 +741,123 @@
                         <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
-                <div style="padding: 1.5rem;">
-                    <template x-if="modalType === 'text'">
+                <div style="padding: 1.5rem; overflow-y: auto; flex: 1;">
+                    <template x-if="modalType === 'text' || modalType === 'textarea'">
                         <div>
-                            <input type="text" x-model="modalValue" x-ref="modalInput" :maxlength="modalMaxLength > 0 ? modalMaxLength : undefined" class="modal-input" :class="validationError && 'modal-input-error'" @keydown.enter="applyAndSave()" @input="validateField()">
+                            <textarea x-model="modalValue" x-ref="modalTextarea" :rows="modalType === 'textarea' ? 4 : 2" :maxlength="modalMaxLength > 0 ? modalMaxLength : undefined" class="modal-input modal-textarea" :class="validationError && 'modal-input-error'" @input="validateField()" style="resize: vertical; min-height: 50px;"></textarea>
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; min-height: 20px;">
                                 <span x-show="validationError" x-text="validationError" style="font-size: 0.75rem; color: rgb(215 59 62);"></span>
                                 <span x-show="modalMaxLength > 0" x-text="(modalValue?.length || 0) + '/' + modalMaxLength" style="font-size: 0.7rem; color: #8D8D8D; margin-left: auto;"></span>
                             </div>
                         </div>
                     </template>
-                    <template x-if="modalType === 'textarea'">
-                        <div>
-                            <textarea x-model="modalValue" x-ref="modalTextarea" rows="4" :maxlength="modalMaxLength > 0 ? modalMaxLength : undefined" class="modal-input modal-textarea" :class="validationError && 'modal-input-error'" @input="validateField()"></textarea>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; min-height: 20px;">
-                                <span x-show="validationError" x-text="validationError" style="font-size: 0.75rem; color: rgb(215 59 62);"></span>
-                                <span x-show="modalMaxLength > 0" x-text="(modalValue?.length || 0) + '/' + modalMaxLength" style="font-size: 0.7rem; color: #8D8D8D; margin-left: auto;"></span>
+
+                    {{-- Style Section (only for stylable fields) --}}
+                    <div x-show="styleFields.includes(modalField) || modalField.startsWith('feature_') || modalField.startsWith('s2f_')" class="style-section">
+                            <div class="style-section-title">
+                                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/>
+                                </svg>
+                                Stil Ayarları
                             </div>
-                        </div>
-                    </template>
+
+                            {{-- Bold / Italic / Alignment --}}
+                            <div class="style-row">
+                                <span class="style-label">Biçim</span>
+                                <div class="style-toggle-group">
+                                    <button type="button" class="style-toggle" :class="getStyleProp('fontWeight') === 'bold' && 'active'"
+                                            @click="setStyleProp('fontWeight', getStyleProp('fontWeight') === 'bold' ? '' : 'bold')" title="Kalın">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h7a4 4 0 0 1 0 8H6V4Zm0 8h8a4 4 0 0 1 0 8H6v-8Z"/></svg>
+                                    </button>
+                                    <button type="button" class="style-toggle" :class="getStyleProp('fontStyle') === 'italic' && 'active'"
+                                            @click="setStyleProp('fontStyle', getStyleProp('fontStyle') === 'italic' ? '' : 'italic')" title="Yatık">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 4h4m-2 0 -4 16m-2 0h4"/><line x1="14" y1="4" x2="10" y2="20" stroke-width="2"/></svg>
+                                    </button>
+                                    <div style="width: 1px; background: rgb(1 28 26 / 0.1); margin: 4px 2px;"></div>
+                                    <button type="button" class="style-toggle" :class="getStyleProp('textAlign') === 'left' && 'active'"
+                                            @click="setStyleProp('textAlign', getStyleProp('textAlign') === 'left' ? '' : 'left')" title="Sola Hizala">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h10.5M3.75 17.25h16.5"/></svg>
+                                    </button>
+                                    <button type="button" class="style-toggle" :class="(getStyleProp('textAlign') === 'center' || !getStyleProp('textAlign')) && 'active'"
+                                            @click="setStyleProp('textAlign', 'center')" title="Ortala">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M6.75 12h10.5M3.75 17.25h16.5"/></svg>
+                                    </button>
+                                    <button type="button" class="style-toggle" :class="getStyleProp('textAlign') === 'right' && 'active'"
+                                            @click="setStyleProp('textAlign', getStyleProp('textAlign') === 'right' ? '' : 'right')" title="Sağa Hizala">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M6.75 12H20.25M3.75 17.25h16.5"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{-- Color --}}
+                            <div class="style-row">
+                                <span class="style-label">Renk</span>
+                                <div class="style-color-wrap">
+                                    <input type="color" class="style-color-input"
+                                           :value="getStyleProp('color') || getDefaultColor(modalField)"
+                                           @input="setStyleProp('color', $event.target.value)">
+                                    <input type="text" class="style-color-hex"
+                                           :value="getStyleProp('color') || getDefaultColor(modalField)"
+                                           @input="setStyleProp('color', $event.target.value)"
+                                           :placeholder="getDefaultColor(modalField)" maxlength="7">
+                                </div>
+                            </div>
+
+                            {{-- Opacity --}}
+                            <div class="style-row">
+                                <span class="style-label">Saydamlık</span>
+                                <div class="style-opacity-wrap">
+                                    <input type="range" class="style-opacity-range" min="0" max="100" step="1"
+                                           :value="getStyleProp('opacity') !== '' ? getStyleProp('opacity') : 100"
+                                           @input="setStyleProp('opacity', $event.target.value)">
+                                    <input type="text" class="style-opacity-val"
+                                           :value="(getStyleProp('opacity') !== '' ? getStyleProp('opacity') : 100) + '%'"
+                                           @change="let v = parseInt($event.target.value); if(!isNaN(v)){v=Math.max(0,Math.min(100,v)); setStyleProp('opacity', v);} $event.target.value = (getStyleProp('opacity') !== '' ? getStyleProp('opacity') : 100) + '%'"
+                                           maxlength="4">
+                                </div>
+                            </div>
+
+                            {{-- Font Size --}}
+                            <div class="style-row">
+                                <span class="style-label">Boyut</span>
+                                <select class="style-select" :value="getStyleProp('fontSize') || ''"
+                                        @change="setStyleProp('fontSize', $event.target.value)">
+                                    <option value="">Varsayılan</option>
+                                    <option value="1.25rem">20px - Küçük</option>
+                                    <option value="1.5rem">24px - Orta</option>
+                                    <option value="1.875rem">30px - Normal</option>
+                                    <option value="2rem">32px - Büyük</option>
+                                    <option value="2.25rem">36px - Daha Büyük</option>
+                                    <option value="2.5rem">40px - Çok Büyük</option>
+                                    <option value="3rem">48px - Ekstra Büyük</option>
+                                </select>
+                            </div>
+
+                            {{-- Font Family --}}
+                            <div class="style-row">
+                                <span class="style-label">Font</span>
+                                <select class="style-select" :value="getStyleProp('fontFamily') || ''"
+                                        @change="setStyleProp('fontFamily', $event.target.value)">
+                                    <option value="">Varsayılan (Aeonik Pro)</option>
+                                    <option value="Poppins, sans-serif" style="font-family: Poppins, sans-serif;">Poppins</option>
+                                    <option value="'Aeonik Pro TRIAL', sans-serif" style="font-family: 'Aeonik Pro TRIAL', sans-serif;">Aeonik Pro</option>
+                                    <option value="Georgia, serif" style="font-family: Georgia, serif;">Georgia (Serif)</option>
+                                    <option value="'Times New Roman', serif" style="font-family: 'Times New Roman', serif;">Times New Roman</option>
+                                    <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
+                                    <option value="Verdana, sans-serif" style="font-family: Verdana, sans-serif;">Verdana</option>
+                                </select>
+                            </div>
+
+                            {{-- Reset Button --}}
+                            <div style="text-align: right; margin-top: 0.5rem;">
+                                <button type="button" class="style-reset-btn"
+                                        @click="resetFieldStyle()">
+                                    Varsayılana Sıfırla
+                                </button>
+                            </div>
+                    </div>
                 </div>
-                <div style="padding: 1rem 1.5rem; border-top: 1px solid rgb(1 28 26 / 0.06); display: flex; justify-content: flex-end; gap: 0.75rem;">
+                <div style="padding: 1rem 1.5rem; border-top: 1px solid rgb(1 28 26 / 0.06); display: flex; justify-content: flex-end; gap: 0.75rem; flex-shrink: 0;">
                     <button type="button" @click="closeModal()" style="padding: 0.6rem 1.25rem; border-radius: 10px; font-size: 0.875rem; font-weight: 500; color: rgb(95 93 93); border: 1px solid rgb(1 28 26 / 0.1); background: white; cursor: pointer; font-family: Poppins, sans-serif;">Iptal</button>
                     <button type="button" @click="applyAndSave()" :disabled="saving || !!validationError" class="modal-apply-btn" :class="(validationError || saving) && 'modal-apply-btn-disabled'">
                         <span x-show="!saving">Uygula</span>
@@ -771,6 +974,8 @@ function aboutEditor() {
         modalType: 'text',
         activeField: '',
         saving: false,
+        devMode: false,
+        savingDefaults: false,
         imgTab: 'upload',
         imgPreview: '',
         imgDragover: false,
@@ -779,6 +984,7 @@ function aboutEditor() {
         modalMaxLength: 0,
         editingFeatureIndex: -1,
         editingFeatureField: '',
+        editingS2FeatureIndex: -1,
         baseUrl: @json(url('/')),
 
         fields: {
@@ -828,6 +1034,202 @@ function aboutEditor() {
             footer_cta_image: @json($footerCtaInfo->cta_image ?? ''),
         },
 
+        styleFields: [
+            'breadcrumb_title', 'breadcrumb_home', 'breadcrumb_current',
+            'section1_label', 'section1_title', 'section1_description',
+            'logos_text',
+            'categories_label', 'categories_title',
+            'cta_label', 'cta_title', 'cta_description',
+            'section2_label', 'section2_title', 'section2_description',
+            'testimonial_label', 'testimonial_title',
+            'faq_label', 'faq_title',
+            'blog_label', 'blog_title',
+            'footer_cta_label', 'footer_cta_title', 'footer_cta_description',
+        ],
+
+        fieldStyles: @php echo json_encode($aboutPageInfo->field_styles ?? (object)[]); @endphp,
+
+        customDefaults: @php echo json_encode($aboutPageInfo->default_styles ?? (object)[]); @endphp,
+
+        hardcodedDefaults: {
+            breadcrumb_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            breadcrumb_home: { color: '#d73b3e', fontSize: '', textAlign: '' },
+            breadcrumb_current: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            section1_label: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            section1_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            section1_description: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            logos_text: { color: '#011c1a', fontSize: '', textAlign: '' },
+            categories_label: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            categories_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            cta_label: { color: '#ffcd20', fontSize: '', textAlign: '' },
+            cta_title: { color: '#ffffff', fontSize: '', textAlign: '' },
+            cta_description: { color: '#ffffff', fontSize: '', textAlign: '' },
+            section2_label: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            section2_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            section2_description: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            testimonial_label: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            testimonial_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            faq_label: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            faq_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            blog_label: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            blog_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            footer_cta_label: { color: '#ffcd20', fontSize: '', textAlign: '' },
+            footer_cta_title: { color: '#ffffff', fontSize: '', textAlign: '' },
+            footer_cta_description: { color: '#ffffff', fontSize: '', textAlign: '' },
+            feature_title: { color: '#011c1a', fontSize: '', textAlign: '' },
+            feature_description: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+            s2f: { color: '#011c1a', fontSize: '', textAlign: '' },
+        },
+
+        devSections: [
+            {
+                title: 'Breadcrumb',
+                desc: 'Sayfa ust kismi — baslik ve yol gosterici',
+                color: '#d73b3e',
+                fields: [
+                    { key: 'breadcrumb_title', label: 'Sayfa Basligi', desc: 'Sayfanin buyuk basligi' },
+                    { key: 'breadcrumb_home', label: 'Ana Sayfa Linki', desc: 'Breadcrumb "Ana Sayfa" yazisi' },
+                    { key: 'breadcrumb_current', label: 'Mevcut Sayfa', desc: 'Breadcrumb "Hakkimizda" yazisi' },
+                ]
+            },
+            {
+                title: 'Neden Biz (1)',
+                desc: 'Ilk tanitim bolumu — sol metin, sag resimler',
+                color: '#42AC98',
+                fields: [
+                    { key: 'section1_label', label: 'Etiket', desc: 'Ust kucuk yazi (orn: "NEDEN BIZ")' },
+                    { key: 'section1_title', label: 'Baslik', desc: 'Bolum basligi' },
+                    { key: 'section1_description', label: 'Aciklama', desc: 'Baslik altindaki paragraf' },
+                ]
+            },
+            {
+                title: 'Ozellik Maddeleri',
+                desc: 'Neden Biz (1) altindaki ikon + baslik + aciklama maddeleri',
+                color: '#42AC98',
+                fields: [
+                    { key: 'feature_title', label: 'Madde Basliklari', desc: 'Her ozellik maddesinin basligi' },
+                    { key: 'feature_description', label: 'Madde Aciklamalari', desc: 'Her ozellik maddesinin aciklamasi' },
+                ]
+            },
+            {
+                title: 'Logolar',
+                desc: 'Is ortaklari logo slider ustu metin',
+                color: '#011c1a',
+                fields: [
+                    { key: 'logos_text', label: 'Metin', desc: 'Logolarin ustundeki yazi' },
+                ]
+            },
+            {
+                title: 'Kurs Kategorileri',
+                desc: 'Kategori kartlari bolumu',
+                color: '#543EE8',
+                fields: [
+                    { key: 'categories_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'categories_title', label: 'Baslik', desc: 'Bolum basligi' },
+                ]
+            },
+            {
+                title: 'CTA',
+                desc: 'Koyu arka planli aksiyon cagrisi bolumu',
+                color: '#ffcd20',
+                fields: [
+                    { key: 'cta_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'cta_title', label: 'Baslik', desc: 'Buyuk baslik' },
+                    { key: 'cta_description', label: 'Aciklama', desc: 'Baslik altindaki paragraf' },
+                ]
+            },
+            {
+                title: 'Neden Biz (2)',
+                desc: 'Ikinci tanitim bolumu — sol resim, sag metin',
+                color: '#20B9AB',
+                fields: [
+                    { key: 'section2_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'section2_title', label: 'Baslik', desc: 'Bolum basligi' },
+                    { key: 'section2_description', label: 'Aciklama', desc: 'Baslik altindaki paragraf' },
+                ]
+            },
+            {
+                title: 'Neden Biz (2) Maddeleri',
+                desc: 'Ikinci bolum altindaki liste maddeleri',
+                color: '#20B9AB',
+                fields: [
+                    { key: 's2f', label: 'Madde Metni', desc: 'Her bir liste maddesi' },
+                ]
+            },
+            {
+                title: 'Yorumlar',
+                desc: 'Ogrenci yorumlari / testimonial bolumu',
+                color: '#DF4343',
+                fields: [
+                    { key: 'testimonial_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'testimonial_title', label: 'Baslik', desc: 'Bolum basligi' },
+                ]
+            },
+            {
+                title: 'SSS',
+                desc: 'Sikca sorulan sorular bolumu',
+                color: '#543EE8',
+                fields: [
+                    { key: 'faq_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'faq_title', label: 'Baslik', desc: 'Bolum basligi' },
+                ]
+            },
+            {
+                title: 'Blog',
+                desc: 'Son yazilar bolumu',
+                color: '#543EE8',
+                fields: [
+                    { key: 'blog_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'blog_title', label: 'Baslik', desc: 'Bolum basligi' },
+                ]
+            },
+            {
+                title: 'Footer CTA',
+                desc: 'Sayfanin en altindaki aksiyon cagrisi',
+                color: '#ffcd20',
+                fields: [
+                    { key: 'footer_cta_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                    { key: 'footer_cta_title', label: 'Baslik', desc: 'Buyuk baslik' },
+                    { key: 'footer_cta_description', label: 'Aciklama', desc: 'Baslik altindaki paragraf' },
+                ]
+            },
+        ],
+
+        defaults: {
+            breadcrumb_title: 'Hakkımızda',
+            breadcrumb_home: 'ANA SAYFA',
+            breadcrumb_current: 'HAKKIMIZDA',
+            section1_label: 'NEDEN BİZ',
+            section1_title: 'Online Kurslarımızla En İyi Uygulamalarınızı Dönüştürün',
+            section1_description: 'Uzman eğitmenlerimiz ve kapsamlı müfredatımızla hedeflerinize ulaşmanıza yardımcı oluyoruz.',
+            section1_stat_number: '69K+',
+            section1_stat_text: 'Memnun Öğrenci',
+            categories_label: 'KURS KATEGORİLERİ',
+            categories_title: 'Öğrenmek İstediğiniz Popüler Kategoriler',
+            categories_button_text: 'Kursları Keşfet',
+            video_url: 'https://www.youtube.com/watch?v=3nQNiWdeH2Q',
+            logos_text: 'Bizimle iş birliği yapan <strong>250+</strong> şirketle tanışın',
+            cta_label: 'ONLİNE KURSLAR',
+            cta_title: 'Geleceğiniz İçin Doğru Öğrenme Yolunu Bulun',
+            cta_description: 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.',
+            cta_button_text: 'Hemen Öğrenmeye Başlayın',
+            section2_label: 'NEDEN BİZİ SEÇMELİSİNİZ',
+            section2_title: 'Dijital Online Akademi: Yaratıcı Mükemmelliğe Giden Yolunuz',
+            section2_description: 'Alanında uzman eğitmenlerle pratik odaklı eğitim anlayışımızla fark yaratıyoruz.',
+            section2_stat_number: '3458+',
+            section2_stat_text: 'Memnun Öğrenci',
+            testimonial_label: 'REFERANSLARIMIZ',
+            testimonial_title: 'Öğrencilerimiz Hakkımızda Ne Düşünüyor',
+            faq_label: 'SIKÇA SORULAN SORULAR',
+            faq_title: 'Online Kurslarımız Hakkında En Çok Sorulan Sorular',
+            blog_label: 'HABERLER',
+            blog_title: 'Son Yazılarımız',
+            footer_cta_label: 'HEMEN BAŞLAYIN',
+            footer_cta_title: 'Uygun Fiyatlı Online Kurslar & Öğrenme Fırsatları',
+            footer_cta_description: 'Kariyerinizi bir adım öteye taşıyacak eğitimlerle tanışmaya hazır mısınız? Hemen kayıt olun ve öğrenmeye başlayın.',
+            footer_cta_button_text: 'Öğrenmeye Başla',
+        },
+
         // Section 1 features
         addFeature() {
             this.fields.section1_features.push({ title: '', description: '', icon: '', bg_color: '#42AC98' });
@@ -839,7 +1241,8 @@ function aboutEditor() {
         openFeatureModal(index, field, label, type = 'text') {
             this.editingFeatureIndex = index;
             this.editingFeatureField = field;
-            this.modalField = '';
+            this.editingS2FeatureIndex = -1;
+            this.modalField = (type !== 'image') ? ('feature_' + index + '_' + field) : '';
             this.modalLabel = label;
             this.modalValue = this.fields.section1_features[index][field] || '';
             this.modalType = type;
@@ -856,7 +1259,7 @@ function aboutEditor() {
             }
 
             this.$nextTick(() => {
-                const input = this.$refs.modalInput || this.$refs.modalTextarea;
+                const input = this.$refs.modalTextarea;
                 if (input) input.focus();
             });
         },
@@ -869,13 +1272,31 @@ function aboutEditor() {
             this.fields.section2_features.splice(index, 1);
             this.saveAll();
         },
+        openS2FeatureModal(index) {
+            this.editingFeatureIndex = -1;
+            this.editingFeatureField = '';
+            this.editingS2FeatureIndex = index;
+            this.modalField = 's2f_' + index;
+            this.modalLabel = 'Madde ' + (index + 1);
+            this.modalValue = this.fields.section2_features[index] || '';
+            this.modalType = 'text';
+            this.activeField = 's2f_' + index;
+            this.validationError = '';
+            this.modalMaxLength = 150;
+            this.modal = true;
+            this.$nextTick(() => {
+                const input = this.$refs.modalTextarea;
+                if (input) input.focus();
+            });
+        },
 
         openModal(field, label, type = 'text') {
             this.editingFeatureIndex = -1;
             this.editingFeatureField = '';
+            this.editingS2FeatureIndex = -1;
             this.modalField = field;
             this.modalLabel = label;
-            this.modalValue = this.fields[field] || '';
+            this.modalValue = this.fields[field] || this.defaults[field] || '';
             this.modalType = type;
             this.activeField = field;
             this.validationError = '';
@@ -890,7 +1311,7 @@ function aboutEditor() {
             }
 
             this.$nextTick(() => {
-                const input = this.$refs.modalInput || this.$refs.modalTextarea;
+                const input = this.$refs.modalTextarea;
                 if (input) input.focus();
             });
         },
@@ -910,6 +1331,9 @@ function aboutEditor() {
                 this.fields.section1_features[this.editingFeatureIndex][this.editingFeatureField] = this.modalValue;
                 this.editingFeatureIndex = -1;
                 this.editingFeatureField = '';
+            } else if (this.editingS2FeatureIndex >= 0) {
+                this.fields.section2_features[this.editingS2FeatureIndex] = this.modalValue;
+                this.editingS2FeatureIndex = -1;
             } else {
                 this.fields[this.modalField] = this.modalValue;
             }
@@ -945,6 +1369,88 @@ function aboutEditor() {
             }
         },
 
+        nl2br(str) {
+            return String(str).replace(/\n/g, '<br>');
+        },
+
+        // Developer panel helpers
+        _normDef(val) {
+            if (!val) return null;
+            if (typeof val === 'string') return { color: val, fontSize: '', textAlign: '' };
+            return val;
+        },
+        getDevProp(key, prop) {
+            const d = this._normDef(this.customDefaults[key]);
+            if (d && d[prop]) return d[prop];
+            const h = this.hardcodedDefaults[key];
+            return h ? h[prop] || '' : '';
+        },
+        setDevProp(key, prop, value) {
+            const existing = this._normDef(this.customDefaults[key]) || { ...(this.hardcodedDefaults[key] || { color: '#011c1a', fontSize: '', textAlign: '' }) };
+            existing[prop] = value;
+            this.customDefaults = { ...this.customDefaults, [key]: { ...existing } };
+        },
+        resetDevField(key) {
+            delete this.customDefaults[key];
+            this.customDefaults = { ...this.customDefaults };
+        },
+
+        _getDefaults(field) {
+            let d = this._normDef(this.customDefaults[field]);
+            if (d) return d;
+            if (field.startsWith('feature_') && field.endsWith('_title')) d = this._normDef(this.customDefaults['feature_title']);
+            else if (field.startsWith('feature_') && field.endsWith('_description')) d = this._normDef(this.customDefaults['feature_description']);
+            else if (field.startsWith('s2f_')) d = this._normDef(this.customDefaults['s2f']);
+            if (d) return d;
+            const hKey = (field.startsWith('feature_') && field.endsWith('_title')) ? 'feature_title'
+                       : (field.startsWith('feature_') && field.endsWith('_description')) ? 'feature_description'
+                       : field.startsWith('s2f_') ? 's2f'
+                       : field;
+            return this.hardcodedDefaults[hKey] || { color: '#011c1a', fontSize: '', textAlign: '' };
+        },
+
+        getDefaultColor(field) {
+            return this._getDefaults(field).color || '#011c1a';
+        },
+
+        getStyleProp(prop) {
+            const s = this.fieldStyles[this.modalField];
+            return s ? (s[prop] || '') : '';
+        },
+
+        setStyleProp(prop, value) {
+            if (!this.fieldStyles[this.modalField]) {
+                this.fieldStyles[this.modalField] = {};
+            }
+            this.fieldStyles[this.modalField][prop] = value;
+        },
+
+        resetFieldStyle() {
+            const defaults = this._getDefaults(this.modalField);
+            this.fieldStyles[this.modalField] = {
+                color: defaults.color || '#011c1a',
+                fontSize: defaults.fontSize || '',
+                fontFamily: '',
+                fontWeight: '',
+                fontStyle: '',
+                textAlign: defaults.textAlign || '',
+                opacity: '',
+            };
+        },
+
+        getFieldStyle(field, extraStyle) {
+            const s = this.fieldStyles[field] || {};
+            let style = extraStyle || '';
+            if (s.fontSize) style += ' font-size: ' + s.fontSize + ';';
+            if (s.color) style += ' color: ' + s.color + ';';
+            if (s.opacity !== '' && s.opacity !== undefined && parseInt(s.opacity) < 100) style += ' opacity: ' + (parseInt(s.opacity) / 100) + ';';
+            if (s.fontFamily) style += ' font-family: ' + s.fontFamily + ';';
+            if (s.fontWeight) style += ' font-weight: ' + s.fontWeight + ';';
+            if (s.fontStyle) style += ' font-style: ' + s.fontStyle + ';';
+            if (s.textAlign) style += ' text-align: ' + s.textAlign + ';';
+            return style;
+        },
+
         async saveAll() {
             this.saving = true;
             try {
@@ -960,6 +1466,9 @@ function aboutEditor() {
                     }
                 }
 
+                formData.append('field_styles', JSON.stringify(this.fieldStyles));
+                formData.append('default_styles', JSON.stringify(JSON.parse(JSON.stringify(this.customDefaults))));
+
                 const res = await fetch('{{ route('pages.update', ['id' => 'about']) }}', {
                     method: 'POST',
                     headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
@@ -973,6 +1482,36 @@ function aboutEditor() {
                 this.showToast('Baglanti hatasi', 'error');
             }
             this.saving = false;
+        },
+
+        async saveDefaults() {
+            this.savingDefaults = true;
+            try {
+                const payload = JSON.parse(JSON.stringify(this.customDefaults));
+                const formData = new FormData();
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('lang', '{{ $selectedLang }}');
+                formData.append('default_styles', JSON.stringify(payload));
+
+                const res = await fetch('{{ route('pages.update', ['id' => 'about']) }}', {
+                    method: 'POST',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+                    body: formData,
+                });
+
+                if (!res.ok) {
+                    this.showToast('Sunucu hatasi: ' + res.status, 'error');
+                    this.savingDefaults = false;
+                    return;
+                }
+
+                const data = await res.json();
+                if (data.success) this.showToast('Varsayilanlar kaydedildi', 'success');
+                else this.showToast('Hata: ' + (data.message || 'Bilinmeyen'), 'error');
+            } catch (e) {
+                this.showToast('Baglanti hatasi: ' + e.message, 'error');
+            }
+            this.savingDefaults = false;
         },
 
         showToast(msg, type) {

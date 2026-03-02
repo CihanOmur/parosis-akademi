@@ -260,6 +260,11 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         });
     });
 
+    // ─── UI Referans ──────────────────────────────────────────────────────────
+    Route::get('/reference', function () {
+        return view('admin.reference.index');
+    })->name('reference.index');
+
     // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/',                              [PagesController::class, 'index'])->name('index');

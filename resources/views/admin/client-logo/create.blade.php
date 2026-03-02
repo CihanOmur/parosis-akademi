@@ -65,33 +65,11 @@
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Logo Görseli --}}
-                    <div class="space-y-1" x-data="{ preview: null }">
+                    <div class="space-y-1">
                         <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Logo Görseli <span class="text-red-500">*</span>
                         </label>
-                        <div class="mt-2">
-                            <template x-if="preview">
-                                <div class="mb-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl flex items-center justify-center">
-                                    <img :src="preview" class="h-16 max-w-[200px] object-contain">
-                                </div>
-                            </template>
-                            <input type="file" name="image" id="image" accept="image/*"
-                                   @change="preview = URL.createObjectURL($event.target.files[0])"
-                                   class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4
-                                          file:rounded-xl file:border-0 file:text-sm file:font-semibold
-                                          file:bg-fuchsia-50 file:text-fuchsia-700 hover:file:bg-fuchsia-100
-                                          dark:file:bg-fuchsia-900/20 dark:file:text-fuchsia-400
-                                          cursor-pointer" required>
-                        </div>
-                        <p class="text-xs text-slate-400 mt-1">PNG, JPG, SVG veya WEBP. Maks 2MB.</p>
-                        @error('image')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
+                        <x-image-upload name="image" required />
                     </div>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>

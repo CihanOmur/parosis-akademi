@@ -3,9 +3,25 @@
 @section('title', 'Parosis Akademi | Geleceğin Teknolojisine Yön Veren Akademi')
 
 @section('content')
+@php
+    $fs = function($field) use ($homePageInfo) {
+        $styles = $homePageInfo->field_styles ?? [];
+        if (empty($styles[$field])) return '';
+        $s = $styles[$field];
+        $css = '';
+        if (!empty($s['color'])) $css .= 'color:'.$s['color'].';';
+        if (!empty($s['fontSize'])) $css .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['fontFamily'])) $css .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $css .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $css .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $css .= 'text-align:'.$s['textAlign'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $css .= 'opacity:'.($s['opacity']/100).';';
+        return $css;
+    };
+@endphp
             <!--...::: Hero Section Start :::... -->
+            @if($activeSlider && $activeSlider->activeItems->count() > 0)
             <section class="section-hero overflow-hidden">
-                @if($activeSlider && $activeSlider->activeItems->count() > 0)
                     @php $slides = $activeSlider->activeItems; @endphp
 
                     @if($slides->count() === 1)
@@ -109,36 +125,8 @@
                             <div class="hero-slider-pagination relative z-30 flex items-center justify-center gap-2 py-4 lg:absolute lg:bottom-6 lg:left-1/2 lg:-translate-x-1/2 lg:py-5"></div>
                         </div>
                     @endif
-                @else
-                    {{-- Fallback — statik hero (slider tanımlanmamışsa) --}}
-                    <div class="relative z-10 overflow-hidden bg-[url(../img/images/th-1/hero-bg.svg)] bg-cover bg-center bg-no-repeat">
-                        <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px]">
-                            <div class="py-8 lg:py-16 xxl:py-24">
-                                <h1 class="mb-[30px]">
-                                    En İyi
-                                    <span class="inline-flex rounded-md bg-colorBrightGold px-2">Online</span>
-                                    Eğitim Platformu
-                                </h1>
-                                <p class="mb-10 max-w-[400px] xl:max-w-[474px]">
-                                    Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.
-                                </p>
-                                <a href="{{ route('front.courses') }}" class="btn btn-primary is-icon group">Tüm Kursları Görüntüle
-                                    <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                        <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="arrow" width="13" height="12" />
-                                    </span>
-                                    <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                        <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="arrow" width="13" height="12" />
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="relative flex items-end justify-center overflow-hidden">
-                                <img src="{{ asset('assets-front/img/images/th-1/hero-img-1.png') }}" alt="hero-img-1" width="653" height="740" class="element-move-x relative z-10 max-h-[420px] w-auto max-w-full object-contain object-bottom md:max-h-[500px] xl:max-h-[580px] xxl:max-h-[680px]"/>
-                                <div class="jos absolute bottom-0 left-1/2 -z-10 h-[300px] w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]" data-jos_animation="zoom-in-up"></div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
             </section>
+            @endif
             <!--...::: Hero Section End :::... -->
 
             <!--...::: Welcome Section Start :::... -->
@@ -160,8 +148,8 @@
                                             <img src="{{ asset('assets-front/img/icons/icon-red-tomato-graduation-cap-line.svg') }}" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
                                         </div>
                                         <div class="">
-                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">{{ $homePageInfo->welcome_stat_number ?? '9394' }}+</span>
-                                            <span>{{ $homePageInfo ? ($homePageInfo->welcome_stat_text ?: 'Enrolled Learners') : 'Enrolled Learners' }}</span>
+                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]" @if($fs('welcome_stat_number')) style="{{ $fs('welcome_stat_number') }}" @endif>{{ $homePageInfo->welcome_stat_number ?? '9394' }}+</span>
+                                            <span @if($fs('welcome_stat_text')) style="{{ $fs('welcome_stat_text') }}" @endif>{{ $homePageInfo ? ($homePageInfo->welcome_stat_text ?: 'Enrolled Learners') : 'Enrolled Learners' }}</span>
                                         </div>
                                     </div>
                                     <!-- Card -->
@@ -177,16 +165,16 @@
                                 <div class="jos order-1 lg:order-2" data-jos_animation="fade-left">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase text-[#84994F]">{{ $homePageInfo ? ($homePageInfo->welcome_label ?: 'WELCOME TO PAROSIS') : 'WELCOME TO PAROSIS' }}</span>
+                                        <span class="mb-5 block uppercase text-[#84994F]" @if($fs('welcome_label')) style="{{ $fs('welcome_label') }}" @endif>{{ $homePageInfo ? ($homePageInfo->welcome_label ?: 'WELCOME TO PAROSIS') : 'WELCOME TO PAROSIS' }}</span>
                                         <h2>
-                                            {{ $homePageInfo ? ($homePageInfo->welcome_title ?: 'Digital Online Academy: Your Path to Creative Excellence') : 'Digital Online Academy: Your Path to Creative Excellence' }}
+                                            <span @if($fs('welcome_title')) style="{{ $fs('welcome_title') }}" @endif>{{ $homePageInfo ? ($homePageInfo->welcome_title ?: 'Digital Online Academy: Your Path to Creative Excellence') : 'Digital Online Academy: Your Path to Creative Excellence' }}</span>
                                         </h2>
                                     </div>
                                     <!-- Section Block -->
                                     <!-- Content Block -->
                                     <div>
                                         <p>
-                                            {{ $homePageInfo ? ($homePageInfo->welcome_description ?: 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.') : 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.' }}
+                                            <span @if($fs('welcome_description')) style="{{ $fs('welcome_description') }}" @endif>{{ $homePageInfo ? ($homePageInfo->welcome_description ?: 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.') : 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.' }}</span>
                                         </p>
                                         @php
                                             $welcomeFeatures = $homePageInfo ? $homePageInfo->welcome_features : null;
@@ -195,8 +183,8 @@
                                             }
                                         @endphp
                                         <ul class="mt-6 flex list-inside list-image-[url(../img/icons/icon-purple-check.svg)] flex-col gap-y-4 font-title text-colorBlackPearl">
-                                            @foreach($welcomeFeatures as $feature)
-                                                <li>{{ $feature }}</li>
+                                            @foreach($welcomeFeatures as $wfIdx => $feature)
+                                                <li @if($fs('wf_' . $wfIdx)) style="{{ $fs('wf_' . $wfIdx) }}" @endif>{{ $feature }}</li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -227,11 +215,11 @@
                         <!-- Section Block -->
                         <div class="mb-10 flex flex-wrap items-center justify-between gap-8 lg:mb-[60px]">
                             <div class="jos max-w-xl">
-                                <span class="mb-5 block uppercase">{{ $homePageInfo ? ($homePageInfo->categories_label ?: 'COURSE CATEGORIES') : 'COURSE CATEGORIES' }}</span>
-                                <h2>{{ $homePageInfo ? ($homePageInfo->categories_title ?: 'Top Categories You Want to Learn') : 'Top Categories You Want to Learn' }}</h2>
+                                <span class="mb-5 block uppercase" @if($fs('categories_label')) style="{{ $fs('categories_label') }}" @endif>{{ $homePageInfo ? ($homePageInfo->categories_label ?: 'COURSE CATEGORIES') : 'COURSE CATEGORIES' }}</span>
+                                <h2 @if($fs('categories_title')) style="{{ $fs('categories_title') }}" @endif>{{ $homePageInfo ? ($homePageInfo->categories_title ?: 'Top Categories You Want to Learn') : 'Top Categories You Want to Learn' }}</h2>
                             </div>
                             <div class="jos inline-block">
-                                <a href="{{ $homePageInfo && $homePageInfo->categories_button_url ? $homePageInfo->categories_button_url : route('front.courses') }}" class="btn btn-primary is-icon group">{{ $homePageInfo ? ($homePageInfo->categories_button_text ?: 'Find Courses') : 'Find Courses' }}
+                                <a href="{{ $homePageInfo && $homePageInfo->categories_button_url ? $homePageInfo->categories_button_url : route('front.courses') }}" class="btn btn-primary is-icon group" @if($fs('categories_button_text')) style="{{ $fs('categories_button_text') }}" @endif>{{ $homePageInfo ? ($homePageInfo->categories_button_text ?: 'Find Courses') : 'Find Courses' }}
                                     <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                         <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
                                     </span>
@@ -293,7 +281,7 @@
                             @endphp
                             <!-- Feature List -->
                             <ul class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-                                @foreach($featuresData as $feature)
+                                @foreach($featuresData as $fIdx => $feature)
                                 <li class="jos flex items-start gap-5">
                                     <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%]" style="background-color: {{ ($feature['bg_color'] ?? '#FFCD20') . '1a' }}">
                                         @if(!empty($feature['icon']))
@@ -303,8 +291,8 @@
                                         @endif
                                     </div>
                                     <div class="flex-1">
-                                        <span class="mb-2 block font-title text-xl font-bold text-white">{{ $feature['title'] ?? '' }}</span>
-                                        <span class="text-white/80">{{ $feature['description'] ?? '' }}</span>
+                                        <span class="mb-2 block font-title text-xl font-bold text-white" @if($fs('feat_title_' . $fIdx)) style="{{ $fs('feat_title_' . $fIdx) }}" @endif>{{ $feature['title'] ?? '' }}</span>
+                                        <span class="text-white/80" @if($fs('feat_desc_' . $fIdx)) style="{{ $fs('feat_desc_' . $fIdx) }}" @endif>{{ $feature['description'] ?? '' }}</span>
                                     </div>
                                 </li>
                                 @endforeach
@@ -334,8 +322,8 @@
                             <!-- Section Block -->
                             <div class="mb-10 lg:mb-[60px]">
                                 <div class="jos mx-auto max-w-md text-center">
-                                    <span class="mb-5 block uppercase">{{ $homePageInfo ? ($homePageInfo->courses_label ?: 'ONLINE COURSES') : 'ONLINE COURSES' }}</span>
-                                    <h2>{{ $homePageInfo ? ($homePageInfo->courses_title ?: 'Get Your Course With Us') : 'Get Your Course With Us' }}</h2>
+                                    <span class="mb-5 block uppercase" @if($fs('courses_label')) style="{{ $fs('courses_label') }}" @endif>{{ $homePageInfo ? ($homePageInfo->courses_label ?: 'ONLINE COURSES') : 'ONLINE COURSES' }}</span>
+                                    <h2 @if($fs('courses_title')) style="{{ $fs('courses_title') }}" @endif>{{ $homePageInfo ? ($homePageInfo->courses_title ?: 'Get Your Course With Us') : 'Get Your Course With Us' }}</h2>
                                 </div>
                             </div>
                             <!-- Section Block -->
@@ -350,7 +338,11 @@
                                             @if($course->image)
                                                 <img src="{{ asset($course->image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
                                             @else
-                                                <img src="{{ asset('assets-front/img/images/th-1/course-img-1.jpg') }}" alt="course" width="370" height="270" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                                <div class="h-[270px] w-full bg-gray-200 flex items-center justify-center">
+                                                    <svg class="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
+                                                    </svg>
+                                                </div>
                                             @endif
 
                                             @if($course->categories->count())
@@ -425,13 +417,13 @@
                                 <div class="jos" data-jos_animation="fade-right">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">{{ $homePageInfo ? ($homePageInfo->why_label ?: 'WHY CHOOSE US') : 'WHY CHOOSE US' }}</span>
-                                        <h2>{{ $homePageInfo ? ($homePageInfo->why_title ?: 'Transform Your Best Practice with Our Online Course') : 'Transform Your Best Practice with Our Online Course' }}</h2>
+                                        <span class="mb-5 block uppercase" @if($fs('why_label')) style="{{ $fs('why_label') }}" @endif>{{ $homePageInfo ? ($homePageInfo->why_label ?: 'WHY CHOOSE US') : 'WHY CHOOSE US' }}</span>
+                                        <h2 @if($fs('why_title')) style="{{ $fs('why_title') }}" @endif>{{ $homePageInfo ? ($homePageInfo->why_title ?: 'Transform Your Best Practice with Our Online Course') : 'Transform Your Best Practice with Our Online Course' }}</h2>
                                     </div>
                                     <!-- Section Block -->
                                     <!-- Content -->
                                     <div class="mt-7">
-                                        <p>{{ $homePageInfo ? ($homePageInfo->why_description ?: 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit. Excepteur sint occaecat.') : 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit. Excepteur sint occaecat.' }}</p>
+                                        <p @if($fs('why_description')) style="{{ $fs('why_description') }}" @endif>{{ $homePageInfo ? ($homePageInfo->why_description ?: 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit. Excepteur sint occaecat.') : 'Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit. Excepteur sint occaecat.' }}</p>
 
                                         @php
                                             $whyItems = $homePageInfo ? $homePageInfo->why_items : null;
@@ -443,7 +435,7 @@
                                             }
                                         @endphp
                                         <ul class="mt-10 flex flex-col gap-y-10">
-                                            @foreach($whyItems as $whyItem)
+                                            @foreach($whyItems as $wIdx => $whyItem)
                                             <li>
                                                 <div class="mb-5 flex items-center gap-x-5">
                                                     <div class="inline-flex h-[60px] w-[60px] items-center justify-center rounded-[50%]" style="background-color: {{ ($whyItem['bg_color'] ?? '#20B9AB') . '1a' }}">
@@ -453,9 +445,9 @@
                                                             <svg class="w-[25px] h-[25px]" style="color: {{ $whyItem['bg_color'] ?? '#20B9AB' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/></svg>
                                                         @endif
                                                     </div>
-                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">{{ $whyItem['title'] ?? '' }}</span>
+                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl" @if($fs('why_title_' . $wIdx)) style="{{ $fs('why_title_' . $wIdx) }}" @endif>{{ $whyItem['title'] ?? '' }}</span>
                                                 </div>
-                                                <p>{{ $whyItem['description'] ?? '' }}</p>
+                                                <p @if($fs('why_desc_' . $wIdx)) style="{{ $fs('why_desc_' . $wIdx) }}" @endif>{{ $whyItem['description'] ?? '' }}</p>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -474,8 +466,8 @@
                                             <img src="{{ asset('assets-front/img/icons/icon-red-tomato-graduation-cap-line.svg') }}" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
                                         </div>
                                         <div class="">
-                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">{{ $homePageInfo->why_stat_number ?? '69K' }}+</span>
-                                            <span>{{ $homePageInfo ? ($homePageInfo->why_stat_text ?: 'Satisfied Students') : 'Satisfied Students' }}</span>
+                                            <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]" @if($fs('why_stat_number')) style="{{ $fs('why_stat_number') }}" @endif>{{ $homePageInfo->why_stat_number ?? '69K' }}+</span>
+                                            <span @if($fs('why_stat_text')) style="{{ $fs('why_stat_text') }}" @endif>{{ $homePageInfo ? ($homePageInfo->why_stat_text ?: 'Satisfied Students') : 'Satisfied Students' }}</span>
                                         </div>
                                     </div>
                                     <!-- Card -->
@@ -533,12 +525,12 @@
                                     <!-- Countdown Right Block -->
                                     <div>
                                         <ul class="grid grid-cols-1 gap-x-[120px] gap-y-6 text-center sm:grid-cols-2 lg:gap-y-16 lg:text-left">
-                                            @foreach($funfactItems as $funfact)
+                                            @foreach($funfactItems as $ffIdx => $funfact)
                                             <li>
-                                                <div class="mb-2 font-title text-4xl font-bold text-white" data-module="countup">
+                                                <div class="mb-2 font-title text-4xl font-bold text-white" data-module="countup" @if($fs('ff_number_' . $ffIdx)) style="{{ $fs('ff_number_' . $ffIdx) }}" @endif>
                                                     <span class="start-number" data-countup-number="{{ $funfact['number'] ?? '0' }}">{{ $funfact['number'] ?? '0' }}</span>+
                                                 </div>
-                                                <span class="text-white/80">{{ $funfact['text'] ?? '' }}</span>
+                                                <span class="text-white/80" @if($fs('ff_text_' . $ffIdx)) style="{{ $fs('ff_text_' . $ffIdx) }}" @endif>{{ $funfact['text'] ?? '' }}</span>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -556,7 +548,7 @@
                         <div class="container">
                             <div class="mx-auto mb-10 max-w-xl lg:mb-[60px]">
                                 <p class="text-center text-lg text-colorBlackPearl">
-                                    {!! $homePageInfo && $homePageInfo->client_logo_text ? $homePageInfo->client_logo_text : 'Get in touch with the <strong>250+</strong> companies who Collaboration us' !!}
+                                    <span @if($fs('client_logo_text')) style="{{ $fs('client_logo_text') }}" @endif>{!! $homePageInfo && $homePageInfo->client_logo_text ? $homePageInfo->client_logo_text : 'Get in touch with the <strong>250+</strong> companies who Collaboration us' !!}</span>
                                 </p>
                             </div>
 
@@ -601,6 +593,7 @@
             <!--...::: Client Logo Section End :::... -->
 
             <!--...::: Testimonial Section Start :::... -->
+            @if(isset($testimonials) && $testimonials->count())
             <section class="section-testimonial">
                 <!-- Section Space -->
                 <div class="section-space">
@@ -612,8 +605,8 @@
                             <div class="jos" data-jos_animation="fade-left">
                                 <!-- Section Block -->
                                 <div class="mb-10 lg:mb-[60px]">
-                                    <span class="mb-5 block uppercase">OUR TESTIMONIAL</span>
-                                    <h2>What Student Say About Our Online Education Course</h2>
+                                    <span class="mb-5 block uppercase" @if($fs('testimonial_label')) style="{{ $fs('testimonial_label') }}" @endif>{{ $homePageInfo ? ($homePageInfo->testimonial_label ?: 'OUR TESTIMONIAL') : 'OUR TESTIMONIAL' }}</span>
+                                    <h2 @if($fs('testimonial_title')) style="{{ $fs('testimonial_title') }}" @endif>{{ $homePageInfo ? ($homePageInfo->testimonial_title ?: 'What Student Say About Our Online Education Course') : 'What Student Say About Our Online Education Course' }}</h2>
                                 </div>
                                 <!-- Section Block -->
 
@@ -622,62 +615,33 @@
                                     <div class="swiper testimonial-slider-1">
                                         <!-- Additional required wrapper -->
                                         <div class="swiper-wrapper">
-                                            <!-- Slide Item -->
+                                            @foreach($testimonials as $testimonial)
                                             <div class="swiper-slide">
                                                 <!-- Review Star -->
                                                 <div class="mb-5 inline-flex items-center gap-x-1">
+                                                    @for($s = 0; $s < ($testimonial->rating ?? 5); $s++)
                                                     <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
+                                                    @endfor
                                                 </div>
                                                 <!-- Review Star -->
                                                 <blockquote class="text-lg">
-                                                    " Attending EduVibe School of Business was one of
-                                                    the best decisions I've ever made. The curriculum
-                                                    was practical and industry-focused, and I was able
-                                                    to apply what I learned in the classroom."
+                                                    "{{ $testimonial->quote }}"
                                                 </blockquote>
                                                 <div class="mt-8 flex items-center gap-x-4">
                                                     <div class="h-[43px] w-[43px] overflow-hidden rounded-[50%]">
-                                                        <img src="{{ asset('assets-front/img/images/th-1/testimonial-avater-1.png') }}" alt="testimonial-avater-1" width="43" height="43" class="h-full w-full object-cover" />
+                                                        @if($testimonial->image)
+                                                            <img src="{{ asset($testimonial->image) }}" alt="{{ $testimonial->name }}" width="43" height="43" class="h-full w-full object-cover" />
+                                                        @else
+                                                            <img src="{{ asset('assets-front/img/images/th-1/testimonial-avater-1.png') }}" alt="{{ $testimonial->name }}" width="43" height="43" class="h-full w-full object-cover" />
+                                                        @endif
                                                     </div>
                                                     <div class="flex flex-col">
-                                                        <span class="block font-title text-xl font-bold text-colorBlackPearl">John Smith</span>
-                                                        <span class="block text-sm">Science Student</span>
+                                                        <span class="block font-title text-xl font-bold text-colorBlackPearl">{{ $testimonial->name }}</span>
+                                                        <span class="block text-sm">{{ $testimonial->role }}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Slide Item -->
-                                            <!-- Slide Item -->
-                                            <div class="swiper-slide">
-                                                <!-- Review Star -->
-                                                <div class="mb-5 inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                </div>
-                                                <!-- Review Star -->
-                                                <blockquote class="text-lg">
-                                                    " Attending EduVibe School of Business was one of
-                                                    the best decisions I've ever made. The curriculum
-                                                    was practical and industry-focused, and I was able
-                                                    to apply what I learned in the classroom."
-                                                </blockquote>
-                                                <div class="mt-8 flex items-center gap-x-4">
-                                                    <div class="h-[43px] w-[43px] overflow-hidden rounded-[50%]">
-                                                        <img src="{{ asset('assets-front/img/images/th-1/testimonial-avater-1.png') }}" alt="testimonial-avater-1" width="43" height="43" class="h-full w-full object-cover" />
-                                                    </div>
-                                                    <div class="flex flex-col">
-                                                        <span class="block font-title text-xl font-bold text-colorBlackPearl">John Smith</span>
-                                                        <span class="block text-sm">Science Student</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Slide Item -->
+                                            @endforeach
                                         </div>
 
                                         <!-- If we need navigation buttons -->
@@ -697,7 +661,7 @@
 
                             <!-- Testimonial Right Block -->
                             <div class="jos relative mx-auto" data-jos_animation="fade-right">
-                                <img src="{{ asset('assets-front/img/images/th-1/testimonial-img.png') }}" alt="testimonial-img" width="437" height="520" class="max-w-full" />
+                                <img src="{{ $homePageInfo && $homePageInfo->testimonial_image ? asset($homePageInfo->testimonial_image) : asset('assets-front/img/images/th-1/testimonial-img.png') }}" alt="testimonial-img" width="437" height="520" class="max-w-full" />
 
                                 <!-- Card -->
                                 <div class="jos absolute bottom-12 left-16 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10 xxl:-left-16 xxxl:-left-28">
@@ -705,8 +669,8 @@
                                         <img src="{{ asset('assets-front/img/icons/icon-red-tomato-graduation-cap-line.svg') }}" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
                                     </div>
                                     <div class="">
-                                        <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]">667K+</span>
-                                        <span>Students worldwide</span>
+                                        <span class="block font-title text-[28px] font-bold leading-[1.73] text-[#DF4343]" @if($fs('testimonial_stat_number')) style="{{ $fs('testimonial_stat_number') }}" @endif>{{ $homePageInfo->testimonial_stat_number ?? '667K' }}+</span>
+                                        <span @if($fs('testimonial_stat_text')) style="{{ $fs('testimonial_stat_text') }}" @endif>{{ $homePageInfo ? ($homePageInfo->testimonial_stat_text ?: 'Students worldwide') : 'Students worldwide' }}</span>
                                     </div>
                                 </div>
                                 <!-- Card -->
@@ -723,6 +687,7 @@
                 </div>
                 <!-- Section Space -->
             </section>
+            @endif
             <!--...::: Testimonial Section End :::... -->
 
             <!--...::: Blog Section Start :::... -->
@@ -736,8 +701,8 @@
                             <!-- Section Block -->
                             <div class="mb-10 lg:mb-[60px]">
                                 <div class="jos mx-auto max-w-md text-center">
-                                    <span class="mb-5 block uppercase">{{ $homePageInfo ? ($homePageInfo->blog_label ?: 'OUR NEWS') : 'OUR NEWS' }}</span>
-                                    <h2>{{ $homePageInfo ? ($homePageInfo->blog_title ?: 'Our New Articles') : 'Our New Articles' }}</h2>
+                                    <span class="mb-5 block uppercase" @if($fs('blog_label')) style="{{ $fs('blog_label') }}" @endif>{{ $homePageInfo ? ($homePageInfo->blog_label ?: 'OUR NEWS') : 'OUR NEWS' }}</span>
+                                    <h2 @if($fs('blog_title')) style="{{ $fs('blog_title') }}" @endif>{{ $homePageInfo ? ($homePageInfo->blog_title ?: 'Our New Articles') : 'Our New Articles' }}</h2>
                                 </div>
                             </div>
                             <!-- Section Block -->

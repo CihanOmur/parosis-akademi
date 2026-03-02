@@ -2,6 +2,22 @@
 
 @section('title', 'Parosis Akademi | ' . $blog->getTranslation('title', app()->getLocale()))
 
+@php
+    $fieldStyles = $blogPageInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
+@endphp
+
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
             <section class="section-breadcrum">
@@ -11,16 +27,16 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    {{ $blogPageInfo?->getTranslation('detail_breadcrumb_current', app()->getLocale()) ?: 'Blog Detayı' }}
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('detail_breadcrumb_current')) style="{{ $fs('detail_breadcrumb_current') }}" @endif>
+                                    {!! nl2br(e($blogPageInfo?->getTranslation('detail_breadcrumb_current', app()->getLocale()) ?: 'Blog Detayı')) !!}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">{{ $blogPageInfo?->getTranslation('breadcrumb_home', app()->getLocale()) ?: 'ANA SAYFA' }}</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('breadcrumb_home')) style="{{ $fs('breadcrumb_home') }}" @endif>{{ $blogPageInfo?->getTranslation('breadcrumb_home', app()->getLocale()) ?: 'ANA SAYFA' }}</a>
                                         </li>
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.blog') }}">{{ $blogPageInfo?->getTranslation('breadcrumb_current', app()->getLocale()) ?: 'BLOG' }}</a>
+                                            <a href="{{ route('front.blog') }}" @if($fs('breadcrumb_current')) style="{{ $fs('breadcrumb_current') }}" @endif>{{ $blogPageInfo?->getTranslation('breadcrumb_current', app()->getLocale()) ?: 'BLOG' }}</a>
                                         </li>
                                         <li>{{ Str::limit($blog->getTranslation('title', app()->getLocale()), 40) }}</li>
                                     </ul>
@@ -86,7 +102,7 @@
                                     <ul class="grid grid-cols-1 gap-y-9">
                                         <!-- Search -->
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7">{{ $blogPageInfo?->getTranslation('sidebar_search_title', app()->getLocale()) ?: 'Ara' }}</h5>
+                                            <h5 class="mb-7" @if($fs('sidebar_search_title')) style="{{ $fs('sidebar_search_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_search_title', app()->getLocale()) ?: 'Ara' }}</h5>
                                             <form action="#" method="get">
                                                 <input type="search" class="w-full rounded border border-[#D7D7D7] px-5 py-3.5 text-sm leading-none text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" placeholder="{{ $blogPageInfo?->getTranslation('sidebar_search_placeholder', app()->getLocale()) ?: 'Ara...' }}" />
                                             </form>
@@ -95,7 +111,7 @@
                                         <!-- Categories -->
                                         @if($categories->count() > 0)
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7">{{ $blogPageInfo?->getTranslation('sidebar_categories_title', app()->getLocale()) ?: 'Kategoriler' }}</h5>
+                                            <h5 class="mb-7" @if($fs('sidebar_categories_title')) style="{{ $fs('sidebar_categories_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_categories_title', app()->getLocale()) ?: 'Kategoriler' }}</h5>
                                             <ul class="divide-y divide-[#E9E5DA]">
                                                 @foreach($categories as $cat)
                                                 <li class="flex items-center justify-between gap-x-5 py-2 first-of-type:pt-0 last-of-type:pb-0">
@@ -110,7 +126,7 @@
                                         <!-- Popular News -->
                                         @if($popularBlogs->count() > 0)
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7">{{ $blogPageInfo?->getTranslation('sidebar_popular_title', app()->getLocale()) ?: 'Popüler Yazılar' }}</h5>
+                                            <h5 class="mb-7" @if($fs('sidebar_popular_title')) style="{{ $fs('sidebar_popular_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_popular_title', app()->getLocale()) ?: 'Popüler Yazılar' }}</h5>
                                             <ul class="grid grid-cols-1 gap-y-4">
                                                 @foreach($popularBlogs as $popular)
                                                 <li class="group flex items-center gap-x-4">
@@ -139,7 +155,7 @@
 
                                         <!-- Contact Us -->
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7">{{ $blogPageInfo?->getTranslation('sidebar_contact_title', app()->getLocale()) ?: 'İletişim' }}</h5>
+                                            <h5 class="mb-7" @if($fs('sidebar_contact_title')) style="{{ $fs('sidebar_contact_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_contact_title', app()->getLocale()) ?: 'İletişim' }}</h5>
                                             <ul class="flex flex-col gap-y-3">
                                                 @if($blogPageInfo?->getTranslation('sidebar_contact_phone', app()->getLocale()))
                                                 <li class="inline-flex gap-x-6">
@@ -147,8 +163,8 @@
                                                         <img src="{{ asset('assets-front/img/icons/icon-purple-phone-ring.svg') }}" alt="phone" width="28" height="28" />
                                                     </div>
                                                     <div class="flex-1">
-                                                        <span class="block">{{ $blogPageInfo->getTranslation('sidebar_contact_phone_label', app()->getLocale()) ?: '7/24 Destek' }}</span>
-                                                        <a href="tel:{{ preg_replace('/\s+/', '', $blogPageInfo->getTranslation('sidebar_contact_phone', app()->getLocale())) }}" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">{{ $blogPageInfo->getTranslation('sidebar_contact_phone', app()->getLocale()) }}</a>
+                                                        <span class="block" @if($fs('sidebar_contact_phone_label')) style="{{ $fs('sidebar_contact_phone_label') }}" @endif>{{ $blogPageInfo->getTranslation('sidebar_contact_phone_label', app()->getLocale()) ?: '7/24 Destek' }}</span>
+                                                        <a href="tel:{{ preg_replace('/\s+/', '', $blogPageInfo->getTranslation('sidebar_contact_phone', app()->getLocale())) }}" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl" @if($fs('sidebar_contact_phone')) style="{{ $fs('sidebar_contact_phone') }}" @endif>{{ $blogPageInfo->getTranslation('sidebar_contact_phone', app()->getLocale()) }}</a>
                                                     </div>
                                                 </li>
                                                 @endif
@@ -158,8 +174,8 @@
                                                         <img src="{{ asset('assets-front/img/icons/icon-purple-mail-open.svg') }}" alt="email" width="28" height="28" />
                                                     </div>
                                                     <div class="flex-1">
-                                                        <span class="block">{{ $blogPageInfo->getTranslation('sidebar_contact_email_label', app()->getLocale()) ?: 'Mesaj Gönderin' }}</span>
-                                                        <a href="mailto:{{ $blogPageInfo->getTranslation('sidebar_contact_email', app()->getLocale()) }}" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">{{ $blogPageInfo->getTranslation('sidebar_contact_email', app()->getLocale()) }}</a>
+                                                        <span class="block" @if($fs('sidebar_contact_email_label')) style="{{ $fs('sidebar_contact_email_label') }}" @endif>{{ $blogPageInfo->getTranslation('sidebar_contact_email_label', app()->getLocale()) ?: 'Mesaj Gönderin' }}</span>
+                                                        <a href="mailto:{{ $blogPageInfo->getTranslation('sidebar_contact_email', app()->getLocale()) }}" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl" @if($fs('sidebar_contact_email')) style="{{ $fs('sidebar_contact_email') }}" @endif>{{ $blogPageInfo->getTranslation('sidebar_contact_email', app()->getLocale()) }}</a>
                                                     </div>
                                                 </li>
                                                 @endif
@@ -169,9 +185,9 @@
                                                         <img src="{{ asset('assets-front/img/icons/icon-purple-location.svg') }}" alt="location" width="28" height="28" />
                                                     </div>
                                                     <div class="flex-1">
-                                                        <span class="block">{{ $blogPageInfo->getTranslation('sidebar_contact_address_label', app()->getLocale()) ?: 'Adresimiz' }}</span>
-                                                        <address class="font-title text-xl not-italic text-colorBlackPearl">
-                                                            {{ $blogPageInfo->getTranslation('sidebar_contact_address', app()->getLocale()) }}
+                                                        <span class="block" @if($fs('sidebar_contact_address_label')) style="{{ $fs('sidebar_contact_address_label') }}" @endif>{{ $blogPageInfo->getTranslation('sidebar_contact_address_label', app()->getLocale()) ?: 'Adresimiz' }}</span>
+                                                        <address class="font-title text-xl not-italic text-colorBlackPearl" @if($fs('sidebar_contact_address')) style="{{ $fs('sidebar_contact_address') }}" @endif>
+                                                            {!! nl2br(e($blogPageInfo->getTranslation('sidebar_contact_address', app()->getLocale()))) !!}
                                                         </address>
                                                     </div>
                                                 </li>
@@ -182,7 +198,7 @@
                                         <!-- Tags -->
                                         @if($tags->count() > 0)
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7">{{ $blogPageInfo?->getTranslation('sidebar_tags_title', app()->getLocale()) ?: 'Etiketler' }}</h5>
+                                            <h5 class="mb-7" @if($fs('sidebar_tags_title')) style="{{ $fs('sidebar_tags_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_tags_title', app()->getLocale()) ?: 'Etiketler' }}</h5>
                                             <ul class="flex flex-wrap gap-2">
                                                 @foreach($tags as $tag)
                                                 <li>

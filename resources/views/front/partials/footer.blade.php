@@ -16,13 +16,28 @@
                     <!-- Section Block -->
                     <div class="max-w-[530px]">
                         <div class="jos">
-                            <span class="mb-5 block uppercase text-colorBrightGold">{{ $ctaInfo?->getTranslation('cta_label', app()->getLocale()) ?: 'HEMEN BASLAYIN' }}</span>
-                            <h2 class="text-white">
-                                {{ $ctaInfo?->getTranslation('cta_title', app()->getLocale()) ?: 'Uygun Fiyatli Online Kurslar & Ogrenme Firsatlari' }}
+                            @php
+                                $ctaStyles = $ctaInfo?->field_styles ?? [];
+                                $ctaFs = function($field) use ($ctaStyles) {
+                                    $s = $ctaStyles[$field] ?? [];
+                                    $style = '';
+                                    if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+                                    if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+                                    if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+                                    if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+                                    if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+                                    if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+                                    if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+                                    return $style;
+                                };
+                            @endphp
+                            <span class="mb-5 block uppercase text-colorBrightGold" @if($ctaFs('cta_label')) style="{{ $ctaFs('cta_label') }}" @endif>{!! nl2br(e($ctaInfo?->getTranslation('cta_label', app()->getLocale()) ?: 'HEMEN BASLAYIN')) !!}</span>
+                            <h2 class="text-white" @if($ctaFs('cta_title')) style="{{ $ctaFs('cta_title') }}" @endif>
+                                {!! nl2br(e($ctaInfo?->getTranslation('cta_title', app()->getLocale()) ?: 'Uygun Fiyatli Online Kurslar & Ogrenme Firsatlari')) !!}
                             </h2>
                         </div>
-                        <p class="mb-[30px] mt-7 text-white/80">
-                            {{ $ctaInfo?->getTranslation('cta_description', app()->getLocale()) ?: 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.' }}
+                        <p class="mb-[30px] mt-7 text-white/80" @if($ctaFs('cta_description')) style="{{ $ctaFs('cta_description') }}" @endif>
+                            {!! nl2br(e($ctaInfo?->getTranslation('cta_description', app()->getLocale()) ?: 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.')) !!}
                         </p>
                         <div class="inline-block">
                             <a href="{{ $ctaInfo?->cta_button_url ?: route('front.courses') }}" class="btn btn-secondary is-icon group">{{ $ctaInfo?->getTranslation('cta_button_text', app()->getLocale()) ?: 'Ogrenmeye Basla' }}

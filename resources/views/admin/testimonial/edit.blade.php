@@ -74,31 +74,11 @@
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1" x-data="{ preview: null }">
+                    <div class="space-y-1">
                         <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Fotoğraf
                         </label>
-                        @if($testimonial->image)
-                            <div class="mb-3" x-show="!preview">
-                                <img src="{{ asset($testimonial->image) }}" class="w-16 h-16 rounded-full object-cover">
-                            </div>
-                        @endif
-                        <template x-if="preview">
-                            <div class="mb-3">
-                                <img :src="preview" class="w-16 h-16 rounded-full object-cover">
-                            </div>
-                        </template>
-                        <input type="file" name="image" id="image" accept="image/*"
-                               @change="preview = URL.createObjectURL($event.target.files[0])"
-                               class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4
-                                      file:rounded-xl file:border-0 file:text-sm file:font-semibold
-                                      file:bg-fuchsia-50 file:text-fuchsia-700 hover:file:bg-fuchsia-100
-                                      dark:file:bg-fuchsia-900/20 dark:file:text-fuchsia-400
-                                      cursor-pointer">
-                        <p class="text-xs text-slate-400 mt-1">Yeni görsel yüklerseniz mevcut değiştirilir.</p>
-                        @error('image')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
+                        <x-image-upload name="image" :existing="$testimonial->image ? asset($testimonial->image) : null" />
                     </div>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>

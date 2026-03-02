@@ -16,6 +16,8 @@ class HomePageInfo extends Model
         'features' => 'array',
         'why_items' => 'array',
         'funfact_items' => 'array',
+        'field_styles' => 'array',
+        'default_styles' => 'array',
     ];
 
     public $translatable = [
@@ -54,5 +56,10 @@ class HomePageInfo extends Model
         // Blog Section
         'blog_label',
         'blog_title',
+
+        // Testimonial Section
+        'testimonial_label',
+        'testimonial_title',
+        'testimonial_stat_text',
     ];
 }

@@ -11,6 +11,11 @@ class TeacherPageInfo extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'field_styles' => 'array',
+        'default_styles' => 'array',
+    ];
+
     public $translatable = [
         'title', 'subtitle',
         'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',

@@ -15,6 +15,8 @@ class ContactPageInfo extends Model
         'phones' => 'array',
         'emails' => 'array',
         'addresses' => 'array',
+        'field_styles' => 'array',
+        'default_styles' => 'array',
     ];
 
     public $translatable = [

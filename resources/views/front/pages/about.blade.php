@@ -6,6 +6,20 @@
     $locale = app()->getLocale();
     $t = fn($field, $fallback = '') => $aboutPageInfo?->getTranslation($field, $locale, false) ?: $fallback;
     $v = fn($field, $fallback = '') => $aboutPageInfo?->$field ?: $fallback;
+
+    $fieldStyles = $aboutPageInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
 @endphp
 
 @section('content')
@@ -17,15 +31,15 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('breadcrumb_title')) style="{{ $fs('breadcrumb_title') }}" @endif>
                                     {{ $t('breadcrumb_title', 'Hakkımızda') }}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">{{ $t('breadcrumb_home', 'ANA SAYFA') }}</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('breadcrumb_home')) style="{{ $fs('breadcrumb_home') }}" @endif>{{ $t('breadcrumb_home', 'ANA SAYFA') }}</a>
                                         </li>
-                                        <li>{{ $t('breadcrumb_current', 'HAKKIMIZDA') }}</li>
+                                        <li @if($fs('breadcrumb_current')) style="{{ $fs('breadcrumb_current') }}" @endif>{{ $t('breadcrumb_current', 'HAKKIMIZDA') }}</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -58,15 +72,15 @@
                                 <div class="jos" data-jos_animation="fade-right">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">{{ $t('section1_label', 'NEDEN BIZ') }}</span>
-                                        <h2>
+                                        <span class="mb-5 block uppercase" @if($fs('section1_label')) style="{{ $fs('section1_label') }}" @endif>{{ $t('section1_label', 'NEDEN BIZ') }}</span>
+                                        <h2 @if($fs('section1_title')) style="{{ $fs('section1_title') }}" @endif>
                                             {{ $t('section1_title', 'Online Kurslarımızla En İyi Uygulamalarınızı Dönüştürün') }}
                                         </h2>
                                     </div>
                                     <!-- Section Block -->
                                     <!-- Content -->
                                     <div class="mt-7">
-                                        <p>
+                                        <p @if($fs('section1_description')) style="{{ $fs('section1_description') }}" @endif>
                                             {{ $t('section1_description', 'Uzman eğitmenlerimiz ve kapsamlı müfredatımızla hedeflerinize ulaşmanıza yardımcı oluyoruz.') }}
                                         </p>
 
@@ -106,9 +120,9 @@
                                                             </svg>
                                                         @endif
                                                     </div>
-                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl">{{ $feat['title'] ?? '' }}</span>
+                                                    <span class="flex-1 font-title text-xl font-bold text-colorBlackPearl" @if($fs('feature_'.$fIdx.'_title')) style="{{ $fs('feature_'.$fIdx.'_title') }}" @endif>{{ $feat['title'] ?? '' }}</span>
                                                 </div>
-                                                <p>{{ $feat['description'] ?? '' }}</p>
+                                                <p @if($fs('feature_'.$fIdx.'_description')) style="{{ $fs('feature_'.$fIdx.'_description') }}" @endif>{{ $feat['description'] ?? '' }}</p>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -164,8 +178,8 @@
                             <!-- Section Block -->
                             <div class="mb-10 flex flex-wrap items-center justify-between gap-8 lg:mb-[60px]">
                                 <div class="jos max-w-xl">
-                                    <span class="mb-5 block uppercase">{{ $t('categories_label', 'KURS KATEGORİLERİ') }}</span>
-                                    <h2>{{ $t('categories_title', 'Öğrenmek İstediğiniz Popüler Kategoriler') }}</h2>
+                                    <span class="mb-5 block uppercase" @if($fs('categories_label')) style="{{ $fs('categories_label') }}" @endif>{{ $t('categories_label', 'KURS KATEGORİLERİ') }}</span>
+                                    <h2 @if($fs('categories_title')) style="{{ $fs('categories_title') }}" @endif>{{ $t('categories_title', 'Öğrenmek İstediğiniz Popüler Kategoriler') }}</h2>
                                 </div>
                                 <div class="jos inline-block">
                                     <a href="{{ route('front.courses') }}" class="btn btn-primary is-icon group">{{ $t('categories_button_text', 'Kursları Keşfet') }}
@@ -254,7 +268,7 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="mx-auto mb-10 max-w-xl lg:mb-[60px]">
-                                <p class="text-center text-lg text-colorBlackPearl">
+                                <p class="text-center text-lg text-colorBlackPearl" @if($fs('logos_text')) style="{{ $fs('logos_text') }}" @endif>
                                     {!! $t('logos_text', 'Bizimle iş birliği yapan <strong>250+</strong> şirketle tanışın') !!}
                                 </p>
                             </div>
@@ -306,12 +320,12 @@
                                 <!-- Section Block -->
                                 <div class="max-w-[530px]">
                                     <div class="jos">
-                                        <span class="mb-5 block uppercase text-colorBrightGold">{{ $t('cta_label', 'ONLİNE KURSLAR') }}</span>
-                                        <h2 class="text-white">
+                                        <span class="mb-5 block uppercase text-colorBrightGold" @if($fs('cta_label')) style="{{ $fs('cta_label') }}" @endif>{{ $t('cta_label', 'ONLİNE KURSLAR') }}</span>
+                                        <h2 class="text-white" @if($fs('cta_title')) style="{{ $fs('cta_title') }}" @endif>
                                             {{ $t('cta_title', 'Geleceğiniz İçin Doğru Öğrenme Yolunu Bulun') }}
                                         </h2>
                                     </div>
-                                    <p class="mb-[30px] mt-7 text-white/80">
+                                    <p class="mb-[30px] mt-7 text-white/80" @if($fs('cta_description')) style="{{ $fs('cta_description') }}" @endif>
                                         {{ $t('cta_description', 'Profesyonel eğitmenlerimizle kariyer hedeflerinize ulaşmanız için en uygun kursları keşfedin.') }}
                                     </p>
                                     <div class="inline-block">
@@ -355,15 +369,15 @@
                                 <div class="jos" data-jos_animation="fade-left">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">{{ $t('section2_label', 'NEDEN BİZİ SEÇMELİSİNİZ') }}</span>
-                                        <h2>
+                                        <span class="mb-5 block uppercase" @if($fs('section2_label')) style="{{ $fs('section2_label') }}" @endif>{{ $t('section2_label', 'NEDEN BİZİ SEÇMELİSİNİZ') }}</span>
+                                        <h2 @if($fs('section2_title')) style="{{ $fs('section2_title') }}" @endif>
                                             {{ $t('section2_title', 'Dijital Online Akademi: Yaratıcı Mükemmelliğe Giden Yolunuz') }}
                                         </h2>
                                     </div>
                                     <!-- Section Block -->
                                     <!-- Content Block -->
                                     <div>
-                                        <p>
+                                        <p @if($fs('section2_description')) style="{{ $fs('section2_description') }}" @endif>
                                             {{ $t('section2_description', 'Alanında uzman eğitmenlerle pratik odaklı eğitim anlayışımızla fark yaratıyoruz.') }}
                                         </p>
                                         @php
@@ -376,13 +390,13 @@
                                             }
                                         @endphp
                                         <ul class="mb-10 mt-6 flex flex-col gap-y-4 font-title text-colorBlackPearl">
-                                            @foreach($s2features as $feature)
+                                            @foreach($s2features as $s2fIdx => $feature)
                                                 @if(trim($feature))
                                                     <li class="flex items-center gap-x-3">
                                                         <svg class="h-5 w-5 flex-shrink-0 text-colorPurpleBlue" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
                                                         </svg>
-                                                        <span>{{ trim($feature) }}</span>
+                                                        <span @if($fs('s2f_'.$s2fIdx)) style="{{ $fs('s2f_'.$s2fIdx) }}" @endif>{{ trim($feature) }}</span>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -434,8 +448,8 @@
                             <!-- Section Block -->
                             <div class="mb-10 lg:mb-[60px]">
                                 <div class="jos mx-auto max-w-lg text-center">
-                                    <span class="mb-5 block uppercase">{{ $t('testimonial_label', 'REFERANSLARIMIZ') }}</span>
-                                    <h2>{{ $t('testimonial_title', 'Öğrencilerimiz Hakkımızda Ne Düşünüyor') }}</h2>
+                                    <span class="mb-5 block uppercase" @if($fs('testimonial_label')) style="{{ $fs('testimonial_label') }}" @endif>{{ $t('testimonial_label', 'REFERANSLARIMIZ') }}</span>
+                                    <h2 @if($fs('testimonial_title')) style="{{ $fs('testimonial_title') }}" @endif>{{ $t('testimonial_title', 'Öğrencilerimiz Hakkımızda Ne Düşünüyor') }}</h2>
                                 </div>
                             </div>
                             <!-- Section Block -->
@@ -518,8 +532,8 @@
                                 <div class="jos order-1 lg:order-2" data-jos_animation="fade-right">
                                     <!-- Section Block -->
                                     <div class="mb-6">
-                                        <span class="mb-5 block uppercase">{{ $t('faq_label', 'SIKÇA SORULAN SORULAR') }}</span>
-                                        <h2>{{ $t('faq_title', 'Online Kurslarımız Hakkında En Çok Sorulan Sorular') }}</h2>
+                                        <span class="mb-5 block uppercase" @if($fs('faq_label')) style="{{ $fs('faq_label') }}" @endif>{{ $t('faq_label', 'SIKÇA SORULAN SORULAR') }}</span>
+                                        <h2 @if($fs('faq_title')) style="{{ $fs('faq_title') }}" @endif>{{ $t('faq_title', 'Online Kurslarımız Hakkında En Çok Sorulan Sorular') }}</h2>
                                     </div>
                                     <!-- Section Block -->
 
@@ -571,8 +585,8 @@
                             <!-- Section Block -->
                             <div class="mb-10 lg:mb-[60px]">
                                 <div class="jos mx-auto max-w-md text-center">
-                                    <span class="mb-5 block uppercase">{{ $t('blog_label', 'HABERLER') }}</span>
-                                    <h2>{{ $t('blog_title', 'Son Yazılarımız') }}</h2>
+                                    <span class="mb-5 block uppercase" @if($fs('blog_label')) style="{{ $fs('blog_label') }}" @endif>{{ $t('blog_label', 'HABERLER') }}</span>
+                                    <h2 @if($fs('blog_title')) style="{{ $fs('blog_title') }}" @endif>{{ $t('blog_title', 'Son Yazılarımız') }}</h2>
                                 </div>
                             </div>
                             <!-- Section Block -->

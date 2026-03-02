@@ -2,6 +2,22 @@
 
 @section('title', 'Parosis Akademi | Eğitmenler')
 
+@php
+    $fieldStyles = $teacherPageInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
+@endphp
+
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
             <section class="section-breadcrum">
@@ -11,15 +27,15 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    {{ $teacherPageInfo?->getTranslation('title', app()->getLocale()) ?: 'Eğitmenlerimiz' }}
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('title')) style="{{ $fs('title') }}" @endif>
+                                    {!! nl2br(e($teacherPageInfo?->getTranslation('title', app()->getLocale()) ?: 'Eğitmenlerimiz')) !!}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">{{ $teacherPageInfo?->getTranslation('breadcrumb_home', app()->getLocale()) ?: 'ANA SAYFA' }}</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('breadcrumb_home')) style="{{ $fs('breadcrumb_home') }}" @endif>{{ $teacherPageInfo?->getTranslation('breadcrumb_home', app()->getLocale()) ?: 'ANA SAYFA' }}</a>
                                         </li>
-                                        <li>{{ $teacherPageInfo?->getTranslation('breadcrumb_current', app()->getLocale()) ?: 'EĞİTMENLER' }}</li>
+                                        <li @if($fs('breadcrumb_current')) style="{{ $fs('breadcrumb_current') }}" @endif>{{ $teacherPageInfo?->getTranslation('breadcrumb_current', app()->getLocale()) ?: 'EĞİTMENLER' }}</li>
                                     </ul>
                                 </nav>
                             </div>

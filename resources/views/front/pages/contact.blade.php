@@ -2,6 +2,22 @@
 
 @section('title', 'Parosis Akademi | İletişim')
 
+@php
+    $fieldStyles = $contactInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
+@endphp
+
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
             <section class="section-breadcrum">
@@ -11,15 +27,15 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    {{ $contactInfo?->getTranslation('title', app()->getLocale()) ?: 'Bizimle Iletisim Kurun' }}
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('title')) style="{{ $fs('title') }}" @endif>
+                                    {!! nl2br(e($contactInfo?->getTranslation('title', app()->getLocale()) ?: 'Bizimle Iletisim Kurun')) !!}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">{{ $contactInfo?->getTranslation('breadcrumb_home', app()->getLocale()) ?: 'ANA SAYFA' }}</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('breadcrumb_home')) style="{{ $fs('breadcrumb_home') }}" @endif>{{ $contactInfo?->getTranslation('breadcrumb_home', app()->getLocale()) ?: 'ANA SAYFA' }}</a>
                                         </li>
-                                        <li>{{ $contactInfo?->getTranslation('breadcrumb_current', app()->getLocale()) ?: 'ILETISIM' }}</li>
+                                        <li @if($fs('breadcrumb_current')) style="{{ $fs('breadcrumb_current') }}" @endif>{{ $contactInfo?->getTranslation('breadcrumb_current', app()->getLocale()) ?: 'ILETISIM' }}</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -124,8 +140,8 @@
                                     <!-- Section Block -->
                                     <div class="mb-10 lg:mb-[60px]">
                                         <div class="jos mx-auto max-w-2xl">
-                                            <span class="mb-5 block uppercase">{{ $contactInfo?->getTranslation('subtitle', app()->getLocale()) ?: 'ILETISIM' }}</span>
-                                            <h2>{{ $contactInfo?->getTranslation('form_title', app()->getLocale()) ?: 'Sorulariniz mi var? Bizimle iletisime gecin' }}</h2>
+                                            <span class="mb-5 block uppercase" @if($fs('subtitle')) style="{{ $fs('subtitle') }}" @endif>{{ $contactInfo?->getTranslation('subtitle', app()->getLocale()) ?: 'ILETISIM' }}</span>
+                                            <h2 @if($fs('form_title')) style="{{ $fs('form_title') }}" @endif>{!! nl2br(e($contactInfo?->getTranslation('form_title', app()->getLocale()) ?: 'Sorulariniz mi var? Bizimle iletisime gecin')) !!}</h2>
                                         </div>
                                     </div>
                                     <!-- Section Block -->

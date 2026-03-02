@@ -97,7 +97,12 @@ class PagesController extends Controller
         $selectedLang = $localeInfo['translateLang'];
         $selectedLanguage = $localeInfo['selectedLanguage'];
 
-        return view('admin.pages.edit-home', compact('homePageInfo', 'selectedLang', 'selectedLanguage'));
+        $ctaInfo = ContactPageInfo::first();
+        if (!$ctaInfo) {
+            $ctaInfo = ContactPageInfo::create([]);
+        }
+
+        return view('admin.pages.edit-home', compact('homePageInfo', 'ctaInfo', 'selectedLang', 'selectedLanguage'));
     }
 
     private function updateHome(Request $request)
@@ -117,6 +122,7 @@ class PagesController extends Controller
             'client_logo_text',
             'courses_label', 'courses_title',
             'blog_label', 'blog_title',
+            'testimonial_label', 'testimonial_title', 'testimonial_stat_text',
         ];
 
         foreach ($translatableFields as $field) {
@@ -158,7 +164,7 @@ class PagesController extends Controller
         }
 
         // Non-translatable fields
-        $nonTranslatableFields = ['welcome_image', 'welcome_stat_number', 'categories_button_url', 'why_image', 'why_stat_number', 'funfact_image'];
+        $nonTranslatableFields = ['welcome_image', 'welcome_stat_number', 'categories_button_url', 'why_image', 'why_stat_number', 'funfact_image', 'testimonial_image', 'testimonial_stat_number'];
 
         foreach ($nonTranslatableFields as $field) {
             if ($request->has($field)) {
@@ -166,7 +172,33 @@ class PagesController extends Controller
             }
         }
 
+        if ($request->has('field_styles')) {
+            $homePageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $homePageInfo->default_styles = json_decode($request->default_styles, true);
+        }
+
         $homePageInfo->save();
+
+        // CTA (ContactPageInfo)
+        $ctaTranslatable = ['cta_label', 'cta_title', 'cta_description', 'cta_button_text'];
+        $hasCtaData = false;
+        foreach ($ctaTranslatable as $field) {
+            if ($request->has($field)) $hasCtaData = true;
+        }
+        if ($hasCtaData || $request->has('cta_image') || $request->has('cta_button_url')) {
+            $ctaInfo = ContactPageInfo::first() ?? ContactPageInfo::create([]);
+            foreach ($ctaTranslatable as $field) {
+                if ($request->has($field)) {
+                    $ctaInfo->setTranslation($field, $locale, $request->$field);
+                }
+            }
+            if ($request->has('cta_image')) $ctaInfo->cta_image = $request->cta_image;
+            if ($request->has('cta_button_url')) $ctaInfo->cta_button_url = $request->cta_button_url;
+            $ctaInfo->save();
+        }
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
@@ -197,6 +229,7 @@ class PagesController extends Controller
             'client_logo_text',
             'courses_label', 'courses_title',
             'blog_label', 'blog_title',
+            'testimonial_label', 'testimonial_title', 'testimonial_stat_text',
         ];
 
         foreach ($translatableFields as $field) {
@@ -327,6 +360,14 @@ class PagesController extends Controller
             if ($request->has($field)) {
                 $aboutPageInfo->$field = $request->$field;
             }
+        }
+
+        if ($request->has('field_styles')) {
+            $aboutPageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $aboutPageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
         $aboutPageInfo->save();
@@ -515,6 +556,15 @@ class PagesController extends Controller
             }
         }
 
+        // Field styles
+        if ($request->has('field_styles')) {
+            $contactPageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $contactPageInfo->default_styles = json_decode($request->default_styles, true);
+        }
+
         $contactPageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -623,6 +673,14 @@ class PagesController extends Controller
             }
         }
 
+        if ($request->has('field_styles')) {
+            $faqPageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $faqPageInfo->default_styles = json_decode($request->default_styles, true);
+        }
+
         $faqPageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -720,6 +778,15 @@ class PagesController extends Controller
             if ($request->has($field)) {
                 $teacherPageInfo->$field = $request->$field;
             }
+        }
+
+        // JSON style fields
+        if ($request->has('field_styles')) {
+            $teacherPageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $teacherPageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
         $teacherPageInfo->save();
@@ -824,6 +891,15 @@ class PagesController extends Controller
             if ($request->has($field)) {
                 $blogPageInfo->$field = $request->$field;
             }
+        }
+
+        // JSON style fields
+        if ($request->has('field_styles')) {
+            $blogPageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $blogPageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
         $blogPageInfo->save();
@@ -935,6 +1011,15 @@ class PagesController extends Controller
             if ($request->has($field)) {
                 $coursePageInfo->$field = $request->$field;
             }
+        }
+
+        // JSON style fields
+        if ($request->has('field_styles')) {
+            $coursePageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+
+        if ($request->has('default_styles')) {
+            $coursePageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
         $coursePageInfo->save();

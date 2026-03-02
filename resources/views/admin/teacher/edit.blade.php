@@ -335,28 +335,8 @@
                     </div>
                     <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Egitmen Gorseli</h3>
                 </div>
-                <div class="p-5 space-y-3">
-                    @if($teacher->image)
-                        <div class="rounded-xl overflow-hidden border border-slate-200/50 dark:border-slate-700/50">
-                            <img src="{{ asset($teacher->image) }}" alt="{{ $teacher->name }}" class="w-full h-auto object-cover">
-                        </div>
-                    @endif
-                    <input type="file" name="image" id="image" accept="image/*"
-                           class="w-full text-sm text-slate-500 dark:text-slate-400
-                                  file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0
-                                  file:text-sm file:font-medium
-                                  file:bg-fuchsia-50 file:text-fuchsia-600
-                                  dark:file:bg-fuchsia-900/20 dark:file:text-fuchsia-400
-                                  hover:file:bg-fuchsia-100 dark:hover:file:bg-fuchsia-900/30
-                                  file:cursor-pointer file:transition-all">
-                    @error('image')
-                        <p class="mt-2 text-sm text-red-500 flex items-center gap-1.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                            </svg>
-                            {{ $message }}
-                        </p>
-                    @enderror
+                <div class="p-5">
+                    <x-image-upload name="image" :existing="$teacher->image ? asset($teacher->image) : null" />
                 </div>
             </div>
 

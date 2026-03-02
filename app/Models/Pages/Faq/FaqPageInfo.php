@@ -11,6 +11,11 @@ class FaqPageInfo extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'field_styles' => 'array',
+        'default_styles' => 'array',
+    ];
+
     public $translatable = [
         'title',
         'subtitle',

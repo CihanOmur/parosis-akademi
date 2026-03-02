@@ -146,61 +146,21 @@
 
                 <div class="relative p-6 space-y-5">
                     {{-- Ön Plan Görseli --}}
-                    <div class="space-y-1" x-data="{ preview: null }">
+                    <div class="space-y-1">
                         <label for="image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Ön Plan Görseli
                         </label>
-                        @if($item->image)
-                            <div class="mb-3" x-show="!preview">
-                                <img src="{{ asset($item->image) }}" class="h-20 max-w-[200px] rounded-lg object-cover">
-                            </div>
-                        @endif
-                        <template x-if="preview">
-                            <div class="mb-3">
-                                <img :src="preview" class="h-20 max-w-[200px] rounded-lg object-cover">
-                            </div>
-                        </template>
-                        <input type="file" name="image" id="image" accept="image/*"
-                               @change="preview = URL.createObjectURL($event.target.files[0])"
-                               class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4
-                                      file:rounded-xl file:border-0 file:text-sm file:font-semibold
-                                      file:bg-fuchsia-50 file:text-fuchsia-700 hover:file:bg-fuchsia-100
-                                      dark:file:bg-fuchsia-900/20 dark:file:text-fuchsia-400
-                                      cursor-pointer">
-                        <p class="text-xs text-slate-400 mt-1">Hero bölümünde ön planda görünen resim. PNG önerilir. Maks 5MB.</p>
-                        @error('image')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
+                        <x-image-upload name="image" :existing="$item->image ? asset($item->image) : null" hint="Hero bölümünde ön planda görünen resim. PNG önerilir. Maks 5MB." />
                     </div>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Arka Plan Görseli --}}
-                    <div class="space-y-1" x-data="{ preview: null }">
+                    <div class="space-y-1">
                         <label for="background_image" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
                             Arka Plan Görseli
                         </label>
-                        @if($item->background_image)
-                            <div class="mb-3" x-show="!preview">
-                                <img src="{{ asset($item->background_image) }}" class="h-20 max-w-[200px] rounded-lg object-cover">
-                            </div>
-                        @endif
-                        <template x-if="preview">
-                            <div class="mb-3">
-                                <img :src="preview" class="h-20 max-w-[200px] rounded-lg object-cover">
-                            </div>
-                        </template>
-                        <input type="file" name="background_image" id="background_image" accept="image/*"
-                               @change="preview = URL.createObjectURL($event.target.files[0])"
-                               class="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4
-                                      file:rounded-xl file:border-0 file:text-sm file:font-semibold
-                                      file:bg-fuchsia-50 file:text-fuchsia-700 hover:file:bg-fuchsia-100
-                                      dark:file:bg-fuchsia-900/20 dark:file:text-fuchsia-400
-                                      cursor-pointer">
-                        <p class="text-xs text-slate-400 mt-1">Hero bölümünde arka planda kullanılacak resim/desen. SVG veya PNG. Maks 5MB.</p>
-                        @error('background_image')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
+                        <x-image-upload name="background_image" :existing="$item->background_image ? asset($item->background_image) : null" hint="Hero bölümünde arka planda kullanılacak resim/desen. SVG veya PNG. Maks 5MB." />
                     </div>
                 </div>
             </div>

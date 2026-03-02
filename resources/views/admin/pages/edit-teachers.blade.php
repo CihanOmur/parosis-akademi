@@ -172,6 +172,55 @@
         .teacher-card-info { padding: 16px 0 0; }
         .teacher-card-info span { display: block; font-size: 0.875rem; margin-bottom: 4px; color: rgb(95 93 93); }
         .teacher-card-info strong { font-family: 'Aeonik Pro TRIAL', sans-serif; font-size: 1.125rem; font-weight: 700; color: rgb(1 28 26); }
+
+        /* Style controls */
+        .style-section { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgb(1 28 26 / 0.06); }
+        .style-section-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: rgb(95 93 93); margin-bottom: 0.75rem; font-family: Inter, sans-serif; }
+        .style-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.625rem; }
+        .style-label { min-width: 62px; font-size: 0.8125rem; font-weight: 500; color: rgb(1 28 26); font-family: Poppins, sans-serif; }
+        .style-select { flex: 1; padding: 0.5rem 0.75rem; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 8px; font-size: 0.8125rem; outline: none; transition: border-color 0.2s; font-family: Poppins, sans-serif; color: rgb(1 28 26); background: white; cursor: pointer; appearance: auto; }
+        .style-select:focus { border-color: rgb(84 62 232); }
+        .style-color-wrap { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+        .style-color-input { width: 40px; height: 36px; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 8px; cursor: pointer; padding: 2px; background: white; }
+        .style-color-input:focus { border-color: rgb(84 62 232); outline: none; }
+        .style-color-hex { flex: 1; padding: 0.5rem 0.75rem; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 8px; font-size: 0.8125rem; outline: none; transition: border-color 0.2s; font-family: monospace; color: rgb(1 28 26); width: 90px; }
+        .style-color-hex:focus { border-color: rgb(84 62 232); }
+        .style-opacity-wrap { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+        .style-opacity-range { flex: 1; height: 6px; -webkit-appearance: none; appearance: none; background: linear-gradient(to right, transparent, currentColor); border-radius: 3px; outline: none; cursor: pointer; }
+        .style-opacity-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: white; border: 2px solid rgb(84 62 232); cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        .style-opacity-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: white; border: 2px solid rgb(84 62 232); cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+        .style-opacity-val { min-width: 44px; padding: 0.4rem 0.5rem; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 8px; font-size: 0.8125rem; outline: none; text-align: center; font-family: monospace; color: rgb(1 28 26); transition: border-color 0.2s; }
+        .style-opacity-val:focus { border-color: rgb(84 62 232); }
+        .style-reset-btn { padding: 0.4rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 500; color: rgb(95 93 93); border: 1px solid rgb(1 28 26 / 0.1); background: white; cursor: pointer; font-family: Poppins, sans-serif; transition: all 0.15s; white-space: nowrap; }
+        .style-reset-btn:hover { background: #F5F5F5; }
+        .style-toggle-group { display: flex; gap: 4px; flex: 1; }
+        .style-toggle { width: 36px; height: 36px; border: 2px solid rgb(1 28 26 / 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: white; transition: all 0.15s; padding: 0; }
+        .style-toggle svg { width: 16px; height: 16px; color: rgb(1 28 26); }
+        .style-toggle:hover { border-color: rgb(84 62 232 / 0.3); }
+        .style-toggle.active { background: rgb(84 62 232); border-color: rgb(84 62 232); }
+        .style-toggle.active svg { color: white; }
+
+        /* Developer panel */
+        .dev-row { display: grid; grid-template-columns: 220px 1fr 110px 140px 40px; gap: 0; align-items: center; padding: 10px 20px; border-bottom: 1px solid #F3F4F6; transition: background 0.15s; }
+        .dev-row:hover { background: #F3F4F6; }
+        .dev-row-modified { background: #FFFBEB; }
+        .dev-row-modified:hover { background: #FDE68A40; }
+        .dev-reset-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #FECACA; background: #FEF2F2; color: #DC2626; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; transition: all 0.15s; }
+        .dev-reset-btn:hover { background: #FEE2E2; border-color: #F87171; }
+        .dev-color-input { width: 32px; height: 32px; border: 2px solid #D1D5DB; cursor: pointer; border-radius: 6px; padding: 2px; flex-shrink: 0; transition: border-color 0.15s; }
+        .dev-color-input:hover { border-color: #F59E0B; }
+        .dev-text-input { width: 90px; font-size: 0.8125rem; color: #374151; font-family: ui-monospace, monospace; background: #F9FAFB; border: 1.5px solid #E5E7EB; border-radius: 6px; padding: 5px 8px; outline: none; transition: all 0.15s; }
+        .dev-text-input:hover { border-color: #D1D5DB; }
+        .dev-text-input:focus { border-color: #F59E0B; background: #fff; box-shadow: 0 0 0 2px rgba(245,158,11,0.15); }
+        .dev-select { font-size: 0.8125rem; padding: 5px 6px; border: 1.5px solid #E5E7EB; border-radius: 6px; background: #F9FAFB; color: #374151; cursor: pointer; outline: none; width: 90px; transition: all 0.15s; }
+        .dev-select:hover { border-color: #D1D5DB; }
+        .dev-select:focus { border-color: #F59E0B; background: #fff; box-shadow: 0 0 0 2px rgba(245,158,11,0.15); }
+        .dev-align-btn { width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #D1D5DB; border-radius: 8px; cursor: pointer; background: #F9FAFB; color: #9CA3AF; transition: all 0.15s; }
+        .dev-align-btn:hover { border-color: #F59E0B; color: #6B7280; background: #FFFBEB; }
+        .dev-align-btn.active { background: #FEF3C7; border-color: #F59E0B; color: #92400E; }
+        .dev-save-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; background: #F59E0B; color: white; font-weight: 600; border-radius: 8px; font-size: 0.8125rem; border: none; cursor: pointer; transition: all 0.15s; }
+        .dev-save-btn:hover { background: #D97706; box-shadow: 0 2px 8px rgba(217,119,6,0.3); }
+        .dev-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     </style>
 @endsection
 
@@ -192,24 +241,37 @@
                 <span x-show="!saving">Düzenlemek istediğiniz alana tıklayın</span>
                 <span x-show="saving" style="color: rgb(84 62 232);">Kaydediliyor...</span>
             </div>
-            <button type="button" @click="saveAll()"
-                    :disabled="saving"
-                    class="inline-flex items-center gap-2 px-5 py-2.5
-                           bg-gradient-to-r from-fuchsia-500 to-purple-500
-                           hover:from-fuchsia-600 hover:to-purple-600
-                           text-white font-semibold rounded-xl text-sm
-                           shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer
-                           disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg x-show="!saving" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                </svg>
-                <svg x-show="saving" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                </svg>
-                Kaydet
-            </button>
+            <div class="flex items-center gap-2">
+                <button type="button" @click="devMode = !devMode" :class="devMode && 'ring-2 ring-amber-400'"
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-slate-200 hover:bg-slate-50 transition-all duration-200 cursor-pointer"
+                        :style="devMode ? 'background: #FEF3C7; border-color: #F59E0B;' : ''"
+                        title="Gelistirici Modu">
+                    <svg class="w-5 h-5" :style="devMode ? 'color: #D97706;' : 'color: #94A3B8;'" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                    </svg>
+                </button>
+                <button type="button" @click="saveAll()"
+                        :disabled="saving"
+                        class="inline-flex items-center gap-2 px-5 py-2.5
+                               bg-gradient-to-r from-fuchsia-500 to-purple-500
+                               hover:from-fuchsia-600 hover:to-purple-600
+                               text-white font-semibold rounded-xl text-sm
+                               shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer
+                               disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg x-show="!saving" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                    </svg>
+                    <svg x-show="saving" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    Kaydet
+                </button>
+            </div>
         </div>
+
+        @include('admin.pages.partials.dev-panel')
 
         {{-- LIVE PREVIEW --}}
         <div class="lp" style="border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid rgba(226,232,240,0.5);">
@@ -219,20 +281,20 @@
                 <div style="padding: 60px 0;">
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                         <div style="text-align: center;">
-                            <div class="ez" :class="activeField === 'title' && 'ez-active'" data-label="Düzenle" @click="openModal('title', 'Sayfa Başlığı')">
-                                <h1 style="margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal;"
-                                    x-text="fields.title || 'Eğitmenlerimiz'"></h1>
+                            <div class="ez" :class="activeField === 'title' && 'ez-active'" data-label="Başlık + Stil" @click="openModal('title', 'Sayfa Başlığı', 'textarea')">
+                                <h1 :style="getFieldStyle('title', 'margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal;')"
+                                    x-html="nl2br(fields.title || 'Eğitmenlerimiz')"></h1>
                             </div>
                             <nav style="font-size: 1rem; font-weight: 500; text-transform: uppercase;">
                                 <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
                                     <li>
                                         <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
-                                              style="color: rgb(215 59 62);" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
+                                              :style="getFieldStyle('breadcrumb_home', 'color: rgb(215 59 62);')" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
                                     </li>
                                     <li style="color: rgb(95 93 93);">/</li>
                                     <li>
                                         <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_current', 'Breadcrumb Mevcut Sayfa')"
-                                              style="color: rgb(95 93 93);" x-text="fields.breadcrumb_current || 'EĞİTMENLER'"></span>
+                                              :style="getFieldStyle('breadcrumb_current', 'color: rgb(95 93 93);')" x-text="fields.breadcrumb_current || 'EĞİTMENLER'"></span>
                                     </li>
                                 </ul>
                             </nav>
@@ -302,16 +364,16 @@
                 <div style="order: 2; padding: 48px 24px 48px 0;">
                     <div style="max-width: 530px;">
                         <div class="ez" :class="activeField === 'cta_label' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_label', 'CTA Etiket')" style="margin-bottom: 1.25rem;">
-                            <span x-text="fields.cta_label || 'HEMEN BASLAYIN'"
-                                  style="display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;"></span>
+                            <span :style="getFieldStyle('cta_label', 'display: block; text-transform: uppercase; color: rgb(255 205 32); font-size: 1rem; font-weight: 500;')"
+                                  x-text="fields.cta_label || 'HEMEN BASLAYIN'"></span>
                         </div>
-                        <div class="ez" :class="activeField === 'cta_title' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_title', 'CTA Başlık')">
-                            <h2 x-text="fields.cta_title || 'Eğitim yolculuğunuza bugün başlayın'"
-                                style="color: white !important; font-size: 1.875rem; line-height: 1.38;"></h2>
+                        <div class="ez" :class="activeField === 'cta_title' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_title', 'CTA Başlık', 'textarea')">
+                            <h2 :style="getFieldStyle('cta_title', 'color: white !important; font-size: 1.875rem; line-height: 1.38;')"
+                                x-html="nl2br(fields.cta_title || 'Eğitim yolculuğunuza bugün başlayın')"></h2>
                         </div>
                         <div class="ez" :class="activeField === 'cta_description' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_description', 'CTA Açıklama', 'textarea')" style="margin-top: 1.75rem; margin-bottom: 30px;">
-                            <p x-text="fields.cta_description || 'Uzman eğitmenlerimizle hedeflerinize ulaşın.'"
-                               style="color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;"></p>
+                            <p :style="getFieldStyle('cta_description', 'color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.75;')"
+                               x-html="nl2br(fields.cta_description || 'Uzman eğitmenlerimizle hedeflerinize ulaşın.')"></p>
                         </div>
                         <div style="display: flex; align-items: center; gap: 1rem;">
                             <div class="ez" :class="activeField === 'cta_button_text' && 'ez-active'" data-label="Düzenle" @click="openModal('cta_button_text', 'CTA Buton Yazısı')">
@@ -392,6 +454,117 @@
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; min-height: 20px;">
                                 <span x-show="validationError" x-text="validationError" style="font-size: 0.75rem; color: rgb(215 59 62); font-family: Poppins, sans-serif;"></span>
                                 <span x-show="modalMaxLength > 0" x-text="(modalValue?.length || 0) + '/' + modalMaxLength" style="font-size: 0.7rem; color: #8D8D8D; font-family: Poppins, sans-serif; margin-left: auto;"></span>
+                            </div>
+                        </div>
+                    </template>
+                    {{-- Style Section (only for stylable fields) --}}
+                    <template x-if="styleFields.includes(modalField)">
+                        <div class="style-section">
+                            <div class="style-section-title">
+                                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 1-2.4 2.245 4.5 4.5 0 0 0 8.4-2.245c0-.399-.078-.78-.22-1.128Zm0 0a15.998 15.998 0 0 0 3.388-1.62m-5.043-.025a15.994 15.994 0 0 1 1.622-3.395m3.42 3.42a15.995 15.995 0 0 0 4.764-4.648l3.876-5.814a1.151 1.151 0 0 0-1.597-1.597L14.146 6.32a15.996 15.996 0 0 0-4.649 4.763m3.42 3.42a6.776 6.776 0 0 0-3.42-3.42"/>
+                                </svg>
+                                Stil Ayarları
+                            </div>
+
+                            {{-- Bold / Italic / Alignment --}}
+                            <div class="style-row">
+                                <span class="style-label">Biçim</span>
+                                <div class="style-toggle-group">
+                                    {{-- Bold --}}
+                                    <button type="button" class="style-toggle" :class="getStyleProp('fontWeight') === 'bold' && 'active'"
+                                            @click="setStyleProp('fontWeight', getStyleProp('fontWeight') === 'bold' ? '' : 'bold')" title="Kalın">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 4h7a4 4 0 0 1 0 8H6V4Zm0 8h8a4 4 0 0 1 0 8H6v-8Z"/></svg>
+                                    </button>
+                                    {{-- Italic --}}
+                                    <button type="button" class="style-toggle" :class="getStyleProp('fontStyle') === 'italic' && 'active'"
+                                            @click="setStyleProp('fontStyle', getStyleProp('fontStyle') === 'italic' ? '' : 'italic')" title="Yatık">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 4h4m-2 0 -4 16m-2 0h4"/><line x1="14" y1="4" x2="10" y2="20" stroke-width="2"/></svg>
+                                    </button>
+                                    <div style="width: 1px; background: rgb(1 28 26 / 0.1); margin: 4px 2px;"></div>
+                                    {{-- Align Left --}}
+                                    <button type="button" class="style-toggle" :class="getStyleProp('textAlign') === 'left' && 'active'"
+                                            @click="setStyleProp('textAlign', getStyleProp('textAlign') === 'left' ? '' : 'left')" title="Sola Hizala">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h10.5M3.75 17.25h16.5"/></svg>
+                                    </button>
+                                    {{-- Align Center --}}
+                                    <button type="button" class="style-toggle" :class="(getStyleProp('textAlign') === 'center' || !getStyleProp('textAlign')) && 'active'"
+                                            @click="setStyleProp('textAlign', 'center')" title="Ortala">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M6.75 12h10.5M3.75 17.25h16.5"/></svg>
+                                    </button>
+                                    {{-- Align Right --}}
+                                    <button type="button" class="style-toggle" :class="getStyleProp('textAlign') === 'right' && 'active'"
+                                            @click="setStyleProp('textAlign', getStyleProp('textAlign') === 'right' ? '' : 'right')" title="Sağa Hizala">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M6.75 12H20.25M3.75 17.25h16.5"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{-- Color --}}
+                            <div class="style-row">
+                                <span class="style-label">Renk</span>
+                                <div class="style-color-wrap">
+                                    <input type="color" class="style-color-input"
+                                           :value="getStyleProp('color') || getDefaultColor(modalField)"
+                                           @input="setStyleProp('color', $event.target.value)">
+                                    <input type="text" class="style-color-hex"
+                                           :value="getStyleProp('color') || getDefaultColor(modalField)"
+                                           @input="setStyleProp('color', $event.target.value)"
+                                           :placeholder="getDefaultColor(modalField)" maxlength="7">
+                                </div>
+                            </div>
+
+                            {{-- Opacity --}}
+                            <div class="style-row">
+                                <span class="style-label">Saydamlık</span>
+                                <div class="style-opacity-wrap">
+                                    <input type="range" class="style-opacity-range" min="0" max="100" step="1"
+                                           :value="getStyleProp('opacity') !== '' ? getStyleProp('opacity') : 100"
+                                           @input="setStyleProp('opacity', $event.target.value)">
+                                    <input type="text" class="style-opacity-val"
+                                           :value="(getStyleProp('opacity') !== '' ? getStyleProp('opacity') : 100) + '%'"
+                                           @change="let v = parseInt($event.target.value); if(!isNaN(v)){v=Math.max(0,Math.min(100,v)); setStyleProp('opacity', v);} $event.target.value = (getStyleProp('opacity') !== '' ? getStyleProp('opacity') : 100) + '%'"
+                                           maxlength="4">
+                                </div>
+                            </div>
+
+                            {{-- Font Size --}}
+                            <div class="style-row">
+                                <span class="style-label">Boyut</span>
+                                <select class="style-select" :value="getStyleProp('fontSize') || ''"
+                                        @change="setStyleProp('fontSize', $event.target.value)">
+                                    <option value="">Varsayılan</option>
+                                    <option value="1.25rem">20px - Küçük</option>
+                                    <option value="1.5rem">24px - Orta</option>
+                                    <option value="1.875rem">30px - Normal</option>
+                                    <option value="2rem">32px - Büyük</option>
+                                    <option value="2.25rem">36px - Daha Büyük</option>
+                                    <option value="2.5rem">40px - Çok Büyük</option>
+                                    <option value="3rem">48px - Ekstra Büyük</option>
+                                </select>
+                            </div>
+
+                            {{-- Font Family --}}
+                            <div class="style-row">
+                                <span class="style-label">Font</span>
+                                <select class="style-select" :value="getStyleProp('fontFamily') || ''"
+                                        @change="setStyleProp('fontFamily', $event.target.value)">
+                                    <option value="">Varsayılan (Aeonik Pro)</option>
+                                    <option value="Poppins, sans-serif" style="font-family: Poppins, sans-serif;">Poppins</option>
+                                    <option value="'Aeonik Pro TRIAL', sans-serif" style="font-family: 'Aeonik Pro TRIAL', sans-serif;">Aeonik Pro</option>
+                                    <option value="Georgia, serif" style="font-family: Georgia, serif;">Georgia (Serif)</option>
+                                    <option value="'Times New Roman', serif" style="font-family: 'Times New Roman', serif;">Times New Roman</option>
+                                    <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
+                                    <option value="Verdana, sans-serif" style="font-family: Verdana, sans-serif;">Verdana</option>
+                                </select>
+                            </div>
+
+                            {{-- Reset Button --}}
+                            <div style="text-align: right; margin-top: 0.5rem;">
+                                <button type="button" class="style-reset-btn"
+                                        @click="resetFieldStyle()">
+                                    Varsayılana Sıfırla
+                                </button>
                             </div>
                         </div>
                     </template>
@@ -529,6 +702,8 @@
             modalType: 'text',
             activeField: '',
             saving: false,
+            devMode: false,
+            savingDefaults: false,
             imgTab: 'upload',
             imgPreview: '',
             imgDragover: false,
@@ -561,6 +736,108 @@
                 breadcrumb_current: 'EĞİTMENLER',
                 detail_breadcrumb_current: 'EĞİTMEN DETAY',
             },
+
+            styleFields: [
+                'title', 'subtitle', 'breadcrumb_home', 'breadcrumb_current',
+                'detail_breadcrumb_current',
+                'cta_label', 'cta_title', 'cta_description',
+            ],
+
+            fieldStyles: @php echo json_encode($teacherPageInfo->field_styles ?? (object)[]); @endphp,
+
+            customDefaults: @php echo json_encode($teacherPageInfo->default_styles ?? (object)[]); @endphp,
+
+            hardcodedDefaults: {
+                title: { color: '#011c1a', fontSize: '', textAlign: '' },
+                subtitle: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+                breadcrumb_home: { color: '#d73b3e', fontSize: '', textAlign: '' },
+                breadcrumb_current: { color: '#5f5d5d', fontSize: '', textAlign: '' },
+                detail_breadcrumb_current: { color: '#011c1a', fontSize: '', textAlign: '' },
+                cta_label: { color: '#ffcd20', fontSize: '', textAlign: '' },
+                cta_title: { color: '#ffffff', fontSize: '', textAlign: '' },
+                cta_description: { color: '#ffffffcc', fontSize: '', textAlign: '' },
+            },
+
+            devSections: [
+                {
+                    title: 'Breadcrumb',
+                    desc: 'Sayfa ust kismi — baslik ve yol gosterici',
+                    color: '#d73b3e',
+                    fields: [
+                        { key: 'title', label: 'Sayfa Basligi', desc: 'Sayfanin buyuk basligi' },
+                        { key: 'subtitle', label: 'Alt Baslik', desc: 'Breadcrumb ustu kucuk yazi' },
+                        { key: 'breadcrumb_home', label: 'Ana Sayfa Linki', desc: 'Breadcrumb "Ana Sayfa" yazisi' },
+                        { key: 'breadcrumb_current', label: 'Mevcut Sayfa', desc: 'Breadcrumb "Egitmenler" yazisi' },
+                        { key: 'detail_breadcrumb_current', label: 'Detay Sayfasi', desc: 'Egitmen detay breadcrumb yazisi' },
+                    ]
+                },
+                {
+                    title: 'CTA',
+                    desc: 'Sayfanin altindaki aksiyon cagrisi bolumu',
+                    color: '#ffcd20',
+                    fields: [
+                        { key: 'cta_label', label: 'Etiket', desc: 'Ust kucuk yazi' },
+                        { key: 'cta_title', label: 'Baslik', desc: 'Buyuk baslik' },
+                        { key: 'cta_description', label: 'Aciklama', desc: 'Baslik altindaki paragraf' },
+                    ]
+                },
+            ],
+
+            // Developer panel helpers
+            _normDef(val) {
+                if (!val) return null;
+                if (typeof val === 'string') return { color: val, fontSize: '', textAlign: '' };
+                return val;
+            },
+            getDevProp(key, prop) {
+                const d = this._normDef(this.customDefaults[key]);
+                if (d && d[prop]) return d[prop];
+                const h = this.hardcodedDefaults[key];
+                return h ? h[prop] || '' : '';
+            },
+            setDevProp(key, prop, value) {
+                const existing = this._normDef(this.customDefaults[key]) || { ...(this.hardcodedDefaults[key] || { color: '#011c1a', fontSize: '', textAlign: '' }) };
+                existing[prop] = value;
+                this.customDefaults = { ...this.customDefaults, [key]: { ...existing } };
+            },
+            resetDevField(key) {
+                delete this.customDefaults[key];
+                this.customDefaults = { ...this.customDefaults };
+            },
+            _getDefaults(field) {
+                let d = this._normDef(this.customDefaults[field]);
+                if (d) return d;
+                return this.hardcodedDefaults[field] || { color: '#011c1a', fontSize: '', textAlign: '' };
+            },
+
+            getDefaultColor(field) { return this._getDefaults(field).color || '#011c1a'; },
+            getStyleProp(prop) { const s = this.fieldStyles[this.modalField]; return s ? (s[prop] || '') : ''; },
+            setStyleProp(prop, value) { if (!this.fieldStyles[this.modalField]) { this.fieldStyles[this.modalField] = {}; } this.fieldStyles[this.modalField][prop] = value; },
+            resetFieldStyle() {
+                const defaults = this._getDefaults(this.modalField);
+                this.fieldStyles[this.modalField] = {
+                    color: defaults.color || '#011c1a',
+                    fontSize: defaults.fontSize || '',
+                    fontFamily: '',
+                    fontWeight: '',
+                    fontStyle: '',
+                    textAlign: defaults.textAlign || '',
+                    opacity: '',
+                };
+            },
+            getFieldStyle(field, extraStyle) {
+                const s = this.fieldStyles[field] || {};
+                let style = extraStyle || '';
+                if (s.fontSize) style += ' font-size: ' + s.fontSize + ';';
+                if (s.color) style += ' color: ' + s.color + ';';
+                if (s.opacity !== '' && s.opacity !== undefined && parseInt(s.opacity) < 100) style += ' opacity: ' + (parseInt(s.opacity) / 100) + ';';
+                if (s.fontFamily) style += ' font-family: ' + s.fontFamily + ';';
+                if (s.fontWeight) style += ' font-weight: ' + s.fontWeight + ';';
+                if (s.fontStyle) style += ' font-style: ' + s.fontStyle + ';';
+                if (s.textAlign) style += ' text-align: ' + s.textAlign + ';';
+                return style;
+            },
+            nl2br(str) { return String(str).replace(/\n/g, '<br>'); },
 
             openModal(field, label, type = 'text') {
                 this.modalField = field;
@@ -635,6 +912,9 @@
                         formData.append(key, value || '');
                     }
 
+                    formData.append('field_styles', JSON.stringify(this.fieldStyles));
+                    formData.append('default_styles', JSON.stringify(JSON.parse(JSON.stringify(this.customDefaults))));
+
                     const res = await fetch('{{ route('pages.update', ['id' => 'teachers']) }}', {
                         method: 'POST',
                         headers: {
@@ -654,6 +934,36 @@
                     this.showToast('Bağlantı hatası', 'error');
                 }
                 this.saving = false;
+            },
+
+            async saveDefaults() {
+                this.savingDefaults = true;
+                try {
+                    const payload = JSON.parse(JSON.stringify(this.customDefaults));
+                    const formData = new FormData();
+                    formData.append('_token', '{{ csrf_token() }}');
+                    formData.append('lang', '{{ $selectedLang }}');
+                    formData.append('default_styles', JSON.stringify(payload));
+
+                    const res = await fetch('{{ route('pages.update', ['id' => 'teachers']) }}', {
+                        method: 'POST',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+                        body: formData,
+                    });
+
+                    if (!res.ok) {
+                        this.showToast('Sunucu hatasi: ' + res.status, 'error');
+                        this.savingDefaults = false;
+                        return;
+                    }
+
+                    const data = await res.json();
+                    if (data.success) this.showToast('Varsayilanlar kaydedildi', 'success');
+                    else this.showToast('Hata: ' + (data.message || 'Bilinmeyen'), 'error');
+                } catch (e) {
+                    this.showToast('Baglanti hatasi: ' + e.message, 'error');
+                }
+                this.savingDefaults = false;
             },
 
             showToast(msg, type) {

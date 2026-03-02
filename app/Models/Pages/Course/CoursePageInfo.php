@@ -11,6 +11,11 @@ class CoursePageInfo extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'field_styles' => 'array',
+        'default_styles' => 'array',
+    ];
+
     public $translatable = [
         'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'search_placeholder', 'search_button_text', 'result_text',
