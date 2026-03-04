@@ -78,121 +78,38 @@
                     </div>
                 </div>
 
-                {{-- Günler — Alpine dropdown with checkboxes --}}
+                {{-- Günler --}}
                 @php
                     $allDays = ['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'];
                 @endphp
-                <div class="relative min-w-44"
-                     x-data="{
-                         open: false,
-                         days: {{ json_encode($selectedDays) }},
-                         allDays: {{ json_encode($allDays) }},
-                         toggle(d) { const i = this.days.indexOf(d); i === -1 ? this.days.push(d) : this.days.splice(i, 1); },
-                         label() {
-                             if (!this.days.length) return 'Tüm Günler';
-                             if (this.days.length === 1) return this.days[0];
-                             return this.days.length + ' Gün Seçildi';
-                         }
-                     }"
-                     @click.outside="open = false"
-                     @dropdown-open.window="if ($event.detail.id !== 'days') open = false">
+                <div class="min-w-44">
                     <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Gün</label>
-
-                    {{-- Trigger --}}
-                    <button type="button" @click.stop="open = !open; if (open) $dispatch('dropdown-open', { id: 'days' })"
-                            :class="days.length ? 'border-fuchsia-300 dark:border-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-900/20' : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'"
-                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border transition-all cursor-pointer">
-                        <span :class="days.length ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-700 dark:text-slate-300'"
-                              x-text="label()"></span>
-                        <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-
-                    {{-- Dropdown --}}
-                    <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                         x-transition:enter-start="opacity-0 -translate-y-1"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute z-30 mt-1 w-44 bg-white dark:bg-slate-800 rounded-xl
-                                border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
-                        <template x-for="d in allDays" :key="d">
-                            <div @click.stop="toggle(d)"
-                                 class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer transition-colors select-none">
-                                <div :class="days.includes(d) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700'"
-                                     class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
-                                    <svg x-show="days.includes(d)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <span class="text-sm text-slate-700 dark:text-slate-300 flex-1" x-text="d"></span>
-                            </div>
-                        </template>
-                    </div>
-
-                    {{-- Hidden inputs for form submission --}}
-                    <template x-for="d in days" :key="d">
-                        <input type="hidden" name="day[]" :value="d">
-                    </template>
+                    <x-checkbox-dropdown
+                        name="day[]"
+                        :items="collect($allDays)->map(fn($d) => ['id' => $d, 'name' => $d])->toArray()"
+                        :selected="$selectedDays"
+                        placeholder="Tüm Günler"
+                        singularLabel="gün"
+                        pluralLabel="Gün Seçildi"
+                        dropdownId="days"
+                        :maxVisible="7"
+                    />
                 </div>
 
-                {{-- Eğitmen — Alpine dropdown with checkboxes --}}
+                {{-- Eğitmen --}}
                 @if($teachers->isNotEmpty())
-                <div class="relative min-w-44"
-                     x-data="{
-                         open: false,
-                         selected: {{ json_encode($selectedTeachers) }},
-                         teachers: {{ json_encode($teachers->map(fn($t) => ['id' => $t->id, 'name' => $t->name])->values()) }},
-                         toggle(id) { const i = this.selected.indexOf(id); i === -1 ? this.selected.push(id) : this.selected.splice(i, 1); },
-                         label() {
-                             if (!this.selected.length) return 'Tüm Eğitmenler';
-                             if (this.selected.length === 1) return this.teachers.find(t => t.id === this.selected[0])?.name ?? '1 Eğitmen';
-                             return this.selected.length + ' Eğitmen Seçildi';
-                         }
-                     }"
-                     @click.outside="open = false"
-                     @dropdown-open.window="if ($event.detail.id !== 'teachers') open = false">
+                <div class="min-w-44">
                     <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Eğitmen</label>
-
-                    {{-- Trigger --}}
-                    <button type="button" @click.stop="open = !open; if (open) $dispatch('dropdown-open', { id: 'teachers' })"
-                            :class="selected.length ? 'border-fuchsia-300 dark:border-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-900/20' : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'"
-                            class="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border transition-all cursor-pointer">
-                        <span :class="selected.length ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-700 dark:text-slate-300'"
-                              x-text="label()"></span>
-                        <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-
-                    {{-- Dropdown --}}
-                    <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                         x-transition:enter-start="opacity-0 -translate-y-1"
-                         x-transition:enter-end="opacity-100 translate-y-0"
-                         class="absolute z-30 mt-1 min-w-44 bg-white dark:bg-slate-800 rounded-xl
-                                border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
-                        <div class="max-h-52 overflow-y-auto">
-                            <template x-for="t in teachers" :key="t.id">
-                                <div @click.stop="toggle(t.id)"
-                                     class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer transition-colors select-none">
-                                    <div :class="selected.includes(t.id) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700'"
-                                         class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
-                                        <svg x-show="selected.includes(t.id)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm text-slate-700 dark:text-slate-300 flex-1"
-                                          x-text="t.name"></span>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-
-                    {{-- Hidden inputs for form submission --}}
-                    <template x-for="id in selected" :key="id">
-                        <input type="hidden" name="teacher[]" :value="id">
-                    </template>
+                    <x-checkbox-dropdown
+                        name="teacher[]"
+                        :items="$teachers->map(fn($t) => ['id' => $t->id, 'name' => $t->name])->values()->toArray()"
+                        :selected="$selectedTeachers"
+                        placeholder="Tüm Eğitmenler"
+                        singularLabel="eğitmen"
+                        pluralLabel="Eğitmen Seçildi"
+                        dropdownId="teachers"
+                        :maxVisible="6"
+                    />
                 </div>
                 @endif
 

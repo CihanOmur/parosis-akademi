@@ -198,50 +198,18 @@
                         </div>
                     </div>
 
-                    {{-- Randevu Durumu — Alpine dropdown --}}
-                    <div class="relative min-w-48"
-                         x-data="{
-                             open: false,
-                             selected: {{ json_encode($selectedStatuses) }},
-                             items: ['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'],
-                             toggle(v) { const i = this.selected.indexOf(v); i === -1 ? this.selected.push(v) : this.selected.splice(i, 1); },
-                             label() {
-                                 if (!this.selected.length) return 'Tüm Durumlar';
-                                 if (this.selected.length === 1) return this.selected[0];
-                                 return this.selected.length + ' Durum Seçildi';
-                             }
-                         }"
-                         @click.outside="open = false">
+                    {{-- Randevu Durumu --}}
+                    <div class="min-w-48">
                         <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1.5">Randevu Durumu</label>
-                        <button type="button" @click.stop="open = !open"
-                                :class="selected.length ? 'border-fuchsia-300 dark:border-fuchsia-600 bg-fuchsia-50 dark:bg-fuchsia-900/20' : 'border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50'"
-                                class="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border transition-all cursor-pointer">
-                            <span :class="selected.length ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-700 dark:text-slate-300'"
-                                  x-text="label()"></span>
-                            <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''"
-                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                             x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
-                             class="absolute z-30 mt-1 w-48 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
-                            <template x-for="v in items" :key="v">
-                                <div @click.stop="toggle(v)"
-                                     class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 cursor-pointer transition-colors select-none">
-                                    <div :class="selected.includes(v) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700'"
-                                         class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
-                                        <svg x-show="selected.includes(v)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm text-slate-700 dark:text-slate-300 flex-1" x-text="v"></span>
-                                </div>
-                            </template>
-                        </div>
-                        <template x-for="v in selected" :key="v">
-                            <input type="hidden" name="meets_status[]" :value="v">
-                        </template>
+                        <x-checkbox-dropdown
+                            name="meets_status[]"
+                            :items="collect(['Görüşüldü', 'Görüşülmedi', 'Görüşülecek'])->map(fn($s) => ['id' => $s, 'name' => $s])->toArray()"
+                            :selected="$selectedStatuses"
+                            placeholder="Tüm Durumlar"
+                            singularLabel="durum"
+                            pluralLabel="Durum Seçildi"
+                            :maxVisible="3"
+                        />
                     </div>
 
                     {{-- Filtrele --}}

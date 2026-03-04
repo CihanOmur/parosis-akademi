@@ -396,37 +396,25 @@
                 <pre class="text-xs text-slate-500 bg-slate-50 dark:bg-slate-700/30 rounded-lg p-3 font-mono mt-2">&lt;x-checkbox-dropdown name="skills[]" :items="$skills" :minSelect="2" :maxSelect="4" /&gt;</pre>
             </div>
 
-            {{-- 2d. Alpine Inline Multi-select (Filter) --}}
+            {{-- 2d. Checkbox Dropdown — Filtre Kullanımı --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">Alpine dropdown</span>
-                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Alpine Multi-Select Filtre</span>
-                    <span class="text-xs text-slate-400">— students/index (sınıf, dönem filtresi)</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-checkbox-dropdown</span>
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Filtre Dropdown</span>
+                    <span class="text-xs text-slate-400">— students/index, classes/index, pre-students filtre alanları</span>
                 </div>
-                <div class="max-w-sm" x-data="{
-                    open: false,
-                    selected: [],
-                    items: [{id:1,name:'A Sınıfı'},{id:2,name:'B Sınıfı'},{id:3,name:'C Sınıfı'}],
-                    toggle(id) { const i=this.selected.indexOf(id); i===-1?this.selected.push(id):this.selected.splice(i,1) },
-                    label() { if(!this.selected.length) return 'Sınıf seçin...'; return this.selected.length+' sınıf seçildi'; }
-                }" @click.outside="open = false">
-                    <button type="button" @click="open = !open"
-                        :class="selected.length ? 'ring-fuchsia-300 bg-fuchsia-50/50' : 'ring-slate-200 bg-slate-50'"
-                        class="w-full flex items-center justify-between px-4 py-2.5 text-sm rounded-xl ring-1 transition-all cursor-pointer">
-                        <span :class="selected.length ? 'text-fuchsia-700' : 'text-slate-400'" x-text="label()"></span>
-                        <svg class="w-4 h-4 text-slate-400 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                    <div x-show="open" x-transition class="absolute z-20 mt-1 w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
-                        <template x-for="item in items" :key="item.id">
-                            <div @click="toggle(item.id)" class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 transition-colors cursor-pointer">
-                                <div :class="selected.includes(item.id) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 bg-white'" class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
-                                    <svg x-show="selected.includes(item.id)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                                </div>
-                                <span class="text-sm text-slate-700" x-text="item.name"></span>
-                            </div>
-                        </template>
-                    </div>
+                <div class="max-w-sm">
+                    <x-checkbox-dropdown
+                        name="demo_filter[]"
+                        :items="[['id' => 1, 'name' => 'A Sınıfı'], ['id' => 2, 'name' => 'B Sınıfı'], ['id' => 3, 'name' => 'C Sınıfı']]"
+                        :selected="[]"
+                        placeholder="Sınıf seçin..."
+                        singularLabel="sınıf"
+                        pluralLabel="sınıf seçildi"
+                        :maxVisible="3"
+                    />
                 </div>
+                <pre class="text-xs text-slate-500 bg-slate-50 dark:bg-slate-700/30 rounded-lg p-3 font-mono mt-2">&lt;x-checkbox-dropdown name="class[]" :items="$classes" :selected="$selectedClasses" placeholder="Tüm Sınıflar" /&gt;</pre>
             </div>
 
         </div>
