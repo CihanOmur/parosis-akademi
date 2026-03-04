@@ -323,16 +323,77 @@
                 <div class="max-w-sm">
                     <x-checkbox-dropdown
                         name="categories[]"
-                        :items="[]"
-                        :selected="[]"
+                        :items="[
+                            ['id' => 1, 'name' => 'Web Geliştirme'],
+                            ['id' => 2, 'name' => 'Mobil Uygulama'],
+                            ['id' => 3, 'name' => 'Veri Bilimi'],
+                            ['id' => 4, 'name' => 'Yapay Zeka'],
+                            ['id' => 5, 'name' => 'Siber Güvenlik'],
+                            ['id' => 6, 'name' => 'Bulut Bilişim'],
+                        ]"
+                        :selected="[2, 4]"
                         placeholder="Kategori seçin..."
                         singularLabel="kategori"
                         pluralLabel="kategori seçildi"
                         :maxVisible="4"
                         :maxSelect="3"
                     />
-                    <p class="text-xs text-slate-400 mt-2">Props: name, items, selected, placeholder, singularLabel, pluralLabel, maxVisible, maxSelect</p>
+                    <p class="text-xs text-slate-400 mt-2">Props: name, items, selected, placeholder, singularLabel, pluralLabel, maxVisible, maxSelect, minSelect, multiple, required</p>
                 </div>
+            </div>
+
+            {{-- 2c-2. x-checkbox-dropdown Tekli Mod --}}
+            <div class="px-6 py-5 space-y-2">
+                <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded text-xs font-mono text-fuchsia-600">x-checkbox-dropdown</span>
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Tekli Seçim (Radio)</span>
+                    <span class="text-xs text-slate-400">— :multiple="false"</span>
+                </div>
+                <div class="max-w-sm">
+                    <x-checkbox-dropdown
+                        name="level"
+                        :items="[
+                            ['id' => 1, 'name' => 'Başlangıç'],
+                            ['id' => 2, 'name' => 'Orta Seviye'],
+                            ['id' => 3, 'name' => 'İleri Seviye'],
+                            ['id' => 4, 'name' => 'Uzman'],
+                        ]"
+                        :selected="[2]"
+                        placeholder="Seviye seçin..."
+                        singularLabel="seviye"
+                        :multiple="false"
+                    />
+                </div>
+                <pre class="text-xs text-slate-500 bg-slate-50 dark:bg-slate-700/30 rounded-lg p-3 font-mono mt-2">&lt;x-checkbox-dropdown name="level" :items="$levels" :multiple="false" /&gt;</pre>
+            </div>
+
+            {{-- 2c-3. x-checkbox-dropdown Min Select --}}
+            <div class="px-6 py-5 space-y-2">
+                <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded text-xs font-mono text-fuchsia-600">x-checkbox-dropdown</span>
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Min/Max Seçim</span>
+                    <span class="text-xs text-slate-400">— :minSelect="2" :maxSelect="4"</span>
+                </div>
+                <div class="max-w-sm">
+                    <x-checkbox-dropdown
+                        name="skills[]"
+                        :items="[
+                            ['id' => 1, 'name' => 'PHP'],
+                            ['id' => 2, 'name' => 'JavaScript'],
+                            ['id' => 3, 'name' => 'Python'],
+                            ['id' => 4, 'name' => 'Go'],
+                            ['id' => 5, 'name' => 'Rust'],
+                            ['id' => 6, 'name' => 'TypeScript'],
+                        ]"
+                        :selected="[1, 2]"
+                        placeholder="Beceri seçin..."
+                        singularLabel="beceri"
+                        pluralLabel="beceri seçildi"
+                        :minSelect="2"
+                        :maxSelect="4"
+                    />
+                </div>
+                <pre class="text-xs text-slate-500 bg-slate-50 dark:bg-slate-700/30 rounded-lg p-3 font-mono mt-2">&lt;x-checkbox-dropdown name="skills[]" :items="$skills" :minSelect="2" :maxSelect="4" /&gt;</pre>
             </div>
 
             {{-- 2d. Alpine Inline Multi-select (Filter) --}}

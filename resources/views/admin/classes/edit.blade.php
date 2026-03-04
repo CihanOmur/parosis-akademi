@@ -150,27 +150,22 @@
             </div>
 
             {{-- Eğitmen --}}
-            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm">
                 <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700/50">
                     <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Eğitmen</h3>
                 </div>
                 <div class="p-6">
-                    <label for="teacher_id" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                         Eğitmen Seçin <span class="text-red-500">*</span>
                     </label>
-                    <select id="teacher_id" name="teacher_id"
-                            class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900
-                                   text-slate-900 dark:text-white px-4 py-2.5 text-sm
-                                   focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors
-                                   @error('teacher_id') border-red-400 @enderror">
-                        <option value="">— Eğitmen seçin —</option>
-                        @foreach ($teachers as $teacher)
-                            <option value="{{ $teacher->id }}"
-                                    {{ old('teacher_id', $lessonClass->teacher_id) == $teacher->id ? 'selected' : '' }}>
-                                {{ $teacher->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <x-checkbox-dropdown
+                        name="teacher_id"
+                        :items="$teachers->map(fn($t) => ['id' => $t->id, 'name' => $t->name])->toArray()"
+                        :selected="[old('teacher_id', $lessonClass->teacher_id)]"
+                        placeholder="Eğitmen seçin..."
+                        :multiple="false"
+                        :required="true"
+                    />
                     @error('teacher_id')
                         <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
                     @enderror

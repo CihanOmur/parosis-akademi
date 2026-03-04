@@ -93,8 +93,8 @@
             </div>
 
             {{-- Öğrenci Bilgileri --}}
-            <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-50/50 via-transparent to-purple-50/30 dark:from-fuchsia-950/20 dark:to-purple-950/10 pointer-events-none"></div>
+            <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+                <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-50/50 via-transparent to-purple-50/30 dark:from-fuchsia-950/20 dark:to-purple-950/10 pointer-events-none rounded-2xl"></div>
 
                 <div class="relative flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center shadow-md shadow-fuchsia-500/20 flex-shrink-0">
@@ -137,21 +137,14 @@
                     {{-- Cinsiyet --}}
                     <div class="space-y-1">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Cinsiyet <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
-                                </svg>
-                            </span>
-                            <select name="gender"
-                                    class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                           text-slate-900 dark:text-white
-                                           ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all appearance-none">
-                                <option value="" disabled>Seçin</option>
-                                <option {{ old('gender', $student->gender) == 'Erkek' ? 'selected' : '' }} value="Erkek">Erkek</option>
-                                <option {{ old('gender', $student->gender) == 'Kadın' ? 'selected' : '' }} value="Kadın">Kadın</option>
-                            </select>
-                        </div>
+                        <x-checkbox-dropdown
+                            name="gender"
+                            :items="[['id' => 'Erkek', 'name' => 'Erkek'], ['id' => 'Kadın', 'name' => 'Kadın']]"
+                            :selected="old('gender', $student->gender) ? [old('gender', $student->gender)] : []"
+                            placeholder="Seçin..."
+                            :multiple="false"
+                            :required="true"
+                        />
                         @error('gender')
                             <p class="text-sm text-red-500 flex items-center gap-1.5">
                                 <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
@@ -234,23 +227,13 @@
                     {{-- Kan Grubu --}}
                     <div class="space-y-1">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Kan Grubu</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
-                                </svg>
-                            </span>
-                            @php $bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-']; @endphp
-                            <select name="blood_type"
-                                    class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                           text-slate-900 dark:text-white
-                                           ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all appearance-none">
-                                <option value="" disabled>Seçin</option>
-                                @foreach ($bloodTypes as $type)
-                                    <option value="{{ $type }}" {{ old('blood_type', $student->blood_type) == $type ? 'selected' : '' }}>{{ $type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <x-checkbox-dropdown
+                            name="blood_type"
+                            :items="collect(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', '0+', '0-'])->map(fn($t) => ['id' => $t, 'name' => $t])->toArray()"
+                            :selected="old('blood_type', $student->blood_type) ? [old('blood_type', $student->blood_type)] : []"
+                            placeholder="Seçin..."
+                            :multiple="false"
+                        />
                         @error('blood_type')
                             <p class="text-sm text-red-500 flex items-center gap-1.5">
                                 <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
@@ -339,12 +322,13 @@
                     </div>
                     <div class="space-y-1">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Eğitim Düzeyi</label>
-                        <select name="guardian1_education_level"
-                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all appearance-none">
-                            @foreach ($education_levels as $level)
-                                <option {{ old('guardian1_education_level', $student->guardians[0]->education_level ?? '') == $level ? 'selected' : '' }} value="{{ $level }}">{{ $level }}</option>
-                            @endforeach
-                        </select>
+                        <x-checkbox-dropdown
+                            name="guardian1_education_level"
+                            :items="collect($education_levels)->map(fn($l) => ['id' => $l, 'name' => $l])->toArray()"
+                            :selected="old('guardian1_education_level', $student->guardians[0]->education_level ?? '') ? [old('guardian1_education_level', $student->guardians[0]->education_level ?? '')] : []"
+                            placeholder="Seçin..."
+                            :multiple="false"
+                        />
                         @error('guardian1_education_level')
                             <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
                         @enderror
@@ -663,14 +647,14 @@
                 <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div class="space-y-1">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Sınıf <span class="text-red-500">*</span></label>
-                        <select name="class_id"
-                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-emerald-500/60 transition-all appearance-none">
-                            @foreach ($classes as $class)
-                                <option {{ old('class_id') == $class->id ? 'selected' : '' }} value="{{ $class->id }}">
-                                    {{ $class->name }} - {{ $class->teacher?->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <x-checkbox-dropdown
+                            name="class_id"
+                            :items="$classes->map(fn($c) => ['id' => $c->id, 'name' => $c->name . ' - ' . ($c->teacher?->name ?? '')])->toArray()"
+                            :selected="old('class_id') ? [(int) old('class_id')] : []"
+                            placeholder="Sınıf seçin..."
+                            :multiple="false"
+                            :required="true"
+                        />
                         @error('class_id')
                             <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
                         @enderror
@@ -683,18 +667,23 @@
                             $years = range($startYear, $endYear);
                             rsort($years);
                             $selectedTerms = explode(',', $student->registiration_term);
+                            $termItems = [];
+                            foreach ($years as $year) {
+                                $termItems[] = ['id' => "$year Güz", 'name' => "$year Güz"];
+                                $termItems[] = ['id' => "$year Yaz", 'name' => "$year Yaz"];
+                                $termItems[] = ['id' => "$year Bahar", 'name' => "$year Bahar"];
+                            }
                         @endphp
-                        <select id="registiration_term" name="registiration_term[]" multiple
-                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-emerald-500/60 transition-all">
-                            @foreach ($years as $year)
-                                @foreach (['Güz', 'Yaz', 'Bahar'] as $term)
-                                    <option value="{{ $year . ' ' . $term }}"
-                                        {{ in_array($year . ' ' . $term, $selectedTerms) ? 'selected' : '' }}>
-                                        {{ $year . ' ' . $term }}
-                                    </option>
-                                @endforeach
-                            @endforeach
-                        </select>
+                        <x-checkbox-dropdown
+                            name="registiration_term[]"
+                            :items="$termItems"
+                            :selected="old('registiration_term', $selectedTerms)"
+                            placeholder="Dönem seçin..."
+                            :multiple="true"
+                            :required="true"
+                            singularLabel="dönem"
+                            pluralLabel="dönem seçildi"
+                        />
                         @error('registiration_term')
                             <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
                         @enderror
@@ -797,15 +786,4 @@
     </div>
 </form>
 
-<script>
-    new TomSelect('#registiration_term', {
-        create: false,
-        highlight: true,
-        persist: false,
-        openOnFocus: true,
-        allowEmptyOption: false,
-        placeholder: 'Eğitim dönemi seçin...',
-        hidePlaceholder: true,
-    });
-</script>
 @endsection

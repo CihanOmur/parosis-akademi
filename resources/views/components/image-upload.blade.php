@@ -24,68 +24,24 @@
 @php
     $existingArray = is_array($existing) ? $existing : ($existing ? [$existing] : []);
 @endphp
-<div x-data="{
-    files: [],
-    existingUrls: {{ json_encode($existingArray) }},
-    addFiles(event) {
-        const newFiles = Array.from(event.target.files);
-        event.target.value = '';
-        newFiles.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.files.push({ file, preview: e.target.result });
-                this.syncInput();
-            };
-            reader.readAsDataURL(file);
-        });
-    },
-    removeNew(index) {
-        this.files.splice(index, 1);
-        this.syncInput();
-    },
-    removeExisting(index) {
-        this.existingUrls.splice(index, 1);
-    },
-    syncInput() {
-        const dt = new DataTransfer();
-        this.files.forEach(f => dt.items.add(f.file));
-        this.$refs.input.files = dt.files;
-    },
-    get hasImages() {
-        return this.files.length > 0 || this.existingUrls.length > 0;
-    }
-}" class="space-y-3">
+<div x-data="{ rawFiles: [] }" class="space-y-3">
 
-    {{-- Preview Grid --}}
-    <div x-show="hasImages" x-cloak class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {{-- Existing images --}}
-        <template x-for="(url, i) in existingUrls" :key="'ex-'+i">
-            <div class="relative h-36 overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50">
-                <img :src="url" class="absolute inset-0 w-full h-full object-cover" />
-                <button type="button" @click.prevent="removeExisting(i)"
-                        class="absolute top-2 right-2 z-10 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full
-                               flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-                <input type="hidden" name="existing_{{ $name }}[]" :value="url" />
-            </div>
-        </template>
-
-        {{-- New file previews --}}
-        <template x-for="(item, i) in files" :key="'new-'+i">
-            <div class="relative h-36 overflow-hidden rounded-xl border border-fuchsia-200/50 dark:border-fuchsia-700/50">
-                <img :src="item.preview" class="absolute inset-0 w-full h-full object-cover" />
-                <button type="button" @click.prevent="removeNew(i)"
-                        class="absolute top-2 right-2 z-10 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full
-                               flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-        </template>
+    {{-- Preview container --}}
+    <div x-ref="previewContainer" class="flex flex-wrap gap-3">
+        @foreach($existingArray as $url)
+        <div class="group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50">
+            <img src="{{ $url }}" class="absolute inset-0 w-full h-full object-cover" />
+            <button type="button" onclick="this.parentElement.remove()"
+                    class="absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full
+                           flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer
+                           opacity-0 group-hover/img:opacity-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <input type="hidden" name="existing_{{ $name }}[]" value="{{ $url }}" />
+        </div>
+        @endforeach
     </div>
 
     {{-- Upload area --}}
@@ -99,13 +55,36 @@
             </svg>
         </div>
         <div class="text-center">
-            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors"
-               x-text="hasImages ? '{{ $changeLabel }}' : '{{ $label }}'"></p>
+            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
+                {{ $changeLabel }}
+            </p>
             <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">{!! $hint !!}</p>
         </div>
         <input x-ref="input" type="file" name="{{ $name }}[]" accept="{{ $accept }}" multiple class="hidden"
-               @if($required) x-bind:required="!hasImages" @endif
-               @change="addFiles($event)">
+               @change="
+                   const container = $refs.previewContainer;
+                   Array.from($event.target.files).forEach(f => {
+                       rawFiles.push(f);
+                       const url = URL.createObjectURL(f);
+                       const wrapper = document.createElement('div');
+                       wrapper.className = 'group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50';
+                       wrapper.innerHTML = `<img src='${url}' class='absolute inset-0 w-full h-full object-cover' /><button type='button' class='absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer opacity-0 group-hover/img:opacity-100'><svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24' stroke-width='2.5'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'/></svg></button>`;
+                       wrapper.querySelector('button').addEventListener('click', (e) => {
+                           e.preventDefault();
+                           const idx = Array.from(container.children).indexOf(wrapper);
+                           URL.revokeObjectURL(url);
+                           wrapper.remove();
+                           rawFiles.splice(idx, 1);
+                           const dt = new DataTransfer();
+                           rawFiles.forEach(rf => dt.items.add(rf));
+                           $refs.input.files = dt.files;
+                       });
+                       container.appendChild(wrapper);
+                   });
+                   const dt = new DataTransfer();
+                   rawFiles.forEach(rf => dt.items.add(rf));
+                   $refs.input.files = dt.files;
+               ">
     </label>
 
     @error($name)
@@ -125,11 +104,12 @@
 @endphp
 <div x-data="{ preview: {!! $existingJson !!}, removed: false }" class="space-y-3">
     {{-- Preview --}}
-    <div x-show="preview" x-cloak class="relative overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50">
-        <img :src="preview" class="w-full h-auto object-cover" style="display:block" />
+    <div x-show="preview" x-cloak class="group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50">
+        <img :src="preview" class="absolute inset-0 w-full h-full object-cover" />
         <button type="button" @click.prevent="preview = null; $refs.input.value = ''; removed = true"
                 class="absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full
-                       flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer">
+                       flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer
+                       opacity-0 group-hover/img:opacity-100">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
             </svg>
