@@ -43,25 +43,7 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kategori Adı <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="name" id="name"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Kategori adını yazın..."
-                               value="{{ old('name', $category->name) }}" required>
-                        @error('name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="name" label="Kategori Adı" placeholder="Kategori adını yazın..." :value="$category->name" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 

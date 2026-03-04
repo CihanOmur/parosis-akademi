@@ -43,53 +43,17 @@
 
                 <div class="relative p-6 space-y-5">
                     {{-- Başlık --}}
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Başlık <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Kurs başlığını yazın..."
-                               value="{{ old('title', $course->title) }}" required>
-                        @error('title')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="title" label="Başlık" placeholder="Kurs başlığını yazın..." :value="$course->title" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Kısa Açıklama --}}
-                    <div class="space-y-1">
-                        <label for="short_description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kısa Açıklama
-                        </label>
-                        <textarea name="short_description" id="short_description" rows="3"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y"
-                                  placeholder="Kursun kısa açıklaması...">{{ old('short_description', $course->short_description) }}</textarea>
-                    </div>
+                    <x-textarea name="short_description" label="Kısa Açıklama" placeholder="Kursun kısa açıklaması..." rows="3" :value="$course->short_description" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- İçerik --}}
-                    <div class="space-y-1">
-                        <label for="content" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            İçerik
-                        </label>
-                        <textarea name="content" id="content" rows="10"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y"
-                                  placeholder="Kursun içeriği (HTML destekler)...">{{ old('content', $course->content) }}</textarea>
-                    </div>
+                    <x-textarea name="content" label="İçerik" placeholder="Kursun içeriği (HTML destekler)..." rows="10" :value="$course->content" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
@@ -263,11 +227,7 @@
                     <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Yayın Tarihi</h3>
                 </div>
                 <div class="p-5">
-                    <input type="datetime-local" name="published_at" id="published_at"
-                           class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                  text-slate-900 dark:text-white text-sm
-                                  ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                           value="{{ old('published_at', $course->published_at ? $course->published_at->format('Y-m-d\TH:i') : '') }}">
+                    <x-text-input type="datetime-local" name="published_at" :value="$course->published_at ? $course->published_at->format('Y-m-d\TH:i') : ''" />
                 </div>
             </div>
 
@@ -283,59 +243,19 @@
                 </div>
                 <div class="p-5 space-y-4">
                     {{-- Fiyat --}}
-                    <div class="space-y-1">
-                        <label for="price" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Fiyat</label>
-                        <input type="text" name="price" id="price"
-                               class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Örn: 299 TL"
-                               value="{{ old('price', $course->price) }}">
-                    </div>
+                    <x-text-input name="price" label="Fiyat" placeholder="Örn: 299 TL" :value="$course->price" />
 
                     {{-- Süre --}}
-                    <div class="space-y-1">
-                        <label for="duration" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Süre</label>
-                        <input type="text" name="duration" id="duration"
-                               class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Örn: 40 Saat"
-                               value="{{ old('duration', $course->duration) }}">
-                    </div>
+                    <x-text-input name="duration" label="Süre" placeholder="Örn: 40 Saat" :value="$course->duration" />
 
                     {{-- Ders Sayısı --}}
-                    <div class="space-y-1">
-                        <label for="lesson_count" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Ders Sayısı</label>
-                        <input type="text" name="lesson_count" id="lesson_count"
-                               class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Örn: 120"
-                               value="{{ old('lesson_count', $course->lesson_count) }}">
-                    </div>
+                    <x-text-input name="lesson_count" label="Ders Sayısı" placeholder="Örn: 120" :value="$course->lesson_count" />
 
                     {{-- Dil --}}
-                    <div class="space-y-1">
-                        <label for="language" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Dil</label>
-                        <input type="text" name="language" id="language"
-                               class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Örn: Türkçe"
-                               value="{{ old('language', $course->language) }}">
-                    </div>
+                    <x-text-input name="language" label="Dil" placeholder="Örn: Türkçe" :value="$course->language" />
 
                     {{-- Öğrenci Sayısı --}}
-                    <div class="space-y-1">
-                        <label for="student_count" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Öğrenci Sayısı</label>
-                        <input type="text" name="student_count" id="student_count"
-                               class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Örn: 500"
-                               value="{{ old('student_count', $course->student_count) }}">
-                    </div>
+                    <x-text-input name="student_count" label="Öğrenci Sayısı" placeholder="Örn: 500" :value="$course->student_count" />
 
                     {{-- Sertifika --}}
                     <div class="flex items-center gap-3">
@@ -347,15 +267,7 @@
                     </div>
 
                     {{-- Eğitmen Adı --}}
-                    <div class="space-y-1">
-                        <label for="instructor_name" class="block text-xs font-medium text-slate-600 dark:text-slate-400">Eğitmen Adı</label>
-                        <input type="text" name="instructor_name" id="instructor_name"
-                               class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Eğitmenin adı..."
-                               value="{{ old('instructor_name', $course->instructor_name) }}">
-                    </div>
+                    <x-text-input name="instructor_name" label="Eğitmen Adı" placeholder="Eğitmenin adı..." :value="$course->instructor_name" />
                 </div>
             </div>
 

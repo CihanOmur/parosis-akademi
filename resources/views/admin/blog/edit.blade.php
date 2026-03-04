@@ -42,51 +42,15 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Başlık <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Blog başlığını yazın..."
-                               value="{{ old('title', $blog->title) }}" required>
-                        @error('title')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="title" label="Başlık" placeholder="Blog başlığını yazın..." :value="$blog->title" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="short_description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kısa Açıklama
-                        </label>
-                        <textarea name="short_description" id="short_description" rows="3"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y"
-                                  placeholder="Blog yazısının kısa açıklaması...">{{ old('short_description', $blog->short_description) }}</textarea>
-                    </div>
+                    <x-textarea name="short_description" label="Kısa Açıklama" placeholder="Blog yazısının kısa açıklaması..." rows="3" :value="$blog->short_description" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="content" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            İçerik
-                        </label>
-                        <textarea name="content" id="content" rows="10"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y"
-                                  placeholder="Blog yazısının içeriği (HTML destekler)...">{{ old('content', $blog->content) }}</textarea>
-                    </div>
+                    <x-textarea name="content" label="İçerik" placeholder="Blog yazısının içeriği (HTML destekler)..." rows="10" :value="$blog->content" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
@@ -168,11 +132,7 @@
                     <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Yayın Tarihi</h3>
                 </div>
                 <div class="p-5">
-                    <input type="datetime-local" name="published_at" id="published_at"
-                           class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                  text-slate-900 dark:text-white text-sm
-                                  ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                           value="{{ old('published_at', $blog->published_at ? $blog->published_at->format('Y-m-d\TH:i') : '') }}">
+                    <x-text-input name="published_at" type="datetime-local" :value="$blog->published_at ? $blog->published_at->format('Y-m-d\TH:i') : ''" />
                 </div>
             </div>
 

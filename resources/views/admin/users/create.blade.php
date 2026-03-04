@@ -61,84 +61,22 @@
 
                 <div class="relative p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {{-- Ad Soyad --}}
-                    <div class="sm:col-span-2 space-y-1">
-                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Ad Soyad <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                                </svg>
-                            </span>
-                            <input type="text" name="name" id="name"
-                                   x-model="name"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="örn: Ahmet Yılmaz">
-                        </div>
-                        @error('name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="sm:col-span-2">
+                        <x-text-input name="name" label="Ad Soyad" placeholder="örn: Ahmet Yılmaz" required
+                            x-model="name"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>' />
                     </div>
 
                     {{-- E-posta --}}
-                    <div class="space-y-1">
-                        <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            E-posta <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
-                                </svg>
-                            </span>
-                            <input type="email" name="email" id="email"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="ornek@parosis.com" value="{{ old('email') }}">
-                        </div>
-                        @error('email')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input type="email" name="email" label="E-posta" placeholder="ornek@parosis.com" required
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>' />
 
                     {{-- Telefon --}}
-                    <div class="space-y-1">
-                        <label for="phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Telefon <span class="text-red-500">*</span>
-                        </label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
-                                </svg>
-                            </span>
-                            <input type="tel" name="phone" id="phone"
-                                   pattern="[0-9]*" inputmode="numeric"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                   maxlength="13"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="05551234567" value="{{ old('phone') }}">
-                        </div>
-                        @error('phone')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input type="tel" name="phone" label="Telefon" placeholder="05551234567" required
+                        pattern="[0-9]*" inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        maxlength="13"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>' />
                 </div>
             </div>
 
@@ -157,25 +95,16 @@
                     </div>
                 </div>
 
-                <div class="p-6 space-y-1">
-                    <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                        Şifre <span class="text-red-500">*</span>
-                    </label>
+                <div class="p-6">
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                      d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/>
-                            </svg>
-                        </span>
-                        <input :type="showPass ? 'text' : 'password'"
-                               name="password" id="password" maxlength="230"
-                               class="w-full pl-10 pr-12 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                      text-slate-900 dark:text-white placeholder-slate-400
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-emerald-500/50 transition-all"
-                               placeholder="•••••••••">
+                        <x-text-input type="password" name="password" label="Şifre" placeholder="•••••••••" required
+                            ringColor="emerald"
+                            x-bind:type="showPass ? 'text' : 'password'"
+                            maxlength="230"
+                            inputClass="!pr-12"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"/></svg>' />
                         <button type="button" @click="showPass = !showPass"
-                                class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                                class="absolute right-3.5 bottom-[13px] flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors z-10 cursor-pointer">
                             <svg x-show="!showPass" class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -185,12 +114,6 @@
                             </svg>
                         </button>
                     </div>
-                    @error('password')
-                        <p class="text-sm text-red-500 flex items-center gap-1.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                            {{ $message }}
-                        </p>
-                    @enderror
                 </div>
             </div>
 

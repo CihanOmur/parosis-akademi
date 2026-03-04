@@ -43,33 +43,9 @@
 
                 <div class="relative p-6 space-y-5">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="space-y-1">
-                            <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Ad Soyad <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="name" id="name"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                          text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   value="{{ old('name', $testimonial->name) }}" required>
-                            @error('name')
-                                <p class="text-sm text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-text-input name="name" label="Ad Soyad" :value="$testimonial->name" required />
 
-                        <div class="space-y-1">
-                            <label for="role" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Rol / Ünvan
-                            </label>
-                            <input type="text" name="role" id="role"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                          text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   value="{{ old('role', $testimonial->role) }}">
-                            @error('role')
-                                <p class="text-sm text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-text-input name="role" label="Rol / Ünvan" :value="$testimonial->role" />
                     </div>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
@@ -129,19 +105,7 @@
                 </div>
 
                 <div class="relative p-6">
-                    <div class="space-y-1">
-                        <label for="quote" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Yorum <span class="text-red-500">*</span>
-                        </label>
-                        <textarea name="quote" id="quote" rows="5"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-amber-500/60 transition-all resize-y"
-                                  required>{{ old('quote', $testimonial->quote) }}</textarea>
-                        @error('quote')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-textarea name="quote" label="Yorum" rows="5" :value="$testimonial->quote" ringColor="amber" required />
                 </div>
             </div>
         </div>

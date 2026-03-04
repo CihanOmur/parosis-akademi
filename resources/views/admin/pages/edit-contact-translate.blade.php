@@ -70,31 +70,16 @@
                     <input type="hidden" name="lang" value="{{ $selectedLang }}">
 
                     <div class="space-y-5">
-                        <div>
-                            <label for="title" class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Sayfa Başlığı</label>
-                            <input type="text" name="title" id="title"
-                                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-500 outline-none transition-all"
-                                placeholder="Başlık girin"
-                                value="{{ translateAttribute($contactPageInfo, 'title', $selectedLang) }}">
-                        </div>
-                        <div>
-                            <label for="subtitle" class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Alt Başlık</label>
-                            <input type="text" name="subtitle" id="subtitle"
-                                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-500 outline-none transition-all"
-                                placeholder="Alt başlık girin"
-                                value="{{ translateAttribute($contactPageInfo, 'subtitle', $selectedLang) }}">
-                        </div>
+                        <x-text-input name="title" label="Sayfa Başlığı" placeholder="Başlık girin"
+                            :value="translateAttribute($contactPageInfo, 'title', $selectedLang)" />
+                        <x-text-input name="subtitle" label="Alt Başlık" placeholder="Alt başlık girin"
+                            :value="translateAttribute($contactPageInfo, 'subtitle', $selectedLang)" />
                         <div>
                             <label class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Açıklama</label>
                             <textarea name="content" class="summernote-editor">{{ translateAttribute($contactPageInfo, 'description', $selectedLang) }}</textarea>
                         </div>
-                        <div>
-                            <label for="form_title" class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Form Başlığı</label>
-                            <input type="text" name="form_title" id="form_title"
-                                class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-xl focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-500 outline-none transition-all"
-                                placeholder="Form başlığı girin"
-                                value="{{ translateAttribute($contactPageInfo, 'form_title', $selectedLang) }}">
-                        </div>
+                        <x-text-input name="form_title" label="Form Başlığı" placeholder="Form başlığı girin"
+                            :value="translateAttribute($contactPageInfo, 'form_title', $selectedLang)" />
                         <div>
                             <label class="block mb-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">Form Açıklaması</label>
                             <textarea name="form_description" class="summernote-editor">{{ translateAttribute($contactPageInfo, 'form_description', $selectedLang) }}</textarea>

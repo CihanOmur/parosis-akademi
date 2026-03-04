@@ -69,30 +69,11 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="role" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Rol / Ünvan
-                        </label>
-                        <input type="text" name="role" id="role"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Rolün çevirisini yazın..."
-                               value="{{ old('role', $testimonial->getTranslation('role', $selectedLang, false)) }}">
-                    </div>
+                    <x-text-input name="role" label="Rol / Ünvan" placeholder="Rolün çevirisini yazın..." :value="$testimonial->getTranslation('role', $selectedLang, false)" ringColor="blue" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="quote" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Yorum <span class="text-red-500">*</span>
-                        </label>
-                        <textarea name="quote" id="quote" rows="6"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all resize-y"
-                                  placeholder="Yorumun çevirisini yazın..." required>{{ old('quote', $testimonial->getTranslation('quote', $selectedLang, false)) }}</textarea>
-                    </div>
+                    <x-textarea name="quote" label="Yorum" placeholder="Yorumun çevirisini yazın..." rows="6" :value="$testimonial->getTranslation('quote', $selectedLang, false)" ringColor="blue" required />
                 </div>
             </div>
         </div>

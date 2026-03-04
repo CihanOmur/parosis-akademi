@@ -1,9 +1,14 @@
 <!--...::: Footer Section Start :::... -->
+@php
+    $footerInfo = $footerInfo ?? \App\Models\Pages\Footer\FooterPageInfo::first();
+    $footerContact = $footerContact ?? \App\Models\Pages\Contact\ContactPageInfo::first();
+    $locale = app()->getLocale();
+@endphp
 <footer class="section-footer">
     <div class="-mt-48">
         <!-- Section Container -->
         <div class="container">
-            @php $ctaInfo = $ctaInfo ?? \App\Models\Pages\Contact\ContactPageInfo::first(); @endphp
+            @php $ctaInfo = $ctaInfo ?? $footerContact; @endphp
             <!-- CTA Area -->
             <div class="jos relative z-10 grid grid-cols-1 items-end overflow-hidden rounded-lg bg-colorPurpleBlue lg:grid-cols-[0.8fr_1fr] lg:gap-14">
                 <!-- CTA Left Block -->
@@ -31,16 +36,16 @@
                                     return $style;
                                 };
                             @endphp
-                            <span class="mb-5 block uppercase text-colorBrightGold" @if($ctaFs('cta_label')) style="{{ $ctaFs('cta_label') }}" @endif>{!! nl2br(e($ctaInfo?->getTranslation('cta_label', app()->getLocale()) ?: 'HEMEN BASLAYIN')) !!}</span>
+                            <span class="mb-5 block uppercase text-colorBrightGold" @if($ctaFs('cta_label')) style="{{ $ctaFs('cta_label') }}" @endif>{!! nl2br(e($ctaInfo?->getTranslation('cta_label', $locale) ?: 'HEMEN BASLAYIN')) !!}</span>
                             <h2 class="text-white" @if($ctaFs('cta_title')) style="{{ $ctaFs('cta_title') }}" @endif>
-                                {!! nl2br(e($ctaInfo?->getTranslation('cta_title', app()->getLocale()) ?: 'Uygun Fiyatli Online Kurslar & Ogrenme Firsatlari')) !!}
+                                {!! nl2br(e($ctaInfo?->getTranslation('cta_title', $locale) ?: 'Uygun Fiyatli Online Kurslar & Ogrenme Firsatlari')) !!}
                             </h2>
                         </div>
                         <p class="mb-[30px] mt-7 text-white/80" @if($ctaFs('cta_description')) style="{{ $ctaFs('cta_description') }}" @endif>
-                            {!! nl2br(e($ctaInfo?->getTranslation('cta_description', app()->getLocale()) ?: 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.')) !!}
+                            {!! nl2br(e($ctaInfo?->getTranslation('cta_description', $locale) ?: 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.')) !!}
                         </p>
                         <div class="inline-block">
-                            <a href="{{ $ctaInfo?->cta_button_url ?: route('front.courses') }}" class="btn btn-secondary is-icon group">{{ $ctaInfo?->getTranslation('cta_button_text', app()->getLocale()) ?: 'Ogrenmeye Basla' }}
+                            <a href="{{ $ctaInfo?->cta_button_url ?: route('front.courses') }}" class="btn btn-secondary is-icon group">{{ $ctaInfo?->getTranslation('cta_button_text', $locale) ?: 'Ogrenmeye Basla' }}
                                 <span class="btn-icon bg-colorBlackPearl group-hover:right-0 group-hover:translate-x-full">
                                     <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-arrow-right.svg') }}" alt="icon-golden-yellow-arrow-right" width="13" height="12" />
                                 </span>
@@ -76,25 +81,28 @@
                     <!-- Footer Widget - About -->
                     <div class="max-w-[298px]">
                         <a href="{{ route('front.home') }}" class="">
-                            <img src="{{ asset('assets-front/img/logo-parosis-akademi.svg') }}" alt="logo" width="137" height="33" />
+                            @if($footerInfo?->logo)
+                                <img src="{{ asset($footerInfo->logo) }}" alt="logo" width="137" height="33" />
+                            @else
+                                <img src="{{ asset('assets-front/img/logo-parosis-akademi.svg') }}" alt="logo" width="137" height="33" />
+                            @endif
                         </a>
                         <p class="mb-8 mt-8">
-                            Gelecegin teknolojisine yon veren akademi. Kariyerinizi bir adim oteye tasiyin.
+                            {{ $footerInfo?->getTranslation('about_text', $locale) ?: 'Gelecegin teknolojisine yon veren akademi. Kariyerinizi bir adim oteye tasiyin.' }}
                         </p>
                         <!-- Social Links -->
                         <div class="flex items-center gap-x-6">
-                            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="facebook">
-                                <img src="{{ asset('assets-front/img/icons/icon-dark-facebook.svg') }}" alt="icon-dark-facebook" width="20" height="20" />
-                            </a>
-                            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" aria-label="twitter">
-                                <img src="{{ asset('assets-front/img/icons/icon-dark-twitter.svg') }}" alt="icon-dark-twitter" width="21" height="20" />
-                            </a>
-                            <a href="https://www.dribbble.com" target="_blank" rel="noopener noreferrer" aria-label="dribbble">
-                                <img src="{{ asset('assets-front/img/icons/icon-dark-dribbble.svg') }}" alt="icon-dark-dribbble" width="21" height="20" />
-                            </a>
-                            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="instagram">
-                                <img src="{{ asset('assets-front/img/icons/icon-dark-instagram.svg') }}" alt="icon-dark-instagram" width="21" height="20" />
-                            </a>
+                            @foreach($footerInfo?->social_links ?? [] as $social)
+                                @if(!empty($social['url']))
+                                <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['name'] ?? 'social' }}">
+                                    @if(!empty($social['icon']))
+                                        <img src="{{ asset($social['icon']) }}" alt="{{ $social['name'] ?? 'social' }}" width="21" height="20" />
+                                    @else
+                                        <span class="text-sm text-colorTextBody">{{ Str::limit($social['name'] ?? '', 2) }}</span>
+                                    @endif
+                                </a>
+                                @endif
+                            @endforeach
                         </div>
                         <!-- Social Links -->
                     </div>
@@ -103,39 +111,49 @@
                     <!-- Footer Widget - Nav -->
                     <div>
                         <!-- Footer Title -->
-                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">Baglantilar</span>
+                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">{{ $footerInfo?->getTranslation('links_title', $locale) ?: 'Baglantilar' }}</span>
                         <!-- Footer Title -->
 
                         <!-- Footer Nav List -->
                         <ul class="flex flex-col gap-y-3">
-                            <li>
-                                <a href="{{ route('front.about') }}" class="hover:text-colorBlackPearl hover:underline">Hakkimizda</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.courses') }}" class="hover:text-colorBlackPearl hover:underline">Kurslarimiz</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:text-colorBlackPearl hover:underline">Fiyatlandirma</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.contact') }}" class="hover:text-colorBlackPearl hover:underline">Iletisim</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.blog') }}" class="hover:text-colorBlackPearl hover:underline">Haberler</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('front.faq') }}" class="hover:text-colorBlackPearl hover:underline">SSS</a>
-                            </li>
+                            @if($footerInfo?->nav_links && count($footerInfo->nav_links) > 0)
+                                @foreach($footerInfo->nav_links as $navLink)
+                                    @php
+                                        $linkLabel = is_array($navLink['label'] ?? null)
+                                            ? ($navLink['label'][$locale] ?? ($navLink['label'][config('app.locale')] ?? ''))
+                                            : ($navLink['label'] ?? '');
+                                        $linkUrl = $navLink['url'] ?? '#';
+                                    @endphp
+                                    <li>
+                                        <a href="{{ $linkUrl }}" class="hover:text-colorBlackPearl hover:underline">{{ $linkLabel }}</a>
+                                    </li>
+                                @endforeach
+                            @else
+                                <li>
+                                    <a href="{{ route('front.about') }}" class="hover:text-colorBlackPearl hover:underline">Hakkimizda</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('front.courses') }}" class="hover:text-colorBlackPearl hover:underline">Kurslarimiz</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('front.contact') }}" class="hover:text-colorBlackPearl hover:underline">Iletisim</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('front.blog') }}" class="hover:text-colorBlackPearl hover:underline">Haberler</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('front.faq') }}" class="hover:text-colorBlackPearl hover:underline">SSS</a>
+                                </li>
+                            @endif
                         </ul>
                         <!-- Footer Nav List -->
                     </div>
                     <!-- Footer Widget - Nav -->
 
                     <!-- Footer Widget - Info -->
-                    @php $footerContact = \App\Models\Pages\Contact\ContactPageInfo::first(); @endphp
                     <div>
                         <!-- Footer Title -->
-                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">Iletisim</span>
+                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">{{ $footerInfo?->getTranslation('contact_title', $locale) ?: 'Iletisim' }}</span>
                         <!-- Footer Title -->
 
                         <!-- Footer Info List -->
@@ -145,7 +163,7 @@
                                     <img src="{{ asset('assets-front/img/icons/icon-purple-phone-ring.svg') }}" alt="icon-purple-phone-ring" width="28" height="28" />
                                 </div>
                                 <div class="flex-1">
-                                    <span class="block">7/24 Destek</span>
+                                    <span class="block">{{ $footerInfo?->getTranslation('support_label', $locale) ?: '7/24 Destek' }}</span>
                                     <a href="tel:{{ preg_replace('/\s+/', '', $footerContact?->phone_1 ?? '+5323213333') }}" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">{{ $footerContact?->phone_1 ?? '+532 321 33 33' }}</a>
                                 </div>
                             </li>
@@ -154,7 +172,7 @@
                                     <img src="{{ asset('assets-front/img/icons/icon-purple-mail-open.svg') }}" alt="icon-purple-mail-open" width="28" height="28" />
                                 </div>
                                 <div class="flex-1">
-                                    <span class="block">Mesaj Gonderin</span>
+                                    <span class="block">{{ $footerInfo?->getTranslation('email_label', $locale) ?: 'Mesaj Gonderin' }}</span>
                                     <a href="mailto:{{ $footerContact?->email_1 ?? 'info@parosisakademi.com' }}" class="font-title text-lg text-colorBlackPearl hover:underline md:text-xl">{{ $footerContact?->email_1 ?? 'info@parosisakademi.com' }}</a>
                                 </div>
                             </li>
@@ -163,7 +181,7 @@
                                     <img src="{{ asset('assets-front/img/icons/icon-purple-location.svg') }}" alt="icon-purple-location" width="28" height="28" />
                                 </div>
                                 <div class="flex-1">
-                                    <span class="block">Adresimiz</span>
+                                    <span class="block">{{ $footerInfo?->getTranslation('address_label', $locale) ?: 'Adresimiz' }}</span>
                                     <address class="font-title text-xl not-italic text-colorBlackPearl">
                                         {{ $footerContact?->address_line_1 ?? 'Istanbul, Turkiye' }}
                                     </address>
@@ -177,16 +195,16 @@
                     <!-- Footer Widget - Newsletter -->
                     <div class="md:max-w-80">
                         <!-- Footer Title -->
-                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">Abone Olun</span>
+                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">{{ $footerInfo?->getTranslation('newsletter_title', $locale) ?: 'Abone Olun' }}</span>
                         <!-- Footer Title -->
 
                         <p>
-                            Bultenimize abone olmak icin e-posta adresinizi girin
+                            {{ $footerInfo?->getTranslation('newsletter_text', $locale) ?: 'Bultenimize abone olmak icin e-posta adresinizi girin' }}
                         </p>
                         <form action="#" method="post" class="mt-4 text-sm font-medium">
-                            <input type="email" class="w-full rounded-[50px] border border-[#EBEBEB] bg-white px-7 py-3.5 outline-none" placeholder="E-posta girin" />
+                            <input type="email" class="w-full rounded-[50px] border border-[#EBEBEB] bg-white px-7 py-3.5 outline-none" placeholder="{{ $footerInfo?->getTranslation('newsletter_placeholder', $locale) ?: 'E-posta girin' }}" />
                             <button type="submit" class="btn btn-primary is-icon group mt-[10px]">
-                                Abone Ol
+                                {{ $footerInfo?->getTranslation('newsletter_button', $locale) ?: 'Abone Ol' }}
                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                     <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right" width="13" height="12" />
                                 </span>
@@ -214,7 +232,7 @@
 
     <!-- Footer Bottom -->
     <div class="bg-[#F5F5F5] py-6 text-center text-sm">
-        Copyright {{ date('Y') }} Parosis Akademi | Tum Haklari Saklidir
+        {{ $footerInfo?->getTranslation('copyright_text', $locale) ?: 'Copyright ' . date('Y') . ' Parosis Akademi | Tum Haklari Saklidir' }}
     </div>
     <!-- Footer Bottom -->
 </footer>

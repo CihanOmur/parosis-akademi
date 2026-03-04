@@ -43,20 +43,7 @@
 
                 <div class="relative p-6 space-y-5">
                     {{-- Ad --}}
-                    <div class="space-y-1">
-                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Slider Adı <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="name" id="name"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Örn: Ana Sayfa Slider"
-                               value="{{ old('name') }}" required>
-                        @error('name')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="name" label="Slider Adı" placeholder="Örn: Ana Sayfa Slider" required />
                 </div>
             </div>
         </div>

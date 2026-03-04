@@ -69,30 +69,11 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="question" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Soru <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="question" id="question"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Sorunun çevirisini yazın..."
-                               value="{{ old('question', $faq->getTranslation('question', $selectedLang, false)) }}" required>
-                    </div>
+                    <x-text-input name="question" label="Soru" placeholder="Sorunun çevirisini yazın..." :value="$faq->getTranslation('question', $selectedLang, false)" ringColor="blue" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="answer" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Cevap <span class="text-red-500">*</span>
-                        </label>
-                        <textarea name="answer" id="answer" rows="6"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all resize-y"
-                                  placeholder="Cevabın çevirisini yazın..." required>{{ old('answer', $faq->getTranslation('answer', $selectedLang, false)) }}</textarea>
-                    </div>
+                    <x-textarea name="answer" label="Cevap" placeholder="Cevabın çevirisini yazın..." rows="6" :value="$faq->getTranslation('answer', $selectedLang, false)" ringColor="blue" required />
                 </div>
             </div>
         </div>

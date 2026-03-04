@@ -63,88 +63,18 @@
                 <div class="p-6 space-y-5">
 
                     {{-- Sınıf Adı --}}
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                            Sınıf Adı <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="name" name="name" x-model="name"
-                               placeholder="Örn: A1 Almanca Başlangıç"
-                               class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900
-                                      text-slate-900 dark:text-white px-4 py-2.5 text-sm
-                                      focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors
-                                      @error('name') border-red-400 focus:border-red-400 focus:ring-red-500/20 @enderror">
-                        @error('name')
-                            <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="name" label="Sınıf Adı" placeholder="Örn: A1 Almanca Başlangıç" required x-model="name" />
 
                     {{-- Kontenjan + Kurs Süresi --}}
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="quota" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Kontenjan <span class="text-red-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <input type="number" id="quota" name="quota"
-                                       value="{{ old('quota', $lessonClass->quota) }}"
-                                       min="1" placeholder="15"
-                                       class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900
-                                              text-slate-900 dark:text-white pl-4 pr-12 py-2.5 text-sm
-                                              focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors
-                                              @error('quota') border-red-400 @enderror">
-                                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">kişi</span>
-                            </div>
-                            @error('quota')
-                                <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div>
-                            <label for="course_time" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Kurs Süresi <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="course_time" name="course_time"
-                                   value="{{ old('course_time', $lessonClass->course_time) }}"
-                                   placeholder="Örn: 3 Ay / 48 Saat"
-                                   class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900
-                                          text-slate-900 dark:text-white px-4 py-2.5 text-sm
-                                          focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors
-                                          @error('course_time') border-red-400 @enderror">
-                            @error('course_time')
-                                <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-text-input name="quota" type="number" label="Kontenjan" placeholder="15" suffix="kişi" required min="1" :value="$lessonClass->quota" />
+                        <x-text-input name="course_time" label="Kurs Süresi" placeholder="Örn: 3 Ay / 48 Saat" required :value="$lessonClass->course_time" />
                     </div>
 
                     {{-- Başlangıç + Bitiş Tarihi --}}
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="start_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Başlangıç Tarihi <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" id="start_date" name="start_date"
-                                   value="{{ old('start_date', $lessonClass->start_date) }}"
-                                   class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900
-                                          text-slate-900 dark:text-white px-4 py-2.5 text-sm
-                                          focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors
-                                          @error('start_date') border-red-400 @enderror">
-                            @error('start_date')
-                                <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div>
-                            <label for="end_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                Bitiş Tarihi <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" id="end_date" name="end_date"
-                                   value="{{ old('end_date', $lessonClass->end_date) }}"
-                                   class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900
-                                          text-slate-900 dark:text-white px-4 py-2.5 text-sm
-                                          focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors
-                                          @error('end_date') border-red-400 @enderror">
-                            @error('end_date')
-                                <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-text-input name="start_date" type="date" label="Başlangıç Tarihi" required :value="$lessonClass->start_date" />
+                        <x-text-input name="end_date" type="date" label="Bitiş Tarihi" required :value="$lessonClass->end_date" />
                     </div>
                 </div>
             </div>

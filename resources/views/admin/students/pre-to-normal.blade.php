@@ -61,26 +61,20 @@
 
             <div class="relative p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 @php
-                    $inputClass = 'w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all';
                     $labelClass = 'block text-sm font-medium text-slate-700 dark:text-slate-300';
                     $errorSvg = '<svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>';
                 @endphp
 
                 {{-- Ad Soyad --}}
-                <div class="sm:col-span-2 space-y-1">
-                    <label class="{{ $labelClass }}">Ad Soyad <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                            </svg>
-                        </span>
-                        <input type="text" name="full_name" class="{{ $inputClass }}"
-                               placeholder="örn: Ahmet Yılmaz" value="{{ old('full_name', $student->full_name) }}">
-                    </div>
-                    @error('full_name')
-                        <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p>
-                    @enderror
+                <div class="sm:col-span-2">
+                    <x-text-input
+                        name="full_name"
+                        label="Ad Soyad"
+                        :required="true"
+                        placeholder="örn: Ahmet Yılmaz"
+                        :value="$student->full_name"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>'
+                    />
                 </div>
 
                 {{-- Cinsiyet --}}
@@ -97,53 +91,37 @@
                 </div>
 
                 {{-- Doğum Tarihi --}}
-                <div class="space-y-1">
-                    <label class="{{ $labelClass }}">Doğum Tarihi <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
-                            </svg>
-                        </span>
-                        <input type="date" name="birth_date" class="{{ $inputClass }}"
-                               value="{{ old('birth_date', $student->birth_date) }}">
-                    </div>
-                    @error('birth_date') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                </div>
+                <x-text-input
+                    name="birth_date"
+                    type="date"
+                    label="Doğum Tarihi"
+                    :required="true"
+                    :value="$student->birth_date"
+                    icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>'
+                />
 
                 {{-- T.C. --}}
-                <div class="space-y-1">
-                    <label class="{{ $labelClass }}">T.C. Kimlik No</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/>
-                            </svg>
-                        </span>
-                        <input type="text" name="tc_no" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                               class="{{ $inputClass }}" placeholder="12345678901"
-                               value="{{ old('tc_no', $student->national_id) }}">
-                    </div>
-                    @error('tc_no') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                </div>
+                <x-text-input
+                    name="tc_no"
+                    label="T.C. Kimlik No"
+                    placeholder="12345678901"
+                    :value="$student->national_id"
+                    inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                    icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/></svg>'
+                />
 
                 {{-- Telefon --}}
-                <div class="space-y-1">
-                    <label class="{{ $labelClass }}">Telefon</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
-                            </svg>
-                        </span>
-                        <input type="tel" name="student_phone" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                               class="{{ $inputClass }}" placeholder="05551234545"
-                               value="{{ old('student_phone', $student->student_phone) }}">
-                    </div>
-                    @error('student_phone') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                </div>
+                <x-text-input
+                    name="student_phone"
+                    type="tel"
+                    label="Telefon"
+                    placeholder="05551234545"
+                    :value="$student->student_phone"
+                    inputmode="numeric"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                    icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/></svg>'
+                />
 
                 {{-- Kan Grubu --}}
                 <div class="space-y-1">
@@ -159,20 +137,13 @@
                 </div>
 
                 {{-- Okul --}}
-                <div class="space-y-1">
-                    <label class="{{ $labelClass }}">Okul Adı</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/>
-                            </svg>
-                        </span>
-                        <input type="text" name="school_name" class="{{ $inputClass }}"
-                               placeholder="Öğrencinin eğitim aldığı okul"
-                               value="{{ old('school_name', $student->school_name) }}">
-                    </div>
-                    @error('school_name') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                </div>
+                <x-text-input
+                    name="school_name"
+                    label="Okul Adı"
+                    placeholder="Öğrencinin eğitim aldığı okul"
+                    :value="$student->school_name"
+                    icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/></svg>'
+                />
             </div>
         </div>
 
@@ -197,15 +168,15 @@
                     ['name' => 'guardian1_national_id', 'label' => 'T.C. Kimlik No', 'placeholder' => '12345678901', 'value' => $student->guardians[0]->national_id ?? '', 'numeric' => true],
                     ['name' => 'guardian1_birth_date', 'label' => 'Doğum Tarihi', 'type' => 'date', 'value' => $student->guardians[0]->birth_date ?? ''],
                 ] as $field)
-                    <div class="space-y-1">
-                        <label class="{{ $labelClass }}">{{ $field['label'] }}</label>
-                        <input type="{{ $field['type'] ?? 'text' }}" name="{{ $field['name'] }}"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="{{ $field['placeholder'] ?? '' }}"
-                               {{ isset($field['numeric']) ? 'inputmode=numeric oninput=this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : '' }}
-                               value="{{ old($field['name'], $field['value']) }}">
-                        @error($field['name']) <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                    </div>
+                    <x-text-input
+                        :name="$field['name']"
+                        :type="$field['type'] ?? 'text'"
+                        :label="$field['label']"
+                        :placeholder="$field['placeholder'] ?? ''"
+                        :value="$field['value']"
+                        :inputmode="isset($field['numeric']) ? 'numeric' : null"
+                        :oninput="isset($field['numeric']) ? 'this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : null"
+                    />
                 @endforeach
 
                 {{-- Eğitim Düzeyi --}}
@@ -229,15 +200,15 @@
                     ['name' => 'guardian1_home_address', 'label' => 'Ev Adresi', 'placeholder' => 'mahalle, sokak, no, ilçe, il', 'value' => $student->guardians[0]->home_address ?? ''],
                     ['name' => 'guardian1_work_address', 'label' => 'İş Adresi', 'placeholder' => 'mahalle, sokak, no, ilçe, il', 'value' => $student->guardians[0]->work_address ?? ''],
                 ] as $field)
-                    <div class="space-y-1">
-                        <label class="{{ $labelClass }}">{{ $field['label'] }}</label>
-                        <input type="{{ $field['type'] ?? 'text' }}" name="{{ $field['name'] }}"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="{{ $field['placeholder'] ?? '' }}"
-                               {{ isset($field['numeric']) ? 'inputmode=numeric oninput=this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : '' }}
-                               value="{{ old($field['name'], $field['value']) }}">
-                        @error($field['name']) <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                    </div>
+                    <x-text-input
+                        :name="$field['name']"
+                        :type="$field['type'] ?? 'text'"
+                        :label="$field['label']"
+                        :placeholder="$field['placeholder'] ?? ''"
+                        :value="$field['value']"
+                        :inputmode="isset($field['numeric']) ? 'numeric' : null"
+                        :oninput="isset($field['numeric']) ? 'this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : null"
+                    />
                 @endforeach
             </div>
         </div>
@@ -278,15 +249,15 @@
                     ['name' => 'guardian2_national_id', 'label' => 'T.C. Kimlik No', 'placeholder' => '12345678901', 'value' => $student->guardians[1]->national_id ?? '', 'numeric' => true],
                     ['name' => 'guardian2_birth_date', 'label' => 'Doğum Tarihi', 'type' => 'date', 'value' => $student->guardians[1]->birth_date ?? ''],
                 ] as $field)
-                    <div class="space-y-1">
-                        <label class="{{ $labelClass }}">{{ $field['label'] }}</label>
-                        <input type="{{ $field['type'] ?? 'text' }}" name="{{ $field['name'] }}"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="{{ $field['placeholder'] ?? '' }}"
-                               {{ isset($field['numeric']) ? 'inputmode=numeric oninput=this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : '' }}
-                               value="{{ old($field['name'], $field['value']) }}">
-                        @error($field['name']) <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                    </div>
+                    <x-text-input
+                        :name="$field['name']"
+                        :type="$field['type'] ?? 'text'"
+                        :label="$field['label']"
+                        :placeholder="$field['placeholder'] ?? ''"
+                        :value="$field['value']"
+                        :inputmode="isset($field['numeric']) ? 'numeric' : null"
+                        :oninput="isset($field['numeric']) ? 'this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : null"
+                    />
                 @endforeach
 
                 {{-- Eğitim Düzeyi --}}
@@ -309,15 +280,15 @@
                     ['name' => 'guardian2_home_address', 'label' => 'Ev Adresi', 'placeholder' => 'mahalle, sokak, no, ilçe, il', 'value' => $student->guardians[1]->home_address ?? ''],
                     ['name' => 'guardian2_work_address', 'label' => 'İş Adresi', 'placeholder' => 'mahalle, sokak, no, ilçe, il', 'value' => $student->guardians[1]->work_address ?? ''],
                 ] as $field)
-                    <div class="space-y-1">
-                        <label class="{{ $labelClass }}">{{ $field['label'] }}</label>
-                        <input type="{{ $field['type'] ?? 'text' }}" name="{{ $field['name'] }}"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="{{ $field['placeholder'] ?? '' }}"
-                               {{ isset($field['numeric']) ? 'inputmode=numeric oninput=this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : '' }}
-                               value="{{ old($field['name'], $field['value']) }}">
-                        @error($field['name']) <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                    </div>
+                    <x-text-input
+                        :name="$field['name']"
+                        :type="$field['type'] ?? 'text'"
+                        :label="$field['label']"
+                        :placeholder="$field['placeholder'] ?? ''"
+                        :value="$field['value']"
+                        :inputmode="isset($field['numeric']) ? 'numeric' : null"
+                        :oninput="isset($field['numeric']) ? 'this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : null"
+                    />
                 @endforeach
             </div>
         </div>
@@ -342,23 +313,22 @@
                     ['name' => 'emergency_relationship', 'label' => 'Yakınlık', 'placeholder' => 'örn: Amcası', 'value' => $student->emergencyContact->relationship ?? ''],
                     ['name' => 'emergency_phone', 'label' => 'Telefon', 'placeholder' => '05551234545', 'value' => $student->emergencyContact->phone ?? '', 'numeric' => true],
                 ] as $field)
-                    <div class="space-y-1">
-                        <label class="{{ $labelClass }}">{{ $field['label'] }}</label>
-                        <input type="text" name="{{ $field['name'] }}"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="{{ $field['placeholder'] }}"
-                               {{ isset($field['numeric']) ? 'inputmode=numeric oninput=this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : '' }}
-                               value="{{ old($field['name'], $field['value']) }}">
-                        @error($field['name']) <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                    </div>
+                    <x-text-input
+                        :name="$field['name']"
+                        :label="$field['label']"
+                        :placeholder="$field['placeholder']"
+                        :value="$field['value']"
+                        :inputmode="isset($field['numeric']) ? 'numeric' : null"
+                        :oninput="isset($field['numeric']) ? 'this.value=this.value.replace(/[^0-9]/g,\'\').slice(0,11)' : null"
+                    />
                 @endforeach
-                <div class="space-y-1 lg:col-span-4">
-                    <label class="{{ $labelClass }}">Adres</label>
-                    <input type="text" name="emergency_address"
-                           class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                           placeholder="mahalle, sokak, no, ilçe, il"
-                           value="{{ old('emergency_address', $student->emergencyContact->address ?? '') }}">
-                    @error('emergency_address') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
+                <div class="lg:col-span-4">
+                    <x-text-input
+                        name="emergency_address"
+                        label="Adres"
+                        placeholder="mahalle, sokak, no, ilçe, il"
+                        :value="$student->emergencyContact->address ?? ''"
+                    />
                 </div>
             </div>
         </div>
@@ -395,14 +365,12 @@
                 </div>
 
                 <div x-show="hasAllergy === '1'" x-collapse>
-                    <div class="space-y-1">
-                        <label class="{{ $labelClass }}">Alerji Detayları</label>
-                        <input type="text" name="allergy_detail"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Alerji detaylarını yazın"
-                               value="{{ old('allergy_detail', $student->allergy_detail) }}">
-                        @error('allergy_detail') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
-                    </div>
+                    <x-text-input
+                        name="allergy_detail"
+                        label="Alerji Detayları"
+                        placeholder="Alerji detaylarını yazın"
+                        :value="$student->allergy_detail"
+                    />
                 </div>
             </div>
         </div>
@@ -480,10 +448,7 @@
             </div>
 
             <div class="p-6">
-                <textarea name="notes" rows="4"
-                          class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-none"
-                          placeholder="Öğrenci hakkında notlar...">{{ old('notes', $student->notes) }}</textarea>
-                @error('notes') <p class="text-sm text-red-500 flex items-center gap-1.5">{!! $errorSvg !!} {{ $message }}</p> @enderror
+                <x-textarea name="notes" :value="$student->notes" placeholder="Öğrenci hakkında notlar..." />
             </div>
         </div>
 

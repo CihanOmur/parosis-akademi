@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use App\Models\Faq\Faq;
 use App\Models\Pages\Contact\ContactPageInfo;
 use App\Models\Blogs\Blog;
@@ -55,13 +56,134 @@ class FrontController extends Controller
     public function courses()
     {
         $coursePageInfo = CoursePageInfo::first();
-        $courses = Course::with('categories')->where('is_active', true)->orderBy('sort_order')->paginate(9);
+        $query = Course::with('categories')->where('is_active', true);
+
+        $search = trim(request('q', ''));
+        if ($search) {
+            $lower = mb_strtolower($search);
+            $query->where(function ($q) use ($lower) {
+                $q->whereRaw('LOWER(title) LIKE ?', ["%{$lower}%"])
+                  ->orWhereRaw('LOWER(short_description) LIKE ?', ["%{$lower}%"]);
+            });
+        }
+
+        $courses = $query->orderBy('sort_order')->paginate(9)->appends(['q' => $search]);
         $categories = CourseCategory::where('is_active', true)
             ->withCount(['courses' => fn($q) => $q->where('is_active', true)])
             ->orderBy('sort_order')
             ->get();
         $ctaInfo = $coursePageInfo;
-        return view('front.pages.courses', compact('coursePageInfo', 'courses', 'categories', 'ctaInfo'));
+        return view('front.pages.courses', compact('coursePageInfo', 'courses', 'categories', 'ctaInfo', 'search'));
+    }
+
+    public function search()
+    {
+        $search = trim(request('q', ''));
+
+        $courses = collect();
+        $blogs = collect();
+        $teachers = collect();
+
+        if (mb_strlen($search) >= 2) {
+            $lower = mb_strtolower($search);
+
+            $courses = Course::with('categories')
+                ->where('is_active', true)
+                ->where(function ($q) use ($lower) {
+                    $q->whereRaw('LOWER(title) LIKE ?', ["%{$lower}%"])
+                      ->orWhereRaw('LOWER(short_description) LIKE ?', ["%{$lower}%"]);
+                })
+                ->orderBy('sort_order')
+                ->take(12)
+                ->get();
+
+            $blogs = Blog::with('categories')
+                ->where('is_active', true)
+                ->where(function ($q) use ($lower) {
+                    $q->whereRaw('LOWER(title) LIKE ?', ["%{$lower}%"])
+                      ->orWhereRaw('LOWER(short_description) LIKE ?', ["%{$lower}%"]);
+                })
+                ->orderByDesc('published_at')
+                ->take(6)
+                ->get();
+
+            $teachers = Teacher::where('is_active', true)
+                ->where(function ($q) use ($lower) {
+                    $q->whereRaw('LOWER(name) LIKE ?', ["%{$lower}%"])
+                      ->orWhereRaw('LOWER(title) LIKE ?', ["%{$lower}%"]);
+                })
+                ->orderBy('sort_order')
+                ->take(6)
+                ->get();
+        }
+
+        return view('front.pages.search', compact('search', 'courses', 'blogs', 'teachers'));
+    }
+
+    public function searchSuggest()
+    {
+        $search = trim(request('q', ''));
+        $locale = app()->getLocale();
+
+        if (mb_strlen($search) < 2) {
+            return response()->json(['results' => []]);
+        }
+
+        $lower = mb_strtolower($search);
+
+        $courses = Course::where('is_active', true)
+            ->where(function ($q) use ($lower) {
+                $q->whereRaw('LOWER(title) LIKE ?', ["%{$lower}%"])
+                  ->orWhereRaw('LOWER(short_description) LIKE ?', ["%{$lower}%"]);
+            })
+            ->orderBy('sort_order')
+            ->take(4)
+            ->get()
+            ->map(fn($c) => [
+                'type'  => 'course',
+                'label' => $c->getTranslation('title', $locale),
+                'desc'  => Str::limit($c->getTranslation('short_description', $locale), 60),
+                'url'   => route('front.course.details', $c->id),
+                'image' => $c->image ? asset($c->image) : null,
+            ]);
+
+        $blogs = Blog::where('is_active', true)
+            ->where(function ($q) use ($lower) {
+                $q->whereRaw('LOWER(title) LIKE ?', ["%{$lower}%"])
+                  ->orWhereRaw('LOWER(short_description) LIKE ?', ["%{$lower}%"]);
+            })
+            ->orderByDesc('published_at')
+            ->take(3)
+            ->get()
+            ->map(fn($b) => [
+                'type'  => 'blog',
+                'label' => $b->getTranslation('title', $locale),
+                'desc'  => Str::limit($b->getTranslation('short_description', $locale), 60),
+                'url'   => route('front.blog.details', $b->id),
+                'image' => $b->image ? asset($b->image) : null,
+            ]);
+
+        $teachers = Teacher::where('is_active', true)
+            ->where(function ($q) use ($lower) {
+                $q->whereRaw('LOWER(name) LIKE ?', ["%{$lower}%"])
+                  ->orWhereRaw('LOWER(title) LIKE ?', ["%{$lower}%"]);
+            })
+            ->orderBy('sort_order')
+            ->take(2)
+            ->get()
+            ->map(fn($t) => [
+                'type'  => 'teacher',
+                'label' => $t->getTranslation('name', $locale),
+                'desc'  => $t->getTranslation('title', $locale),
+                'url'   => route('front.teacher.details', $t->id),
+                'image' => $t->image ? asset($t->image) : null,
+            ]);
+
+        return response()->json([
+            'results' => $courses->concat($blogs)->concat($teachers)->values(),
+            'total'   => $courses->count() + $blogs->count() + $teachers->count(),
+            'allUrl'  => route('front.search', ['q' => $search]),
+        ]);
     }
 
     public function courseDetails($id)

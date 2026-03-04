@@ -77,43 +77,15 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Başlık <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Başlığın çevirisini yazın..."
-                               value="{{ old('title', $blog->getTranslation('title', $selectedLang, false)) }}" required>
-                    </div>
+                    <x-text-input name="title" label="Başlık" placeholder="Başlığın çevirisini yazın..." :value="$blog->getTranslation('title', $selectedLang, false)" ringColor="blue" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="short_description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kısa Açıklama
-                        </label>
-                        <textarea name="short_description" id="short_description" rows="3"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all resize-y"
-                                  placeholder="Kısa açıklamanın çevirisini yazın...">{{ old('short_description', $blog->getTranslation('short_description', $selectedLang, false)) }}</textarea>
-                    </div>
+                    <x-textarea name="short_description" label="Kısa Açıklama" placeholder="Kısa açıklamanın çevirisini yazın..." rows="3" :value="$blog->getTranslation('short_description', $selectedLang, false)" ringColor="blue" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="content" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            İçerik
-                        </label>
-                        <textarea name="content" id="content" rows="10"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all resize-y"
-                                  placeholder="İçeriğin çevirisini yazın...">{{ old('content', $blog->getTranslation('content', $selectedLang, false)) }}</textarea>
-                    </div>
+                    <x-textarea name="content" label="İçerik" placeholder="İçeriğin çevirisini yazın..." rows="10" :value="$blog->getTranslation('content', $selectedLang, false)" ringColor="blue" />
 
                 </div>
             </div>

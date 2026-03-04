@@ -43,153 +43,113 @@
             {{-- 1a. Standart Text Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=text]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Standart Text Input</span>
                     <span class="text-xs text-slate-400">— faq, teacher, slider, blog, category</span>
                 </div>
-                <div class="max-w-md space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Alan Adı</label>
-                    <input type="text" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 text-sm ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all" placeholder="Placeholder metin..." value="">
+                <div class="max-w-md">
+                    <x-text-input name="demo_text" label="Alan Adı" placeholder="Placeholder metin..." />
                 </div>
             </div>
 
             {{-- 1b. Text Input with Icon --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input + icon</span>
-                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Ikonlu Text Input</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input + icon</span>
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">İkonlu Text Input</span>
                     <span class="text-xs text-slate-400">— students/create</span>
                 </div>
-                <div class="max-w-md space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ad Soyad</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/></svg>
-                        </span>
-                        <input type="text" class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all" placeholder="Ad Soyad">
-                    </div>
-                </div>
-            </div>
-
-            {{-- 1c. Border-style Input --}}
-            <div class="px-6 py-5 space-y-2">
-                <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input border</span>
-                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Border Stilli Input</span>
-                    <span class="text-xs text-slate-400">— classes/create</span>
-                </div>
-                <div class="max-w-md space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Sınıf Adı</label>
-                    <input type="text" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors" placeholder="Sınıf adı girin">
+                <div class="max-w-md">
+                    <x-text-input name="demo_name" label="Ad Soyad" placeholder="Ad Soyad"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/></svg>' />
                 </div>
             </div>
 
             {{-- 1d. Number Input with Unit --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=number]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[number] + suffix</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Sayı Input (Birimli)</span>
                     <span class="text-xs text-slate-400">— classes/create</span>
                 </div>
-                <div class="max-w-xs space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Kontenjan</label>
-                    <div class="relative">
-                        <input type="number" min="1" placeholder="15" class="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white pl-4 pr-12 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20 focus:border-fuchsia-400 transition-colors">
-                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none">kişi</span>
-                    </div>
+                <div class="max-w-xs">
+                    <x-text-input name="demo_capacity" type="number" label="Kontenjan" placeholder="15" suffix="kişi" min="1" />
                 </div>
             </div>
 
             {{-- 1e. Currency Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=number step=0.01]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[number] + suffix</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Para Birimi Input</span>
                     <span class="text-xs text-slate-400">— students-payments/create</span>
                 </div>
-                <div class="max-w-xs space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Tutar</label>
-                    <input type="number" step="0.01" min="0" placeholder="0.00" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all">
+                <div class="max-w-xs">
+                    <x-text-input name="demo_amount" type="number" label="Tutar" placeholder="0.00" suffix="₺" step="0.01" min="0" />
                 </div>
             </div>
 
             {{-- 1f. Date Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=date]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[date]</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Tarih Seçici</span>
                     <span class="text-xs text-slate-400">— students, classes, payments</span>
                 </div>
-                <div class="max-w-xs space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Tarih</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
-                        </span>
-                        <input type="date" class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-sky-500/60 transition-all">
-                    </div>
+                <div class="max-w-xs">
+                    <x-text-input name="demo_date" type="date" label="Tarih" ringColor="sky"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>' />
                 </div>
             </div>
 
             {{-- 1g. Datetime-local --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=datetime-local]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[datetime-local]</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Tarih-Saat Seçici</span>
                     <span class="text-xs text-slate-400">— blog/create</span>
                 </div>
-                <div class="max-w-xs space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Yayın Tarihi</label>
-                    <input type="datetime-local" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-slate-900 dark:text-white text-sm ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all">
+                <div class="max-w-xs">
+                    <x-text-input name="demo_datetime" type="datetime-local" label="Yayın Tarihi" />
                 </div>
             </div>
 
             {{-- 1h. Email Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=email]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[email]</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">E-posta Input</span>
                     <span class="text-xs text-slate-400">— students, users</span>
                 </div>
-                <div class="max-w-md space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">E-posta</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
-                        </span>
-                        <input type="email" class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all" placeholder="ornek@parosis.com">
-                    </div>
+                <div class="max-w-md">
+                    <x-text-input name="demo_email" type="email" label="E-posta" placeholder="ornek@parosis.com"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>' />
                 </div>
             </div>
 
             {{-- 1i. Phone Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=tel]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[tel]</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Telefon Input (Numerik)</span>
                     <span class="text-xs text-slate-400">— students/create</span>
                 </div>
-                <div class="max-w-md space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
-                        </span>
-                        <input type="tel" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)" class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all" placeholder="05551234545">
-                    </div>
+                <div class="max-w-md">
+                    <x-text-input name="demo_phone" type="tel" label="Telefon" placeholder="05551234545"
+                        inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>' />
                 </div>
             </div>
 
             {{-- 1j. URL Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=url]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[url]</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">URL Input</span>
                     <span class="text-xs text-slate-400">— client-logo/create</span>
                 </div>
-                <div class="max-w-md space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Web Sitesi</label>
-                    <input type="url" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 text-sm ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all" placeholder="https://example.com">
+                <div class="max-w-md">
+                    <x-text-input name="demo_url" type="url" label="Web Sitesi" placeholder="https://example.com" />
                 </div>
             </div>
 
@@ -238,26 +198,21 @@
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Textarea (resize-y)</span>
                     <span class="text-xs text-slate-400">— faq, teacher, slider, testimonial</span>
                 </div>
-                <div class="max-w-lg space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Açıklama</label>
-                    <textarea rows="4" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 text-sm ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y" placeholder="Açıklama yazın..."></textarea>
+                <div class="max-w-lg">
+                    <x-textarea name="demo_textarea" label="Açıklama" placeholder="Açıklama yazın..." />
                 </div>
             </div>
 
             {{-- 1n. Search Input --}}
             <div class="px-6 py-5 space-y-2">
                 <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">input[type=search]</span>
+                    <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-xs font-mono text-slate-500">x-text-input[search]</span>
                     <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Arama Input (Filtre)</span>
                     <span class="text-xs text-slate-400">— students/index, filtre panelleri</span>
                 </div>
-                <div class="max-w-sm space-y-1">
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
-                        </span>
-                        <input type="search" class="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all" placeholder="İsim, telefon veya numara...">
-                    </div>
+                <div class="max-w-sm">
+                    <x-text-input name="demo_search" type="search" placeholder="İsim, telefon veya numara..."
+                        icon='<svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>' />
                 </div>
             </div>
 

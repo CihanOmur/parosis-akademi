@@ -68,58 +68,27 @@
                 <div class="p-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {{-- Ad Soyad --}}
-                        <div class="space-y-1">
-                            <label for="full_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Ad Soyad <span class="text-red-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                                    </svg>
-                                </span>
-                                <input type="text" id="full_name" name="full_name" x-model="studentName"
-                                       placeholder="Örn: Ahmet Yılmaz"
-                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                              text-slate-900 dark:text-white placeholder-slate-400
-                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all
-                                              @error('full_name') ring-red-400 focus:ring-red-500/60 @enderror">
-                            </div>
-                            @error('full_name')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="full_name"
+                            label="Ad Soyad"
+                            placeholder="Örn: Ahmet Yılmaz"
+                            :value="$student->full_name"
+                            :required="true"
+                            ringColor="blue"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>'
+                            x-model="studentName"
+                        />
 
                         {{-- Doğum Tarihi --}}
-                        <div class="space-y-1">
-                            <label for="birth_date" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Doğum Tarihi <span class="text-red-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
-                                    </svg>
-                                </span>
-                                <input type="date" id="birth_date" name="birth_date"
-                                       value="{{ old('birth_date', $student->birth_date) }}"
-                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                              text-slate-900 dark:text-white placeholder-slate-400
-                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all
-                                              @error('birth_date') ring-red-400 focus:ring-red-500/60 @enderror">
-                            </div>
-                            @error('birth_date')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="birth_date"
+                            type="date"
+                            label="Doğum Tarihi"
+                            :value="$student->birth_date"
+                            :required="true"
+                            ringColor="blue"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>'
+                        />
                     </div>
                 </div>
             </div>
@@ -141,104 +110,51 @@
                 <div class="p-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {{-- Yakınlık --}}
-                        <div class="space-y-1">
-                            <label for="guardian1_relationship" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Yakınlık <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="guardian1_relationship" name="guardian1_relationship"
-                                   placeholder="Örn: Anne"
-                                   value="{{ old('guardian1_relationship', $guardian?->relationship) }}"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
-                                          @error('guardian1_relationship') ring-red-400 focus:ring-red-500/60 @enderror">
-                            @error('guardian1_relationship')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="guardian1_relationship"
+                            label="Yakınlık"
+                            placeholder="Örn: Anne"
+                            :value="$guardian?->relationship"
+                            :required="true"
+                            ringColor="violet"
+                        />
 
                         {{-- Ad Soyad --}}
-                        <div class="space-y-1">
-                            <label for="guardian1_full_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Ad Soyad <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="guardian1_full_name" name="guardian1_full_name"
-                                   placeholder="Örn: Ayşe Yılmaz"
-                                   value="{{ old('guardian1_full_name', $guardian?->full_name) }}"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
-                                          @error('guardian1_full_name') ring-red-400 focus:ring-red-500/60 @enderror">
-                            @error('guardian1_full_name')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="guardian1_full_name"
+                            label="Ad Soyad"
+                            placeholder="Örn: Ayşe Yılmaz"
+                            :value="$guardian?->full_name"
+                            :required="true"
+                            ringColor="violet"
+                        />
 
                         {{-- Telefon 1 --}}
-                        <div class="space-y-1">
-                            <label for="guardian1_phone_1" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Telefon <span class="text-red-500">*</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
-                                    </svg>
-                                </span>
-                                <input type="tel" id="guardian1_phone_1" name="guardian1_phone_1"
-                                       placeholder="05XX XXX XX XX"
-                                       inputmode="numeric"
-                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                       value="{{ old('guardian1_phone_1', $guardian?->phone_1) }}"
-                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                              text-slate-900 dark:text-white placeholder-slate-400
-                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
-                                              @error('guardian1_phone_1') ring-red-400 focus:ring-red-500/60 @enderror">
-                            </div>
-                            @error('guardian1_phone_1')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="guardian1_phone_1"
+                            type="tel"
+                            label="Telefon"
+                            placeholder="05XX XXX XX XX"
+                            :value="$guardian?->phone_1"
+                            :required="true"
+                            ringColor="violet"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>'
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        />
 
                         {{-- Telefon 2 --}}
-                        <div class="space-y-1">
-                            <label for="guardian1_phone_2" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Telefon 2 <span class="text-slate-400 text-xs font-normal">(Opsiyonel)</span>
-                            </label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                    <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                              d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
-                                    </svg>
-                                </span>
-                                <input type="tel" id="guardian1_phone_2" name="guardian1_phone_2"
-                                       placeholder="05XX XXX XX XX"
-                                       inputmode="numeric"
-                                       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                       value="{{ old('guardian1_phone_2', $guardian?->phone_2) }}"
-                                       class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                              text-slate-900 dark:text-white placeholder-slate-400
-                                              ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all
-                                              @error('guardian1_phone_2') ring-red-400 focus:ring-red-500/60 @enderror">
-                            </div>
-                            @error('guardian1_phone_2')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="guardian1_phone_2"
+                            type="tel"
+                            label="Telefon 2"
+                            placeholder="05XX XXX XX XX"
+                            :value="$guardian?->phone_2"
+                            ringColor="violet"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>'
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        />
                     </div>
                 </div>
             </div>

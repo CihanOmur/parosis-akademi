@@ -11,6 +11,7 @@
 
 @php
     $uid = $name . '_' . uniqid();
+    $hasError = $errors->has($name);
 
     if (!$changeLabel) {
         $changeLabel = $multiple
@@ -45,7 +46,7 @@
     </div>
 
     {{-- Upload area --}}
-    <label class="group flex flex-col items-center justify-center gap-3 p-6 border-2 border-dashed border-slate-200 dark:border-slate-600
+    <label class="group flex flex-col items-center justify-center gap-3 p-6 border-2 border-dashed {{ $hasError ? 'border-red-400 dark:border-red-500' : 'border-slate-200 dark:border-slate-600' }}
                   rounded-xl cursor-pointer transition-all
                   hover:border-fuchsia-400 dark:hover:border-fuchsia-500 hover:bg-fuchsia-50/50 dark:hover:bg-fuchsia-900/10">
         <div class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center
@@ -117,7 +118,7 @@
     </div>
 
     {{-- Upload area --}}
-    <label class="group flex flex-col items-center justify-center gap-3 p-6 border-2 border-dashed border-slate-200 dark:border-slate-600
+    <label class="group flex flex-col items-center justify-center gap-3 p-6 border-2 border-dashed {{ $hasError ? 'border-red-400 dark:border-red-500' : 'border-slate-200 dark:border-slate-600' }}
                   rounded-xl cursor-pointer transition-all
                   hover:border-fuchsia-400 dark:hover:border-fuchsia-500 hover:bg-fuchsia-50/50 dark:hover:bg-fuchsia-900/10">
         <div class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center

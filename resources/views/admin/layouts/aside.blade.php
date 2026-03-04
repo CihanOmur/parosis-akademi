@@ -512,6 +512,25 @@
             <span class="lg:hidden">Sliderlar</span>
         </a>
 
+        {{-- Menü Öğeleri --}}
+        @php $isMenuItems = Route::is('menu-items.*'); @endphp
+        <a href="{{ route('menu-items.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isMenuItems
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isMenuItems
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Menü Öğeleri</span>
+            <span class="lg:hidden">Menü Öğeleri</span>
+        </a>
+
         {{-- Sayfalar --}}
         @php $isPages = Route::is('pages.*'); @endphp
         <a href="{{ route('pages.index') }}"

@@ -42,89 +42,19 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Ad Soyad <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="name" id="name"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Egitmenin adini yazin..."
-                               value="{{ old('name') }}" required>
-                        @error('name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="name" label="Ad Soyad" placeholder="Egitmenin adini yazin..." required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Unvan <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Orn: Dijital Pazarlamaci"
-                               value="{{ old('title') }}" required>
-                        @error('title')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="title" label="Unvan" placeholder="Orn: Dijital Pazarlamaci" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="short_description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kisa Aciklama
-                        </label>
-                        <textarea name="short_description" id="short_description" rows="3"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y"
-                                  placeholder="Egitmen hakkinda kisa bir aciklama...">{{ old('short_description') }}</textarea>
-                        @error('short_description')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-textarea name="short_description" label="Kisa Aciklama" placeholder="Egitmen hakkinda kisa bir aciklama..." rows="3" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="bio" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Biyografi
-                        </label>
-                        <textarea name="bio" id="bio" rows="6"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all resize-y"
-                                  placeholder="Egitmenin detayli biyografisi...">{{ old('bio') }}</textarea>
-                        @error('bio')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-textarea name="bio" label="Biyografi" placeholder="Egitmenin detayli biyografisi..." rows="6" />
                 </div>
             </div>
 
@@ -145,47 +75,11 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="phone" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Telefon
-                        </label>
-                        <input type="text" name="phone" id="phone"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Orn: +90 555 123 45 67"
-                               value="{{ old('phone') }}">
-                        @error('phone')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="phone" label="Telefon" placeholder="Orn: +90 555 123 45 67" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="email" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            E-posta
-                        </label>
-                        <input type="text" name="email" id="email"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Orn: egitmen@example.com"
-                               value="{{ old('email') }}">
-                        @error('email')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="email" label="E-posta" placeholder="Orn: egitmen@example.com" />
                 </div>
             </div>
 
@@ -206,91 +100,19 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="facebook_url" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Facebook
-                        </label>
-                        <input type="text" name="facebook_url" id="facebook_url"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="https://facebook.com/..."
-                               value="{{ old('facebook_url') }}">
-                        @error('facebook_url')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="facebook_url" label="Facebook" placeholder="https://facebook.com/..." />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="twitter_url" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Twitter
-                        </label>
-                        <input type="text" name="twitter_url" id="twitter_url"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="https://twitter.com/..."
-                               value="{{ old('twitter_url') }}">
-                        @error('twitter_url')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="twitter_url" label="Twitter" placeholder="https://twitter.com/..." />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="dribbble_url" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Dribbble
-                        </label>
-                        <input type="text" name="dribbble_url" id="dribbble_url"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="https://dribbble.com/..."
-                               value="{{ old('dribbble_url') }}">
-                        @error('dribbble_url')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="dribbble_url" label="Dribbble" placeholder="https://dribbble.com/..." />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="instagram_url" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Instagram
-                        </label>
-                        <input type="text" name="instagram_url" id="instagram_url"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="https://instagram.com/..."
-                               value="{{ old('instagram_url') }}">
-                        @error('instagram_url')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="instagram_url" label="Instagram" placeholder="https://instagram.com/..." />
                 </div>
             </div>
         </div>

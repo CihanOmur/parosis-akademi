@@ -206,20 +206,9 @@
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-5">
                 <h3 class="text-sm font-semibold text-slate-900 dark:text-white mb-3">Rol Adı</h3>
-                <div class="space-y-1">
-                    <input type="text" name="name" id="name"
-                           x-model="roleName"
-                           class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                  text-slate-900 dark:text-white placeholder-slate-400
-                                  ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                           placeholder="örn: Muhasebeci, Koordinatör">
-                    @error('name')
-                        <p class="text-sm text-red-500 flex items-center gap-1.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                            {{ $message }}
-                        </p>
-                    @enderror
-                </div>
+                <x-text-input name="name" placeholder="örn: Muhasebeci, Koordinatör"
+                    :value="$role->name"
+                    x-model="roleName" />
             </div>
 
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-5">

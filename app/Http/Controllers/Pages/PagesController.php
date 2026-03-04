@@ -15,7 +15,10 @@ use App\Models\Courses\Course;
 use App\Models\Courses\CourseCategory;
 use App\Models\Pages\Course\CoursePageInfo;
 use App\Models\Pages\AboutUs\AboutUsPageInfo;
+use App\Models\Pages\Footer\FooterPageInfo;
 use App\Models\Pages\Home\HomePageInfo;
+use App\Models\MenuItem;
+use App\Models\Pages\Navbar\NavbarPageInfo;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
 
@@ -38,6 +41,8 @@ class PagesController extends Controller
             'teachers' => $this->editTeachers($request),
             'blog'     => $this->editBlog($request),
             'courses'  => $this->editCourses($request),
+            'footer'   => $this->editFooter($request),
+            'navbar'   => $this->editNavbar($request),
             default    => abort(404),
         };
     }
@@ -52,6 +57,8 @@ class PagesController extends Controller
             'teachers' => $this->updateTeachers($request),
             'blog'     => $this->updateBlog($request),
             'courses'  => $this->updateCourses($request),
+            'footer'   => $this->updateFooter($request),
+            'navbar'   => $this->updateNavbar($request),
             default    => abort(404),
         };
     }
@@ -66,6 +73,8 @@ class PagesController extends Controller
             'teachers' => $this->editTeachersTranslate($request, $lang),
             'blog'     => $this->editBlogTranslate($request, $lang),
             'courses'  => $this->editCoursesTranslate($request, $lang),
+            'footer'   => $this->editFooterTranslate($request, $lang),
+            'navbar'   => $this->editNavbarTranslate($request, $lang),
             default    => abort(404),
         };
     }
@@ -80,6 +89,8 @@ class PagesController extends Controller
             'teachers' => $this->updateTeachersTranslate($request),
             'blog'     => $this->updateBlogTranslate($request),
             'courses'  => $this->updateCoursesTranslate($request),
+            'footer'   => $this->updateFooterTranslate($request),
+            'navbar'   => $this->updateNavbarTranslate($request),
             default    => abort(404),
         };
     }
@@ -1075,6 +1086,155 @@ class PagesController extends Controller
         return redirect()->back()->with('success', 'Çeviri başarıyla güncellendi.');
     }
 
+    // ─── Footer ──────────────────────────────────────────────────────────────
+
+    private function editFooter(Request $request)
+    {
+        $footerPageInfo = FooterPageInfo::first();
+        if (!$footerPageInfo) {
+            $footerPageInfo = FooterPageInfo::create([]);
+        }
+
+        $contactPageInfo = ContactPageInfo::first();
+        if (!$contactPageInfo) {
+            $contactPageInfo = ContactPageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($request->get('lang'));
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        return view('admin.pages.edit-footer', compact('footerPageInfo', 'contactPageInfo', 'selectedLang', 'selectedLanguage'));
+    }
+
+    private function updateFooter(Request $request)
+    {
+        $footerPageInfo = FooterPageInfo::first();
+        if (!$footerPageInfo) {
+            $footerPageInfo = FooterPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        // Translatable fields
+        $translatableFields = [
+            'about_text', 'links_title', 'contact_title',
+            'newsletter_title', 'newsletter_text', 'newsletter_button', 'newsletter_placeholder',
+            'copyright_text', 'support_label', 'email_label', 'address_label',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $footerPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Social links
+        if ($request->has('social_links')) {
+            $socialLinks = $request->social_links;
+            if (is_string($socialLinks)) {
+                $socialLinks = json_decode($socialLinks, true) ?? [];
+            }
+            $footerPageInfo->social_links = $socialLinks;
+        }
+
+        // Nav links
+        if ($request->has('nav_links')) {
+            $navLinks = $request->nav_links;
+            if (is_string($navLinks)) {
+                $navLinks = json_decode($navLinks, true) ?? [];
+            }
+            $footerPageInfo->nav_links = $navLinks;
+        }
+
+        // Logo: file upload OR string path (from AJAX live preview)
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/pages'), $filename);
+            $footerPageInfo->logo = 'uploads/pages/' . $filename;
+        } elseif ($request->has('logo')) {
+            $footerPageInfo->logo = $request->logo ?: null;
+        }
+
+        $footerPageInfo->save();
+
+        // Update contact info in ContactPageInfo
+        $contactPageInfo = ContactPageInfo::first() ?? ContactPageInfo::create([]);
+        $contactFields = ['phone_1', 'email_1', 'address_line_1'];
+        foreach ($contactFields as $field) {
+            if ($request->has($field)) {
+                $contactPageInfo->$field = $request->$field;
+            }
+        }
+        $contactPageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Footer başarıyla güncellendi.');
+    }
+
+    private function editFooterTranslate(Request $request, $lang)
+    {
+        $footerPageInfo = FooterPageInfo::first();
+        if (!$footerPageInfo) {
+            $footerPageInfo = FooterPageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($lang);
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        return view('admin.pages.edit-footer-translate', compact('footerPageInfo', 'selectedLang', 'selectedLanguage'));
+    }
+
+    private function updateFooterTranslate(Request $request)
+    {
+        $footerPageInfo = FooterPageInfo::first();
+        if (!$footerPageInfo) {
+            $footerPageInfo = FooterPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = [
+            'about_text', 'links_title', 'contact_title',
+            'newsletter_title', 'newsletter_text', 'newsletter_button', 'newsletter_placeholder',
+            'copyright_text', 'support_label', 'email_label', 'address_label',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $footerPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Nav link label translations
+        if ($request->has('nav_link_labels')) {
+            $currentLinks = $footerPageInfo->nav_links ?? [];
+            $labels = $request->nav_link_labels;
+            foreach ($currentLinks as $i => &$link) {
+                if (isset($labels[$i])) {
+                    if (!is_array($link['label'])) {
+                        $link['label'] = [app()->getLocale() => $link['label']];
+                    }
+                    $link['label'][$locale] = $labels[$i];
+                }
+            }
+            $footerPageInfo->nav_links = $currentLinks;
+        }
+
+        $footerPageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Çeviri kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Çeviri başarıyla güncellendi.');
+    }
+
     // ─── Image Upload ─────────────────────────────────────────────────────────
 
     public function uploadImage(Request $request)
@@ -1092,5 +1252,135 @@ class PagesController extends Controller
             'path' => 'uploads/pages/' . $filename,
             'url' => asset('uploads/pages/' . $filename),
         ]);
+    }
+
+    // ─── Navbar ────────────────────────────────────────────────────────────
+
+    private function editNavbar(Request $request)
+    {
+        $navbarPageInfo = NavbarPageInfo::first();
+        if (!$navbarPageInfo) {
+            $navbarPageInfo = NavbarPageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($request->get('lang'));
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        $navMenuItems = MenuItem::whereNull('parent_id')
+            ->where('is_active', true)
+            ->with(['children' => function ($q) {
+                $q->where('is_active', true)->orderBy('sort_order')
+                  ->with(['children' => function ($q2) {
+                      $q2->where('is_active', true)->orderBy('sort_order');
+                  }]);
+            }])
+            ->orderBy('sort_order')
+            ->get();
+
+        return view('admin.pages.edit-navbar', compact('navbarPageInfo', 'selectedLang', 'selectedLanguage', 'navMenuItems'));
+    }
+
+    private function updateNavbar(Request $request)
+    {
+        $navbarPageInfo = NavbarPageInfo::first();
+        if (!$navbarPageInfo) {
+            $navbarPageInfo = NavbarPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        // Translatable fields
+        $translatableFields = [
+            'search_placeholder', 'search_button_text',
+            'register_button_text', 'login_button_text',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $navbarPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Toggle fields
+        $toggleFields = ['show_search', 'show_register_button', 'show_login_button', 'show_social_links', 'show_cart_button', 'show_side_info_button'];
+        foreach ($toggleFields as $field) {
+            if ($request->has($field)) {
+                $navbarPageInfo->$field = (bool) $request->$field;
+            }
+        }
+
+        $navbarPageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Navbar başarıyla güncellendi.');
+    }
+
+    private function editNavbarTranslate(Request $request, $lang)
+    {
+        $navbarPageInfo = NavbarPageInfo::first();
+        if (!$navbarPageInfo) {
+            $navbarPageInfo = NavbarPageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($lang);
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        return view('admin.pages.edit-navbar-translate', compact('navbarPageInfo', 'selectedLang', 'selectedLanguage'));
+    }
+
+    private function updateNavbarTranslate(Request $request)
+    {
+        $navbarPageInfo = NavbarPageInfo::first();
+        if (!$navbarPageInfo) {
+            $navbarPageInfo = NavbarPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        // Translatable fields
+        $translatableFields = [
+            'search_placeholder', 'search_button_text',
+            'register_button_text', 'login_button_text',
+        ];
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $navbarPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        // Nav items label translations
+        if ($request->has('nav_item_labels')) {
+            $navItems = $navbarPageInfo->nav_items ?? [];
+            $labels = $request->nav_item_labels;
+
+            // Recursive function to update labels
+            $updateLabels = function (&$items, $labelData) use (&$updateLabels, $locale) {
+                foreach ($items as $i => &$item) {
+                    if (isset($labelData[$i])) {
+                        if (!is_array($item['label'])) {
+                            $item['label'] = [app()->getLocale() => $item['label']];
+                        }
+                        $item['label'][$locale] = $labelData[$i]['label'] ?? '';
+
+                        if (!empty($item['children']) && isset($labelData[$i]['children'])) {
+                            $updateLabels($item['children'], $labelData[$i]['children']);
+                        }
+                    }
+                }
+            };
+
+            $updateLabels($navItems, $labels);
+            $navbarPageInfo->nav_items = $navItems;
+        }
+
+        $navbarPageInfo->save();
+
+        return redirect()->back()->with('success', 'Navbar çevirisi başarıyla güncellendi.');
     }
 }

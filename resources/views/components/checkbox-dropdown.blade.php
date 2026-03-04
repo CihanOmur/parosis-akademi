@@ -17,6 +17,8 @@
 
 @php
     $uid = $dropdownId ?? $name . '_' . uniqid();
+    $errorKey = str_replace('[]', '', $name);
+    $hasError = $errors->has($errorKey);
     $itemsJson = json_encode($items);
     $selectedJson = json_encode(
         collect($selected)->map(fn($v) => is_numeric($v) ? (int) $v : $v)->values()->toArray()
@@ -72,7 +74,7 @@
     <button type="button"
             @click.stop="open = !open; search = ''; if (open) $dispatch('dropdown-open', { id: '{{ $uid }}' })"
             :class="selected.length ? 'ring-fuchsia-300 dark:ring-fuchsia-600 bg-fuchsia-50/50 dark:bg-fuchsia-900/10' : 'ring-slate-200 dark:ring-slate-600 bg-slate-50 dark:bg-slate-700/70'"
-            class="w-full flex items-center justify-between px-4 py-3 text-sm rounded-xl ring-1 transition-all cursor-pointer">
+            class="w-full flex items-center justify-between px-4 py-3 text-sm rounded-xl {{ $hasError ? 'ring-2 ring-red-400 dark:ring-red-500' : 'ring-1' }} transition-all cursor-pointer">
         <span :class="selected.length ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-400'" x-text="label()"></span>
         <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -141,4 +143,14 @@
     <template x-for="id in selected" :key="id">
         <input type="hidden" :name="'{{ $name }}'" :value="id">
     </template>
+
+    {{-- Hata mesajı --}}
+    @error($errorKey)
+        <p class="text-sm text-red-500 flex items-center gap-1.5 mt-1">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
+            </svg>
+            {{ $message }}
+        </p>
+    @enderror
 </div>

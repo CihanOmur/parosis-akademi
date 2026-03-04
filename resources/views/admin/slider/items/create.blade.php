@@ -43,37 +43,11 @@
 
                 <div class="relative p-6 space-y-5">
                     {{-- Başlık --}}
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Başlık <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Slayt başlığını yazın"
-                               value="{{ old('title') }}" required>
-                        @error('title')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="title" label="Başlık" placeholder="Slayt başlığını yazın" required />
 
                     {{-- Vurgulu Metin --}}
-                    <div class="space-y-1">
-                        <label for="highlight_text" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Vurgulu Metin
-                        </label>
-                        <input type="text" name="highlight_text" id="highlight_text"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Vurgulu kelime (ör: Online)"
-                               value="{{ old('highlight_text') }}">
-                        <p class="text-xs text-slate-400 mt-1">Bu metin başlıkta renkli arka planla vurgulanır</p>
-                        @error('highlight_text')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="highlight_text" label="Vurgulu Metin" placeholder="Vurgulu kelime (ör: Online)" />
+                    <p class="text-xs text-slate-400 -mt-4">Bu metin başlıkta renkli arka planla vurgulanır</p>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
@@ -95,36 +69,10 @@
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Buton Metni --}}
-                    <div class="space-y-1">
-                        <label for="button_text" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Buton Metni
-                        </label>
-                        <input type="text" name="button_text" id="button_text"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Buton metni (ör: Tüm Kursları Görüntüle)"
-                               value="{{ old('button_text') }}">
-                        @error('button_text')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="button_text" label="Buton Metni" placeholder="Buton metni (ör: Tüm Kursları Görüntüle)" />
 
                     {{-- Buton Linki --}}
-                    <div class="space-y-1">
-                        <label for="button_url" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Buton Linki
-                        </label>
-                        <input type="text" name="button_url" id="button_url"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               placeholder="Buton linki (ör: /kurslar)"
-                               value="{{ old('button_url') }}">
-                        @error('button_url')
-                            <p class="text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="button_url" label="Buton Linki" placeholder="Buton linki (ör: /kurslar)" />
                 </div>
             </div>
 

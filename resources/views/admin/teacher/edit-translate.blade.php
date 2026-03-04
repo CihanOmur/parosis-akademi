@@ -77,57 +77,19 @@
                 </div>
 
                 <div class="relative p-6 space-y-5">
-                    <div class="space-y-1">
-                        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Ad Soyad <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="name" id="name"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Egitmen adinin cevirisini yazin..."
-                               value="{{ old('name', $teacher->getTranslation('name', $selectedLang, false)) }}" required>
-                    </div>
+                    <x-text-input name="name" label="Ad Soyad" placeholder="Egitmen adinin cevirisini yazin..." :value="$teacher->getTranslation('name', $selectedLang, false)" ringColor="blue" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Unvan <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Unvanin cevirisini yazin..."
-                               value="{{ old('title', $teacher->getTranslation('title', $selectedLang, false)) }}" required>
-                    </div>
+                    <x-text-input name="title" label="Unvan" placeholder="Unvanin cevirisini yazin..." :value="$teacher->getTranslation('title', $selectedLang, false)" ringColor="blue" required />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="short_description" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Kisa Aciklama
-                        </label>
-                        <textarea name="short_description" id="short_description" rows="3"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all resize-y"
-                                  placeholder="Kisa aciklamanin cevirisini yazin...">{{ old('short_description', $teacher->getTranslation('short_description', $selectedLang, false)) }}</textarea>
-                    </div>
+                    <x-textarea name="short_description" label="Kisa Aciklama" placeholder="Kisa aciklamanin cevirisini yazin..." rows="3" :value="$teacher->getTranslation('short_description', $selectedLang, false)" ringColor="blue" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <div class="space-y-1">
-                        <label for="bio" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Biyografi
-                        </label>
-                        <textarea name="bio" id="bio" rows="6"
-                                  class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                         text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                         ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all resize-y"
-                                  placeholder="Biyografinin cevirisini yazin...">{{ old('bio', $teacher->getTranslation('bio', $selectedLang, false)) }}</textarea>
-                    </div>
+                    <x-textarea name="bio" label="Biyografi" placeholder="Biyografinin cevirisini yazin..." rows="6" :value="$teacher->getTranslation('bio', $selectedLang, false)" ringColor="blue" />
                 </div>
             </div>
         </div>

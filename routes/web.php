@@ -23,6 +23,7 @@ use App\Http\Controllers\Testimonial\TestimonialController;
 use App\Http\Controllers\Slider\SliderController;
 use App\Http\Controllers\Slider\SliderItemController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\MenuItem\MenuItemController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
 
@@ -265,6 +266,22 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         return view('admin.reference.index');
     })->name('reference.index');
 
+    // ─── Menü Öğeleri ──────────────────────────────────────────────────────────
+    Route::prefix('menu-items')->name('menu-items.')->group(function () {
+        Route::get('/',                        [MenuItemController::class, 'index'])->name('index');
+        Route::get('/create',                  [MenuItemController::class, 'create'])->name('create');
+        Route::post('/store',                  [MenuItemController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',               [MenuItemController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',            [MenuItemController::class, 'update'])->name('update');
+        Route::delete('/{id}',                 [MenuItemController::class, 'delete'])->name('delete');
+        Route::post('/update-order',           [MenuItemController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',            [MenuItemController::class, 'toggleActive'])->name('toggle');
+        Route::post('/{id}/indent',            [MenuItemController::class, 'indent'])->name('indent');
+        Route::post('/{id}/outdent',           [MenuItemController::class, 'outdent'])->name('outdent');
+        Route::get('/{id}/translate/{lang}',   [MenuItemController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',         [MenuItemController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
     // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/',                              [PagesController::class, 'index'])->name('index');
@@ -277,9 +294,11 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 });
 
 // ─── Frontend Sayfaları ─────────────────────────────────────────────────────
-Route::name('front.')->group(function () {
+Route::middleware(SharedDatas::class)->name('front.')->group(function () {
     Route::get('/',                [FrontController::class, 'home'])->name('home');
     Route::get('/hakkimizda',      [FrontController::class, 'about'])->name('about');
+    Route::get('/ara',             [FrontController::class, 'search'])->name('search');
+    Route::get('/ara/suggest',     [FrontController::class, 'searchSuggest'])->name('search.suggest');
     Route::get('/kurslar',         [FrontController::class, 'courses'])->name('courses');
     Route::get('/kurs-detay/{id}',  [FrontController::class, 'courseDetails'])->name('course.details');
     Route::get('/egitmenler',      [FrontController::class, 'teachers'])->name('teachers');

@@ -70,9 +70,9 @@
                                 <!-- Right Block -->
                                 <div class="order-1 w-full md:order-2 md:w-[436px]">
                                     <!-- Search Form -->
-                                    <form action="#" method="get" class="w-full">
+                                    <form action="{{ route('front.courses') }}" method="get" class="w-full">
                                         <div class="relative flex items-center">
-                                            <input type="search" placeholder="{{ $coursePageInfo?->getTranslation('search_placeholder', app()->getLocale()) ?: 'Kursunuzu arayın' }}" class="w-full rounded-[50px] border px-8 py-3.5 pr-36 text-sm font-medium outline-none placeholder:text-colorBlackPearl/55" />
+                                            <input type="search" name="q" value="{{ $search ?? '' }}" placeholder="{{ $coursePageInfo?->getTranslation('search_placeholder', app()->getLocale()) ?: 'Kursunuzu arayın' }}" class="w-full rounded-[50px] border px-8 py-3.5 pr-36 text-sm font-medium outline-none placeholder:text-colorBlackPearl/55" />
                                             <button type="submit" class="absolute bottom-[5px] right-0 top-[5px] mr-[5px] inline-flex items-center justify-center gap-x-2.5 rounded-[50px] bg-colorPurpleBlue px-6 text-center text-sm text-white hover:bg-colorBlackPearl">
                                                 {{ $coursePageInfo?->getTranslation('search_button_text', app()->getLocale()) ?: 'Ara' }}
                                                 <img src="{{ asset('assets-front/img/icons/icon-white-search-line.svg') }}" alt="icon-white-search-line" width="16" height="16" />

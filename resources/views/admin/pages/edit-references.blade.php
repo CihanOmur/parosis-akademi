@@ -38,24 +38,10 @@
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="lang" value="{{ request()->lang ?? app()->getLocale() }}">
-                <div class="mb-6">
-                    <label for="title"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">Başlık</label>
-                    <input type="text" name="title" id="title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Başlık girin"
-                        value="{{ translateAttribute($referencesPageInfo, 'title', request()->lang) }}">
-
-                </div>
-                <div class="mb-6">
-                    <label for="subtitle" class="block mb-2 text-sm font-medium text-gray-900 ">Alt
-                        Başlık</label>
-                    <input type="text" name="subtitle" id="subtitle" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Alt başlık girin"
-                        value="{{ translateAttribute($referencesPageInfo, 'subtitle', request()->lang) }}">
-
-                </div>
+                <x-text-input name="title" label="Başlık" placeholder="Başlık girin" ringColor="blue"
+                    :value="translateAttribute($referencesPageInfo, 'title', request()->lang)" />
+                <x-text-input name="subtitle" label="Alt Başlık" placeholder="Alt başlık girin" ringColor="blue"
+                    :value="translateAttribute($referencesPageInfo, 'subtitle', request()->lang)" />
 
                 <div class="mb-6">
                     <label for="content"
@@ -66,37 +52,12 @@
                 </div>
 
 
-                <div class="mb-6">
-                    <label for="contact_title" class="block mb-2 text-sm font-medium text-gray-900 ">İletişim
-                        Başlığı</label>
-                    <input type="text" name="contact_title" id="contact_title" aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Başlık girin"
-                        value="{{ translateAttribute($referencesPageInfo, 'contact_title', request()->lang) }}">
-
-                </div>
-                <div class="mb-6">
-                    <label for="contact_button_title"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">İletişim
-                        Butonu Başlığı</label>
-                    <input type="text" name="contact_button_title" id="contact_button_title"
-                        aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Başlık girin"
-                        value="{{ translateAttribute($referencesPageInfo, 'contact_button_title', request()->lang) }}">
-
-                </div>
-                <div class="mb-6">
-                    <label for="contact_button_link"
-                        class="block mb-2 text-sm font-medium text-gray-900 ">İletişim
-                        Butonu Bağlantısı</label>
-                    <input type="link" name="contact_button_link" id="contact_button_link"
-                        aria-describedby="helper-text-explanation"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  "
-                        placeholder="Başlık girin"
-                        value="{{ translateAttribute($referencesPageInfo, 'contact_button_link', request()->lang) }}">
-
-                </div>
+                <x-text-input name="contact_title" label="İletişim Başlığı" placeholder="Başlık girin" ringColor="blue"
+                    :value="translateAttribute($referencesPageInfo, 'contact_title', request()->lang)" />
+                <x-text-input name="contact_button_title" label="İletişim Butonu Başlığı" placeholder="Başlık girin" ringColor="blue"
+                    :value="translateAttribute($referencesPageInfo, 'contact_button_title', request()->lang)" />
+                <x-text-input name="contact_button_link" type="url" label="İletişim Butonu Bağlantısı" placeholder="Başlık girin" ringColor="blue"
+                    :value="translateAttribute($referencesPageInfo, 'contact_button_link', request()->lang)" />
 
                 <div class="">
                     <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Kaydet</button>

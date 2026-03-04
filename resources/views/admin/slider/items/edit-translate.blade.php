@@ -78,32 +78,12 @@
 
                 <div class="relative p-6 space-y-5">
                     {{-- Başlık --}}
-                    <div class="space-y-1">
-                        <label for="title" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Başlık
-                        </label>
-                        <input type="text" name="title" id="title"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Başlığın çevirisini yazın..."
-                               value="{{ old('title', $item->getTranslation('title', $selectedLang, false)) }}">
-                    </div>
+                    <x-text-input name="title" label="Başlık" placeholder="Başlığın çevirisini yazın..." :value="$item->getTranslation('title', $selectedLang, false)" ringColor="blue" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Vurgulu Metin --}}
-                    <div class="space-y-1">
-                        <label for="highlight_text" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Vurgulu Metin
-                        </label>
-                        <input type="text" name="highlight_text" id="highlight_text"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Vurgulu metnin çevirisini yazın..."
-                               value="{{ old('highlight_text', $item->getTranslation('highlight_text', $selectedLang, false)) }}">
-                    </div>
+                    <x-text-input name="highlight_text" label="Vurgulu Metin" placeholder="Vurgulu metnin çevirisini yazın..." :value="$item->getTranslation('highlight_text', $selectedLang, false)" ringColor="blue" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
@@ -122,17 +102,7 @@
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Buton Metni --}}
-                    <div class="space-y-1">
-                        <label for="button_text" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Buton Metni
-                        </label>
-                        <input type="text" name="button_text" id="button_text"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/60 transition-all"
-                               placeholder="Buton metninin çevirisini yazın..."
-                               value="{{ old('button_text', $item->getTranslation('button_text', $selectedLang, false)) }}">
-                    </div>
+                    <x-text-input name="button_text" label="Buton Metni" placeholder="Buton metninin çevirisini yazın..." :value="$item->getTranslation('button_text', $selectedLang, false)" ringColor="blue" />
                 </div>
             </div>
         </div>

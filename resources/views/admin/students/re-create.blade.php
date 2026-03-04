@@ -68,26 +68,14 @@
                     </div>
                 </div>
                 <div class="p-6">
-                    <div class="sm:w-1/2 space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Tarih</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
-                                </svg>
-                            </span>
-                            <input type="date" name="recrate_registration_date"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-sky-500/60 transition-all"
-                                   value="{{ old('recrate_registration_date') }}">
-                        </div>
-                        @error('recrate_registration_date')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="sm:w-1/2">
+                        <x-text-input
+                            name="recrate_registration_date"
+                            type="date"
+                            label="Tarih"
+                            ringColor="sky"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>'
+                        />
                     </div>
                 </div>
             </div>
@@ -111,27 +99,16 @@
 
                 <div class="relative p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                     {{-- Ad Soyad --}}
-                    <div class="sm:col-span-2 space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ad Soyad <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                                </svg>
-                            </span>
-                            <input type="text" name="full_name" x-model="studentName"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="örn: Ahmet Yılmaz" value="{{ old('full_name', $student->full_name) }}">
-                        </div>
-                        @error('full_name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="sm:col-span-2">
+                        <x-text-input
+                            name="full_name"
+                            label="Ad Soyad"
+                            placeholder="örn: Ahmet Yılmaz"
+                            :value="$student->full_name"
+                            :required="true"
+                            x-model="studentName"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>'
+                        />
                     </div>
 
                     {{-- Cinsiyet --}}
@@ -154,75 +131,37 @@
                     </div>
 
                     {{-- Doğum Tarihi --}}
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Doğum Tarihi <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 0 1 3 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 0 1 6 13.12"/>
-                                </svg>
-                            </span>
-                            <input type="date" name="birth_date"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   value="{{ old('birth_date', $student->birth_date) }}">
-                        </div>
-                        @error('birth_date')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input
+                        name="birth_date"
+                        type="date"
+                        label="Doğum Tarihi"
+                        :value="$student->birth_date"
+                        :required="true"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 0 1 3 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 0 1 6 13.12"/></svg>'
+                    />
 
                     {{-- T.C. Kimlik No --}}
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">T.C. Kimlik No</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/>
-                                </svg>
-                            </span>
-                            <input type="text" name="tc_no" inputmode="numeric"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="12345678901" value="{{ old('tc_no', $student->national_id) }}">
-                        </div>
-                        @error('tc_no')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input
+                        name="tc_no"
+                        label="T.C. Kimlik No"
+                        placeholder="12345678901"
+                        :value="$student->national_id"
+                        inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z"/></svg>'
+                    />
 
                     {{-- Telefon --}}
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
-                                </svg>
-                            </span>
-                            <input type="tel" name="student_phone" inputmode="numeric"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="05551234545" value="{{ old('student_phone', $student->student_phone) }}">
-                        </div>
-                        @error('student_phone')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input
+                        name="student_phone"
+                        type="tel"
+                        label="Telefon"
+                        placeholder="05551234545"
+                        :value="$student->student_phone"
+                        inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>'
+                    />
 
                     {{-- Kan Grubu --}}
                     <div class="space-y-1">
@@ -243,26 +182,14 @@
                     </div>
 
                     {{-- Okul Adı --}}
-                    <div class="sm:col-span-2 lg:col-span-1 space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Okul Adı</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/>
-                                </svg>
-                            </span>
-                            <input type="text" name="school_name"
-                                   class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   placeholder="Öğrencinin eğitim aldığı okul" value="{{ old('school_name', $student->school_name) }}">
-                        </div>
-                        @error('school_name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
+                    <div class="sm:col-span-2 lg:col-span-1">
+                        <x-text-input
+                            name="school_name"
+                            label="Okul Adı"
+                            placeholder="Öğrencinin eğitim aldığı okul"
+                            :value="$student->school_name"
+                            icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/></svg>'
+                        />
                     </div>
                 </div>
             </div>
@@ -282,44 +209,38 @@
                 </div>
 
                 <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Yakınlık <span class="text-red-500">*</span></label>
-                        <input type="text" name="guardian1_relationship" placeholder="örn: Anne"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_relationship', $student->guardians[0]->relationship ?? '') }}">
-                        @error('guardian1_relationship')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ad Soyad <span class="text-red-500">*</span></label>
-                        <input type="text" name="guardian1_full_name" placeholder="Ayşe Yılmaz"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_full_name', $student->guardians[0]->full_name ?? '') }}">
-                        @error('guardian1_full_name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">T.C. Kimlik No</label>
-                        <input type="text" name="guardian1_national_id" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                               placeholder="12345678901"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_national_id', $student->guardians[0]->national_id ?? '') }}">
-                        @error('guardian1_national_id')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Doğum Tarihi</label>
-                        <input type="date" name="guardian1_birth_date"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_birth_date', $student->guardians[0]->birth_date ?? '') }}">
-                        @error('guardian1_birth_date')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input
+                        name="guardian1_relationship"
+                        label="Yakınlık"
+                        placeholder="örn: Anne"
+                        :value="$student->guardians[0]->relationship ?? ''"
+                        :required="true"
+                        ringColor="indigo"
+                    />
+                    <x-text-input
+                        name="guardian1_full_name"
+                        label="Ad Soyad"
+                        placeholder="Ayşe Yılmaz"
+                        :value="$student->guardians[0]->full_name ?? ''"
+                        :required="true"
+                        ringColor="indigo"
+                    />
+                    <x-text-input
+                        name="guardian1_national_id"
+                        label="T.C. Kimlik No"
+                        placeholder="12345678901"
+                        :value="$student->guardians[0]->national_id ?? ''"
+                        ringColor="indigo"
+                        inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                    />
+                    <x-text-input
+                        name="guardian1_birth_date"
+                        type="date"
+                        label="Doğum Tarihi"
+                        :value="$student->guardians[0]->birth_date ?? ''"
+                        ringColor="indigo"
+                    />
                     <div class="space-y-1">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Eğitim Düzeyi</label>
                         <x-checkbox-dropdown
@@ -333,63 +254,59 @@
                             <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Meslek</label>
-                        <input type="text" name="guardian1_job" placeholder="örn: Memur"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_job', $student->guardians[0]->job ?? '') }}">
-                        @error('guardian1_job')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
+                    <x-text-input
+                        name="guardian1_job"
+                        label="Meslek"
+                        placeholder="örn: Memur"
+                        :value="$student->guardians[0]->job ?? ''"
+                        ringColor="indigo"
+                    />
+                    <x-text-input
+                        name="guardian1_phone_1"
+                        type="tel"
+                        label="Telefon 1"
+                        placeholder="05551234545"
+                        :value="$student->guardians[0]->phone_1 ?? ''"
+                        :required="true"
+                        ringColor="indigo"
+                        inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                    />
+                    <x-text-input
+                        name="guardian1_phone_2"
+                        type="tel"
+                        label="Telefon 2"
+                        placeholder="05551234545"
+                        :value="$student->guardians[0]->phone_2 ?? ''"
+                        ringColor="indigo"
+                        inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                    />
+                    <x-text-input
+                        name="guardian1_email"
+                        type="email"
+                        label="E-mail"
+                        placeholder="ornek@parosis.com"
+                        :value="$student->guardians[0]->email ?? ''"
+                        ringColor="indigo"
+                    />
+                    <div class="sm:col-span-2">
+                        <x-text-input
+                            name="guardian1_home_address"
+                            label="Ev Adresi"
+                            placeholder="mahalle, sokak, no, ilçe, il"
+                            :value="$student->guardians[0]->home_address ?? ''"
+                            ringColor="indigo"
+                        />
                     </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon 1 <span class="text-red-500">*</span></label>
-                        <input type="tel" name="guardian1_phone_1" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                               placeholder="05551234545"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_phone_1', $student->guardians[0]->phone_1 ?? '') }}">
-                        @error('guardian1_phone_1')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon 2</label>
-                        <input type="tel" name="guardian1_phone_2" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                               placeholder="05551234545"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_phone_2', $student->guardians[0]->phone_2 ?? '') }}">
-                        @error('guardian1_phone_2')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">E-mail</label>
-                        <input type="email" name="guardian1_email" placeholder="ornek@parosis.com"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_email', $student->guardians[0]->email ?? '') }}">
-                        @error('guardian1_email')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="sm:col-span-2 space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ev Adresi</label>
-                        <input type="text" name="guardian1_home_address" placeholder="mahalle, sokak, no, ilçe, il"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_home_address', $student->guardians[0]->home_address ?? '') }}">
-                        @error('guardian1_home_address')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="sm:col-span-2 space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">İş Adresi</label>
-                        <input type="text" name="guardian1_work_address" placeholder="mahalle, sokak, no, ilçe, il"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-indigo-500/60 transition-all"
-                               value="{{ old('guardian1_work_address', $student->guardians[0]->work_address ?? '') }}">
-                        @error('guardian1_work_address')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
+                    <div class="sm:col-span-2">
+                        <x-text-input
+                            name="guardian1_work_address"
+                            label="İş Adresi"
+                            placeholder="mahalle, sokak, no, ilçe, il"
+                            :value="$student->guardians[0]->work_address ?? ''"
+                            ringColor="indigo"
+                        />
                     </div>
                 </div>
             </div>
@@ -417,47 +334,43 @@
 
                 <div x-show="guardian2Active" x-collapse>
                     <div class="px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-700/50 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Yakınlık</label>
-                            <input type="text" name="guardian2_relationship" placeholder="örn: Baba" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_relationship', $student->guardians[1]->relationship ?? '') }}">
-                            @error('guardian2_relationship')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ad Soyad</label>
-                            <input type="text" name="guardian2_full_name" placeholder="Mehmet Yılmaz" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_full_name', $student->guardians[1]->full_name ?? '') }}">
-                            @error('guardian2_full_name')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">T.C. Kimlik No</label>
-                            <input type="text" name="guardian2_national_id" inputmode="numeric" :disabled="!guardian2Active"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                   placeholder="12345678901"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_national_id', $student->guardians[1]->national_id ?? '') }}">
-                            @error('guardian2_national_id')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Doğum Tarihi</label>
-                            <input type="date" name="guardian2_birth_date" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_birth_date', $student->guardians[1]->birth_date ?? '') }}">
-                            @error('guardian2_birth_date')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-text-input
+                            name="guardian2_relationship"
+                            label="Yakınlık"
+                            placeholder="örn: Baba"
+                            :value="$student->guardians[1]->relationship ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                        />
+                        <x-text-input
+                            name="guardian2_full_name"
+                            label="Ad Soyad"
+                            placeholder="Mehmet Yılmaz"
+                            :value="$student->guardians[1]->full_name ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                        />
+                        <x-text-input
+                            name="guardian2_national_id"
+                            label="T.C. Kimlik No"
+                            placeholder="12345678901"
+                            :value="$student->guardians[1]->national_id ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        />
+                        <x-text-input
+                            name="guardian2_birth_date"
+                            type="date"
+                            label="Doğum Tarihi"
+                            :value="$student->guardians[1]->birth_date ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                        />
                         <div class="space-y-1">
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Eğitim Düzeyi</label>
-                            <select name="guardian2_education_level" :disabled="!guardian2Active"
+                            <select name="guardian2_education_level" x-bind:disabled="!guardian2Active"
                                     class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all appearance-none">
                                 @foreach ($education_levels as $level)
                                     <option {{ old('guardian2_education_level', $student->guardians[1]->education_level ?? '') == $level ? 'selected' : '' }} value="{{ $level }}">{{ $level }}</option>
@@ -467,63 +380,64 @@
                                 <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
                             @enderror
                         </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Meslek</label>
-                            <input type="text" name="guardian2_job" placeholder="örn: Memur" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_job', $student->guardians[1]->job ?? '') }}">
-                            @error('guardian2_job')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
+                        <x-text-input
+                            name="guardian2_job"
+                            label="Meslek"
+                            placeholder="örn: Memur"
+                            :value="$student->guardians[1]->job ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                        />
+                        <x-text-input
+                            name="guardian2_phone_1"
+                            type="tel"
+                            label="Telefon 1"
+                            placeholder="05551234545"
+                            :value="$student->guardians[1]->phone_1 ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        />
+                        <x-text-input
+                            name="guardian2_phone_2"
+                            type="tel"
+                            label="Telefon 2"
+                            placeholder="05551234545"
+                            :value="$student->guardians[1]->phone_2 ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                            inputmode="numeric"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                        />
+                        <x-text-input
+                            name="guardian2_email"
+                            type="email"
+                            label="E-mail"
+                            placeholder="ornek@parosis.com"
+                            :value="$student->guardians[1]->email ?? ''"
+                            ringColor="violet"
+                            x-bind:disabled="!guardian2Active"
+                        />
+                        <div class="sm:col-span-2">
+                            <x-text-input
+                                name="guardian2_home_address"
+                                label="Ev Adresi"
+                                placeholder="mahalle, sokak, no, ilçe, il"
+                                :value="$student->guardians[1]->home_address ?? ''"
+                                ringColor="violet"
+                                x-bind:disabled="!guardian2Active"
+                            />
                         </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon 1</label>
-                            <input type="tel" name="guardian2_phone_1" inputmode="numeric" :disabled="!guardian2Active"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                   placeholder="05551234545"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_phone_1', $student->guardians[1]->phone_1 ?? '') }}">
-                            @error('guardian2_phone_1')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon 2</label>
-                            <input type="tel" name="guardian2_phone_2" inputmode="numeric" :disabled="!guardian2Active"
-                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                                   placeholder="05551234545"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_phone_2', $student->guardians[1]->phone_2 ?? '') }}">
-                            @error('guardian2_phone_2')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">E-mail</label>
-                            <input type="email" name="guardian2_email" placeholder="ornek@parosis.com" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_email', $student->guardians[1]->email ?? '') }}">
-                            @error('guardian2_email')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="sm:col-span-2 space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ev Adresi</label>
-                            <input type="text" name="guardian2_home_address" placeholder="mahalle, sokak, no, ilçe, il" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_home_address', $student->guardians[1]->home_address ?? '') }}">
-                            @error('guardian2_home_address')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <div class="sm:col-span-2 space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">İş Adresi</label>
-                            <input type="text" name="guardian2_work_address" placeholder="mahalle, sokak, no, ilçe, il" :disabled="!guardian2Active"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-violet-500/60 transition-all"
-                                   value="{{ old('guardian2_work_address', $student->guardians[1]->work_address ?? '') }}">
-                            @error('guardian2_work_address')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                            @enderror
+                        <div class="sm:col-span-2">
+                            <x-text-input
+                                name="guardian2_work_address"
+                                label="İş Adresi"
+                                placeholder="mahalle, sokak, no, ilçe, il"
+                                :value="$student->guardians[1]->work_address ?? ''"
+                                ringColor="violet"
+                                x-bind:disabled="!guardian2Active"
+                            />
                         </div>
                     </div>
                 </div>
@@ -544,43 +458,38 @@
                 </div>
 
                 <div class="p-6 grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ad Soyad</label>
-                        <input type="text" name="emergency_full_name" placeholder="örn: Ahmet Yılmaz"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-red-500/60 transition-all"
-                               value="{{ old('emergency_full_name', $student->emergencyContact->full_name ?? '') }}">
-                        @error('emergency_full_name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Yakınlık</label>
-                        <input type="text" name="emergency_relationship" placeholder="örn: Amcası"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-red-500/60 transition-all"
-                               value="{{ old('emergency_relationship', $student->emergencyContact->relationship ?? '') }}">
-                        @error('emergency_relationship')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Telefon</label>
-                        <input type="tel" name="emergency_phone" inputmode="numeric"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                               placeholder="05551234545"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-red-500/60 transition-all"
-                               value="{{ old('emergency_phone', $student->emergencyContact->phone ?? '') }}">
-                        @error('emergency_phone')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="sm:col-span-3 space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Adres</label>
-                        <input type="text" name="emergency_address" placeholder="mahalle, sokak, no, ilçe, il"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-red-500/60 transition-all"
-                               value="{{ old('emergency_address', $student->emergencyContact->address ?? '') }}">
-                        @error('emergency_address')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
+                    <x-text-input
+                        name="emergency_full_name"
+                        label="Ad Soyad"
+                        placeholder="örn: Ahmet Yılmaz"
+                        :value="$student->emergencyContact->full_name ?? ''"
+                        ringColor="red"
+                    />
+                    <x-text-input
+                        name="emergency_relationship"
+                        label="Yakınlık"
+                        placeholder="örn: Amcası"
+                        :value="$student->emergencyContact->relationship ?? ''"
+                        ringColor="red"
+                    />
+                    <x-text-input
+                        name="emergency_phone"
+                        type="tel"
+                        label="Telefon"
+                        placeholder="05551234545"
+                        :value="$student->emergencyContact->phone ?? ''"
+                        ringColor="red"
+                        inputmode="numeric"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
+                    />
+                    <div class="sm:col-span-3">
+                        <x-text-input
+                            name="emergency_address"
+                            label="Adres"
+                            placeholder="mahalle, sokak, no, ilçe, il"
+                            :value="$student->emergencyContact->address ?? ''"
+                            ringColor="red"
+                        />
                     </div>
                 </div>
             </div>
@@ -618,14 +527,14 @@
                         @enderror
                     </div>
 
-                    <div x-show="hasAllergy === '1'" x-collapse class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Alerji Detayları</label>
-                        <input type="text" name="allergy_detail" placeholder="Alerji detaylarını yazın..."
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-amber-500/60 transition-all"
-                               value="{{ old('allergy_detail', $student->allergy_detail) }}">
-                        @error('allergy_detail')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                        @enderror
+                    <div x-show="hasAllergy === '1'" x-collapse>
+                        <x-text-input
+                            name="allergy_detail"
+                            label="Alerji Detayları"
+                            placeholder="Alerji detaylarını yazın..."
+                            :value="$student->allergy_detail"
+                            ringColor="amber"
+                        />
                     </div>
                 </div>
             </div>
@@ -706,11 +615,7 @@
                 </div>
 
                 <div class="p-6">
-                    <textarea name="notes" rows="4" placeholder="Öğrenci hakkında ek bilgi veya notlarınızı buraya yazın..."
-                              class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm text-slate-900 dark:text-white placeholder-slate-400 ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-slate-400/60 transition-all resize-none">{{ old('notes', $student->notes) }}</textarea>
-                    @error('notes')
-                        <p class="text-sm text-red-500 flex items-center gap-1.5 mt-1"><svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>{{ $message }}</p>
-                    @enderror
+                    <x-textarea name="notes" :value="$student->notes" placeholder="Öğrenci hakkında ek bilgi veya notlarınızı buraya yazın..." />
                 </div>
             </div>
         </div>

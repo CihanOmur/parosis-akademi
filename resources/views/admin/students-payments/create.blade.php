@@ -120,61 +120,24 @@
             {{-- Giriş Alanları --}}
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <div class="space-y-1.5">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Ödeme Tutarı</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
-                                </svg>
-                            </span>
-                            <input type="number" id="total_payment" name="total_payment" step="0.01"
-                                @cannot('accounting') {{ isset($first_create) && $first_create ? '' : 'disabled' }} @endcannot
-                                value="{{ old('total_payment', $payment->total_price ?? '') }}"
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                       text-slate-900 dark:text-white placeholder-slate-400
-                                       ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') {{ isset($first_create) && $first_create ? '' : '!cursor-not-allowed opacity-60' }} @endcannot"
-                                placeholder="0.00">
-                        </div>
-                    </div>
+                    <x-text-input type="number" name="total_payment" label="Ödeme Tutarı" placeholder="0.00"
+                        :value="$payment->total_price ?? ''"
+                        step="0.01"
+                        id="total_payment"
+                        :disabled="Gate::denies('accounting') && !(isset($first_create) && $first_create)"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/></svg>' />
 
-                    <div class="space-y-1.5">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Taksit Sayısı</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5"/>
-                                </svg>
-                            </span>
-                            <input type="number" id="installments_count"
-                                @cannot('accounting') {{ isset($first_create) && $first_create ? '' : 'disabled' }} @endcannot
-                                value="{{ old('installments_count', $payment->installments->count() ?? '') }}"
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                       text-slate-900 dark:text-white placeholder-slate-400
-                                       ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') {{ isset($first_create) && $first_create ? '' : '!cursor-not-allowed opacity-60' }} @endcannot"
-                                placeholder="0">
-                        </div>
-                    </div>
+                    <x-text-input type="number" name="installments_count" label="Taksit Sayısı" placeholder="0"
+                        :value="$payment->installments->count() ?? ''"
+                        id="installments_count"
+                        :disabled="Gate::denies('accounting') && !(isset($first_create) && $first_create)"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5"/></svg>' />
 
-                    <div class="space-y-1.5">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Başlangıç Tarihi</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
-                                </svg>
-                            </span>
-                            <input type="date" id="start_date" name="start_date"
-                                @cannot('accounting') {{ isset($first_create) && $first_create ? '' : 'disabled' }} @endcannot
-                                value="{{ old('start_date', optional($payment->installments->first())->payment_date ? \Carbon\Carbon::parse($payment->installments->first()->payment_date)->format('Y-m-d') : '') }}"
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                       text-slate-900 dark:text-white placeholder-slate-400
-                                       ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') {{ isset($first_create) && $first_create ? '' : '!cursor-not-allowed opacity-60' }} @endcannot">
-                        </div>
-                    </div>
+                    <x-text-input type="date" name="start_date" label="Başlangıç Tarihi"
+                        :value="optional($payment->installments->first())->payment_date ? \Carbon\Carbon::parse($payment->installments->first()->payment_date)->format('Y-m-d') : ''"
+                        id="start_date"
+                        :disabled="Gate::denies('accounting') && !(isset($first_create) && $first_create)"
+                        icon='<svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>' />
                 </div>
             </div>
         </form>
@@ -267,62 +230,34 @@
                         </div>
 
                         {{-- Tarih --}}
-                        <div>
-                            <label class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block xl:hidden">Tarih</label>
-                            <input type="date" name="installments[{{ $i }}][payment_date]"
-                                form="paymentForm"
-                                @cannot('accounting') disabled @endcannot
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700/50 rounded-lg text-sm
-                                       text-slate-900 dark:text-white
-                                       ring-1 ring-slate-200 dark:ring-slate-600 border-0
-                                       focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') !cursor-not-allowed opacity-60 @endcannot"
-                                value="{{ \Carbon\Carbon::parse($inst->payment_date)->format('Y-m-d') }}">
-                        </div>
+                        <x-text-input type="date" name="installments[{{ $i }}][payment_date]"
+                            :value="\Carbon\Carbon::parse($inst->payment_date)->format('Y-m-d')"
+                            :disabled="Gate::denies('accounting')"
+                            form="paymentForm"
+                            inputClass="!py-2 !px-3 !bg-white dark:!bg-slate-700/50 !rounded-lg" />
 
                         {{-- Ödenecek Tutar --}}
-                        <div>
-                            <label class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block xl:hidden">Ödenecek</label>
-                            <input type="number" step="0.01"
-                                name="installments[{{ $i }}][installment_price]"
-                                form="paymentForm"
-                                @cannot('accounting') disabled @endcannot
-                                value="{{ $inst->installment_price }}"
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700/50 rounded-lg text-sm
-                                       text-slate-900 dark:text-white
-                                       ring-1 ring-slate-200 dark:ring-slate-600 border-0
-                                       focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') !cursor-not-allowed opacity-60 @endcannot">
-                        </div>
+                        <x-text-input type="number" name="installments[{{ $i }}][installment_price]"
+                            :value="$inst->installment_price"
+                            :disabled="Gate::denies('accounting')"
+                            step="0.01"
+                            form="paymentForm"
+                            inputClass="!py-2 !px-3 !bg-white dark:!bg-slate-700/50 !rounded-lg" />
 
                         {{-- Ödenen Tutar --}}
-                        <div>
-                            <label class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block xl:hidden">Ödenen</label>
-                            <input type="number" step="0.01"
-                                name="installments[{{ $i }}][payed_price]"
-                                form="paymentForm"
-                                @cannot('accounting') disabled @endcannot
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700/50 rounded-lg text-sm
-                                       text-slate-900 dark:text-white
-                                       ring-1 ring-slate-200 dark:ring-slate-600 border-0
-                                       focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') !cursor-not-allowed opacity-60 @endcannot"
-                                value="{{ $inst->payed_price == 0 ? '0.00' : number_format($inst->payed_price, 2, '.', '') }}">
-                        </div>
+                        <x-text-input type="number" name="installments[{{ $i }}][payed_price]"
+                            :value="$inst->payed_price == 0 ? '0.00' : number_format($inst->payed_price, 2, '.', '')"
+                            :disabled="Gate::denies('accounting')"
+                            step="0.01"
+                            form="paymentForm"
+                            inputClass="!py-2 !px-3 !bg-white dark:!bg-slate-700/50 !rounded-lg" />
 
                         {{-- Ödenen Tarih --}}
-                        <div>
-                            <label class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block xl:hidden">Ödenen Tarih</label>
-                            <input type="date" name="installments[{{ $i }}][payyed_date]"
-                                form="paymentForm"
-                                @cannot('accounting') disabled @endcannot
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-700/50 rounded-lg text-sm
-                                       text-slate-900 dark:text-white
-                                       ring-1 ring-slate-200 dark:ring-slate-600 border-0
-                                       focus:ring-2 focus:ring-fuchsia-500/60 transition-all
-                                       @cannot('accounting') !cursor-not-allowed opacity-60 @endcannot"
-                                value="{{ $inst->payyed_date ? \Carbon\Carbon::parse($inst->payyed_date)->format('Y-m-d') : '' }}">
-                        </div>
+                        <x-text-input type="date" name="installments[{{ $i }}][payyed_date]"
+                            :value="$inst->payyed_date ? \Carbon\Carbon::parse($inst->payyed_date)->format('Y-m-d') : ''"
+                            :disabled="Gate::denies('accounting')"
+                            form="paymentForm"
+                            inputClass="!py-2 !px-3 !bg-white dark:!bg-slate-700/50 !rounded-lg" />
 
                         {{-- Ödeme Türü --}}
                         <div>

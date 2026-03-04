@@ -72,55 +72,26 @@
                             </div>
                         </div>
 
-                        <div class="flex-1 space-y-1">
-                            <label for="locale" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Locale Kodu <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="locale" id="locale"
-                                   x-model="locale"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                          text-slate-900 dark:text-white placeholder-slate-400 font-mono text-sm
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                                   value="{{ old('locale', $language->locale) }}">
-                            <p class="text-xs text-slate-400">
+                        <div class="flex-1">
+                            <x-text-input name="locale" label="Locale Kodu" required
+                                :value="$language->locale"
+                                x-model="locale"
+                                inputClass="font-mono" />
+                            <p class="text-xs text-slate-400 mt-1">
                                 ISO 639-1 kodu. Bölgesel variant:
                                 <span class="font-mono text-fuchsia-500">en-gb</span>,
                                 <span class="font-mono text-fuchsia-500">pt-br</span>
                             </p>
-                            @error('locale')
-                                <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $message }}
-                                </p>
-                            @enderror
                         </div>
                     </div>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
                     {{-- Dilin kendi adı --}}
-                    <div class="space-y-1">
-                        <label for="default_name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Dilin Kendi Adı <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" name="default_name" id="default_name"
-                               x-model="defaultName"
-                               class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl
-                                      text-slate-900 dark:text-white placeholder-slate-400 text-sm
-                                      ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all"
-                               value="{{ $currentDefaultName }}">
-                        <p class="text-xs text-slate-400">Bu dilin kendi dilinde native adı</p>
-                        @error('default_name')
-                            <p class="text-sm text-red-500 flex items-center gap-1.5">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-8-5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0v-4.5A.75.75 0 0 1 10 5Zm0 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    <x-text-input name="default_name" label="Dilin Kendi Adı" required
+                        :value="$currentDefaultName"
+                        x-model="defaultName" />
+                    <p class="text-xs text-slate-400 -mt-0.5">Bu dilin kendi dilinde native adı</p>
                 </div>
             </div>
 
@@ -178,16 +149,11 @@
                              x-transition:enter="transition ease-out duration-150"
                              x-transition:enter-start="opacity-0 translate-y-1"
                              x-transition:enter-end="opacity-100 translate-y-0">
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                                {{ $lang->name ?: $lang->locale }}
-                                <span class="font-mono text-xs text-slate-400 ml-1">({{ $lang->locale }})</span>
-                            </label>
-                            <input type="text" name="names[{{ $lang->locale }}]"
-                                   class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm
-                                          text-slate-900 dark:text-white placeholder-slate-400
-                                          ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-blue-500/50 transition-all"
-                                   placeholder="Bu dilde karşılığı..."
-                                   value="{{ old('names.' . $lang->locale, $existingTranslations[$lang->locale] ?? '') }}">
+                            <x-text-input name="names[{{ $lang->locale }}]"
+                                label="{{ ($lang->name ?: $lang->locale) . ' (' . $lang->locale . ')' }}"
+                                placeholder="Bu dilde karşılığı..."
+                                :value="$existingTranslations[$lang->locale] ?? ''"
+                                ringColor="blue" />
                         </div>
                     @endforeach
                 </div>
