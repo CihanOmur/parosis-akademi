@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | Ödeme')
+@section('title', 'Parosis Akademi | Sipariş Oluştur')
 
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
@@ -12,14 +12,17 @@
                         <div class="container">
                             <div class="text-center">
                                 <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    Checkout
+                                    Sipariş Oluştur
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">HOME</a>
+                                            <a href="{{ route('front.home') }}">ANA SAYFA</a>
                                         </li>
-                                        <li>Checkout</li>
+                                        <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
+                                            <a href="{{ route('front.cart') }}">SEPETİM</a>
+                                        </li>
+                                        <li>SİPARİŞ</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -36,221 +39,227 @@
                     <!-- Background Element -->
                 </div>
             </section>
-            <!--...::: Breadcrumb Section Start :::... -->
+            <!--...::: Breadcrumb Section End :::... -->
 
             <!--...::: Checkout Section Start :::... -->
             <section class="section-checkout">
-                <div class="bg-white pb-44">
+                <div class="bg-white pb-64">
                     <!-- Section Space -->
                     <div class="section-space">
                         <!-- Section Container -->
                         <div class="container">
-                            <!-- Checkout Area -->
-                            <div class="grid grid-cols-1 items-center gap-10 md:grid-cols-[0.5fr_1fr] lg:grid-cols-[0.3fr_1fr]">
-                                <div class="flex flex-col items-start justify-start divide-y divide-[#ededed] rounded-lg border border-[#ededed]">
-                                    <button class="tab-button active w-full px-5 py-3 text-start font-bold" data-tab="order">
-                                        Order
-                                    </button>
-                                    <button class="tab-button w-full px-5 py-3 text-start font-bold" data-tab="account">
-                                        Edit Account
-                                    </button>
-                                    <button class="tab-button w-full px-5 py-3 text-start font-bold" data-tab="password">
-                                        Password
-                                    </button>
-                                    <button class="tab-button w-full px-5 py-3 text-start font-bold" data-tab="address">
-                                        Address
-                                    </button>
-                                </div>
 
-                                <ul>
-                                    <li class="tab-content" id="order">
-                                        <h5 class="mb-5">Order History</h5>
-                                        <!-- Order List -->
-                                        <ul class="grid grid-cols-1 gap-y-6">
-                                            <!-- Order Item -->
-                                            <li class="rounded-lg border">
-                                                <div class="flex flex-col justify-between gap-x-5 gap-y-2 px-4 py-2 sm:flex-row sm:items-center">
-                                                    <div>
-                                                        <span class="block text-base font-bold text-colorBlackPearl">Order# 260847</span>
-                                                        <div>Date Added: <span>1 Aug 2024</span></div>
-                                                    </div>
-                                                    <span class="font-semibold text-blue-800">Processing</span>
-                                                </div>
-                                                <div class="border-t bg-[#f8f8f8] px-4 py-3">
-                                                    <div class="flex items-center gap-5">
-                                                        <div class="h-[65] w-[87px] rounded-[10px]">
-                                                            <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-1.jpg') }}" alt="product-add-cart-thumb-1" width="87" height="65" />
-                                                        </div>
-                                                        <span class="flex-1 font-bold text-colorBlackPearl">34 book demo</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <!-- Order Item -->
-                                            <!-- Order Item -->
-                                            <li class="rounded-lg border">
-                                                <div class="flex flex-col justify-between gap-x-5 gap-y-2 px-4 py-2 sm:flex-row sm:items-center">
-                                                    <div>
-                                                        <span class="block text-base font-bold text-colorBlackPearl">Order# 211572</span>
-                                                        <div>Date Added: <span>20 July 2024</span></div>
-                                                    </div>
-                                                    <span class="font-semibold text-green-800">Delivered</span>
-                                                </div>
-                                                <div class="border-t bg-[#f8f8f8] px-4 py-3">
-                                                    <div class="flex items-center gap-5">
-                                                        <div class="h-[65] w-[87px] rounded-[10px]">
-                                                            <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-2.jpg') }}" alt="product-add-cart-thumb-2" width="87" height="65" />
-                                                        </div>
-                                                        <span class="flex-1 font-bold text-colorBlackPearl">34 book demo</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <!-- Order Item -->
-                                            <!-- Order Item -->
-                                            <li class="rounded-lg border">
-                                                <div class="flex flex-col justify-between gap-x-5 gap-y-2 px-4 py-2 sm:flex-row sm:items-center">
-                                                    <div>
-                                                        <span class="block text-base font-bold text-colorBlackPearl">Order# 47584</span>
-                                                        <div>Date Added: <span>03 March 2024</span></div>
-                                                    </div>
-                                                    <span class="font-semibold text-orange-800">Refund</span>
-                                                </div>
-                                                <div class="border-t bg-[#f8f8f8] px-4 py-3">
-                                                    <div class="flex items-center gap-5">
-                                                        <div class="h-[65] w-[87px] rounded-[10px]">
-                                                            <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-3.jpg') }}" alt="product-add-cart-thumb-3" width="87" height="65" />
-                                                        </div>
-                                                        <span class="flex-1 font-bold text-colorBlackPearl">Digital demo book</span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <!-- Order Item -->
-                                        </ul>
-                                        <!-- Order List -->
-                                    </li>
-                                    <li class="tab-content hidden" id="account">
-                                        <h5 class="mb-5">My Account Information</h5>
+                            @if(session('success'))
+                            <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-6 py-4 text-green-800">
+                                {{ session('success') }}
+                            </div>
+                            @endif
 
-                                        <!-- Account Information -->
-                                        <form action="#" method="post">
-                                            <div class="mb-8 grid grid-cols-1 gap-y-10">
-                                                <!-- Form Group -->
-                                                <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="text" placeholder="First name" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="text" placeholder="Last name" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                </div>
-                                                <!-- Form Group -->
-                                                <!-- Form Group -->
-                                                <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="tel" placeholder="Enter Mobile Number" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="email" placeholder="Enter Email" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                </div>
-                                                <!-- Form Group -->
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary is-icon group mt-[10px]">
-                                                Update Information
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
-                                                </span>
-                                            </button>
-                                        </form>
-                                        <!-- Account Information -->
-                                    </li>
-                                    <li class="tab-content hidden" id="password">
-                                        <h5 class="mb-5">Change Password</h5>
-
-                                        <!-- Change Password -->
-                                        <form action="#" method="post">
-                                            <div class="mb-8 grid grid-cols-1 gap-y-10">
-                                                <!-- Form Group -->
-                                                <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="password" placeholder="Old Password" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="password" placeholder="New Password" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="password" placeholder="Password Confirm" class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                </div>
-                                                <!-- Form Group -->
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary is-icon group mt-[10px]">
-                                                Update Password
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
-                                                </span>
-                                            </button>
-                                        </form>
-                                        <!-- Change Password -->
-                                    </li>
-                                    <li class="tab-content hidden" id="address">
-                                        <h5 class="mb-5">Address Book</h5>
-
-                                        <address class="mb-5 border px-3 py-5 not-italic">
-                                            Cecilia Chapman 711-2880 Nulla St. Mankato Mississippi
-                                            96522 (257) 563-7401
-                                        </address>
-
-                                        <!-- Update Address -->
-                                        <form action="#" method="post">
-                                            <div class="mb-8 grid grid-cols-1 gap-y-10">
-                                                <!-- Form Group -->
-                                                <div class="grid grid-cols-1 gap-10">
-                                                    <!-- Single Input Item -->
-                                                    <div class="w-full">
-                                                        <input type="text" placeholder="Update your address" class="w-full border border-colorBlackPearl/25 p-3 px-5 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required />
-                                                    </div>
-                                                    <!-- Single Input Item -->
-                                                </div>
-                                                <!-- Form Group -->
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary is-icon group mt-[10px]">
-                                                Update Address
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
-                                                </span>
-                                            </button>
-                                        </form>
-                                        <!-- Update Address -->
-                                    </li>
+                            @if($errors->any())
+                            <div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-6 py-4 text-red-800">
+                                <p class="mb-2 font-semibold">Lütfen aşağıdaki hataları düzeltin:</p>
+                                <ul class="list-inside list-disc space-y-1 text-sm">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
                                 </ul>
                             </div>
+                            @endif
+
                             <!-- Checkout Area -->
+                            <form action="{{ route('front.checkout.process') }}" method="POST">
+                                @csrf
+
+                                <div class="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1.6fr] lg:items-start lg:gap-16">
+
+                                    <!-- Left: Order Summary -->
+                                    <div>
+                                        <h4 class="mb-6 font-title font-bold text-colorBlackPearl">Sipariş Özeti</h4>
+
+                                        <!-- Cart Items List -->
+                                        <div class="divide-y divide-colorBlackPearl/10 rounded-lg border border-colorBlackPearl/15">
+                                            @foreach($cart as $key => $item)
+                                            <div class="flex items-start gap-4 px-5 py-4">
+                                                <!-- Thumbnail -->
+                                                @if(!empty($item['image']))
+                                                    <img src="{{ asset($item['image']) }}" alt="{{ e($item['name']) }}" width="64" height="50" class="h-12 w-16 rounded-lg object-cover flex-shrink-0" />
+                                                @else
+                                                    <div class="h-12 w-16 flex-shrink-0 rounded-lg bg-gray-100 flex items-center justify-center">
+                                                        <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                                <!-- Item Details -->
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="font-semibold text-colorBlackPearl leading-snug">{{ e($item['name']) }}</p>
+                                                    @if(!empty($item['variant_info']))
+                                                        <p class="mt-0.5 text-sm text-colorCarbonGrey">{{ e($item['variant_info']) }}</p>
+                                                    @endif
+                                                    <p class="mt-1 text-sm text-colorCarbonGrey">{{ $item['quantity'] }} adet &times; {{ number_format($item['price'], 2, ',', '.') }} ₺</p>
+                                                </div>
+                                                <!-- Line Total -->
+                                                <span class="flex-shrink-0 font-semibold text-colorPurpleBlue">{{ number_format($item['price'] * $item['quantity'], 2, ',', '.') }} ₺</span>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <!-- Cart Items List -->
+
+                                        <!-- Order Total -->
+                                        <div class="mt-4 flex items-center justify-between rounded-lg border border-colorBlackPearl/15 px-5 py-4">
+                                            <span class="font-bold text-colorBlackPearl">Toplam</span>
+                                            <span class="font-title text-xl font-bold text-colorPurpleBlue">{{ number_format($subtotal, 2, ',', '.') }} ₺</span>
+                                        </div>
+                                        <!-- Order Total -->
+                                    </div>
+                                    <!-- Left: Order Summary -->
+
+                                    <!-- Right: Customer Form -->
+                                    <div>
+                                        <h4 class="mb-6 font-title font-bold text-colorBlackPearl">Teslimat Bilgileri</h4>
+
+                                        <div class="space-y-7">
+                                            <!-- Customer Name -->
+                                            <div>
+                                                <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="customer_name">
+                                                    Ad Soyad <span class="text-colorJasper">*</span>
+                                                </label>
+                                                <input type="text"
+                                                       id="customer_name"
+                                                       name="customer_name"
+                                                       value="{{ old('customer_name') }}"
+                                                       required
+                                                       class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('customer_name') border-red-400 @enderror"
+                                                       placeholder="Adınızı ve soyadınızı girin" />
+                                                @error('customer_name')
+                                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Email & Phone Row -->
+                                            <div class="grid grid-cols-1 gap-7 sm:grid-cols-2">
+                                                <!-- Email -->
+                                                <div>
+                                                    <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="customer_email">
+                                                        E-posta <span class="text-colorJasper">*</span>
+                                                    </label>
+                                                    <input type="email"
+                                                           id="customer_email"
+                                                           name="customer_email"
+                                                           value="{{ old('customer_email') }}"
+                                                           required
+                                                           class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('customer_email') border-red-400 @enderror"
+                                                           placeholder="ornek@mail.com" />
+                                                    @error('customer_email')
+                                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+
+                                                <!-- Phone -->
+                                                <div>
+                                                    <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="customer_phone">
+                                                        Telefon
+                                                    </label>
+                                                    <input type="tel"
+                                                           id="customer_phone"
+                                                           name="customer_phone"
+                                                           value="{{ old('customer_phone') }}"
+                                                           class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('customer_phone') border-red-400 @enderror"
+                                                           placeholder="05XX XXX XX XX" />
+                                                    @error('customer_phone')
+                                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <!-- Shipping Address -->
+                                            <div>
+                                                <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="shipping_address">
+                                                    Teslimat Adresi <span class="text-colorJasper">*</span>
+                                                </label>
+                                                <textarea id="shipping_address"
+                                                          name="shipping_address"
+                                                          rows="3"
+                                                          required
+                                                          class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('shipping_address') border-red-400 @enderror"
+                                                          placeholder="Mahalle, cadde, sokak, bina no, daire no">{{ old('shipping_address') }}</textarea>
+                                                @error('shipping_address')
+                                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <!-- City & District Row -->
+                                            <div class="grid grid-cols-1 gap-7 sm:grid-cols-2">
+                                                <!-- City -->
+                                                <div>
+                                                    <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="shipping_city">
+                                                        Şehir <span class="text-colorJasper">*</span>
+                                                    </label>
+                                                    <input type="text"
+                                                           id="shipping_city"
+                                                           name="shipping_city"
+                                                           value="{{ old('shipping_city') }}"
+                                                           required
+                                                           class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('shipping_city') border-red-400 @enderror"
+                                                           placeholder="İstanbul" />
+                                                    @error('shipping_city')
+                                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+
+                                                <!-- District -->
+                                                <div>
+                                                    <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="shipping_district">
+                                                        İlçe
+                                                    </label>
+                                                    <input type="text"
+                                                           id="shipping_district"
+                                                           name="shipping_district"
+                                                           value="{{ old('shipping_district') }}"
+                                                           class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('shipping_district') border-red-400 @enderror"
+                                                           placeholder="Kadıköy" />
+                                                    @error('shipping_district')
+                                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <!-- Customer Note -->
+                                            <div>
+                                                <label class="mb-1.5 block text-sm font-medium text-colorBlackPearl" for="customer_note">
+                                                    Sipariş Notu
+                                                </label>
+                                                <textarea id="customer_note"
+                                                          name="customer_note"
+                                                          rows="3"
+                                                          class="w-full border-b border-colorBlackPearl/25 pb-3 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl @error('customer_note') border-red-400 @enderror"
+                                                          placeholder="Siparişinizle ilgili eklemek istediğiniz not (isteğe bağlı)">{{ old('customer_note') }}</textarea>
+                                                @error('customer_note')
+                                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+
+                                            <!-- Submit Button -->
+                                            <div class="pt-2">
+                                                <button type="submit" class="btn btn-primary is-icon group w-full justify-center">
+                                                    Siparişi Tamamla
+                                                    <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                                                        <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                                    </span>
+                                                    <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                                                        <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right.svg" width="13" height="12" />
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <!-- Submit Button -->
+                                        </div>
+                                    </div>
+                                    <!-- Right: Customer Form -->
+
+                                </div>
+                            </form>
+                            <!-- Checkout Area -->
+
                         </div>
                         <!-- Section Container -->
                     </div>

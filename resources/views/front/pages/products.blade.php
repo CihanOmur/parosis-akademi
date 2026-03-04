@@ -12,14 +12,14 @@
                         <div class="container">
                             <div class="text-center">
                                 <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    Our Products
+                                    Ürünlerimiz
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">HOME</a>
+                                            <a href="{{ route('front.home') }}">ANA SAYFA</a>
                                         </li>
-                                        <li>OUR PRODUCTS</li>
+                                        <li>ÜRÜNLER</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -36,408 +36,147 @@
                     <!-- Background Element -->
                 </div>
             </section>
-            <!--...::: Breadcrumb Section Start :::... -->
+            <!--...::: Breadcrumb Section End :::... -->
 
             <!--...::: Product Section Start :::... -->
             <div class="section-product">
-                <div class="bg-white pb-44">
+                <div class="bg-white pb-64">
                     <!-- Section Space -->
                     <div class="section-space">
                         <!-- Section Container -->
                         <div class="container">
+
+                            @if(session('success'))
+                            <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-6 py-4 text-green-800">
+                                {{ session('success') }}
+                            </div>
+                            @endif
+
+                            <!-- Filters Row -->
+                            <div class="mb-8 flex flex-wrap items-center justify-between gap-6">
+                                <!-- Category Pills -->
+                                <div class="flex flex-wrap gap-2">
+                                    <a href="{{ route('front.products') }}"
+                                       class="inline-block rounded-full px-4 py-2 text-sm font-medium transition-colors {{ !$categoryId ? 'bg-colorPurpleBlue text-white' : 'bg-[#F5F5F5] text-colorBlackPearl hover:bg-colorPurpleBlue hover:text-white' }}">
+                                        Tümü <span class="ml-1 opacity-70">({{ $products->total() }})</span>
+                                    </a>
+                                    @foreach($categories as $category)
+                                    <a href="{{ route('front.products', ['category' => $category->id]) }}"
+                                       class="inline-block rounded-full px-4 py-2 text-sm font-medium transition-colors {{ $categoryId == $category->id ? 'bg-colorPurpleBlue text-white' : 'bg-[#F5F5F5] text-colorBlackPearl hover:bg-colorPurpleBlue hover:text-white' }}">
+                                        {{ $category->name }}
+                                        @if(isset($category->products_count))
+                                        <span class="ml-1 opacity-70">({{ $category->products_count }})</span>
+                                        @endif
+                                    </a>
+                                    @endforeach
+                                </div>
+
+                                <!-- Search Form -->
+                                <form action="{{ route('front.products') }}" method="get" class="w-full md:w-[380px]">
+                                    @if($categoryId)
+                                    <input type="hidden" name="category" value="{{ $categoryId }}" />
+                                    @endif
+                                    <div class="relative flex items-center">
+                                        <input type="search" name="q" value="{{ $search ?? '' }}" placeholder="Ürün arayın..." class="w-full rounded-[50px] border px-8 py-3.5 pr-36 text-sm font-medium outline-none placeholder:text-colorBlackPearl/55" />
+                                        <button type="submit" class="absolute bottom-[5px] right-0 top-[5px] mr-[5px] inline-flex items-center justify-center gap-x-2.5 rounded-[50px] bg-colorPurpleBlue px-6 text-center text-sm text-white hover:bg-colorBlackPearl">
+                                            Ara
+                                            <img src="{{ asset('assets-front/img/icons/icon-white-search-line.svg') }}" alt="icon-white-search-line" width="16" height="16" />
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Filters Row -->
+
                             <!-- Product List -->
                             <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+                                @forelse($products as $product)
                                 <!-- Product Item -->
                                 <li class="jos" data-jos_animation="flip-left">
                                     <div class="group/product overflow-hidden rounded-lg">
                                         <!-- Thumbnail -->
                                         <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-1.jpg') }}" alt="product-img-1" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
+                                            @if($product->image)
+                                                <img src="{{ asset($product->image) }}" alt="{{ e($product->name) }}" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
+                                            @else
+                                                <div class="h-[388px] w-full bg-gray-100 flex items-center justify-center">
+                                                    <svg class="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
+                                                    </svg>
+                                                </div>
+                                            @endif
 
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
+                                            @if($product->category)
+                                                <span class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl">{{ $product->category->name }}</span>
+                                            @endif
+
+                                            @if(!$product->variants_count)
+                                            <form action="{{ route('front.cart.add') }}" method="POST" class="absolute -bottom-full group-hover/product:bottom-8 transition-all duration-300">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}" />
+                                                <input type="hidden" name="quantity" value="1" />
+                                                <button type="submit" class="btn btn-primary is-icon group">
+                                                    Sepete Ekle
+                                                    <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                                                        <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
+                                                    </span>
+                                                    <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                                                        <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
+                                                    </span>
+                                                </button>
+                                            </form>
+                                            @else
+                                            <a href="{{ route('front.product.details', $product->id) }}" class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8 transition-all duration-300">
+                                                Detay
                                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                                     <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
                                                 </span>
                                                 <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
                                                     <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
                                                 </span>
-                                            </button>
+                                            </a>
+                                            @endif
                                         </div>
                                         <!-- Thumbnail -->
                                         <!-- Content -->
                                         <div class="px-2 py-8 text-center">
                                             <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Secret Demo Files</a>
+                                            <a href="{{ route('front.product.details', $product->id) }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">{{ $product->name }}</a>
                                             <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(09 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$178.00</span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-2.jpg') }}" alt="product-img-2" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Demo of Dreams</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(09 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$178.00</span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-3.jpg') }}" alt="product-img-3" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Demo in Darkness</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(23 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$754.00
-                                                <span class="ml-2 font-normal text-[#868686]/50 line-through">$854.00</span>
+                                            <!-- Price -->
+                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">
+                                                @if($product->sale_price)
+                                                    {{ number_format($product->sale_price, 2, ',', '.') }} ₺
+                                                    <span class="ml-2 font-normal text-[#868686]/50 line-through">{{ number_format($product->price, 2, ',', '.') }} ₺</span>
+                                                @else
+                                                    {{ number_format($product->price, 2, ',', '.') }} ₺
+                                                @endif
                                             </span>
+                                            <!-- Price -->
                                         </div>
                                         <!-- Content -->
                                     </div>
                                 </li>
                                 <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-4.jpg') }}" alt="product-img-4" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Demo of Deception</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(42 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$642.00
-                                                <span class="ml-2 font-normal text-[#868686]/50 line-through">$854.00</span>
-                                            </span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
+                                @empty
+                                <li class="col-span-3 py-16 text-center text-slate-500">
+                                    @if($search)
+                                        "<strong>{{ $search }}</strong>" için ürün bulunamadı.
+                                    @else
+                                        Henüz ürün eklenmemiş.
+                                    @endif
                                 </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-5.jpg') }}" alt="product-img-5" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Digital Demo Chronicles</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(17 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$404.00
-                                            </span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-6.jpg') }}" alt="product-img-6" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Mystic Demo Magic</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(06 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$754.00
-                                            </span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-7.jpg') }}" alt="product-img-7" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Demo of Truth</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(09 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$643.00
-                                            </span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-8.jpg') }}" alt="product-img-8" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Final Demo Night</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(04 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$739.00
-                                            </span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
-                                <!-- Product Item -->
-                                <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group/product overflow-hidden rounded-lg">
-                                        <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
-                                            <img src="{{ asset('assets-front/img/images/th-1/product-img-9.jpg') }}" alt="product-img-9" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
-
-                                            <button class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8">
-                                                Add to Cart
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="px-2 py-8 text-center">
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.product.details') }}" class="mb-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Haunted Demo Quest</a>
-                                            <!-- Title Link -->
-                                            <!-- Review Star -->
-                                            <div class="mb-4 inline-flex gap-x-[10px] text-sm">
-                                                <div class="inline-flex items-center gap-x-1">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star.svg') }}" alt="icon-yellow-star" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                    <img src="{{ asset('assets-front/img/icons/icon-yellow-star-blank.svg') }}" alt="icon-yellow-star-blank" width="16" height="15" />
-                                                </div>
-                                                <span>(63 Reviews)</span>
-                                            </div>
-                                            <!-- Review Star -->
-                                            <span class="block font-title text-xl font-bold text-colorPurpleBlue">$754.00
-                                            </span>
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
-                                </li>
-                                <!-- Product Item -->
+                                @endforelse
                             </ul>
                             <!-- Product List -->
 
                             <!-- Pagination -->
-                            <nav class="mt-[72px] flex flex-wrap justify-center gap-2.5">
-                                <a href="{{ route('front.products') }}" class="inline-flex h-12 w-12 items-center justify-center rounded-[50%] bg-[#F5F5F5] font-bold text-colorBlackPearl hover:bg-colorPurpleBlue hover:text-white">01</a>
-                                <a href="{{ route('front.products') }}" class="inline-flex h-12 w-12 items-center justify-center rounded-[50%] bg-[#F5F5F5] font-bold text-colorBlackPearl hover:bg-colorPurpleBlue hover:text-white">02</a>
-                                <a href="{{ route('front.products') }}" class="group inline-flex h-12 w-12 items-center justify-center rounded-[50%] bg-[#F5F5F5] font-bold text-colorBlackPearl hover:bg-colorPurpleBlue hover:text-white">
-                                    <img src="{{ asset('assets-front/img/icons/icon-dark-arrow-solid-down.svg') }}" alt="icon-dark-arrow-solid-down" class="-rotate-90 opacity-100 group-hover:opacity-0" />
-                                    <img src="{{ asset('assets-front/img/icons/icon-dark-arrow-solid-down.svg') }}" alt="icon-dark-arrow-solid-down" class="absolute -rotate-90 opacity-0 invert group-hover:opacity-100" />
-                                </a>
-                            </nav>
+                            @if($products->hasPages())
+                            <div class="mt-[72px]">
+                                {{ $products->links() }}
+                            </div>
+                            @endif
                             <!-- Pagination -->
+
                         </div>
                         <!-- Section Container -->
                     </div>

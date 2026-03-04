@@ -117,7 +117,7 @@
     </div>
     <ul class="mt-10 grid grid-cols-1 gap-y-5 overflow-y-auto">
         <li class="flex items-center gap-x-4">
-            <a href="{{ route('front.product.details') }}" class="h-[65] w-[87px] rounded-[10px]">
+            <a href="#" class="h-[65] w-[87px] rounded-[10px]">
                 <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-1.jpg') }}" alt="product-add-cart-thumb-1" width="87" height="65" />
             </a>
             <div class="flex-1">
@@ -127,11 +127,11 @@
                     </div>
                     <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">&times;</button>
                 </div>
-                <a href="{{ route('front.product.details') }}" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">34 book demo</a>
+                <a href="#" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">34 book demo</a>
             </div>
         </li>
         <li class="flex items-center gap-x-4">
-            <a href="{{ route('front.product.details') }}" class="h-[65] w-[87px] rounded-[10px]">
+            <a href="#" class="h-[65] w-[87px] rounded-[10px]">
                 <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-2.jpg') }}" alt="product-add-cart-thumb-2" width="87" height="65" />
             </a>
             <div class="flex-1">
@@ -141,11 +141,11 @@
                     </div>
                     <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">&times;</button>
                 </div>
-                <a href="{{ route('front.product.details') }}" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">53 book demo</a>
+                <a href="#" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">53 book demo</a>
             </div>
         </li>
         <li class="flex items-center gap-x-4">
-            <a href="{{ route('front.product.details') }}" class="h-[65] w-[87px] rounded-[10px]">
+            <a href="#" class="h-[65] w-[87px] rounded-[10px]">
                 <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-3.jpg') }}" alt="product-add-cart-thumb-3" width="87" height="65" />
             </a>
             <div class="flex-1">
@@ -155,7 +155,7 @@
                     </div>
                     <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">&times;</button>
                 </div>
-                <a href="{{ route('front.product.details') }}" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Degital demo book</a>
+                <a href="#" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Degital demo book</a>
             </div>
         </li>
     </ul>
