@@ -5,7 +5,7 @@
            sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72',
            sidebarCollapsed ? 'lg:translate-x-0 lg:w-20 sidebar-collapsed' : 'lg:translate-x-0 lg:w-72'
        ]"
-       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('courses.*') || Route::is('courseCategories.*') ? 'kurs' : '')) }}' }">
+       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('courses.*') || Route::is('courseCategories.*') ? 'kurs' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') ? 'magaza' : ''))) }}' }">
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -430,6 +430,107 @@
                                       ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                       : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
                             Kategoriler
+                        </a>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        {{-- Mağaza Dropdown --}}
+        @php $isMagazaActive = Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*'); @endphp
+        <div class="group/magaza relative">
+            <button @click="openMenu = openMenu === 'magaza' ? '' : 'magaza'"
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                           {{ $isMagazaActive
+                               ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                            {{ $isMagazaActive
+                                ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z"/>
+                    </svg>
+                </div>
+                <span x-show="!sidebarCollapsed" x-transition class="flex-1 text-left hidden lg:block">Mağaza</span>
+                <span class="flex-1 text-left lg:hidden">Mağaza</span>
+                <svg x-show="!sidebarCollapsed"
+                     class="w-4 h-4 transition-transform duration-200 hidden lg:block"
+                     :class="{ 'rotate-180': openMenu === 'magaza' }"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+                <svg class="w-4 h-4 transition-transform duration-200 lg:hidden"
+                     :class="{ 'rotate-180': openMenu === 'magaza' }"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+
+            <div x-show="openMenu === 'magaza' && (!sidebarCollapsed || window.innerWidth < 1024)"
+                 x-collapse
+                 class="ml-12 mt-1 space-y-1">
+                <a href="{{ route('products.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('products.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Ürünler
+                </a>
+                <a href="{{ route('productCategories.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('productCategories.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Kategoriler
+                </a>
+                <a href="{{ route('productAttributes.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('productAttributes.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Nitelikler
+                </a>
+                <a href="{{ route('orders.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('orders.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Siparişler
+                </a>
+            </div>
+
+            <template x-if="sidebarCollapsed">
+                <div class="hidden lg:group-hover/magaza:block absolute left-full top-0 pl-2 z-[60]">
+                    <div class="w-52 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2">
+                        <p class="px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">Mağaza</p>
+                        <a href="{{ route('products.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('products.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Ürünler
+                        </a>
+                        <a href="{{ route('productCategories.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('productCategories.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Kategoriler
+                        </a>
+                        <a href="{{ route('productAttributes.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('productAttributes.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Nitelikler
+                        </a>
+                        <a href="{{ route('orders.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('orders.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Siparişler
                         </a>
                     </div>
                 </div>
