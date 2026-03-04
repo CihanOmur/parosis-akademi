@@ -104,69 +104,170 @@
 </div>
 <!-- Sign Up Block -->
 
-<!-- Offcanvas - Add to cart block -->
-<div class="menu-add-to-cart fixed right-0 top-0 z-50 flex h-full w-80 translate-x-full flex-col overflow-y-clip bg-white px-6 py-2 transition-all duration-300 sm:w-96">
-    <div>
-        <button class="absolute right-0 top-0 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
-            &times;
-        </button>
-        <h5 class="flex items-center gap-x-2 leading-none">
-            <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="icon-grey-bag" />
+<!-- Cart Sidebar -->
+<div id="cartSidebarOverlay" style="display:none; position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,.5); transition:opacity .3s; opacity:0;" onclick="closeCartSidebar()"></div>
+<div id="cartSidebar" style="position:fixed; right:0; top:0; z-index:9999; height:100vh; width:420px; max-width:90vw; background:#fff; box-shadow:-4px 0 24px rgba(0,0,0,.12); transform:translateX(100%); transition:transform .3s ease; display:flex; flex-direction:column;">
+    <!-- Header -->
+    <div style="display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid #eee;">
+        <div style="display:flex; align-items:center; gap:12px; font-size:18px; font-weight:700; color:#263238;">
+            <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="bag" width="21" height="21" />
             Sepetim
-        </h5>
-    </div>
-    <ul class="mt-10 grid grid-cols-1 gap-y-5 overflow-y-auto">
-        <li class="flex items-center gap-x-4">
-            <a href="#" class="h-[65] w-[87px] rounded-[10px]">
-                <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-1.jpg') }}" alt="product-add-cart-thumb-1" width="87" height="65" />
-            </a>
-            <div class="flex-1">
-                <div class="flex items-center justify-between gap-x-2">
-                    <div class="text-sm font-medium leading-none text-[#263238]">
-                        1 x <span class="text-colorPurpleBlue">$20</span>
-                    </div>
-                    <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">&times;</button>
-                </div>
-                <a href="#" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">34 book demo</a>
-            </div>
-        </li>
-        <li class="flex items-center gap-x-4">
-            <a href="#" class="h-[65] w-[87px] rounded-[10px]">
-                <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-2.jpg') }}" alt="product-add-cart-thumb-2" width="87" height="65" />
-            </a>
-            <div class="flex-1">
-                <div class="flex items-center justify-between gap-x-2">
-                    <div class="text-sm font-medium leading-none text-[#263238]">
-                        1 x <span class="text-colorPurpleBlue">$32</span>
-                    </div>
-                    <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">&times;</button>
-                </div>
-                <a href="#" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">53 book demo</a>
-            </div>
-        </li>
-        <li class="flex items-center gap-x-4">
-            <a href="#" class="h-[65] w-[87px] rounded-[10px]">
-                <img src="{{ asset('assets-front/img/images/th-1/product-add-cart-thumb-3.jpg') }}" alt="product-add-cart-thumb-3" width="87" height="65" />
-            </a>
-            <div class="flex-1">
-                <div class="flex items-center justify-between gap-x-2">
-                    <div class="text-sm font-medium leading-none text-[#263238]">
-                        1 x <span class="text-colorPurpleBlue">$98</span>
-                    </div>
-                    <button class="text-2xl leading-none text-colorBlackPearl hover:text-colorJasper">&times;</button>
-                </div>
-                <a href="#" class="font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">Degital demo book</a>
-            </div>
-        </li>
-    </ul>
-    <div class="sticky bottom-0 mt-auto border-t border-colorBlackPearl/10 bg-white px-6 py-5">
-        <div class="flex justify-between font-title text-xl font-bold leading-none text-colorBlackPearl">
-            Toplam: <span>$150</span>
+            <span id="sidebar-cart-count" style="display:inline-flex; align-items:center; justify-content:center; min-width:24px; height:24px; padding:0 6px; border-radius:50px; background:#6340FF; color:#fff; font-size:12px; font-weight:600;">{{ $globalCartCount ?? 0 }}</span>
         </div>
-        <a href="{{ route('front.checkout') }}" class="btn btn-primary mt-6 block border-2 border-colorPurpleBlue font-medium hover:bg-white hover:text-colorPurpleBlue">Ödeme Yap</a>
+        <button onclick="closeCartSidebar()" style="width:32px; height:32px; border:none; background:none; cursor:pointer; font-size:24px; color:#999; display:flex; align-items:center; justify-content:center;">&times;</button>
+    </div>
+
+    <!-- Items -->
+    <div id="sidebar-cart-items" style="flex:1; overflow-y:auto; padding:16px 24px;">
+        @php $cart = $globalCart ?? []; @endphp
+        @if(count($cart) === 0)
+        <div id="sidebar-cart-empty" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:64px 0; text-align:center;">
+            <svg style="width:64px; height:64px; color:#ddd; margin-bottom:16px;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z"/>
+            </svg>
+            <p style="font-size:14px; color:#999;">Sepetiniz boş</p>
+            <a href="{{ route('front.products') }}" onclick="closeCartSidebar()" style="margin-top:16px; font-size:14px; font-weight:600; color:#6340FF; text-decoration:none;">Alışverişe Başla</a>
+        </div>
+        @else
+        @foreach($cart as $key => $item)
+        <div id="sidebar-item-{{ $key }}" style="display:flex; gap:14px; padding:12px; margin-bottom:12px; background:#FAF9F6; border-radius:12px; transition:all .2s;">
+            <a href="{{ route('front.product.details', $item['product_id']) }}" onclick="closeCartSidebar()" style="width:72px; height:72px; flex-shrink:0; border-radius:8px; overflow:hidden; display:block;">
+                @if(!empty($item['image']))
+                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}" style="width:100%; height:100%; object-fit:cover;" />
+                @else
+                    <div style="width:100%; height:100%; background:#e5e7eb; display:flex; align-items:center; justify-content:center;">
+                        <svg style="width:24px; height:24px; color:#9ca3af;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12"/></svg>
+                    </div>
+                @endif
+            </a>
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:6px; overflow:hidden;">
+                <a href="{{ route('front.product.details', $item['product_id']) }}" onclick="closeCartSidebar()" style="font-size:14px; font-weight:700; color:#263238; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ $item['name'] }}</a>
+                @if(!empty($item['variant_info']) && is_array($item['variant_info']))
+                <p style="font-size:11px; color:#888; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                    @foreach($item['variant_info'] as $attrName => $valName)
+                        {{ $attrName }}: {{ $valName }}@if(!$loop->last), @endif
+                    @endforeach
+                </p>
+                @endif
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                    <span style="font-size:14px; font-weight:600; color:#6340FF;" id="sidebar-price-{{ $key }}">{{ number_format($item['price'] * $item['quantity'], 2, ',', '.') }} ₺</span>
+                    <!-- +/- Controls -->
+                    <div style="display:inline-flex; align-items:center; gap:0; border:1px solid #e5e7eb; border-radius:8px; overflow:hidden;">
+                        <button type="button" onclick="sidebarQty('{{ $key }}', -1)" style="width:28px; height:28px; border:none; background:#f9fafb; cursor:pointer; font-size:16px; font-weight:600; color:#666; display:flex; align-items:center; justify-content:center; transition:background .15s;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f9fafb'">&minus;</button>
+                        <span id="sidebar-qty-{{ $key }}" style="width:32px; height:28px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; color:#263238; background:#fff; border-left:1px solid #e5e7eb; border-right:1px solid #e5e7eb;">{{ $item['quantity'] }}</span>
+                        <button type="button" onclick="sidebarQty('{{ $key }}', 1)" style="width:28px; height:28px; border:none; background:#f9fafb; cursor:pointer; font-size:16px; font-weight:600; color:#666; display:flex; align-items:center; justify-content:center; transition:background .15s;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#f9fafb'">+</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" onclick="removeFromSidebar('{{ $key }}')" style="width:24px; height:24px; flex-shrink:0; align-self:start; margin-top:2px; border:none; background:none; cursor:pointer; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#ccc; transition:all .2s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#ccc'">
+                <svg style="width:14px; height:14px;" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        @endforeach
+        @endif
+    </div>
+
+    <!-- Footer -->
+    <div id="sidebar-cart-footer" style="padding:20px 24px; border-top:1px solid #eee; background:#fff; {{ count($cart) === 0 ? 'display:none;' : '' }}">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+            <span style="font-size:14px; color:#888;">Toplam</span>
+            <span id="sidebar-cart-total" style="font-size:20px; font-weight:700; color:#263238;">{{ number_format($globalCartTotal ?? 0, 2, ',', '.') }} ₺</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <a href="{{ route('front.cart') }}" onclick="closeCartSidebar()" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border:2px solid #ddd; border-radius:50px; font-size:14px; font-weight:600; color:#263238; text-decoration:none; transition:all .2s;" onmouseover="this.style.borderColor='#999'" onmouseout="this.style.borderColor='#ddd'">Sepete Git</a>
+            <a href="{{ route('front.checkout') }}" onclick="closeCartSidebar()" style="display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; border:none; border-radius:50px; font-size:14px; font-weight:600; color:#fff; background:#6340FF; text-decoration:none; transition:all .2s;" onmouseover="this.style.background='#263238'" onmouseout="this.style.background='#6340FF'">Ödeme Yap</a>
+        </div>
     </div>
 </div>
-<!-- Offcanvas - Add to cart block -->
+<script>
+var _cartCsrf = '{{ csrf_token() }}';
+var _cartUpdateUrl = '{{ route("front.cart.update") }}';
+var _cartRemoveUrl = '{{ route("front.cart.remove") }}';
+
+function openCartSidebar() {
+    var sidebar = document.getElementById('cartSidebar');
+    var overlay = document.getElementById('cartSidebarOverlay');
+    if (!sidebar || !overlay) return;
+    overlay.style.display = 'block';
+    setTimeout(function() { overlay.style.opacity = '1'; sidebar.style.transform = 'translateX(0)'; }, 10);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCartSidebar() {
+    var sidebar = document.getElementById('cartSidebar');
+    var overlay = document.getElementById('cartSidebarOverlay');
+    if (!sidebar || !overlay) return;
+    sidebar.style.transform = 'translateX(100%)';
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; }, 300);
+    document.body.style.overflow = '';
+}
+
+function _formatTL(n) {
+    return parseFloat(n).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₺';
+}
+
+function _updateGlobals(data) {
+    var badge = document.getElementById('cart-badge');
+    if (badge) { badge.textContent = data.cart_count; badge.classList.toggle('hidden', data.cart_count === 0); }
+    var sc = document.getElementById('sidebar-cart-count');
+    if (sc) sc.textContent = data.cart_count;
+    var tot = document.getElementById('sidebar-cart-total');
+    if (tot) tot.textContent = _formatTL(data.cart_total);
+}
+
+function _showEmpty() {
+    var c = document.getElementById('sidebar-cart-items');
+    if (c) c.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 0;text-align:center;"><svg style="width:64px;height:64px;color:#ddd;margin-bottom:16px;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z"/></svg><p style="font-size:14px;color:#999;">Sepetiniz boş</p></div>';
+    var f = document.getElementById('sidebar-cart-footer');
+    if (f) f.style.display = 'none';
+}
+
+function sidebarQty(key, delta) {
+    var qtyEl = document.getElementById('sidebar-qty-' + key);
+    if (!qtyEl) return;
+    var cur = parseInt(qtyEl.textContent) || 1;
+    var next = cur + delta;
+    if (next < 1) { removeFromSidebar(key); return; }
+    qtyEl.textContent = next;
+
+    fetch(_cartUpdateUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': _cartCsrf, 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({ key: key, quantity: next })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.status === 1) {
+            qtyEl.textContent = data.quantity;
+            var priceEl = document.getElementById('sidebar-price-' + key);
+            if (priceEl) priceEl.textContent = _formatTL(data.item_total);
+            _updateGlobals(data);
+        }
+    });
+}
+
+function removeFromSidebar(key) {
+    var item = document.getElementById('sidebar-item-' + key);
+    if (item) { item.style.opacity = '0.4'; item.style.pointerEvents = 'none'; }
+
+    fetch(_cartRemoveUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': _cartCsrf, 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({ key: key })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.status === 1) {
+            if (item) { item.style.height = item.offsetHeight + 'px'; item.offsetHeight; item.style.height = '0'; item.style.padding = '0'; item.style.margin = '0'; item.style.overflow = 'hidden'; setTimeout(function() { item.remove(); }, 200); }
+            _updateGlobals(data);
+            if (data.cart_count === 0) _showEmpty();
+        }
+    })
+    .catch(function() { if (item) { item.style.opacity = '1'; item.style.pointerEvents = ''; } });
+}
+</script>
+<!-- Cart Sidebar -->
 
 <!-- Offcanvas - Info -->
 <div class="menu-info fixed right-0 top-0 z-50 flex h-full w-80 translate-x-full flex-col overflow-y-clip bg-white px-6 py-2 transition-all duration-300 sm:w-96">

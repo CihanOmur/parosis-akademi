@@ -37,6 +37,10 @@ class SharedDatas
             ->orderBy('sort_order')
             ->get();
 
+        $cart = session('cart', []);
+        $cartCount = collect($cart)->sum('quantity');
+        $cartTotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+
         view()->share([
             'activeLanguages' => $activeLanguages,
             'defaultLanguage' => $defaultLanguage,
@@ -44,6 +48,9 @@ class SharedDatas
             'footerInfo' => $footerInfo,
             'contactInfo' => $contactInfo,
             'navMenuItems' => $navMenuItems,
+            'globalCart' => $cart,
+            'globalCartCount' => $cartCount,
+            'globalCartTotal' => $cartTotal,
         ]);
         return $next($request);
     }

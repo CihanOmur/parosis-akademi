@@ -96,7 +96,7 @@
                                         <!-- Thumbnail -->
                                         <div class="relative flex justify-center overflow-hidden rounded-lg">
                                             @if($product->image)
-                                                <img src="{{ asset($product->image) }}" alt="{{ e($product->name) }}" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
+                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
                                             @else
                                                 <div class="h-[388px] w-full bg-gray-100 flex items-center justify-center">
                                                     <svg class="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">

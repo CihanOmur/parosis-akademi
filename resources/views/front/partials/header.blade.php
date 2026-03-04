@@ -284,9 +284,9 @@
                     <div class="flex items-center justify-between gap-x-5">
                         <!-- Cart Button -->
                         @if($navbarInfo?->show_cart_button ?? true)
-                        <button class="relative" onclick="sideAddToCartBtn()">
+                        <button class="relative" onclick="openCartSidebar()">
                             <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="icon-grey-bag" width="21" height="21" />
-                            <span class="absolute left-2 top-full inline-flex h-[18px] min-w-[18px] -translate-y-3 items-center justify-center rounded-[50%] bg-colorPurpleBlue text-sm font-normal leading-none text-white">3</span>
+                            <span id="cart-badge" class="absolute left-2 top-full inline-flex h-[18px] min-w-[18px] -translate-y-3 items-center justify-center rounded-[50%] bg-colorPurpleBlue text-sm font-normal leading-none text-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
                         </button>
                         @endif
                         <!-- Side Info Button -->

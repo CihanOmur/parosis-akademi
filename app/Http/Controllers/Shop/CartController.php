@@ -85,6 +85,18 @@ class CartController extends Controller
 
         session(['cart' => $cart]);
 
+        if ($request->ajax()) {
+            $item = $cart[$request->key] ?? null;
+            return response()->json([
+                'status'     => 1,
+                'cart_count' => collect($cart)->sum('quantity'),
+                'cart_total' => collect($cart)->sum(fn($i) => $i['price'] * $i['quantity']),
+                'item_total' => $item ? $item['price'] * $item['quantity'] : 0,
+                'quantity'   => $item['quantity'] ?? 0,
+                'price'      => $item['price'] ?? 0,
+            ]);
+        }
+
         return redirect()->route('front.cart');
     }
 
@@ -97,6 +109,15 @@ class CartController extends Controller
         $cart = session('cart', []);
         unset($cart[$request->key]);
         session(['cart' => $cart]);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'status'     => 1,
+                'cart_count' => collect($cart)->sum('quantity'),
+                'cart_total' => collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']),
+                'cart'       => array_values($cart),
+            ]);
+        }
 
         return redirect()->route('front.cart');
     }

@@ -82,7 +82,7 @@
                                             <div class="flex items-start gap-4 px-5 py-4">
                                                 <!-- Thumbnail -->
                                                 @if(!empty($item['image']))
-                                                    <img src="{{ asset($item['image']) }}" alt="{{ e($item['name']) }}" width="64" height="50" class="h-12 w-16 rounded-lg object-cover flex-shrink-0" />
+                                                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}" width="64" height="50" class="h-12 w-16 rounded-lg object-cover flex-shrink-0" />
                                                 @else
                                                     <div class="h-12 w-16 flex-shrink-0 rounded-lg bg-gray-100 flex items-center justify-center">
                                                         <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
@@ -92,9 +92,9 @@
                                                 @endif
                                                 <!-- Item Details -->
                                                 <div class="flex-1 min-w-0">
-                                                    <p class="font-semibold text-colorBlackPearl leading-snug">{{ e($item['name']) }}</p>
+                                                    <p class="font-semibold text-colorBlackPearl leading-snug">{{ $item['name'] }}</p>
                                                     @if(!empty($item['variant_info']))
-                                                        <p class="mt-0.5 text-sm text-colorCarbonGrey">{{ e($item['variant_info']) }}</p>
+                                                        <p class="mt-0.5 text-sm text-colorCarbonGrey">{{ $item['variant_info'] }}</p>
                                                     @endif
                                                     <p class="mt-1 text-sm text-colorCarbonGrey">{{ $item['quantity'] }} adet &times; {{ number_format($item['price'], 2, ',', '.') }} ₺</p>
                                                 </div>
