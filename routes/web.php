@@ -24,6 +24,13 @@ use App\Http\Controllers\Slider\SliderController;
 use App\Http\Controllers\Slider\SliderItemController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\MenuItem\MenuItemController;
+use App\Http\Controllers\Shop\ProductCategoryController;
+use App\Http\Controllers\Shop\ProductAttributeController;
+use App\Http\Controllers\Shop\ProductController;
+use App\Http\Controllers\Shop\OrderController;
+use App\Http\Controllers\Shop\ShopFrontController;
+use App\Http\Controllers\Shop\CartController;
+use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
 
@@ -282,6 +289,69 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/translate',         [MenuItemController::class, 'updateTranslate'])->name('updateTranslate');
     });
 
+    // ─── Ürün Kategorileri ──────────────────────────────────────────────────────
+    Route::prefix('product-categories')->name('productCategories.')->group(function () {
+        Route::get('/',              [ProductCategoryController::class, 'index'])->name('index');
+        Route::get('/create',        [ProductCategoryController::class, 'create'])->name('create');
+        Route::post('/store',        [ProductCategoryController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [ProductCategoryController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [ProductCategoryController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [ProductCategoryController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [ProductCategoryController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [ProductCategoryController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}',  [ProductCategoryController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',        [ProductCategoryController::class, 'updateTranslate'])->name('updateTranslate');
+    });
+
+    // ─── Ürün Nitelikleri ───────────────────────────────────────────────────────
+    Route::prefix('product-attributes')->name('productAttributes.')->group(function () {
+        Route::get('/',              [ProductAttributeController::class, 'index'])->name('index');
+        Route::get('/create',        [ProductAttributeController::class, 'create'])->name('create');
+        Route::post('/store',        [ProductAttributeController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [ProductAttributeController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [ProductAttributeController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [ProductAttributeController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [ProductAttributeController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [ProductAttributeController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}',  [ProductAttributeController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',        [ProductAttributeController::class, 'updateTranslate'])->name('updateTranslate');
+        // Attribute values
+        Route::post('/{id}/values/store',       [ProductAttributeController::class, 'storeValue'])->name('values.store');
+        Route::post('/values/{valueId}/update', [ProductAttributeController::class, 'updateValue'])->name('values.update');
+        Route::delete('/values/{valueId}',      [ProductAttributeController::class, 'deleteValue'])->name('values.delete');
+        Route::post('/values/{valueId}/toggle', [ProductAttributeController::class, 'toggleValue'])->name('values.toggle');
+    });
+
+    // ─── Ürünler ────────────────────────────────────────────────────────────────
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/',              [ProductController::class, 'index'])->name('index');
+        Route::get('/create',        [ProductController::class, 'create'])->name('create');
+        Route::post('/store',        [ProductController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [ProductController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [ProductController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [ProductController::class, 'delete'])->name('delete');
+        Route::post('/update-order', [ProductController::class, 'updateOrder'])->name('updateOrder');
+        Route::post('/{id}/toggle',  [ProductController::class, 'toggleActive'])->name('toggle');
+        Route::get('/{id}/translate/{lang}',  [ProductController::class, 'editTranslate'])->name('editTranslate');
+        Route::post('/{id}/translate',        [ProductController::class, 'updateTranslate'])->name('updateTranslate');
+        // Variants
+        Route::post('/{id}/generate-variants', [ProductController::class, 'generateVariants'])->name('generateVariants');
+        Route::post('/{id}/update-variants',   [ProductController::class, 'updateVariants'])->name('updateVariants');
+        Route::delete('/variants/{variantId}', [ProductController::class, 'deleteVariant'])->name('variants.delete');
+        // Gallery
+        Route::post('/{id}/upload-gallery',    [ProductController::class, 'uploadGallery'])->name('uploadGallery');
+        Route::delete('/images/{imageId}',     [ProductController::class, 'deleteImage'])->name('images.delete');
+        Route::post('/images/update-order',    [ProductController::class, 'updateImageOrder'])->name('images.updateOrder');
+    });
+
+    // ─── Siparişler ─────────────────────────────────────────────────────────────
+    Route::prefix('siparisler')->name('orders.')->group(function () {
+        Route::get('/',              [OrderController::class, 'index'])->name('index');
+        Route::get('/{id}',          [OrderController::class, 'show'])->name('show');
+        Route::post('/{id}/status',  [OrderController::class, 'updateStatus'])->name('updateStatus');
+        Route::delete('/{id}',       [OrderController::class, 'delete'])->name('delete');
+    });
+
     // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/',                              [PagesController::class, 'index'])->name('index');
@@ -307,10 +377,14 @@ Route::middleware(SharedDatas::class)->name('front.')->group(function () {
     Route::get('/blog-detay/{id}',  [FrontController::class, 'blogDetails'])->name('blog.details');
     Route::get('/iletisim',        [FrontController::class, 'contact'])->name('contact');
     Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
-    Route::get('/urunler',         [FrontController::class, 'products'])->name('products');
-    Route::get('/urun-detay',      [FrontController::class, 'productDetails'])->name('product.details');
-    Route::get('/sepet',           [FrontController::class, 'cart'])->name('cart');
-    Route::get('/odeme',           [FrontController::class, 'checkout'])->name('checkout');
+    Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
+    Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
+    Route::get('/sepet',            [CartController::class, 'show'])->name('cart');
+    Route::get('/odeme',            [CheckoutController::class, 'show'])->name('checkout');
+    Route::post('/sepet/ekle',      [CartController::class, 'add'])->name('cart.add');
+    Route::post('/sepet/guncelle',  [CartController::class, 'update'])->name('cart.update');
+    Route::post('/sepet/sil',       [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/odeme/tamamla',   [CheckoutController::class, 'process'])->name('checkout.process');
 });
 Route::get('/panel/login', function () {
     return view('auth.login');
