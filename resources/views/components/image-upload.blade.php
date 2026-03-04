@@ -6,7 +6,7 @@
     'multiple'        => false,
     'label'           => 'Görsel yüklemek için tıklayın',
     'changeLabel'     => null,
-    'hint'            => 'PNG, JPG, GIF, WEBP &bull; Maks. 5MB',
+    'hint'            => 'PNG, JPG, GIF, WEBP, SVG &bull; Maks. 5MB',
 ])
 
 @php
