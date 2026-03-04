@@ -258,23 +258,4 @@ class FrontController extends Controller
         return view('front.pages.faq', compact('faqPageInfo', 'faqs', 'ctaInfo'));
     }
 
-    public function products()
-    {
-        return view('front.pages.products');
-    }
-
-    public function productDetails()
-    {
-        return view('front.pages.product-details');
-    }
-
-    public function cart()
-    {
-        return view('front.pages.cart');
-    }
-
-    public function checkout()
-    {
-        return view('front.pages.checkout');
-    }
 }
