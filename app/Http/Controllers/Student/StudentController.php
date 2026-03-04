@@ -28,7 +28,7 @@ class StudentController extends Controller
                 default  => null,
             };
             session(['students_filter' => $f]);
-            return redirect()->route('students.index');
+            return redirect()->route('students.index', ['_f' => 1]);
         }
 
         if ($request->hasAny(['name', 'class', 'period'])) {
@@ -37,7 +37,11 @@ class StudentController extends Controller
                 'class'  => array_map('intval', (array)$request->input('class', [])),
                 'period' => (array)$request->input('period', []),
             ]]);
-            return redirect()->route('students.index');
+            return redirect()->route('students.index', ['_f' => 1]);
+        }
+
+        if (!$request->has('_f')) {
+            session()->forget('students_filter');
         }
 
         $f               = session('students_filter', []);

@@ -27,7 +27,7 @@ class LessonClassController extends Controller
                 default   => null,
             };
             session(['classes_filter' => $f]);
-            return redirect()->route('class.index');
+            return redirect()->route('class.index', ['_f' => 1]);
         }
 
         if ($request->hasAny(['name', 'day', 'teacher'])) {
@@ -36,7 +36,11 @@ class LessonClassController extends Controller
                 'day'     => (array)$request->input('day', []),
                 'teacher' => array_map('intval', (array)$request->input('teacher', [])),
             ]]);
-            return redirect()->route('class.index');
+            return redirect()->route('class.index', ['_f' => 1]);
+        }
+
+        if (!$request->has('_f')) {
+            session()->forget('classes_filter');
         }
 
         $f                = session('classes_filter', []);

@@ -536,7 +536,7 @@
         </div>
         @if($students->hasPages())
             <div class="border-t border-slate-100 dark:border-slate-700/50 px-6 py-3">
-                {{ $students->links() }}
+                {{ $students->appends(request()->has('_f') ? ['_f' => 1] : [])->links() }}
             </div>
         @endif
     </div>

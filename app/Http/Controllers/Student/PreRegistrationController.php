@@ -27,7 +27,7 @@ class PreRegistrationController extends Controller
                 default        => null,
             };
             session(['pre_students_filter' => $f]);
-            return redirect()->route('students.pre.students');
+            return redirect()->route('students.pre.students', ['_f' => 1]);
         }
 
         if ($request->hasAny(['name', 'meets_status'])) {
@@ -35,7 +35,11 @@ class PreRegistrationController extends Controller
                 'name'         => $request->input('name', ''),
                 'meets_status' => (array)$request->input('meets_status', []),
             ]]);
-            return redirect()->route('students.pre.students');
+            return redirect()->route('students.pre.students', ['_f' => 1]);
+        }
+
+        if (!$request->has('_f')) {
+            session()->forget('pre_students_filter');
         }
 
         $f                = session('pre_students_filter', []);

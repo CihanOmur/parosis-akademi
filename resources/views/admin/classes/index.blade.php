@@ -310,6 +310,6 @@
                 </tbody>
             </table>
         </div>
-        {{ $classes->links() }}
+        {{ $classes->appends(request()->has('_f') ? ['_f' => 1] : [])->links() }}
     </div>
 @endsection
