@@ -12,7 +12,9 @@
             <div class="flex items-center gap-x-6 lg:gap-x-10 xl:gap-x-[76px]">
                 <!-- Header Logo -->
                 <a href="{{ route('front.home') }}" class="inline-flex">
-                    @if($footerInfo?->logo)
+                    @if(!empty($globalSettings['logos']['header_logo']))
+                        <img src="{{ asset($globalSettings['logos']['header_logo']) }}" alt="logo" width="137" height="33" />
+                    @elseif($footerInfo?->logo)
                         <img src="{{ asset($footerInfo->logo) }}" alt="logo" width="137" height="33" />
                     @else
                         <img src="{{ asset('assets-front/img/logo-parosis-akademi.svg') }}" alt="logo" width="137" height="33" />

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Setting;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
@@ -49,5 +51,32 @@ class AppServiceProvider extends ServiceProvider
             // sonra normal strtoupper uygula
             return strtoupper($value);
         });
+
+        $this->overrideMailConfig();
+    }
+
+    private function overrideMailConfig(): void
+    {
+        try {
+            if (!Schema::hasTable('settings')) {
+                return;
+            }
+
+            $m = Setting::getGroup('mail');
+            if (empty($m)) {
+                return;
+            }
+
+            if (!empty($m['mail_mailer']))       config(['mail.default' => $m['mail_mailer']]);
+            if (!empty($m['mail_host']))          config(['mail.mailers.smtp.host' => $m['mail_host']]);
+            if (!empty($m['mail_port']))          config(['mail.mailers.smtp.port' => (int) $m['mail_port']]);
+            if (!empty($m['mail_username']))      config(['mail.mailers.smtp.username' => $m['mail_username']]);
+            if (!empty($m['mail_password']))      config(['mail.mailers.smtp.password' => $m['mail_password']]);
+            if (isset($m['mail_encryption']))     config(['mail.mailers.smtp.encryption' => $m['mail_encryption'] ?: null]);
+            if (!empty($m['mail_from_address']))  config(['mail.from.address' => $m['mail_from_address']]);
+            if (!empty($m['mail_from_name']))     config(['mail.from.name' => $m['mail_from_name']]);
+        } catch (\Exception $e) {
+            //
+        }
     }
 }

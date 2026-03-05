@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusMail;
 use App\Models\Shop\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -45,6 +47,7 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+        $oldStatus = $order->status;
         $order->status = $request->status;
 
         if ($request->filled('admin_note')) {
@@ -52,6 +55,17 @@ class OrderController extends Controller
         }
 
         $order->save();
+
+        // Send status update email to customer
+        if ($oldStatus !== $request->status && $order->customer_email) {
+            try {
+                Mail::to($order->customer_email)->send(
+                    new OrderStatusMail($order, $oldStatus, $request->status)
+                );
+            } catch (\Exception $e) {
+                \Log::error('Order status mail failed: ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('orders.show', $id)
             ->with('success', 'Sipariş durumu güncellendi.');

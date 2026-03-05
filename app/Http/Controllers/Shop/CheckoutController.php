@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderConfirmationMail;
+use App\Models\Setting;
 use App\Models\Shop\Coupon;
 use App\Models\Shop\Order;
 use App\Models\Shop\OrderItem;
@@ -10,6 +12,7 @@ use App\Models\Shop\Product;
 use App\Models\Shop\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -221,6 +224,19 @@ class CheckoutController extends Controller
         }
 
         session()->forget(['cart', 'coupon']);
+
+        // Send order confirmation emails
+        try {
+            $order->load('items');
+            Mail::to($order->customer_email)->send(new OrderConfirmationMail($order));
+
+            $adminEmail = Setting::get('site_email', null, 'general');
+            if ($adminEmail && $adminEmail !== $order->customer_email) {
+                Mail::to($adminEmail)->send(new OrderConfirmationMail($order));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Order confirmation mail failed: ' . $e->getMessage());
+        }
 
         return redirect()->route('front.products')
             ->with('success', 'Siparişiniz başarıyla alındı! En kısa sürede sizinle iletişime geçeceğiz.');

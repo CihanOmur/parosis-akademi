@@ -8,9 +8,11 @@ use App\Models\Pages\Contact\ContactPageInfo;
 use App\Models\Pages\Footer\FooterPageInfo;
 use App\Models\Pages\Navbar\NavbarPageInfo;
 use App\Models\Pages\Shop\ShopPageInfo;
+use App\Models\Setting;
 use App\Models\Shop\Coupon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
 class SharedDatas
@@ -55,6 +57,19 @@ class SharedDatas
         }
         $cartTotal = max(0, $cartSubtotal - $globalCouponDiscount);
 
+        $globalSettings = [];
+        try {
+            if (Schema::hasTable('settings')) {
+                $globalSettings = [
+                    'general' => Setting::getGroup('general'),
+                    'logos'   => Setting::getGroup('logos'),
+                    'seo'     => Setting::getGroup('seo'),
+                    'social'  => Setting::getGroup('social'),
+                    'advanced' => Setting::getGroup('advanced'),
+                ];
+            }
+        } catch (\Exception $e) {}
+
         view()->share([
             'activeLanguages' => $activeLanguages,
             'defaultLanguage' => $defaultLanguage,
@@ -67,6 +82,7 @@ class SharedDatas
             'globalCartTotal' => $cartTotal,
             'globalCouponDiscount' => $globalCouponDiscount,
             'shopInfo' => $shopInfo,
+            'globalSettings' => $globalSettings,
         ]);
         return $next($request);
     }

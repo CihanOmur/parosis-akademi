@@ -32,7 +32,11 @@ use App\Http\Controllers\Shop\ShopFrontController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\CouponController;
+use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Middleware\SharedDatas;
+use App\Http\Middleware\CheckMaintenanceMode;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function () {
@@ -373,10 +377,28 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/update-translate/{id}',        [PagesController::class, 'updateTranslate'])->name('updateTranslate');
         Route::post('/upload-image',                 [PagesController::class, 'uploadImage'])->name('uploadImage');
     });
+
+    // ─── Site Ayarları ──────────────────────────────────────────────────────────
+    Route::prefix('settings')->name('settings.')->group(function () {
+        Route::get('/',               [SettingsController::class, 'index'])->name('index');
+        Route::post('/general',       [SettingsController::class, 'updateGeneral'])->name('updateGeneral');
+        Route::post('/logos',         [SettingsController::class, 'updateLogos'])->name('updateLogos');
+        Route::post('/seo',           [SettingsController::class, 'updateSeo'])->name('updateSeo');
+        Route::post('/mail',          [SettingsController::class, 'updateMail'])->name('updateMail');
+        Route::post('/mail/test',     [SettingsController::class, 'testMail'])->name('testMail');
+        Route::post('/social',        [SettingsController::class, 'updateSocial'])->name('updateSocial');
+        Route::post('/advanced',      [SettingsController::class, 'updateAdvanced'])->name('updateAdvanced');
+
+        // Sitemap Entries
+        Route::post('/sitemap-entries',                [SettingsController::class, 'storeSitemapEntry'])->name('sitemapEntries.store');
+        Route::put('/sitemap-entries/{sitemapEntry}',  [SettingsController::class, 'updateSitemapEntry'])->name('sitemapEntries.update');
+        Route::patch('/sitemap-entries/{sitemapEntry}/toggle', [SettingsController::class, 'toggleSitemapEntry'])->name('sitemapEntries.toggle');
+        Route::delete('/sitemap-entries/{sitemapEntry}', [SettingsController::class, 'destroySitemapEntry'])->name('sitemapEntries.destroy');
+    });
 });
 
 // ─── Frontend Sayfaları ─────────────────────────────────────────────────────
-Route::middleware(SharedDatas::class)->name('front.')->group(function () {
+Route::middleware([SharedDatas::class, CheckMaintenanceMode::class])->name('front.')->group(function () {
     Route::get('/',                [FrontController::class, 'home'])->name('home');
     Route::get('/hakkimizda',      [FrontController::class, 'about'])->name('about');
     Route::get('/ara',             [FrontController::class, 'search'])->name('search');
@@ -388,6 +410,7 @@ Route::middleware(SharedDatas::class)->name('front.')->group(function () {
     Route::get('/blog',            [FrontController::class, 'blog'])->name('blog');
     Route::get('/blog-detay/{id}',  [FrontController::class, 'blogDetails'])->name('blog.details');
     Route::get('/iletisim',        [FrontController::class, 'contact'])->name('contact');
+    Route::post('/iletisim',       [ContactController::class, 'send'])->middleware('throttle:5,1')->name('contact.send');
     Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
     Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
     Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
@@ -405,3 +428,23 @@ Route::get('/panel/login', function () {
 })->name('login');
 Route::post('/panel/login',  [UserController::class, 'login'])->name('loginPost');
 Route::post('/panel/logout', [UserController::class, 'logout'])->name('logout');
+
+// ─── Dynamic robots.txt ──────────────────────────────────────────────────────
+Route::get('/robots.txt', function () {
+    $default = "User-agent: *\nAllow: /";
+    try {
+        if (\Illuminate\Support\Facades\Schema::hasTable('settings')) {
+            $content = \App\Models\Setting::get('robots_txt', $default, 'seo');
+            $sitemap = \App\Models\Setting::get('sitemap_url', '', 'seo');
+            if ($sitemap) {
+                $sitemapUrl = str_starts_with($sitemap, 'http') ? $sitemap : url($sitemap);
+                $content .= "\n\nSitemap: " . $sitemapUrl;
+            }
+            return response($content, 200)->header('Content-Type', 'text/plain');
+        }
+    } catch (\Exception $e) {}
+    return response($default, 200)->header('Content-Type', 'text/plain');
+})->name('robots');
+
+// ─── Dynamic sitemap.xml ─────────────────────────────────────────────────────
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');

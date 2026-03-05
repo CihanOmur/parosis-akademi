@@ -146,8 +146,16 @@
                                     </div>
                                     <!-- Section Block -->
 
-                                    @php $formAction = $contactInfo?->form_action_url ?: 'https://formspree.io/f/mdkngdke'; @endphp
-                                    <form action="{{ $formAction }}" method="post">
+                                    @if(session('success'))
+                                    <div class="mb-6 p-4 rounded-xl bg-green-50 text-green-700 text-sm">{{ session('success') }}</div>
+                                    @endif
+                                    @if($errors->any())
+                                    <div class="mb-6 p-4 rounded-xl bg-red-50 text-red-700 text-sm">
+                                        @foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+                                    </div>
+                                    @endif
+                                    <form action="{{ route('front.contact.send') }}" method="post">
+                                        @csrf
                                         <div class="grid grid-cols-1 gap-y-10">
                                             <!-- Form Group -->
                                             <div class="grid grid-cols-1 gap-9">
@@ -171,7 +179,7 @@
                                             <div class="mt-10 grid grid-cols-1 gap-9">
                                                 <!-- Single Input Item -->
                                                 <div class="w-full">
-                                                    <textarea placeholder="{{ $contactInfo?->getTranslation('form_message_placeholder', app()->getLocale()) ?: 'Size nasil yardimci olabiliriz?' }}" class="w-full border-b border-colorBlackPearl/25 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required></textarea>
+                                                    <textarea name="message" placeholder="{{ $contactInfo?->getTranslation('form_message_placeholder', app()->getLocale()) ?: 'Size nasil yardimci olabiliriz?' }}" class="w-full border-b border-colorBlackPearl/25 outline-none transition-all placeholder:text-[#5F5D5D] focus-visible:border-colorBlackPearl focus-visible:text-colorBlackPearl" required></textarea>
                                                 </div>
                                                 <!-- Single Input Item -->
                                             </div>

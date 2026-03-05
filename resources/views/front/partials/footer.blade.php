@@ -81,7 +81,9 @@
                     <!-- Footer Widget - About -->
                     <div class="max-w-[298px]">
                         <a href="{{ route('front.home') }}" class="">
-                            @if($footerInfo?->logo)
+                            @if(!empty($globalSettings['logos']['footer_logo']))
+                                <img src="{{ asset($globalSettings['logos']['footer_logo']) }}" alt="logo" width="137" height="33" />
+                            @elseif($footerInfo?->logo)
                                 <img src="{{ asset($footerInfo->logo) }}" alt="logo" width="137" height="33" />
                             @else
                                 <img src="{{ asset('assets-front/img/logo-parosis-akademi.svg') }}" alt="logo" width="137" height="33" />
