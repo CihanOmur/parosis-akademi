@@ -3,6 +3,21 @@
 @section('title', 'Parosis Akademi | Ürünler')
 
 @section('content')
+@php
+    $fieldStyles = $shopInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
+@endphp
             <!--...::: Breadcrumb Section Start :::... -->
             <section class="section-breadcrum">
                 <div class="relative z-10 overflow-hidden bg-[#FAF9F6]">
@@ -11,15 +26,15 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    Ürünlerimiz
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('products_title')) style="{{ $fs('products_title') }}" @endif>
+                                    {{ $shopInfo->products_title ?? 'Ürünlerimiz' }}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">ANA SAYFA</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('products_breadcrumb_home')) style="{{ $fs('products_breadcrumb_home') }}" @endif>{{ $shopInfo->products_breadcrumb_home ?? 'ANA SAYFA' }}</a>
                                         </li>
-                                        <li>ÜRÜNLER</li>
+                                        <li @if($fs('products_breadcrumb_current')) style="{{ $fs('products_breadcrumb_current') }}" @endif>{{ $shopInfo->products_breadcrumb_current ?? 'ÜRÜNLER' }}</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -58,7 +73,7 @@
                                 <div class="flex flex-wrap gap-2">
                                     <a href="{{ route('front.products') }}"
                                        class="inline-block rounded-full px-4 py-2 text-sm font-medium transition-colors {{ !$categoryId ? 'bg-colorPurpleBlue text-white' : 'bg-[#F5F5F5] text-colorBlackPearl hover:bg-colorPurpleBlue hover:text-white' }}">
-                                        Tümü <span class="ml-1 opacity-70">({{ $products->total() }})</span>
+                                        <span @if($fs('products_all_text')) style="{{ $fs('products_all_text') }}" @endif>{{ $shopInfo->products_all_text ?? 'Tümü' }}</span> <span class="ml-1 opacity-70">({{ $products->total() }})</span>
                                     </a>
                                     @foreach($categories as $category)
                                     <a href="{{ route('front.products', ['category' => $category->id]) }}"
@@ -77,9 +92,9 @@
                                     <input type="hidden" name="category" value="{{ $categoryId }}" />
                                     @endif
                                     <div class="relative flex items-center">
-                                        <input type="search" name="q" value="{{ $search ?? '' }}" placeholder="Ürün arayın..." class="w-full rounded-[50px] border px-8 py-3.5 pr-36 text-sm font-medium outline-none placeholder:text-colorBlackPearl/55" />
+                                        <input type="search" name="q" value="{{ $search ?? '' }}" placeholder="{{ $shopInfo->products_search_placeholder ?? 'Ürün arayın...' }}" class="w-full rounded-[50px] border px-8 py-3.5 pr-36 text-sm font-medium outline-none placeholder:text-colorBlackPearl/55" />
                                         <button type="submit" class="absolute bottom-[5px] right-0 top-[5px] mr-[5px] inline-flex items-center justify-center gap-x-2.5 rounded-[50px] bg-colorPurpleBlue px-6 text-center text-sm text-white hover:bg-colorBlackPearl">
-                                            Ara
+                                            <span @if($fs('products_search_button')) style="{{ $fs('products_search_button') }}" @endif>{{ $shopInfo->products_search_button ?? 'Ara' }}</span>
                                             <img src="{{ asset('assets-front/img/icons/icon-white-search-line.svg') }}" alt="icon-white-search-line" width="16" height="16" />
                                         </button>
                                     </div>
@@ -114,8 +129,8 @@
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}" />
                                                 <input type="hidden" name="quantity" value="1" />
-                                                <button type="submit" class="btn btn-primary is-icon group">
-                                                    Sepete Ekle
+                                                <button type="submit" class="btn btn-primary is-icon group" @if($fs('products_add_to_cart')) style="{{ $fs('products_add_to_cart') }}" @endif>
+                                                    {{ $shopInfo->products_add_to_cart ?? 'Sepete Ekle' }}
                                                     <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                                         <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
                                                     </span>
@@ -126,7 +141,7 @@
                                             </form>
                                             @else
                                             <a href="{{ route('front.product.details', $product->id) }}" class="btn btn-primary is-icon group absolute -bottom-full group-hover/product:bottom-8 transition-all duration-300">
-                                                Detay
+                                                {{ $shopInfo->products_detail_button ?? 'Detay' }}
                                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                                     <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
                                                 </span>
@@ -162,7 +177,7 @@
                                     @if($search)
                                         "<strong>{{ $search }}</strong>" için ürün bulunamadı.
                                     @else
-                                        Henüz ürün eklenmemiş.
+                                        <span @if($fs('products_empty_text')) style="{{ $fs('products_empty_text') }}" @endif>{{ $shopInfo->products_empty_text ?? 'Henüz ürün eklenmemiş.' }}</span>
                                     @endif
                                 </li>
                                 @endforelse

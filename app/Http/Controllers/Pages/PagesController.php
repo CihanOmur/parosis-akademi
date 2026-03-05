@@ -19,6 +19,9 @@ use App\Models\Pages\Footer\FooterPageInfo;
 use App\Models\Pages\Home\HomePageInfo;
 use App\Models\MenuItem;
 use App\Models\Pages\Navbar\NavbarPageInfo;
+use App\Models\Pages\Shop\ShopPageInfo;
+use App\Models\Shop\Product;
+use App\Models\Shop\ProductCategory;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
 
@@ -43,6 +46,7 @@ class PagesController extends Controller
             'courses'  => $this->editCourses($request),
             'footer'   => $this->editFooter($request),
             'navbar'   => $this->editNavbar($request),
+            'shop'     => $this->editShop($request),
             default    => abort(404),
         };
     }
@@ -59,6 +63,7 @@ class PagesController extends Controller
             'courses'  => $this->updateCourses($request),
             'footer'   => $this->updateFooter($request),
             'navbar'   => $this->updateNavbar($request),
+            'shop'     => $this->updateShop($request),
             default    => abort(404),
         };
     }
@@ -75,6 +80,7 @@ class PagesController extends Controller
             'courses'  => $this->editCoursesTranslate($request, $lang),
             'footer'   => $this->editFooterTranslate($request, $lang),
             'navbar'   => $this->editNavbarTranslate($request, $lang),
+            'shop'     => $this->editShopTranslate($request, $lang),
             default    => abort(404),
         };
     }
@@ -91,6 +97,7 @@ class PagesController extends Controller
             'courses'  => $this->updateCoursesTranslate($request),
             'footer'   => $this->updateFooterTranslate($request),
             'navbar'   => $this->updateNavbarTranslate($request),
+            'shop'     => $this->updateShopTranslate($request),
             default    => abort(404),
         };
     }
@@ -1382,5 +1389,74 @@ class PagesController extends Controller
         $navbarPageInfo->save();
 
         return redirect()->back()->with('success', 'Navbar çevirisi başarıyla güncellendi.');
+    }
+
+    // ─── Shop Pages ───────────────────────────────────────────────────────
+
+    private function editShop(Request $request)
+    {
+        $shopPageInfo = ShopPageInfo::first();
+        if (!$shopPageInfo) {
+            $shopPageInfo = ShopPageInfo::create([]);
+        }
+
+        $localeInfo = getLocaleInfo($request->get('lang'));
+        $selectedLang = $localeInfo['translateLang'];
+        $selectedLanguage = $localeInfo['selectedLanguage'];
+
+        $products = Product::where('is_active', true)
+            ->orderBy('sort_order')
+            ->take(3)
+            ->get();
+
+        $categories = ProductCategory::where('is_active', true)
+            ->orderBy('sort_order')
+            ->take(5)
+            ->get();
+
+        return view('admin.pages.edit-shop', compact('shopPageInfo', 'selectedLang', 'selectedLanguage', 'products', 'categories'));
+    }
+
+    private function updateShop(Request $request)
+    {
+        $shopPageInfo = ShopPageInfo::first();
+        if (!$shopPageInfo) {
+            $shopPageInfo = ShopPageInfo::create([]);
+        }
+
+        $locale = $request->lang ?? app()->getLocale();
+
+        $translatableFields = $shopPageInfo->translatable;
+
+        foreach ($translatableFields as $field) {
+            if ($request->has($field)) {
+                $shopPageInfo->setTranslation($field, $locale, $request->$field);
+            }
+        }
+
+        if ($request->has('field_styles')) {
+            $shopPageInfo->field_styles = json_decode($request->field_styles, true);
+        }
+        if ($request->has('default_styles')) {
+            $shopPageInfo->default_styles = json_decode($request->default_styles, true);
+        }
+
+        $shopPageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Mağaza sayfası başarıyla güncellendi.');
+    }
+
+    private function editShopTranslate(Request $request, $lang)
+    {
+        return redirect()->route('pages.edit', ['id' => 'shop', 'lang' => $lang]);
+    }
+
+    private function updateShopTranslate(Request $request)
+    {
+        return $this->updateShop($request);
     }
 }

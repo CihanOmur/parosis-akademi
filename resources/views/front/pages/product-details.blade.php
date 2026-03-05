@@ -3,6 +3,21 @@
 @section('title', 'Parosis Akademi | ' . e($product->name))
 
 @section('content')
+@php
+    $fieldStyles = $shopInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
+@endphp
             <!--...::: Breadcrumb Section Start :::... -->
             <section class="section-breadcrum">
                 <div class="relative z-10 overflow-hidden bg-[#FAF9F6]">
@@ -11,16 +26,16 @@
                         <!-- Section Container -->
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">
-                                    Ürün Detayı
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('detail_title')) style="{{ $fs('detail_title') }}" @endif>
+                                    {{ $shopInfo->detail_title ?? 'Ürün Detayı' }}
                                 </h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">ANA SAYFA</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('products_breadcrumb_home')) style="{{ $fs('products_breadcrumb_home') }}" @endif>{{ $shopInfo->products_breadcrumb_home ?? 'ANA SAYFA' }}</a>
                                         </li>
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.products') }}">ÜRÜNLER</a>
+                                            <a href="{{ route('front.products') }}" @if($fs('detail_breadcrumb_products')) style="{{ $fs('detail_breadcrumb_products') }}" @endif>{{ $shopInfo->detail_breadcrumb_products ?? 'ÜRÜNLER' }}</a>
                                         </li>
                                         <li>{{ Str::limit($product->name, 40) }}</li>
                                     </ul>
@@ -75,7 +90,7 @@
                                         <!-- Sale Badge -->
                                         @if($product->sale_price)
                                         <div class="absolute left-4 top-4 z-10 rounded-full bg-colorJasper px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-colorJasper/30">
-                                            %{{ round((($product->price - $product->sale_price) / $product->price) * 100) }} İndirim
+                                            <span @if($fs('detail_discount_text')) style="{{ $fs('detail_discount_text') }}" @endif>%{{ round((($product->price - $product->sale_price) / $product->price) * 100) }} {{ $shopInfo->detail_discount_text ?? 'İndirim' }}</span>
                                         </div>
                                         @endif
 
@@ -253,7 +268,7 @@
                                                     id="add-to-cart-btn"
                                                     @if($product->variants && $product->variants->count()) disabled @endif
                                                     class="btn btn-primary is-icon group flex-1 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none">
-                                                Sepete Ekle
+                                                <span @if($fs('detail_add_to_cart')) style="{{ $fs('detail_add_to_cart') }}" @endif>{{ $shopInfo->detail_add_to_cart ?? 'Sepete Ekle' }}</span>
                                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                                     <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
                                                 </span>
@@ -272,13 +287,13 @@
                                     <div class="space-y-3 text-sm">
                                         @if($product->sku)
                                         <div class="flex items-center gap-3">
-                                            <span class="font-semibold text-colorBlackPearl/70">SKU:</span>
+                                            <span class="font-semibold text-colorBlackPearl/70" @if($fs('detail_sku_label')) style="{{ $fs('detail_sku_label') }}" @endif>{{ $shopInfo->detail_sku_label ?? 'SKU:' }}</span>
                                             <span class="font-mono text-colorCarbonGrey">{{ $product->sku }}</span>
                                         </div>
                                         @endif
                                         @if($firstCategory)
                                         <div class="flex items-center gap-3">
-                                            <span class="font-semibold text-colorBlackPearl/70">Kategori:</span>
+                                            <span class="font-semibold text-colorBlackPearl/70" @if($fs('detail_category_label')) style="{{ $fs('detail_category_label') }}" @endif>{{ $shopInfo->detail_category_label ?? 'Kategori:' }}</span>
                                             <a href="{{ route('front.products', ['kategori' => $firstCategory->id]) }}"
                                                class="text-colorPurpleBlue transition-colors hover:underline">
                                                 {{ $firstCategory->name }}
@@ -293,19 +308,19 @@
                                             <svg class="h-6 w-6 text-colorPurpleBlue" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                                             </svg>
-                                            <span class="text-[11px] font-semibold leading-tight text-colorBlackPearl/70">Hızlı Kargo</span>
+                                            <span class="text-[11px] font-semibold leading-tight text-colorBlackPearl/70" @if($fs('detail_trust_1')) style="{{ $fs('detail_trust_1') }}" @endif>{{ $shopInfo->detail_trust_1 ?? 'Hızlı Kargo' }}</span>
                                         </div>
                                         <div class="flex flex-col items-center gap-2 rounded-xl bg-[#FAF9F6] p-4 text-center">
                                             <svg class="h-6 w-6 text-colorPurpleBlue" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
                                             </svg>
-                                            <span class="text-[11px] font-semibold leading-tight text-colorBlackPearl/70">Güvenli Ödeme</span>
+                                            <span class="text-[11px] font-semibold leading-tight text-colorBlackPearl/70" @if($fs('detail_trust_2')) style="{{ $fs('detail_trust_2') }}" @endif>{{ $shopInfo->detail_trust_2 ?? 'Güvenli Ödeme' }}</span>
                                         </div>
                                         <div class="flex flex-col items-center gap-2 rounded-xl bg-[#FAF9F6] p-4 text-center">
                                             <svg class="h-6 w-6 text-colorPurpleBlue" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182"/>
                                             </svg>
-                                            <span class="text-[11px] font-semibold leading-tight text-colorBlackPearl/70">Kolay İade</span>
+                                            <span class="text-[11px] font-semibold leading-tight text-colorBlackPearl/70" @if($fs('detail_trust_3')) style="{{ $fs('detail_trust_3') }}" @endif>{{ $shopInfo->detail_trust_3 ?? 'Kolay İade' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +365,7 @@
                                         <svg class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
                                         </svg>
-                                        Açıklama
+                                        <span @if($fs('detail_description_tab')) style="{{ $fs('detail_description_tab') }}" @endif>{{ $shopInfo->detail_description_tab ?? 'Açıklama' }}</span>
                                     </span>
                                     <span class="tab-indicator absolute bottom-[-2px] left-0 h-[2px] w-full bg-colorPurpleBlue transition-all"></span>
                                 </button>
@@ -364,7 +379,7 @@
                                         <svg class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z"/>
                                         </svg>
-                                        Özellikler
+                                        <span @if($fs('detail_features_tab')) style="{{ $fs('detail_features_tab') }}" @endif>{{ $shopInfo->detail_features_tab ?? 'Özellikler' }}</span>
                                     </span>
                                     <span class="tab-indicator absolute bottom-[-2px] left-0 h-[2px] w-full bg-colorPurpleBlue transition-all {{ !$hasDescription ? '' : 'opacity-0' }}"></span>
                                 </button>
@@ -412,8 +427,8 @@
                             <!-- Section Heading -->
                             <div class="mb-10 lg:mb-14">
                                 <div class="jos mx-auto max-w-lg text-center">
-                                    <span class="mb-4 block text-sm font-semibold uppercase tracking-widest text-colorPurpleBlue">Keşfedin</span>
-                                    <h2 class="font-title text-3xl font-bold text-colorBlackPearl lg:text-4xl">Benzer Ürünler</h2>
+                                    <span class="mb-4 block text-sm font-semibold uppercase tracking-widest text-colorPurpleBlue" @if($fs('detail_related_subtitle')) style="{{ $fs('detail_related_subtitle') }}" @endif>{{ $shopInfo->detail_related_subtitle ?? 'Keşfedin' }}</span>
+                                    <h2 class="font-title text-3xl font-bold text-colorBlackPearl lg:text-4xl" @if($fs('detail_related_title')) style="{{ $fs('detail_related_title') }}" @endif>{{ $shopInfo->detail_related_title ?? 'Benzer Ürünler' }}</h2>
                                 </div>
                             </div>
 
@@ -439,15 +454,16 @@
                                             <!-- Sale badge -->
                                             @if($related->sale_price)
                                             <span class="absolute left-3 top-3 rounded-full bg-colorJasper px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-                                                İndirim
+                                                {{ $shopInfo->detail_discount_text ?? 'İndirim' }}
                                             </span>
                                             @endif
 
                                             <!-- Hover overlay -->
                                             <div class="absolute inset-0 flex items-center justify-center bg-colorBlackPearl/0 transition-all duration-300 group-hover/product:bg-colorBlackPearl/20">
                                                 <a href="{{ route('front.product.details', $related->id) }}"
-                                                   class="translate-y-4 rounded-full bg-white px-6 py-2.5 text-sm font-bold text-colorPurpleBlue opacity-0 shadow-xl transition-all duration-300 hover:bg-colorPurpleBlue hover:text-white group-hover/product:translate-y-0 group-hover/product:opacity-100">
-                                                    İncele
+                                                   class="translate-y-4 rounded-full bg-white px-6 py-2.5 text-sm font-bold text-colorPurpleBlue opacity-0 shadow-xl transition-all duration-300 hover:bg-colorPurpleBlue hover:text-white group-hover/product:translate-y-0 group-hover/product:opacity-100"
+                                                   @if($fs('detail_related_button')) style="{{ $fs('detail_related_button') }}" @endif>
+                                                    {{ $shopInfo->detail_related_button ?? 'İncele' }}
                                                 </a>
                                             </div>
                                         </div>

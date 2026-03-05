@@ -7,6 +7,7 @@ use App\Models\MenuItem;
 use App\Models\Pages\Contact\ContactPageInfo;
 use App\Models\Pages\Footer\FooterPageInfo;
 use App\Models\Pages\Navbar\NavbarPageInfo;
+use App\Models\Pages\Shop\ShopPageInfo;
 use App\Models\Shop\Coupon;
 use Closure;
 use Illuminate\Http\Request;
@@ -38,6 +39,8 @@ class SharedDatas
             ->orderBy('sort_order')
             ->get();
 
+        $shopInfo = ShopPageInfo::first();
+
         $cart = session('cart', []);
         $cartCount = collect($cart)->sum('quantity');
         $cartSubtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
@@ -63,6 +66,7 @@ class SharedDatas
             'globalCartCount' => $cartCount,
             'globalCartTotal' => $cartTotal,
             'globalCouponDiscount' => $globalCouponDiscount,
+            'shopInfo' => $shopInfo,
         ]);
         return $next($request);
     }

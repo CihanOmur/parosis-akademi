@@ -3,19 +3,34 @@
 @section('title', 'Parosis Akademi | Sepetim')
 
 @section('content')
+@php
+    $fieldStyles = $shopInfo?->field_styles ?? [];
+    $fs = function($field) use ($fieldStyles) {
+        $s = $fieldStyles[$field] ?? [];
+        $style = '';
+        if (!empty($s['fontSize'])) $style .= 'font-size:'.$s['fontSize'].';';
+        if (!empty($s['color'])) $style .= 'color:'.$s['color'].';';
+        if (isset($s['opacity']) && $s['opacity'] !== '' && intval($s['opacity']) < 100) $style .= 'opacity:'.round(intval($s['opacity']) / 100, 2).';';
+        if (!empty($s['fontFamily'])) $style .= 'font-family:'.$s['fontFamily'].';';
+        if (!empty($s['fontWeight'])) $style .= 'font-weight:'.$s['fontWeight'].';';
+        if (!empty($s['fontStyle'])) $style .= 'font-style:'.$s['fontStyle'].';';
+        if (!empty($s['textAlign'])) $style .= 'text-align:'.$s['textAlign'].';';
+        return $style;
+    };
+@endphp
             <!--...::: Breadcrumb Section Start :::... -->
             <section class="section-breadcrum">
                 <div class="relative z-10 overflow-hidden bg-[#FAF9F6]">
                     <div class="py-[60px] lg:py-[90px]">
                         <div class="container">
                             <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal">Sepetim</h1>
+                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('cart_title')) style="{{ $fs('cart_title') }}" @endif>{{ $shopInfo->cart_title ?? 'Sepetim' }}</h1>
                                 <nav class="text-base font-medium uppercase">
                                     <ul class="flex justify-center">
                                         <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">ANA SAYFA</a>
+                                            <a href="{{ route('front.home') }}" @if($fs('products_breadcrumb_home')) style="{{ $fs('products_breadcrumb_home') }}" @endif>{{ $shopInfo->products_breadcrumb_home ?? 'ANA SAYFA' }}</a>
                                         </li>
-                                        <li>SEPETİM</li>
+                                        <li @if($fs('cart_breadcrumb_current')) style="{{ $fs('cart_breadcrumb_current') }}" @endif>{{ $shopInfo->cart_breadcrumb_current ?? 'SEPETİM' }}</li>
                                     </ul>
                                 </nav>
                             </div>
@@ -65,11 +80,11 @@
                                     <svg class="h-5 w-5 text-colorCarbonGrey/40" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"/></svg>
                                 </div>
                             </div>
-                            <h3 class="mb-3 font-title text-2xl font-bold text-colorBlackPearl">Sepetiniz henüz boş</h3>
-                            <p class="mb-10 max-w-sm text-colorCarbonGrey/70">Mağazamızdaki ürünlere göz atarak sepetinize ürün ekleyebilirsiniz.</p>
+                            <h3 class="mb-3 font-title text-2xl font-bold text-colorBlackPearl" @if($fs('cart_empty_title')) style="{{ $fs('cart_empty_title') }}" @endif>{{ $shopInfo->cart_empty_title ?? 'Sepetiniz henüz boş' }}</h3>
+                            <p class="mb-10 max-w-sm text-colorCarbonGrey/70" @if($fs('cart_empty_description')) style="{{ $fs('cart_empty_description') }}" @endif>{{ $shopInfo->cart_empty_description ?? 'Mağazamızdaki ürünlere göz atarak sepetinize ürün ekleyebilirsiniz.' }}</p>
                             <a href="{{ route('front.products') }}" class="group inline-flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-colorPurpleBlue to-colorPurpleBlue/90 px-8 py-4 text-sm font-bold text-white shadow-xl shadow-colorPurpleBlue/25 transition-all hover:shadow-2xl hover:shadow-colorPurpleBlue/30 active:scale-[0.98]">
                                 <svg class="h-5 w-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007Z"/></svg>
-                                Ürünlere Göz At
+                                <span @if($fs('cart_empty_button')) style="{{ $fs('cart_empty_button') }}" @endif>{{ $shopInfo->cart_empty_button ?? 'Ürünlere Göz At' }}</span>
                             </a>
                         </div>
                         @else
@@ -77,8 +92,8 @@
                             <!-- Cart Items (left) -->
                             <div class="lg:col-span-7 xl:col-span-8">
                                 <div class="mb-6 flex items-center justify-between">
-                                    <h3 class="font-title text-xl font-bold text-colorBlackPearl">
-                                        Sepetinizdeki Ürünler
+                                    <h3 class="font-title text-xl font-bold text-colorBlackPearl" @if($fs('cart_items_header')) style="{{ $fs('cart_items_header') }}" @endif>
+                                        {{ $shopInfo->cart_items_header ?? 'Sepetinizdeki Ürünler' }}
                                     </h3>
                                     <span class="inline-flex items-center rounded-full bg-colorPurpleBlue/10 px-3.5 py-1.5 text-xs font-bold text-colorPurpleBlue">{{ collect($cart)->sum('quantity') }} ürün</span>
                                 </div>
@@ -147,9 +162,9 @@
                                 </div>
 
                                 <!-- Continue Shopping -->
-                                <a href="{{ route('front.products') }}" class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-colorCarbonGrey/60 transition-colors hover:text-colorPurpleBlue">
+                                <a href="{{ route('front.products') }}" class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-colorCarbonGrey/60 transition-colors hover:text-colorPurpleBlue" @if($fs('cart_continue_shopping')) style="{{ $fs('cart_continue_shopping') }}" @endif>
                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
-                                    Alışverişe Devam Et
+                                    {{ $shopInfo->cart_continue_shopping ?? 'Alışverişe Devam Et' }}
                                 </a>
                             </div>
 
@@ -158,20 +173,20 @@
                                 <div class="sticky top-8 overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-xl shadow-black/[0.04]">
                                     <!-- Summary Header -->
                                     <div class="border-b border-gray-100 bg-gradient-to-r from-[#FAF9F6] to-white px-6 py-5">
-                                        <h4 class="font-title text-lg font-bold text-colorBlackPearl">Sipariş Özeti</h4>
+                                        <h4 class="font-title text-lg font-bold text-colorBlackPearl" @if($fs('cart_summary_header')) style="{{ $fs('cart_summary_header') }}" @endif>{{ $shopInfo->cart_summary_header ?? 'Sipariş Özeti' }}</h4>
                                     </div>
 
                                     <div class="p-6">
                                         <div class="space-y-4">
                                             <div class="flex items-center justify-between text-sm">
-                                                <span class="text-colorCarbonGrey">Ara Toplam <span class="text-colorCarbonGrey/50">({{ collect($cart)->sum('quantity') }} ürün)</span></span>
+                                                <span class="text-colorCarbonGrey" @if($fs('cart_subtotal')) style="{{ $fs('cart_subtotal') }}" @endif>{{ $shopInfo->cart_subtotal ?? 'Ara Toplam' }} <span class="text-colorCarbonGrey/50">({{ collect($cart)->sum('quantity') }} ürün)</span></span>
                                                 <span class="font-bold text-colorBlackPearl">{{ number_format($subtotal, 2, ',', '.') }} ₺</span>
                                             </div>
                                             <div class="flex items-center justify-between text-sm">
-                                                <span class="text-colorCarbonGrey">Kargo</span>
+                                                <span class="text-colorCarbonGrey" @if($fs('cart_shipping')) style="{{ $fs('cart_shipping') }}" @endif>{{ $shopInfo->cart_shipping ?? 'Kargo' }}</span>
                                                 <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-bold text-green-600">
                                                     <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                                                    Ücretsiz
+                                                    <span @if($fs('cart_shipping_free')) style="{{ $fs('cart_shipping_free') }}" @endif>{{ $shopInfo->cart_shipping_free ?? 'Ücretsiz' }}</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -188,10 +203,10 @@
                                                         <svg class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/></svg>
                                                         <span id="couponCodeLabel" class="text-sm font-bold text-green-700">{{ $coupon['code'] }}</span>
                                                     </div>
-                                                    <button type="button" onclick="removeCoupon()" class="text-xs font-semibold text-red-500 hover:text-red-700 transition-colors cursor-pointer">Kaldır</button>
+                                                    <button type="button" onclick="removeCoupon()" class="text-xs font-semibold text-red-500 hover:text-red-700 transition-colors cursor-pointer">{{ $shopInfo->cart_coupon_remove ?? 'Kaldır' }}</button>
                                                 </div>
                                                 <div class="mt-2 flex items-center justify-between text-sm">
-                                                    <span class="text-green-600 font-medium">İndirim</span>
+                                                    <span class="text-green-600 font-medium">{{ $shopInfo->cart_coupon_discount ?? 'İndirim' }}</span>
                                                     <span id="couponDiscountLabel" class="font-semibold text-green-600">-{{ number_format($discount, 2, ',', '.') }} ₺</span>
                                                 </div>
                                             </div>
@@ -202,10 +217,10 @@
                                                         <svg class="h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/></svg>
                                                         <span id="couponCodeLabel" class="text-sm font-bold text-green-700"></span>
                                                     </div>
-                                                    <button type="button" onclick="removeCoupon()" class="text-xs font-semibold text-red-500 hover:text-red-700 transition-colors cursor-pointer">Kaldır</button>
+                                                    <button type="button" onclick="removeCoupon()" class="text-xs font-semibold text-red-500 hover:text-red-700 transition-colors cursor-pointer">{{ $shopInfo->cart_coupon_remove ?? 'Kaldır' }}</button>
                                                 </div>
                                                 <div class="mt-2 flex items-center justify-between text-sm">
-                                                    <span class="text-green-600 font-medium">İndirim</span>
+                                                    <span class="text-green-600 font-medium">{{ $shopInfo->cart_coupon_discount ?? 'İndirim' }}</span>
                                                     <span id="couponDiscountLabel" class="font-semibold text-green-600"></span>
                                                 </div>
                                             </div>
@@ -213,13 +228,14 @@
 
                                             {{-- Coupon input --}}
                                             <div id="couponInput" @if($coupon) style="display:none" @endif>
-                                                <p class="mb-2 text-xs font-semibold text-colorCarbonGrey/70">İndirim Kodu</p>
+                                                <p class="mb-2 text-xs font-semibold text-colorCarbonGrey/70" @if($fs('cart_coupon_label')) style="{{ $fs('cart_coupon_label') }}" @endif>{{ $shopInfo->cart_coupon_label ?? 'İndirim Kodu' }}</p>
                                                 <div class="flex gap-2">
-                                                    <input type="text" id="couponCodeInput" placeholder="Kupon kodunuzu girin"
+                                                    <input type="text" id="couponCodeInput" placeholder="{{ $shopInfo->cart_coupon_placeholder ?? 'Kupon kodunuzu girin' }}"
                                                            class="flex-1 rounded-xl border-2 border-gray-100 bg-[#FAFAFA] px-4 py-2.5 text-sm font-medium uppercase text-colorBlackPearl outline-none transition-all placeholder:normal-case placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white" />
                                                     <button type="button" id="couponApplyBtn" onclick="applyCoupon()"
-                                                            class="rounded-xl bg-colorBlackPearl px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-colorPurpleBlue disabled:opacity-50 cursor-pointer">
-                                                        Uygula
+                                                            class="rounded-xl bg-colorBlackPearl px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-colorPurpleBlue disabled:opacity-50 cursor-pointer"
+                                                            @if($fs('cart_coupon_apply')) style="{{ $fs('cart_coupon_apply') }}" @endif>
+                                                        {{ $shopInfo->cart_coupon_apply ?? 'Uygula' }}
                                                     </button>
                                                 </div>
                                                 <p id="couponError" class="mt-1.5 text-xs font-medium text-red-500" style="display:none"></p>
@@ -231,14 +247,14 @@
                                         <!-- Total -->
                                         <div class="rounded-2xl bg-gradient-to-r from-colorPurpleBlue/5 to-indigo-50/50 p-4">
                                             <div class="flex items-center justify-between">
-                                                <span class="text-sm font-bold text-colorBlackPearl">Toplam</span>
+                                                <span class="text-sm font-bold text-colorBlackPearl" @if($fs('cart_total')) style="{{ $fs('cart_total') }}" @endif>{{ $shopInfo->cart_total ?? 'Toplam' }}</span>
                                                 <span id="cartTotal" class="font-title text-2xl font-black text-colorPurpleBlue">{{ number_format($total, 2, ',', '.') }} ₺</span>
                                             </div>
                                         </div>
 
                                         <a href="{{ route('front.checkout') }}"
                                            class="group mt-6 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-colorPurpleBlue to-colorPurpleBlue/90 px-6 py-4.5 text-base font-bold text-white shadow-xl shadow-colorPurpleBlue/25 transition-all hover:shadow-2xl hover:shadow-colorPurpleBlue/30 active:scale-[0.98]">
-                                            Ödemeye Geç
+                                            <span @if($fs('cart_checkout_button')) style="{{ $fs('cart_checkout_button') }}" @endif>{{ $shopInfo->cart_checkout_button ?? 'Ödemeye Geç' }}</span>
                                             <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
                                         </a>
 
@@ -246,15 +262,15 @@
                                         <div class="mt-5 grid grid-cols-3 gap-2">
                                             <div class="flex flex-col items-center gap-1.5 rounded-xl bg-[#FAF9F6] p-3 text-center">
                                                 <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
-                                                <span class="text-[10px] font-semibold leading-tight text-colorCarbonGrey">SSL Güvenlik</span>
+                                                <span class="text-[10px] font-semibold leading-tight text-colorCarbonGrey" @if($fs('cart_trust_1')) style="{{ $fs('cart_trust_1') }}" @endif>{{ $shopInfo->cart_trust_1 ?? 'SSL Güvenlik' }}</span>
                                             </div>
                                             <div class="flex flex-col items-center gap-1.5 rounded-xl bg-[#FAF9F6] p-3 text-center">
                                                 <svg class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
-                                                <span class="text-[10px] font-semibold leading-tight text-colorCarbonGrey">Hızlı Kargo</span>
+                                                <span class="text-[10px] font-semibold leading-tight text-colorCarbonGrey" @if($fs('cart_trust_2')) style="{{ $fs('cart_trust_2') }}" @endif>{{ $shopInfo->cart_trust_2 ?? 'Hızlı Kargo' }}</span>
                                             </div>
                                             <div class="flex flex-col items-center gap-1.5 rounded-xl bg-[#FAF9F6] p-3 text-center">
                                                 <svg class="h-5 w-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182"/></svg>
-                                                <span class="text-[10px] font-semibold leading-tight text-colorCarbonGrey">Kolay İade</span>
+                                                <span class="text-[10px] font-semibold leading-tight text-colorCarbonGrey" @if($fs('cart_trust_3')) style="{{ $fs('cart_trust_3') }}" @endif>{{ $shopInfo->cart_trust_3 ?? 'Kolay İade' }}</span>
                                             </div>
                                         </div>
                                     </div>
