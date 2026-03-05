@@ -31,6 +31,7 @@ use App\Http\Controllers\Shop\OrderController;
 use App\Http\Controllers\Shop\ShopFrontController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
+use App\Http\Controllers\Shop\CouponController;
 use App\Http\Middleware\SharedDatas;
 use Illuminate\Support\Facades\Route;
 
@@ -352,6 +353,17 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::delete('/{id}',       [OrderController::class, 'delete'])->name('delete');
     });
 
+    // ─── İndirim Kuponları ────────────────────────────────────────────────────────
+    Route::prefix('kuponlar')->name('coupons.')->group(function () {
+        Route::get('/',              [CouponController::class, 'index'])->name('index');
+        Route::get('/create',        [CouponController::class, 'create'])->name('create');
+        Route::post('/store',        [CouponController::class, 'store'])->name('store');
+        Route::get('/{id}/edit',     [CouponController::class, 'edit'])->name('edit');
+        Route::post('/{id}/update',  [CouponController::class, 'update'])->name('update');
+        Route::delete('/{id}',       [CouponController::class, 'delete'])->name('delete');
+        Route::post('/{id}/toggle',  [CouponController::class, 'toggleActive'])->name('toggle');
+    });
+
     // ─── Sayfa Yönetimi ─────────────────────────────────────────────────────────
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/',                              [PagesController::class, 'index'])->name('index');
@@ -385,6 +397,8 @@ Route::middleware(SharedDatas::class)->name('front.')->group(function () {
     Route::post('/sepet/guncelle',  [CartController::class, 'update'])->name('cart.update');
     Route::post('/sepet/sil',       [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/odeme/tamamla',   [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::post('/kupon-uygula',    [CheckoutController::class, 'applyCoupon'])->middleware('throttle:20,1')->name('coupon.apply');
+    Route::post('/kupon-kaldir',    [CheckoutController::class, 'removeCoupon'])->name('coupon.remove');
 });
 Route::get('/panel/login', function () {
     return view('auth.login');

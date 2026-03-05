@@ -98,7 +98,7 @@ class ProductAttributeController extends Controller
 
     public function editTranslate($id, $lang)
     {
-        $attribute = ProductAttribute::findOrFail($id);
+        $attribute = ProductAttribute::with(['values' => fn($q) => $q->orderBy('sort_order')])->findOrFail($id);
         $localeInfo = getLocaleInfo($lang);
         $selectedLang = $localeInfo['translateLang'];
         $selectedLanguage = $localeInfo['selectedLanguage'];
@@ -109,8 +109,10 @@ class ProductAttributeController extends Controller
     public function updateTranslate(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:200',
-            'lang' => 'required|string',
+            'name'          => 'required|string|max:200',
+            'lang'          => 'required|string',
+            'values'        => 'nullable|array',
+            'values.*.name' => 'nullable|string|max:200',
         ]);
 
         $attribute = ProductAttribute::findOrFail($id);
@@ -118,6 +120,18 @@ class ProductAttributeController extends Controller
 
         $attribute->setTranslation('name', $locale, $request->name);
         $attribute->save();
+
+        if ($request->values) {
+            foreach ($request->values as $valueId => $valueData) {
+                $value = ProductAttributeValue::where('id', $valueId)
+                    ->where('product_attribute_id', $attribute->id)
+                    ->first();
+                if ($value && !empty($valueData['name'])) {
+                    $value->setTranslation('name', $locale, $valueData['name']);
+                    $value->save();
+                }
+            }
+        }
 
         return redirect()->route('productAttributes.edit', $id)
             ->with('success', 'Çeviri başarıyla güncellendi.');

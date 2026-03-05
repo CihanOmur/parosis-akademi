@@ -5,7 +5,7 @@
            sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72',
            sidebarCollapsed ? 'lg:translate-x-0 lg:w-20 sidebar-collapsed' : 'lg:translate-x-0 lg:w-72'
        ]"
-       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('courses.*') || Route::is('courseCategories.*') ? 'kurs' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') ? 'magaza' : ''))) }}' }">
+       x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('courses.*') || Route::is('courseCategories.*') ? 'kurs' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*') ? 'magaza' : ''))) }}' }">
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -437,7 +437,7 @@
         </div>
 
         {{-- Mağaza Dropdown --}}
-        @php $isMagazaActive = Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*'); @endphp
+        @php $isMagazaActive = Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*'); @endphp
         <div class="group/magaza relative">
             <button @click="openMenu = openMenu === 'magaza' ? '' : 'magaza'"
                     class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -498,6 +498,13 @@
                               : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
                     Siparişler
                 </a>
+                <a href="{{ route('coupons.index') }}"
+                   class="block px-3 py-2 rounded-lg text-sm transition-colors
+                          {{ Route::is('coupons.*')
+                              ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                              : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                    Kuponlar
+                </a>
             </div>
 
             <template x-if="sidebarCollapsed">
@@ -531,6 +538,13 @@
                                       ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                       : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
                             Siparişler
+                        </a>
+                        <a href="{{ route('coupons.index') }}"
+                           class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                  {{ Route::is('coupons.*')
+                                      ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                      : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                            Kuponlar
                         </a>
                     </div>
                 </div>

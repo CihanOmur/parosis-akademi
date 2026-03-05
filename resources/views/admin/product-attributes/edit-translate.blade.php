@@ -68,6 +68,53 @@
                     <x-text-input name="name" label="Nitelik Adı" placeholder="Nitelik adının çevirisini yazın..." :value="$attribute->getTranslation('name', $selectedLang, false)" ringColor="blue" required />
                 </div>
             </div>
+
+            {{-- Nitelik Değerleri Çevirisi --}}
+            @if($attribute->values->count() > 0)
+            <div class="relative bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-violet-50/60 via-transparent to-purple-50/40 dark:from-violet-950/20 dark:to-purple-950/10 pointer-events-none"></div>
+
+                <div class="relative flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-md shadow-violet-500/20 flex-shrink-0">
+                        <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-slate-900 dark:text-white">
+                            Nitelik Değerleri: {{ $selectedLanguage->name ?? $selectedLang }}
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Nitelik değerlerinin çevirilerini yazın</p>
+                    </div>
+                    <span class="ml-auto inline-flex items-center gap-1 px-2.5 py-1 bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300 text-xs font-semibold rounded-lg">
+                        {{ $attribute->values->count() }} değer
+                    </span>
+                </div>
+
+                <div class="relative p-6 space-y-4">
+                    @foreach($attribute->values as $value)
+                        <div class="flex items-start gap-4 p-4 bg-slate-50/80 dark:bg-slate-700/30 rounded-xl border border-slate-200/50 dark:border-slate-600/30">
+                            @if($value->color_code)
+                                <div class="w-8 h-8 rounded-lg border border-slate-300 dark:border-slate-600 flex-shrink-0 mt-6" style="background-color: {{ $value->color_code }}"></div>
+                            @endif
+                            <div class="flex-1 space-y-2">
+                                <div>
+                                    <span class="text-xs text-slate-400 uppercase tracking-wider">Orijinal</span>
+                                    <p class="text-sm text-slate-600 dark:text-slate-300">{{ $value->getTranslation('name', app()->getLocale(), false) ?: '—' }}</p>
+                                </div>
+                                <x-text-input
+                                    name="values[{{ $value->id }}][name]"
+                                    label="Çeviri"
+                                    placeholder="Değer çevirisini yazın..."
+                                    :value="$value->getTranslation('name', $selectedLang, false)"
+                                    ringColor="violet"
+                                />
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
         </div>
 
         {{-- Sağ kolon --}}

@@ -169,6 +169,31 @@
 
     <!-- Footer -->
     <div id="sidebar-cart-footer" style="padding:20px 24px; border-top:1px solid #eee; background:#fff; {{ count($cart) === 0 ? 'display:none;' : '' }}">
+        <!-- Coupon -->
+        <div id="sidebarCouponSection" style="margin-bottom:14px;">
+            @php $sidebarCoupon = session('coupon'); @endphp
+            <div id="sidebarCouponApplied" style="{{ $sidebarCoupon ? '' : 'display:none;' }} background:#f0fdf4; border-radius:10px; padding:10px 14px; margin-bottom:10px;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <svg style="width:14px; height:14px; color:#22c55e;" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z"/></svg>
+                        <span id="sidebarCouponCode" style="font-size:13px; font-weight:700; color:#15803d;">{{ $sidebarCoupon['code'] ?? '' }}</span>
+                    </div>
+                    <button type="button" onclick="sidebarRemoveCoupon()" style="border:none; background:none; cursor:pointer; font-size:12px; font-weight:600; color:#ef4444;">Kaldır</button>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-top:6px;">
+                    <span style="font-size:12px; color:#16a34a;">İndirim</span>
+                    <span id="sidebarDiscountAmount" style="font-size:13px; font-weight:600; color:#16a34a;">{{ $sidebarCoupon ? '-' . number_format($globalCouponDiscount ?? 0, 2, ',', '.') . ' ₺' : '' }}</span>
+                </div>
+            </div>
+            <div id="sidebarCouponInput" style="{{ $sidebarCoupon ? 'display:none;' : '' }}">
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="sidebarCouponCode_input" placeholder="Kupon kodu" style="flex:1; padding:9px 12px; border:2px solid #e5e7eb; border-radius:10px; font-size:13px; font-weight:500; text-transform:uppercase; outline:none; background:#fafafa; transition:border-color .2s;" onfocus="this.style.borderColor='#6340FF'" onblur="this.style.borderColor='#e5e7eb'" />
+                    <button type="button" id="sidebarCouponApplyBtn" onclick="sidebarApplyCoupon()" style="padding:9px 14px; border:none; border-radius:10px; background:#263238; color:#fff; font-size:12px; font-weight:700; cursor:pointer; transition:background .2s; white-space:nowrap;" onmouseover="this.style.background='#6340FF'" onmouseout="this.style.background='#263238'">Uygula</button>
+                </div>
+                <p id="sidebarCouponError" style="display:none; margin-top:6px; font-size:12px; color:#ef4444; font-weight:500;"></p>
+            </div>
+        </div>
+
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
             <span style="font-size:14px; color:#888;">Toplam</span>
             <span id="sidebar-cart-total" style="font-size:20px; font-weight:700; color:#263238;">{{ number_format($globalCartTotal ?? 0, 2, ',', '.') }} ₺</span>
@@ -247,6 +272,66 @@ function sidebarQty(key, delta) {
     });
 }
 
+function _sidebarAddItem(data) {
+    var container = document.getElementById('sidebar-cart-items');
+    if (!container) return;
+    // Remove empty state if present
+    var emptyEl = document.getElementById('sidebar-cart-empty');
+    if (emptyEl) emptyEl.remove();
+    // Show footer
+    var footer = document.getElementById('sidebar-cart-footer');
+    if (footer) footer.style.display = '';
+
+    var key = data.item.key;
+    var existing = document.getElementById('sidebar-item-' + key);
+    if (existing) {
+        // Update quantity and price
+        var qtyEl = document.getElementById('sidebar-qty-' + key);
+        if (qtyEl) qtyEl.textContent = data.item.quantity;
+        var priceEl = document.getElementById('sidebar-price-' + key);
+        if (priceEl) priceEl.textContent = _formatTL(data.item.line_total);
+        // Flash highlight
+        existing.style.background = '#EDE9FE';
+        setTimeout(function() { existing.style.background = '#FAF9F6'; }, 600);
+    } else {
+        // Build variant info text
+        var variantText = '';
+        if (data.item.variant_info && typeof data.item.variant_info === 'object') {
+            var parts = [];
+            for (var attr in data.item.variant_info) {
+                parts.push(attr + ': ' + data.item.variant_info[attr]);
+            }
+            variantText = parts.join(', ');
+        }
+        var imgHtml = data.item.image
+            ? '<img src="' + data.item.image + '" alt="" style="width:100%;height:100%;object-fit:cover;" />'
+            : '<div style="width:100%;height:100%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;"><svg style="width:24px;height:24px;color:#9ca3af;" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12"/></svg></div>';
+
+        var html = '<div id="sidebar-item-' + key + '" style="display:flex;gap:14px;padding:12px;margin-bottom:12px;background:#EDE9FE;border-radius:12px;transition:all .3s;">'
+            + '<div style="width:72px;height:72px;flex-shrink:0;border-radius:8px;overflow:hidden;">' + imgHtml + '</div>'
+            + '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;overflow:hidden;">'
+            + '<span style="font-size:14px;font-weight:700;color:#263238;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + data.item.name + '</span>'
+            + (variantText ? '<p style="font-size:11px;color:#888;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + variantText + '</p>' : '')
+            + '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">'
+            + '<span style="font-size:14px;font-weight:600;color:#6340FF;" id="sidebar-price-' + key + '">' + _formatTL(data.item.line_total) + '</span>'
+            + '<div style="display:inline-flex;align-items:center;gap:0;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">'
+            + '<button type="button" onclick="sidebarQty(\'' + key + '\',-1)" style="width:28px;height:28px;border:none;background:#f9fafb;cursor:pointer;font-size:16px;font-weight:600;color:#666;display:flex;align-items:center;justify-content:center;">&minus;</button>'
+            + '<span id="sidebar-qty-' + key + '" style="width:32px;height:28px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#263238;background:#fff;border-left:1px solid #e5e7eb;border-right:1px solid #e5e7eb;">' + data.item.quantity + '</span>'
+            + '<button type="button" onclick="sidebarQty(\'' + key + '\',1)" style="width:28px;height:28px;border:none;background:#f9fafb;cursor:pointer;font-size:16px;font-weight:600;color:#666;display:flex;align-items:center;justify-content:center;">+</button>'
+            + '</div></div></div>'
+            + '<button type="button" onclick="removeFromSidebar(\'' + key + '\')" style="width:24px;height:24px;flex-shrink:0;align-self:start;margin-top:2px;border:none;background:none;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ccc;">'
+            + '<svg style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg></button></div>';
+
+        container.insertAdjacentHTML('afterbegin', html);
+        // Fade to normal bg
+        setTimeout(function() {
+            var el = document.getElementById('sidebar-item-' + key);
+            if (el) el.style.background = '#FAF9F6';
+        }, 600);
+    }
+    _updateGlobals(data);
+}
+
 function removeFromSidebar(key) {
     var item = document.getElementById('sidebar-item-' + key);
     if (item) { item.style.opacity = '0.4'; item.style.pointerEvents = 'none'; }
@@ -265,6 +350,87 @@ function removeFromSidebar(key) {
         }
     })
     .catch(function() { if (item) { item.style.opacity = '1'; item.style.pointerEvents = ''; } });
+}
+
+// Sidebar coupon
+var _couponApplyUrl = '{{ route("front.coupon.apply") }}';
+var _couponRemoveUrl = '{{ route("front.coupon.remove") }}';
+
+var _sidebarCouponInput = document.getElementById('sidebarCouponCode_input');
+if (_sidebarCouponInput) {
+    _sidebarCouponInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); sidebarApplyCoupon(); }
+    });
+}
+
+function sidebarApplyCoupon() {
+    var code = document.getElementById('sidebarCouponCode_input').value.trim();
+    if (!code) return;
+    var btn = document.getElementById('sidebarCouponApplyBtn');
+    var errEl = document.getElementById('sidebarCouponError');
+    btn.disabled = true; btn.textContent = '...';
+    errEl.style.display = 'none';
+
+    fetch(_couponApplyUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': _cartCsrf, 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+        body: JSON.stringify({ code: code })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        btn.disabled = false; btn.textContent = 'Uygula';
+        if (data.status === 1) {
+            document.getElementById('sidebarCouponCode').textContent = data.code;
+            document.getElementById('sidebarDiscountAmount').textContent = '-' + data.discount_formatted + ' ₺';
+            document.getElementById('sidebarCouponApplied').style.display = '';
+            document.getElementById('sidebarCouponInput').style.display = 'none';
+            document.getElementById('sidebar-cart-total').textContent = data.total_formatted + ' ₺';
+            // Sync other pages if open
+            var cartTotal = document.getElementById('cartTotal');
+            if (cartTotal) cartTotal.textContent = data.total_formatted + ' ₺';
+            var couponApplied = document.getElementById('couponApplied');
+            if (couponApplied) {
+                document.getElementById('couponCodeLabel').textContent = data.code;
+                document.getElementById('couponDiscountLabel').textContent = '-' + data.discount_formatted + ' ₺';
+                couponApplied.style.display = '';
+                var ci = document.getElementById('couponInput');
+                if (ci) ci.style.display = 'none';
+            }
+        } else {
+            errEl.textContent = data.message;
+            errEl.style.display = '';
+        }
+    })
+    .catch(function() {
+        btn.disabled = false; btn.textContent = 'Uygula';
+        errEl.textContent = 'Bir hata oluştu.';
+        errEl.style.display = '';
+    });
+}
+
+function sidebarRemoveCoupon() {
+    fetch(_couponRemoveUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': _cartCsrf, 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        if (data.status === 1) {
+            document.getElementById('sidebarCouponApplied').style.display = 'none';
+            document.getElementById('sidebarCouponInput').style.display = '';
+            document.getElementById('sidebarCouponCode_input').value = '';
+            document.getElementById('sidebar-cart-total').textContent = data.total_formatted + ' ₺';
+            // Sync cart page if open
+            var cartTotal = document.getElementById('cartTotal');
+            if (cartTotal) cartTotal.textContent = data.total_formatted + ' ₺';
+            var couponApplied = document.getElementById('couponApplied');
+            if (couponApplied) {
+                couponApplied.style.display = 'none';
+                var ci = document.getElementById('couponInput');
+                if (ci) ci.style.display = '';
+            }
+        }
+    });
 }
 </script>
 <!-- Cart Sidebar -->

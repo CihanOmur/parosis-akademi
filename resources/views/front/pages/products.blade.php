@@ -94,11 +94,11 @@
                                 <li class="jos" data-jos_animation="flip-left">
                                     <div class="group/product overflow-hidden rounded-lg">
                                         <!-- Thumbnail -->
-                                        <div class="relative flex justify-center overflow-hidden rounded-lg">
+                                        <div class="relative flex justify-center overflow-hidden rounded-lg" style="aspect-ratio: 370/388;">
                                             @if($product->image)
-                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="370" height="388" class="h-auto w-full transition-all duration-300 group-hover/product:scale-105" />
+                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="370" height="388" class="h-full w-full object-cover transition-all duration-300 group-hover/product:scale-105" />
                                             @else
-                                                <div class="h-[388px] w-full bg-gray-100 flex items-center justify-center">
+                                                <div class="h-full w-full bg-gray-100 flex items-center justify-center">
                                                     <svg class="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
                                                     </svg>
@@ -110,7 +110,7 @@
                                             @endif
 
                                             @if(!$product->variants_count)
-                                            <form action="{{ route('front.cart.add') }}" method="POST" class="absolute -bottom-full group-hover/product:bottom-8 transition-all duration-300">
+                                            <form action="{{ route('front.cart.add') }}" method="POST" class="absolute -bottom-full group-hover/product:bottom-8 transition-all duration-300 add-to-cart-form">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $product->id }}" />
                                                 <input type="hidden" name="quantity" value="1" />
@@ -186,3 +186,46 @@
             <!--...::: Product Section End :::... -->
 
 @endsection
+
+@push('scripts')
+<script>
+document.querySelectorAll('.add-to-cart-form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = form.querySelector('button[type="submit"]');
+        var origHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<svg class="h-5 w-5 animate-spin mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>';
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(new FormData(form))
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.status) {
+                // Update sidebar with new item and open it
+                if (typeof _sidebarAddItem === 'function') _sidebarAddItem(data);
+                if (typeof openCartSidebar === 'function') openCartSidebar();
+                // Show success feedback on button
+                btn.innerHTML = '<svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg> Eklendi!';
+                setTimeout(function() {
+                    btn.innerHTML = origHTML;
+                    btn.disabled = false;
+                }, 1500);
+            }
+        })
+        .catch(function() {
+            btn.innerHTML = origHTML;
+            btn.disabled = false;
+        });
+    });
+});
+</script>
+@endpush

@@ -11,6 +11,7 @@ class Order extends Model
         'customer_name', 'customer_email', 'customer_phone',
         'shipping_address', 'shipping_city', 'shipping_district', 'shipping_zip', 'shipping_country',
         'subtotal', 'shipping_cost', 'total',
+        'coupon_id', 'coupon_code', 'discount_amount',
         'customer_note', 'admin_note',
     ];
 
@@ -18,6 +19,7 @@ class Order extends Model
         'subtotal' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
         'total' => 'decimal:2',
+        'discount_amount' => 'decimal:2',
     ];
 
     public const STATUS_LABELS = [
@@ -41,11 +43,27 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
+    }
+
     public static function generateOrderNumber(): string
     {
         $date = now()->format('Ymd');
-        $count = static::whereDate('created_at', today())->count() + 1;
-        return 'ORD-' . $date . '-' . str_pad($count, 4, '0', STR_PAD_LEFT);
+        $prefix = 'ORD-' . $date . '-';
+
+        // Lock-safe: get the last sequence within the transaction
+        $lastOrder = static::where('order_number', 'like', $prefix . '%')
+            ->lockForUpdate()
+            ->orderByDesc('id')
+            ->first();
+
+        $next = $lastOrder
+            ? ((int) substr($lastOrder->order_number, -4)) + 1
+            : 1;
+
+        return $prefix . str_pad($next, 4, '0', STR_PAD_LEFT);
     }
 
     public function getStatusLabelAttribute(): string

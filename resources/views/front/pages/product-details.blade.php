@@ -506,16 +506,15 @@
         .then(function(r) { return r.json(); })
         .then(function(data) {
             if (data.status === 1) {
-                // Update badge
-                var badge = document.getElementById('cart-badge');
-                if (badge) {
-                    badge.textContent = data.cart_count;
-                    badge.classList.remove('hidden');
+                // Update sidebar with new item and open it
+                if (typeof _sidebarAddItem === 'function') _sidebarAddItem(data);
+                if (typeof openCartSidebar === 'function') openCartSidebar();
+                // Show success feedback
+                if (btn) {
+                    var origHTML = btn.innerHTML;
+                    btn.innerHTML = '<svg class="h-5 w-5 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg> Eklendi!';
+                    setTimeout(function() { btn.innerHTML = origHTML; }, 1500);
                 }
-                // Open cart sidebar
-                if (typeof sideAddToCartBtn === 'function') sideAddToCartBtn();
-                // Reload page to refresh sidebar contents
-                window.location.reload();
             }
         })
         .catch(function() {

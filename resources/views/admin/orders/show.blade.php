@@ -276,10 +276,19 @@
                             @endif
                         </span>
                     </div>
+                    @if($order->coupon_code)
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">
+                            İndirim
+                            <span class="inline-flex items-center ml-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-fuchsia-50 text-fuchsia-600 dark:bg-fuchsia-500/10 dark:text-fuchsia-400">{{ $order->coupon_code }}</span>
+                        </span>
+                        <span class="text-green-600 dark:text-green-400 font-medium">-₺{{ number_format($order->discount_amount, 2) }}</span>
+                    </div>
+                    @endif
                     <div class="border-t border-slate-100 dark:border-slate-700/50 pt-3">
                         <div class="flex items-center justify-between">
                             <span class="text-sm font-semibold text-slate-900 dark:text-white">Toplam</span>
-                            <span class="text-base font-bold text-fuchsia-600 dark:text-fuchsia-400">₺{{ number_format($order->total_amount, 2) }}</span>
+                            <span class="text-base font-bold text-fuchsia-600 dark:text-fuchsia-400">₺{{ number_format($order->total, 2) }}</span>
                         </div>
                     </div>
                 </div>

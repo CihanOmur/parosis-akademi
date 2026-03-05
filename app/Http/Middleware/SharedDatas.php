@@ -7,6 +7,7 @@ use App\Models\MenuItem;
 use App\Models\Pages\Contact\ContactPageInfo;
 use App\Models\Pages\Footer\FooterPageInfo;
 use App\Models\Pages\Navbar\NavbarPageInfo;
+use App\Models\Shop\Coupon;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +40,17 @@ class SharedDatas
 
         $cart = session('cart', []);
         $cartCount = collect($cart)->sum('quantity');
-        $cartTotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+        $cartSubtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+
+        $globalCouponDiscount = 0;
+        $couponSession = session('coupon');
+        if ($couponSession && !empty($cart)) {
+            $couponModel = Coupon::find($couponSession['id']);
+            if ($couponModel && $couponModel->isValid($cartSubtotal)) {
+                $globalCouponDiscount = $couponModel->calculateDiscount($cartSubtotal);
+            }
+        }
+        $cartTotal = max(0, $cartSubtotal - $globalCouponDiscount);
 
         view()->share([
             'activeLanguages' => $activeLanguages,
@@ -51,6 +62,7 @@ class SharedDatas
             'globalCart' => $cart,
             'globalCartCount' => $cartCount,
             'globalCartTotal' => $cartTotal,
+            'globalCouponDiscount' => $globalCouponDiscount,
         ]);
         return $next($request);
     }
