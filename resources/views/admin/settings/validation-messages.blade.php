@@ -13,6 +13,32 @@
 @endsection
 
 @section('content')
+@php
+$ruleDescriptions = [
+    'required'        => 'Bu alan zorunludur, boş bırakılamaz. Kullanıcı bu alanı doldurmadan formu gönderemez.',
+    'required_if'     => 'Belirli bir koşul sağlandığında (örn. bir checkbox işaretlendiğinde) bu alan zorunlu hale gelir.',
+    'string'          => 'Bu alan metin (string) tipinde olmalıdır. Sayı veya başka veri tipi kabul edilmez.',
+    'integer'         => 'Bu alan tam sayı olmalıdır (1, 2, 3 gibi). Ondalıklı sayı veya metin kabul edilmez.',
+    'numeric'         => 'Bu alan sayısal bir değer olmalıdır. Tam sayı veya ondalıklı sayı kabul edilir.',
+    'boolean'         => 'Bu alan doğru/yanlış (true/false) değeri olmalıdır. Genellikle checkbox\'lar için kullanılır.',
+    'array'           => 'Bu alan bir dizi (array) olmalıdır. Çoklu seçim alanlarında kullanılır.',
+    'email'           => 'Bu alan geçerli bir e-posta adresi formatında olmalıdır (örn. ad@ornek.com).',
+    'url'             => 'Bu alan geçerli bir URL formatında olmalıdır (örn. https://ornek.com).',
+    'date'            => 'Bu alan geçerli bir tarih formatında olmalıdır (örn. 2026-01-15).',
+    'date_format'     => 'Bu alan belirtilen tarih/saat formatına uygun olmalıdır (örn. HH:MM).',
+    'after_or_equal'  => 'Bu tarih, referans alınan tarihten sonra veya aynı tarihte olmalıdır.',
+    'file'            => 'Bu alan bir dosya yüklemesi olmalıdır.',
+    'image'           => 'Bu alan bir görsel dosyası olmalıdır (jpg, png, gif, webp vb.).',
+    'mimes'           => 'Bu alan yalnızca belirtilen dosya formatlarında olabilir (örn. jpg, png, pdf).',
+    'unique'          => 'Bu alanın değeri veritabanında benzersiz olmalıdır — aynı değerle başka bir kayıt bulunamaz.',
+    'exists'          => 'Bu alanın değeri veritabanında mevcut bir kayıtla eşleşmelidir (örn. geçerli bir kategori ID\'si).',
+    'in'              => 'Bu alanın değeri önceden belirlenmiş seçeneklerden biri olmalıdır.',
+    'regex'           => 'Bu alan belirtilen düzenli ifade (regex) kalıbına uygun olmalıdır.',
+    'confirmed'       => 'Bu alanın değeri, tekrar alanıyla (_confirmation) aynı olmalıdır. Şifre doğrulama gibi yerlerde kullanılır.',
+    'max'             => 'Maksimum sınır: metin alanları için karakter sayısı, sayısal alanlar için değer, dosya alanları için KB cinsinden boyut.',
+    'min'             => 'Minimum sınır: metin alanları için karakter sayısı, sayısal alanlar için değer, dosya alanları için KB cinsinden boyut.',
+];
+@endphp
 <div x-data="{
     activeModule: '{{ $activeModule }}',
     activeForm: '{{ $activeForm }}',
@@ -101,12 +127,25 @@
                                                 $isOverridden = $currentValue !== $defaultValue;
                                             @endphp
                                             @if($defaultValue !== '')
-                                            <div class="flex items-start gap-3">
-                                                <div class="w-28 flex-shrink-0 pt-2">
+                                            <div class="flex items-start gap-3" x-data="{ showTip: false }">
+                                                <div class="w-36 flex-shrink-0 pt-2">
                                                     <span class="inline-flex items-center gap-1">
                                                         <code class="text-[11px] font-mono px-1.5 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded">{{ $rule }}</code>
                                                         @if($isOverridden)
                                                             <span class="w-1.5 h-1.5 bg-amber-400 rounded-full flex-shrink-0"></span>
+                                                        @endif
+                                                        @if(isset($ruleDescriptions[$rule]))
+                                                        <div class="relative">
+                                                            <button type="button" @click="showTip = !showTip" @click.outside="showTip = false"
+                                                                    class="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-600 text-slate-500 dark:text-slate-300 hover:bg-fuchsia-100 hover:text-fuchsia-600 dark:hover:bg-fuchsia-900/30 dark:hover:text-fuchsia-400 flex items-center justify-center text-[9px] font-bold transition-colors flex-shrink-0">
+                                                                i
+                                                            </button>
+                                                            <div x-show="showTip" x-transition.opacity
+                                                                 class="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-72 px-3 py-2 text-xs text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 rounded-xl shadow-xl border border-slate-200 dark:border-slate-600 leading-relaxed">
+                                                                <div class="font-semibold text-fuchsia-600 dark:text-fuchsia-400 mb-0.5">{{ $rule }}</div>
+                                                                {{ $ruleDescriptions[$rule] }}
+                                                            </div>
+                                                        </div>
                                                         @endif
                                                     </span>
                                                 </div>
