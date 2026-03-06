@@ -396,12 +396,13 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::patch('/sitemap-entries/{sitemapEntry}/toggle', [SettingsController::class, 'toggleSitemapEntry'])->name('sitemapEntries.toggle');
         Route::delete('/sitemap-entries/{sitemapEntry}', [SettingsController::class, 'destroySitemapEntry'])->name('sitemapEntries.destroy');
 
-        // Doğrulama Mesajları
-        Route::prefix('validation-messages')->name('validationMessages.')->group(function () {
-            Route::get('/',                    [ValidationMessageController::class, 'index'])->name('index');
-            Route::post('/form/{formKey}',     [ValidationMessageController::class, 'updateForm'])->name('updateForm');
-            Route::post('/reset/{formKey}',    [ValidationMessageController::class, 'resetForm'])->name('resetForm');
-        });
+    });
+
+    // ─── Geliştirici Araçları (developer izni) ───────────────────────────────
+    Route::prefix('settings/validation-messages')->name('settings.validationMessages.')->middleware('permission:developer')->group(function () {
+        Route::get('/',                    [ValidationMessageController::class, 'index'])->name('index');
+        Route::post('/form/{formKey}',     [ValidationMessageController::class, 'updateForm'])->name('updateForm');
+        Route::post('/reset/{formKey}',    [ValidationMessageController::class, 'resetForm'])->name('resetForm');
     });
 });
 

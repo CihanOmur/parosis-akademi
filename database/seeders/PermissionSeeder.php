@@ -30,6 +30,7 @@ class PermissionSeeder extends Seeder
             'menu'           => 'Menü yönetimi',
             'language'       => 'Dil yönetimi',
             'settings'       => 'Site ayarları',
+            'developer'      => 'Geliştirici araçları (doğrulama mesajları vb.)',
         ];
 
         // İzinleri oluştur (zaten varsa geç)

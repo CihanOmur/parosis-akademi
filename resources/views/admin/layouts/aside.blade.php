@@ -710,8 +710,8 @@
         </a>
         @endcan
 
-        {{-- Doğrulama Mesajları --}}
-        @can('settings')
+        {{-- Doğrulama Mesajları (Geliştirici) --}}
+        @can('developer')
         @php $isValidation = Route::is('settings.validationMessages.*'); @endphp
         <a href="{{ route('settings.validationMessages.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200

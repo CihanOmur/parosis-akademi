@@ -3,7 +3,7 @@
 @section('page-banner')
     <div>
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Doğrulama Mesajları</h1>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Her form için doğrulama hata mesajlarını özelleştirin</p>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Sistemdeki tüm form alanlarının doğrulama hata mesajlarını buradan özelleştirebilirsiniz. Her alan için kural bazlı (zorunlu, maksimum, format vb.) Türkçe mesajlar tanımlıdır. Değiştirdiğiniz mesajlar veritabanında saklanır; boş bırakılan alanlar varsayılan mesajı kullanır.</p>
     </div>
     <a href="{{ route('settings.index') }}"
        class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
