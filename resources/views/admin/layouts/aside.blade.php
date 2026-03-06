@@ -238,6 +238,7 @@
         @endcanany
 
         {{-- Diller --}}
+        @can('language')
         @php $isLanguages = Route::is('languages.*'); @endphp
         <a href="{{ route('languages.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -256,8 +257,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Diller</span>
             <span class="lg:hidden">Diller</span>
         </a>
+        @endcan
 
         {{-- Eğitmenler --}}
+        @canany(['content', 'content_delete'])
         @php $isTeachers = Route::is('teachers.*'); @endphp
         <a href="{{ route('teachers.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -275,8 +278,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Eğitmenler</span>
             <span class="lg:hidden">Eğitmenler</span>
         </a>
+        @endcanany
 
         {{-- Blog Dropdown --}}
+        @canany(['content', 'content_delete'])
         @php $isBlogActive = Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*'); @endphp
         <div class="group/blog relative">
             <button @click="openMenu = openMenu === 'blog' ? '' : 'blog'"
@@ -362,8 +367,10 @@
                 </div>
             </template>
         </div>
+        @endcanany
 
         {{-- Kurslar Dropdown --}}
+        @canany(['content', 'content_delete'])
         @php $isCourseActive = Route::is('courses.*') || Route::is('courseCategories.*'); @endphp
         <div class="group/kurs relative">
             <button @click="openMenu = openMenu === 'kurs' ? '' : 'kurs'"
@@ -435,8 +442,10 @@
                 </div>
             </template>
         </div>
+        @endcanany
 
         {{-- Mağaza Dropdown --}}
+        @canany(['shop', 'shop_delete'])
         @php $isMagazaActive = Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*'); @endphp
         <div class="group/magaza relative">
             <button @click="openMenu = openMenu === 'magaza' ? '' : 'magaza'"
@@ -550,8 +559,10 @@
                 </div>
             </template>
         </div>
+        @endcanany
 
         {{-- SSS --}}
+        @canany(['content', 'content_delete'])
         @php $isFaq = Route::is('faq.*'); @endphp
         <a href="{{ route('faq.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -569,8 +580,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">SSS</span>
             <span class="lg:hidden">SSS</span>
         </a>
+        @endcanany
 
         {{-- Öğrenci Yorumları --}}
+        @canany(['content', 'content_delete'])
         @php $isTestimonials = Route::is('testimonials.*'); @endphp
         <a href="{{ route('testimonials.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -588,8 +601,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Yorumlar</span>
             <span class="lg:hidden">Yorumlar</span>
         </a>
+        @endcanany
 
         {{-- İş Ortağı Logoları --}}
+        @canany(['content', 'content_delete'])
         @php $isClientLogos = Route::is('client-logos.*'); @endphp
         <a href="{{ route('client-logos.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -607,8 +622,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">İş Ortakları</span>
             <span class="lg:hidden">İş Ortakları</span>
         </a>
+        @endcanany
 
         {{-- Sliderlar --}}
+        @canany(['content', 'content_delete'])
         @php $isSliders = Route::is('sliders.*'); @endphp
         <a href="{{ route('sliders.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -626,8 +643,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Sliderlar</span>
             <span class="lg:hidden">Sliderlar</span>
         </a>
+        @endcanany
 
         {{-- Menü Öğeleri --}}
+        @can('menu')
         @php $isMenuItems = Route::is('menu-items.*'); @endphp
         <a href="{{ route('menu-items.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -645,8 +664,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Menü Öğeleri</span>
             <span class="lg:hidden">Menü Öğeleri</span>
         </a>
+        @endcan
 
         {{-- Sayfalar --}}
+        @can('page')
         @php $isPages = Route::is('pages.*'); @endphp
         <a href="{{ route('pages.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -665,8 +686,10 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Sayfalar</span>
             <span class="lg:hidden">Sayfalar</span>
         </a>
+        @endcan
 
         {{-- Ayarlar --}}
+        @can('settings')
         @php $isSettings = Route::is('settings.*'); @endphp
         <a href="{{ route('settings.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -685,6 +708,7 @@
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Ayarlar</span>
             <span class="lg:hidden">Ayarlar</span>
         </a>
+        @endcan
 
     </nav>
 

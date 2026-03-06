@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TeamComment extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'name', 'comment', 'image', 'rating',
+    ];
 }

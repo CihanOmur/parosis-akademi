@@ -8,6 +8,8 @@ use Spatie\Translatable\HasTranslations;
 class ProjectInfoItems extends Model
 {
     use HasTranslations;
-    protected $guarded = [];
+    protected $fillable = [
+        'project_id', 'title', 'content', 'order',
+    ];
     public $translatable = ['title', 'content'];
 }

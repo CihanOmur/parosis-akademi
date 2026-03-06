@@ -9,6 +9,7 @@ use App\Models\Shop\ProductCategory;
 use App\Models\Shop\ProductImage;
 use App\Models\Shop\ProductVariant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -62,7 +63,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/products'), $filename);
             $product->image = 'uploads/products/' . $filename;
         }
@@ -73,7 +74,7 @@ class ProductController extends Controller
         // Gallery images
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $i => $file) {
-                $filename = time() . '_' . $i . '_' . $file->getClientOriginalName();
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('uploads/products'), $filename);
                 ProductImage::create([
                     'product_id' => $product->id,
@@ -132,7 +133,7 @@ class ProductController extends Controller
                 unlink(public_path($product->image));
             }
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/products'), $filename);
             $product->image = 'uploads/products/' . $filename;
         }
@@ -320,7 +321,7 @@ class ProductController extends Controller
         $images = [];
 
         foreach ($request->file('images') as $i => $file) {
-            $filename = time() . '_' . $i . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/products'), $filename);
             $img = ProductImage::create([
                 'product_id' => $product->id,

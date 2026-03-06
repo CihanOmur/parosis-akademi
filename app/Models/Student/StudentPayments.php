@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StudentPayments extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'student_id', 'class_id', 'installment_count',
+        'total_price', 'total_payed_price', 'start_date', 'registiration_term',
+    ];
     /**
      * Get all of the installments for the StudentPayments
      *

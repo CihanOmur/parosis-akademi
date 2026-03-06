@@ -9,7 +9,11 @@ class TeamsPageInfo extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'subtitle', 'description',
+        'gallery_title', 'gallery_subtitle', 'comment_title',
+        'comments_ids',
+    ];
 
     public $translatable = ['title', 'subtitle', 'description', 'gallery_title', 'gallery_subtitle', 'comment_title'];
 

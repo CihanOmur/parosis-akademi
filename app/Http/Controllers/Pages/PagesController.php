@@ -24,6 +24,7 @@ use App\Models\Shop\Product;
 use App\Models\Shop\ProductCategory;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
@@ -1157,7 +1158,7 @@ class PagesController extends Controller
         // Logo: file upload OR string path (from AJAX live preview)
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/pages'), $filename);
             $footerPageInfo->logo = 'uploads/pages/' . $filename;
         } elseif ($request->has('logo')) {
@@ -1251,7 +1252,7 @@ class PagesController extends Controller
         ]);
 
         $file = $request->file('image');
-        $filename = time() . '_' . $file->getClientOriginalName();
+        $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('uploads/pages'), $filename);
 
         return response()->json([

@@ -23,7 +23,7 @@ class Role extends Model implements RoleContract
     use HasPermissions;
     use RefreshesPermissionCache;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'guard_name', 'is_visible'];
 
     public function __construct(array $attributes = [])
     {
@@ -31,7 +31,6 @@ class Role extends Model implements RoleContract
 
         parent::__construct($attributes);
 
-        $this->guarded[] = $this->primaryKey;
         $this->table = config('permission.table_names.roles') ?: parent::getTable();
     }
 

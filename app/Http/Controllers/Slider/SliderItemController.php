@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Slider\Slider;
 use App\Models\Slider\SliderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SliderItemController extends Controller
 {
@@ -50,14 +51,14 @@ class SliderItemController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/sliders'), $filename);
             $item->image = 'uploads/sliders/' . $filename;
         }
 
         if ($request->hasFile('background_image')) {
             $file = $request->file('background_image');
-            $filename = time() . '_bg_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/sliders'), $filename);
             $item->background_image = 'uploads/sliders/' . $filename;
         }
@@ -103,7 +104,7 @@ class SliderItemController extends Controller
                 unlink(public_path($item->image));
             }
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/sliders'), $filename);
             $item->image = 'uploads/sliders/' . $filename;
         }
@@ -113,7 +114,7 @@ class SliderItemController extends Controller
                 unlink(public_path($item->background_image));
             }
             $file = $request->file('background_image');
-            $filename = time() . '_bg_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/sliders'), $filename);
             $item->background_image = 'uploads/sliders/' . $filename;
         }

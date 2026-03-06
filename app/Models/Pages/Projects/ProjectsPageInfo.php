@@ -9,7 +9,9 @@ class ProjectsPageInfo extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'subtitle', 'description', 'references_title', 'references_ids',
+    ];
 
     public $translatable = [
         'title',

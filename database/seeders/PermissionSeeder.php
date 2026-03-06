@@ -15,13 +15,21 @@ class PermissionSeeder extends Seeder
     {
         // İzin tanımlamaları
         $permissions = [
-            'user'          => 'Kullanıcıları görüntüle',
-            'user_delete'   => 'Kullanıcı sil',
-            'class'         => 'Sınıfları yönet',
-            'class_delete'  => 'Sınıf sil',
-            'student'       => 'Öğrencileri yönet',
-            'student_delete'=> 'Öğrenci sil',
-            'accounting'    => 'Muhasebe / Ödeme yönetimi',
+            'user'           => 'Kullanıcıları görüntüle',
+            'user_delete'    => 'Kullanıcı sil',
+            'class'          => 'Sınıfları yönet',
+            'class_delete'   => 'Sınıf sil',
+            'student'        => 'Öğrencileri yönet',
+            'student_delete' => 'Öğrenci sil',
+            'accounting'     => 'Muhasebe / Ödeme yönetimi',
+            'content'        => 'İçerik yönetimi (Blog, SSS, Eğitmen, Yorum, Kurs, Slider, İş Ortağı)',
+            'content_delete' => 'İçerik sil',
+            'shop'           => 'Mağaza yönetimi (Ürün, Kategori, Nitelik, Sipariş, Kupon)',
+            'shop_delete'    => 'Mağaza silme',
+            'page'           => 'Sayfa yönetimi',
+            'menu'           => 'Menü yönetimi',
+            'language'       => 'Dil yönetimi',
+            'settings'       => 'Site ayarları',
         ];
 
         // İzinleri oluştur (zaten varsa geç)

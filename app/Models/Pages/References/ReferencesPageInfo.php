@@ -9,7 +9,10 @@ class ReferencesPageInfo extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'subtitle', 'description',
+        'contact_title', 'contact_button_title', 'contact_button_link',
+    ];
 
     public $translatable = [
         'title',

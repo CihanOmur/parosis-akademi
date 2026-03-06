@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ClientLogo;
 use App\Http\Controllers\Controller;
 use App\Models\ClientLogo\ClientLogo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ClientLogoController extends Controller
 {
@@ -30,7 +31,7 @@ class ClientLogoController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/client-logos'), $filename);
             $imagePath = 'uploads/client-logos/' . $filename;
         }
@@ -68,7 +69,7 @@ class ClientLogoController extends Controller
                 unlink(public_path($logo->image));
             }
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/client-logos'), $filename);
             $logo->image = 'uploads/client-logos/' . $filename;
         }

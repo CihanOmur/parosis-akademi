@@ -7,6 +7,7 @@ use App\Models\Blogs\Blog;
 use App\Models\Blogs\BlogCategory;
 use App\Models\Blogs\BlogTag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -52,7 +53,7 @@ class BlogController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/blogs'), $filename);
             $blog->image = 'uploads/blogs/' . $filename;
         }
@@ -106,7 +107,7 @@ class BlogController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/blogs'), $filename);
             $blog->image = 'uploads/blogs/' . $filename;
         }

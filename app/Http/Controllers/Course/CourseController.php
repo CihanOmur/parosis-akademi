@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Courses\Course;
 use App\Models\Courses\CourseCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -63,21 +64,21 @@ class CourseController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/courses'), $filename);
             $course->image = 'uploads/courses/' . $filename;
         }
 
         if ($request->hasFile('inner_image')) {
             $file = $request->file('inner_image');
-            $filename = time() . '_inner_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/courses'), $filename);
             $course->inner_image = 'uploads/courses/' . $filename;
         }
 
         if ($request->hasFile('instructor_image')) {
             $file = $request->file('instructor_image');
-            $filename = time() . '_inst_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/courses'), $filename);
             $course->instructor_image = 'uploads/courses/' . $filename;
         }
@@ -139,21 +140,21 @@ class CourseController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/courses'), $filename);
             $course->image = 'uploads/courses/' . $filename;
         }
 
         if ($request->hasFile('inner_image')) {
             $file = $request->file('inner_image');
-            $filename = time() . '_inner_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/courses'), $filename);
             $course->inner_image = 'uploads/courses/' . $filename;
         }
 
         if ($request->hasFile('instructor_image')) {
             $file = $request->file('instructor_image');
-            $filename = time() . '_inst_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/courses'), $filename);
             $course->instructor_image = 'uploads/courses/' . $filename;
         }

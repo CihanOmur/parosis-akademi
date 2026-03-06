@@ -9,7 +9,9 @@ class TeamsPageGallery extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'image',
+    ];
 
     public $translatable = ['title'];
 }

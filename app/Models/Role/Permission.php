@@ -22,7 +22,7 @@ class Permission extends Model implements PermissionContract
     use HasRoles;
     use RefreshesPermissionCache;
 
-    protected $guarded = [];
+    protected $fillable = ['name', 'guard_name'];
 
     public function __construct(array $attributes = [])
     {
@@ -30,7 +30,6 @@ class Permission extends Model implements PermissionContract
 
         parent::__construct($attributes);
 
-        $this->guarded[] = $this->primaryKey;
         $this->table = config('permission.table_names.permissions') ?: parent::getTable();
     }
 

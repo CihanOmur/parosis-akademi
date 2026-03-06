@@ -9,6 +9,8 @@ class TeamsUserPersonelInfo extends Model
 {
     use HasTranslations;
     protected $table = 'teams_user_personal_infos';
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id', 'title', 'description',
+    ];
     public $translatable = ['title', 'description'];
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ProductCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductCategoryController extends Controller
 {
@@ -35,7 +36,7 @@ class ProductCategoryController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/product-categories'), $filename);
             $category->image = 'uploads/product-categories/' . $filename;
         }
@@ -69,7 +70,7 @@ class ProductCategoryController extends Controller
                 unlink(public_path($category->image));
             }
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/product-categories'), $filename);
             $category->image = 'uploads/product-categories/' . $filename;
         }

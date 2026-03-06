@@ -8,7 +8,9 @@ use Spatie\Translatable\HasTranslations;
 class ContactAddress extends Model
 {
     use HasTranslations;
-    protected $guarded = [];
+    protected $fillable = [
+        'contact_id', 'title', 'address',
+    ];
     public $translatable = ['title', 'address'];
 
     public function contact()

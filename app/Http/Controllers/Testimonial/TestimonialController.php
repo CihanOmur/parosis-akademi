@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Testimonial;
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial\Testimonial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TestimonialController extends Controller
 {
@@ -34,7 +35,7 @@ class TestimonialController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/testimonials'), $filename);
             $imagePath = 'uploads/testimonials/' . $filename;
         }
@@ -82,7 +83,7 @@ class TestimonialController extends Controller
                 unlink(public_path($testimonial->image));
             }
             $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/testimonials'), $filename);
             $testimonial->image = 'uploads/testimonials/' . $filename;
         }

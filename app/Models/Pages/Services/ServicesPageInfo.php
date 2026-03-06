@@ -9,7 +9,12 @@ class ServicesPageInfo extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'title', 'subtitle', 'description',
+        'info_title', 'info_subtitle', 'info_description',
+        'info_skil_column_1', 'info_skil_column_2', 'info_skil_column_3',
+        'faq_title', 'faq_ids',
+    ];
 
     public $translatable = [
         'title',

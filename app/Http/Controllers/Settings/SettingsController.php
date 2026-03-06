@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\SitemapEntry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class SettingsController extends Controller
 {
@@ -59,7 +60,7 @@ class SettingsController extends Controller
         foreach ($logoFields as $field) {
             if ($request->hasFile($field)) {
                 $file     = $request->file($field);
-                $filename = time() . '_' . $field . '.' . $file->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('uploads/settings'), $filename);
                 Setting::set($field, 'uploads/settings/' . $filename, 'logos');
             } elseif ($request->input('remove_' . $field) === '1') {

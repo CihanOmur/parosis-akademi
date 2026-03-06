@@ -9,7 +9,14 @@ class FooterPageInfo extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'logo', 'about_text', 'links_title', 'contact_title',
+        'newsletter_title', 'newsletter_text', 'newsletter_button', 'newsletter_placeholder',
+        'copyright_text', 'support_label', 'email_label', 'address_label',
+        'facebook_url', 'twitter_url', 'instagram_url', 'dribbble_url',
+        'youtube_url', 'linkedin_url',
+        'nav_links',
+    ];
 
     protected $casts = [
         'nav_links' => 'array',

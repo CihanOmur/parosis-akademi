@@ -10,7 +10,9 @@ class Services extends Model
 {
     use HasTranslations;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'category_id', 'title', 'description', 'image', 'icon', 'order', 'status',
+    ];
 
     public $translatable = ['title', 'description'];
 

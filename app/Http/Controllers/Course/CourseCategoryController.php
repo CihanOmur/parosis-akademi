@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Course;
 use App\Http\Controllers\Controller;
 use App\Models\Courses\CourseCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CourseCategoryController extends Controller
 {
@@ -37,7 +38,7 @@ class CourseCategoryController extends Controller
 
         if ($request->hasFile('icon')) {
             $file = $request->file('icon');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/course-categories'), $filename);
             $category->icon = 'uploads/course-categories/' . $filename;
         }
@@ -73,7 +74,7 @@ class CourseCategoryController extends Controller
                 unlink(public_path($category->icon));
             }
             $file = $request->file('icon');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/course-categories'), $filename);
             $category->icon = 'uploads/course-categories/' . $filename;
         }
