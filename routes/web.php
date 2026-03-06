@@ -34,6 +34,7 @@ use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\CouponController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Settings\ValidationMessageController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Middleware\SharedDatas;
 use App\Http\Middleware\CheckMaintenanceMode;
@@ -394,6 +395,13 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::put('/sitemap-entries/{sitemapEntry}',  [SettingsController::class, 'updateSitemapEntry'])->name('sitemapEntries.update');
         Route::patch('/sitemap-entries/{sitemapEntry}/toggle', [SettingsController::class, 'toggleSitemapEntry'])->name('sitemapEntries.toggle');
         Route::delete('/sitemap-entries/{sitemapEntry}', [SettingsController::class, 'destroySitemapEntry'])->name('sitemapEntries.destroy');
+
+        // Doğrulama Mesajları
+        Route::prefix('validation-messages')->name('validationMessages.')->group(function () {
+            Route::get('/',                    [ValidationMessageController::class, 'index'])->name('index');
+            Route::post('/form/{formKey}',     [ValidationMessageController::class, 'updateForm'])->name('updateForm');
+            Route::post('/reset/{formKey}',    [ValidationMessageController::class, 'resetForm'])->name('resetForm');
+        });
     });
 });
 

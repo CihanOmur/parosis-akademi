@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Slider;
 use App\Http\Controllers\Controller;
 use App\Models\Slider\Slider;
 use Illuminate\Http\Request;
+use App\Services\ValidationMessageService;
 
 class SliderController extends Controller
 {
@@ -23,7 +24,7 @@ class SliderController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-        ]);
+        ], ValidationMessageService::getMessages('slider_store'));
 
         Slider::create([
             'name'       => $request->name,
@@ -45,7 +46,7 @@ class SliderController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-        ]);
+        ], ValidationMessageService::getMessages('slider_update'));
 
         $slider = Slider::findOrFail($id);
         $slider->name = $request->name;
@@ -79,7 +80,7 @@ class SliderController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:sliders,id',
-        ]);
+        ], ValidationMessageService::getMessages('slider_order'));
 
         foreach ($request->order as $index => $id) {
             Slider::where('id', $id)->update(['sort_order' => $index]);

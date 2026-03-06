@@ -53,6 +53,38 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->overrideMailConfig();
+        $this->overrideValidationMessages();
+    }
+
+    private function overrideValidationMessages(): void
+    {
+        try {
+            if (!Schema::hasTable('settings')) {
+                return;
+            }
+
+            $locale = config('app.locale', 'tr');
+            $translator = app('translator');
+
+            // DB'deki mesaj override'larını yükle
+            $savedMessages = Setting::getGroup('validation_messages');
+            if (!empty($savedMessages)) {
+                foreach ($savedMessages as $key => $value) {
+                    // "between.numeric" gibi noktalı anahtarları nested hale getir
+                    $translator->addLines(["validation.{$key}" => $value], $locale);
+                }
+            }
+
+            // DB'deki attribute override'larını yükle
+            $savedAttributes = Setting::getGroup('validation_attributes');
+            if (!empty($savedAttributes)) {
+                foreach ($savedAttributes as $key => $value) {
+                    $translator->addLines(["validation.attributes.{$key}" => $value], $locale);
+                }
+            }
+        } catch (\Exception $e) {
+            //
+        }
     }
 
     private function overrideMailConfig(): void

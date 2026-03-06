@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ProductAttribute;
 use App\Models\Shop\ProductAttributeValue;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 
 class ProductAttributeController extends Controller
@@ -24,7 +25,7 @@ class ProductAttributeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-        ]);
+        ], ValidationMessageService::getMessages('product_attr_store'));
 
         $locale = app()->getLocale();
 
@@ -48,7 +49,7 @@ class ProductAttributeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-        ]);
+        ], ValidationMessageService::getMessages('product_attr_update'));
 
         $attribute = ProductAttribute::findOrFail($id);
         $locale = app()->getLocale();
@@ -74,7 +75,7 @@ class ProductAttributeController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:product_attributes,id',
-        ]);
+        ], ValidationMessageService::getMessages('product_attr_order'));
 
         foreach ($request->order as $index => $id) {
             ProductAttribute::where('id', $id)->update(['sort_order' => $index]);
@@ -113,7 +114,7 @@ class ProductAttributeController extends Controller
             'lang'          => 'required|string',
             'values'        => 'nullable|array',
             'values.*.name' => 'nullable|string|max:200',
-        ]);
+        ], ValidationMessageService::getMessages('product_attr_translate'));
 
         $attribute = ProductAttribute::findOrFail($id);
         $locale = $request->lang;
@@ -144,7 +145,7 @@ class ProductAttributeController extends Controller
         $request->validate([
             'value_name'  => 'required|string|max:200',
             'color_code'  => 'nullable|string|max:20',
-        ]);
+        ], ValidationMessageService::getMessages('product_attr_value_store'));
 
         $attribute = ProductAttribute::findOrFail($id);
         $locale = app()->getLocale();
@@ -175,7 +176,7 @@ class ProductAttributeController extends Controller
         $request->validate([
             'value_name' => 'required|string|max:200',
             'color_code' => 'nullable|string|max:20',
-        ]);
+        ], ValidationMessageService::getMessages('product_attr_value_update'));
 
         $value = ProductAttributeValue::findOrFail($valueId);
         $locale = app()->getLocale();

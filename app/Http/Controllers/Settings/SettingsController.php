@@ -8,6 +8,7 @@ use App\Models\SitemapEntry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class SettingsController extends Controller
 {
@@ -35,7 +36,7 @@ class SettingsController extends Controller
             'site_address'     => 'nullable|string|max:500',
             'copyright_text'   => 'nullable|string|max:500',
             'timezone'         => 'nullable|string|max:50',
-        ]);
+        ], ValidationMessageService::getMessages('settings_general'));
 
         Setting::saveGroup('general', $request->only([
             'site_name', 'site_description', 'site_phone',
@@ -53,7 +54,7 @@ class SettingsController extends Controller
             'footer_logo' => 'nullable|file|mimes:png,jpg,jpeg,webp,svg|max:2048',
             'favicon'     => 'nullable|file|mimes:png,jpg,jpeg,ico,svg|max:512',
             'admin_logo'  => 'nullable|file|mimes:png,jpg,jpeg,webp,svg|max:2048',
-        ]);
+        ], ValidationMessageService::getMessages('settings_logos'));
 
         $logoFields = ['header_logo', 'footer_logo', 'favicon', 'admin_logo'];
 
@@ -82,7 +83,7 @@ class SettingsController extends Controller
             'google_tag_manager_id' => 'nullable|string|max:50',
             'sitemap_url'           => 'nullable|string|max:255',
             'robots_txt'            => 'nullable|string',
-        ]);
+        ], ValidationMessageService::getMessages('settings_seo'));
 
         Setting::saveGroup('seo', $request->only([
             'meta_title', 'meta_description', 'meta_keywords',
@@ -104,7 +105,7 @@ class SettingsController extends Controller
             'mail_encryption'   => 'nullable|in:tls,ssl,',
             'mail_from_address' => 'nullable|email|max:255',
             'mail_from_name'    => 'nullable|string|max:255',
-        ]);
+        ], ValidationMessageService::getMessages('settings_mail'));
 
         $data = $request->only([
             'mail_mailer', 'mail_host', 'mail_port', 'mail_username',
@@ -125,7 +126,7 @@ class SettingsController extends Controller
     {
         $request->validate([
             'test_email' => 'required|email',
-        ]);
+        ], ValidationMessageService::getMessages('settings_test_mail'));
 
         $mailSettings = Setting::getGroup('mail');
         $this->applyMailConfig($mailSettings);
@@ -154,7 +155,7 @@ class SettingsController extends Controller
             'youtube_url'     => 'nullable|url|max:255',
             'tiktok_url'      => 'nullable|url|max:255',
             'whatsapp_number' => 'nullable|string|max:20',
-        ]);
+        ], ValidationMessageService::getMessages('settings_social'));
 
         Setting::saveGroup('social', $request->only([
             'facebook_url', 'twitter_url', 'instagram_url',
@@ -185,7 +186,7 @@ class SettingsController extends Controller
             'loc'        => 'required|url|max:2048',
             'changefreq' => 'required|in:always,hourly,daily,weekly,monthly,yearly,never',
             'priority'   => 'required|in:0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0',
-        ]);
+        ], ValidationMessageService::getMessages('settings_sitemap_store'));
 
         $entry = SitemapEntry::create($request->only('loc', 'changefreq', 'priority'));
 
@@ -198,7 +199,7 @@ class SettingsController extends Controller
             'loc'        => 'required|url|max:2048',
             'changefreq' => 'required|in:always,hourly,daily,weekly,monthly,yearly,never',
             'priority'   => 'required|in:0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0',
-        ]);
+        ], ValidationMessageService::getMessages('settings_sitemap_update'));
 
         $sitemapEntry->update($request->only('loc', 'changefreq', 'priority'));
 

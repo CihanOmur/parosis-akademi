@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop\Coupon;
 use App\Models\Shop\Product;
 use App\Models\Shop\ProductVariant;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -38,7 +39,7 @@ class CartController extends Controller
             'product_id' => 'required|integer|exists:products,id',
             'variant_id' => 'nullable|integer',
             'quantity'   => 'nullable|integer|min:1|max:99',
-        ]);
+        ], ValidationMessageService::getMessages('cart_add'));
 
         // SECURITY: Only allow active products
         $product = Product::where('id', $request->product_id)
@@ -116,7 +117,7 @@ class CartController extends Controller
         $request->validate([
             'key'      => 'required|string',
             'quantity' => 'required|integer|min:0|max:99',
-        ]);
+        ], ValidationMessageService::getMessages('cart_update'));
 
         $cart = session('cart', []);
 
@@ -147,7 +148,7 @@ class CartController extends Controller
     {
         $request->validate([
             'key' => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('cart_remove'));
 
         $cart = session('cart', []);
         unset($cart[$request->key]);

@@ -7,6 +7,7 @@ use App\Models\Role\Role;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\ValidationMessageService;
 
 class UserController extends Controller
 {
@@ -35,28 +36,7 @@ class UserController extends Controller
             'password' => 'required|string|max:230',
             'role' => 'required|array',
             'role.*' => 'exists:roles,name',
-        ], [
-            'name.required' => 'İsim alanı zorunludur.',
-            'name.string' => 'İsim sadece metin olmalıdır.',
-            'name.max' => 'İsim en fazla 220 karakter olabilir.',
-
-            'email.required' => 'E-posta alanı zorunludur.',
-            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
-            'email.max' => 'E-posta en fazla 220 karakter olabilir.',
-            'email.unique' => 'Bu e-posta zaten kullanılıyor.',
-
-            'phone.required' => 'Telefon numarası zorunludur.',
-            'phone.string' => 'Telefon numarası sadece rakam veya karakter olabilir.',
-            'phone.max' => 'Telefon numarası en fazla 13 karakter olabilir.',
-            'phone.unique' => 'Bu telefon numarası zaten kayıtlı.',
-
-            'password.required' => 'Şifre zorunludur.',
-            'password.string' => 'Şifre sadece metin olmalıdır.',
-            'password.max' => 'Şifre en fazla 230 karakter olabilir.',
-
-            'role.required' => 'Rol seçimi zorunludur.',
-            'role.exists' => 'Seçilen rol geçerli değil.',
-        ]);
+        ], ValidationMessageService::getMessages('user_store'));
 
         $user = new User();
         $user->name = $request->name;
@@ -85,27 +65,7 @@ class UserController extends Controller
             'password' => 'nullable|string|max:230',
             'role' => 'required|array',
             'role.*' => 'exists:roles,name',
-        ], [
-            'name.required' => 'İsim alanı zorunludur.',
-            'name.string' => 'İsim sadece metin olmalıdır.',
-            'name.max' => 'İsim en fazla 220 karakter olabilir.',
-
-            'email.required' => 'E-posta alanı zorunludur.',
-            'email.email' => 'Geçerli bir e-posta adresi giriniz.',
-            'email.max' => 'E-posta en fazla 220 karakter olabilir.',
-            'email.unique' => 'Bu e-posta zaten kullanılıyor.',
-
-            'phone.required' => 'Telefon numarası zorunludur.',
-            'phone.string' => 'Telefon numarası sadece rakam veya karakter olabilir.',
-            'phone.max' => 'Telefon numarası en fazla 13 karakter olabilir.',
-            'phone.unique' => 'Bu telefon numarası zaten kayıtlı.',
-
-            'password.string' => 'Şifre sadece metin olmalıdır.',
-            'password.max' => 'Şifre en fazla 230 karakter olabilir.',
-
-            'role.required' => 'Rol seçimi zorunludur.',
-            'role.exists' => 'Seçilen rol geçerli değil.',
-        ]);
+        ], ValidationMessageService::getMessages('user_update'));
 
         $user = User::findOrFail($id);
         $user->name = $request->name;
@@ -130,14 +90,7 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|email|max:220',
             'password' => 'required|string',
-        ], [
-            'email.required' => 'E-posta adresi zorunludur.',
-            'email.email'    => 'Geçerli bir e-posta adresi giriniz.',
-            'email.max'      => 'E-posta adresi en fazla 220 karakter olabilir.',
-
-            'password.required' => 'Şifre zorunludur.',
-            'password.string'   => 'Şifre geçersiz karakterler içeriyor.',
-        ]);
+        ], ValidationMessageService::getMessages('user_login'));
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {

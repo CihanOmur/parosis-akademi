@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Coupon;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
@@ -30,7 +31,7 @@ class CouponController extends Controller
             'usage_limit'         => 'nullable|integer|min:1',
             'starts_at'           => 'nullable|date',
             'expires_at'          => 'nullable|date|after_or_equal:starts_at',
-        ]);
+        ], ValidationMessageService::getMessages('coupon_store'));
 
         Coupon::create([
             'code'                => strtoupper(trim($request->code)),
@@ -67,7 +68,7 @@ class CouponController extends Controller
             'usage_limit'         => 'nullable|integer|min:1',
             'starts_at'           => 'nullable|date',
             'expires_at'          => 'nullable|date|after_or_equal:starts_at',
-        ]);
+        ], ValidationMessageService::getMessages('coupon_update'));
 
         $coupon->update([
             'code'                => strtoupper(trim($request->code)),

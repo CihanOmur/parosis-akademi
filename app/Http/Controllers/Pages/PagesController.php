@@ -25,6 +25,7 @@ use App\Models\Shop\ProductCategory;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class PagesController extends Controller
 {
@@ -1249,7 +1250,7 @@ class PagesController extends Controller
     {
         $request->validate([
             'image' => 'required|file|mimes:jpeg,png,jpg,gif,webp,svg,ico|max:5120',
-        ]);
+        ], ValidationMessageService::getMessages('page_upload_image'));
 
         $file = $request->file('image');
         $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();

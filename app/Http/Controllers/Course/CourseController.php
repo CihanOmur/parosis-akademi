@@ -7,6 +7,7 @@ use App\Models\Courses\Course;
 use App\Models\Courses\CourseCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class CourseController extends Controller
 {
@@ -31,7 +32,7 @@ class CourseController extends Controller
             'instructor_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:course_categories,id',
-        ]);
+        ], ValidationMessageService::getMessages('course_store'));
 
         $locale = app()->getLocale();
 
@@ -109,7 +110,7 @@ class CourseController extends Controller
             'instructor_image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:course_categories,id',
-        ]);
+        ], ValidationMessageService::getMessages('course_update'));
 
         $course = Course::findOrFail($id);
         $locale = app()->getLocale();
@@ -181,7 +182,7 @@ class CourseController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:courses,id',
-        ]);
+        ], ValidationMessageService::getMessages('course_order'));
 
         foreach ($request->order as $index => $id) {
             Course::where('id', $id)->update(['sort_order' => $index]);
@@ -218,7 +219,7 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|string|max:300',
             'lang'  => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('course_translate'));
 
         $course = Course::findOrFail($id);
         $locale = $request->lang;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ClientLogo\ClientLogo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class ClientLogoController extends Controller
 {
@@ -26,7 +27,7 @@ class ClientLogoController extends Controller
             'name'  => 'nullable|string|max:255',
             'image' => 'required|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
             'url'   => 'nullable|url|max:500',
-        ]);
+        ], ValidationMessageService::getMessages('client_logo_store'));
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -60,7 +61,7 @@ class ClientLogoController extends Controller
             'name'  => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
             'url'   => 'nullable|url|max:500',
-        ]);
+        ], ValidationMessageService::getMessages('client_logo_update'));
 
         $logo = ClientLogo::findOrFail($id);
 
@@ -101,7 +102,7 @@ class ClientLogoController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:client_logos,id',
-        ]);
+        ], ValidationMessageService::getMessages('client_logo_order'));
 
         foreach ($request->order as $index => $id) {
             ClientLogo::where('id', $id)->update(['sort_order' => $index]);

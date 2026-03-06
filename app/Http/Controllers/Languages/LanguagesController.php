@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Languages\Languages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Services\ValidationMessageService;
 
 class LanguagesController extends Controller
 {
@@ -20,7 +21,7 @@ class LanguagesController extends Controller
      */
     public function toggleActive(Request $request)
     {
-        $request->validate(['id' => 'required|exists:languages,id']);
+        $request->validate(['id' => 'required|exists:languages,id'], ValidationMessageService::getMessages('language_toggle'));
 
         $language = Languages::findOrFail($request->id);
         $language->is_active = !$language->is_active;
@@ -45,12 +46,7 @@ class LanguagesController extends Controller
         $request->validate([
             'locale'       => ['required', 'string', 'regex:/^[a-z]{2}(-[a-z]{2,4})?$/', 'unique:languages,locale'],
             'default_name' => 'required|string|max:100',
-        ], [
-            'locale.required' => 'Locale kodu zorunludur.',
-            'locale.regex'    => 'Geçerli bir locale kodu girin (ör: tr, en, en-gb, zh-cn).',
-            'locale.unique'   => 'Bu locale kodu zaten kullanılıyor.',
-            'default_name.required' => 'Dil adı zorunludur.',
-        ]);
+        ], ValidationMessageService::getMessages('language_store'));
 
         $language = new Languages();
         $language->locale     = $request->locale;
@@ -96,12 +92,7 @@ class LanguagesController extends Controller
         $request->validate([
             'locale'       => ['required', 'string', 'regex:/^[a-z]{2}(-[a-z]{2,4})?$/', 'unique:languages,locale,' . $id],
             'default_name' => 'required|string|max:100',
-        ], [
-            'locale.required' => 'Locale kodu zorunludur.',
-            'locale.regex'    => 'Geçerli bir locale kodu girin (ör: tr, en, en-gb, zh-cn).',
-            'locale.unique'   => 'Bu locale kodu zaten kullanılıyor.',
-            'default_name.required' => 'Dil adı zorunludur.',
-        ]);
+        ], ValidationMessageService::getMessages('language_update'));
 
         $language->locale    = $request->locale;
         $language->is_active = $request->has('is_active') ? 1 : 0;
@@ -124,7 +115,7 @@ class LanguagesController extends Controller
 
     public function setDefault(Request $request)
     {
-        $request->validate(['id' => 'required|exists:languages,id']);
+        $request->validate(['id' => 'required|exists:languages,id'], ValidationMessageService::getMessages('language_default'));
 
         $language = Languages::findOrFail($request->id);
 
@@ -148,7 +139,7 @@ class LanguagesController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:languages,id',
-        ]);
+        ], ValidationMessageService::getMessages('language_order'));
 
         foreach ($request->order as $index => $id) {
             Languages::where('id', $id)->update(['sort_order' => $index]);

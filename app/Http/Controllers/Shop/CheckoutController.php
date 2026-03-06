@@ -10,6 +10,7 @@ use App\Models\Shop\Order;
 use App\Models\Shop\OrderItem;
 use App\Models\Shop\Product;
 use App\Models\Shop\ProductVariant;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -114,7 +115,7 @@ class CheckoutController extends Controller
             'shipping_city'     => 'required|string|max:100',
             'shipping_district' => 'nullable|string|max:100',
             'customer_note'     => 'nullable|string|max:1000',
-        ]);
+        ], ValidationMessageService::getMessages('checkout_process'));
 
         $cart = session('cart', []);
 
@@ -246,7 +247,7 @@ class CheckoutController extends Controller
     {
         $request->validate([
             'code' => 'required|string|max:50',
-        ]);
+        ], ValidationMessageService::getMessages('checkout_coupon'));
 
         $cart = session('cart', []);
         if (empty($cart)) {

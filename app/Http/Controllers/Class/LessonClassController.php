@@ -7,6 +7,7 @@ use App\Models\Class\LessonClass;
 use App\Models\Class\LessonClassDays;
 use App\Models\User\User;
 use Carbon\Carbon;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 
 class LessonClassController extends Controller
@@ -118,38 +119,7 @@ class LessonClassController extends Controller
                     }
                 }
             ],
-        ], [
-            'name.required'       => 'Kurs adı zorunludur.',
-            'name.string'         => 'Kurs adı geçerli bir metin olmalıdır.',
-            'name.max'            => 'Kurs adı en fazla 255 karakter olabilir.',
-
-            'day_data.required' => 'En az bir gün seçmelisiniz.',
-            'day_data.array'    => 'Gün alanı birden fazla seçim yapılabilecek şekilde olmalıdır.',
-            'day_data.*.day.required' => 'Seçilen gün boş olamaz.',
-            'day_data.*.day.in'       => 'Geçerli bir gün seçmelisiniz. (Pazartesi - Pazar)',
-            'day_data.*.start_time.required' => 'Başlangıç saati alanı zorunludur.',
-            'day_data.*.start_time.date_format' => 'Saat formatı geçersiz. (örn: 14:30)',
-            'day_data.*.end_time.required' => 'Bitiş saati alanı zorunludur.',
-            'day_data.*.end_time.date_format' => 'Saat formatı geçersiz. (örn: 14:30)',
-
-            'quota.required'      => 'Kontenjan zorunludur.',
-            'quota.integer'       => 'Kontenjan sayısal olmalıdır.',
-            'quota.min'           => 'Kontenjan en az 1 olmalıdır.',
-
-            'teacher_id.required' => 'Öğretmen seçimi zorunludur.',
-            'teacher_id.exists'   => 'Seçilen öğretmen sistemde bulunamadı.',
-
-            'start_date.required' => 'Başlangıç tarihi zorunludur.',
-            'start_date.date'     => 'Başlangıç tarihi geçerli bir tarih olmalıdır.',
-
-            'end_date.required'   => 'Bitiş tarihi zorunludur.',
-            'end_date.date'       => 'Bitiş tarihi geçerli bir tarih olmalıdır.',
-            'end_date.after_or_equal' => 'Bitiş tarihi, başlangıç tarihinden önce olamaz.',
-
-            'course_time.required' => 'Kurs süresi zorunludur.',
-            'course_time.string'   => 'Kurs süresi metin olmalıdır.',
-            'course_time.max'      => 'Kurs süresi en fazla 255 karakter olabilir.',
-        ]);
+        ], ValidationMessageService::getMessages('class_store'));
         $lessonClass = new LessonClass();
         $lessonClass->name        = $validated['name'];
         $lessonClass->time        = '00:00:00';
@@ -233,32 +203,7 @@ class LessonClassController extends Controller
                     }
                 }
             ],
-        ], [
-            'name.required'       => 'Kurs adı zorunludur.',
-            'name.string'         => 'Kurs adı geçerli bir metin olmalıdır.',
-            'name.max'            => 'Kurs adı en fazla 255 karakter olabilir.',
-
-            'day_data.required' => 'En az bir gün seçmelisiniz.',
-            'day_data.array'    => 'Gün alanı birden fazla seçim yapılabilecek şekilde olmalıdır.',
-            'day_data.*.day.required' => 'Seçilen gün boş olamaz.',
-            'day_data.*.day.in'       => 'Geçerli bir gün seçmelisiniz. (Pazartesi - Pazar)',
-            'day_data.*.start_time.required' => 'Başlangıç saati alanı zorunludur.',
-            'day_data.*.start_time.date_format' => 'Saat formatı geçersiz. (örn: 14:30)',
-            'day_data.*.end_time.required' => 'Bitiş saati alanı zorunludur.',
-            'day_data.*.end_time.date_format' => 'Saat formatı geçersiz. (örn: 14:30)',
-
-
-            'quota.required'      => 'Kontenjan zorunludur.',
-            'quota.integer'       => 'Kontenjan sayısal olmalıdır.',
-            'quota.min'           => 'Kontenjan en az 1 olmalıdır.',
-
-            'teacher_id.required' => 'Öğretmen seçimi zorunludur.',
-            'teacher_id.exists'   => 'Seçilen öğretmen sistemde bulunamadı.',
-
-            'course_time.required' => 'Kurs süresi zorunludur.',
-            'course_time.string'   => 'Kurs süresi metin olmalıdır.',
-            'course_time.max'      => 'Kurs süresi en fazla 255 karakter olabilir.',
-        ]);
+        ], ValidationMessageService::getMessages('class_update'));
         $lessonClass = LessonClass::findOrFail($id);
 
         $lessonClass->name        = $validated['name'];

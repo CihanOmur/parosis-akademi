@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blogs\Blog;
 use App\Models\Blogs\BlogCategory;
 use App\Models\Blogs\BlogTag;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -33,7 +34,7 @@ class BlogController extends Controller
             'category_ids.*' => 'exists:blog_categories,id',
             'tag_ids' => 'nullable|array',
             'tag_ids.*' => 'exists:blog_tags,id',
-        ]);
+        ], ValidationMessageService::getMessages('blog_store'));
 
         $locale = app()->getLocale();
 
@@ -89,7 +90,7 @@ class BlogController extends Controller
             'category_ids.*' => 'exists:blog_categories,id',
             'tag_ids' => 'nullable|array',
             'tag_ids.*' => 'exists:blog_tags,id',
-        ]);
+        ], ValidationMessageService::getMessages('blog_update'));
 
         $blog = Blog::findOrFail($id);
         $locale = app()->getLocale();
@@ -136,7 +137,7 @@ class BlogController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:blogs,id',
-        ]);
+        ], ValidationMessageService::getMessages('blog_order'));
 
         foreach ($request->order as $index => $id) {
             Blog::where('id', $id)->update(['sort_order' => $index]);
@@ -173,7 +174,7 @@ class BlogController extends Controller
         $request->validate([
             'title' => 'required|string|max:300',
             'lang'  => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('blog_translate'));
 
         $blog = Blog::findOrFail($id);
         $locale = $request->lang;

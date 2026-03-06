@@ -7,6 +7,7 @@ use App\Models\Slider\Slider;
 use App\Models\Slider\SliderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class SliderItemController extends Controller
 {
@@ -35,7 +36,7 @@ class SliderItemController extends Controller
             'button_url'       => 'nullable|string|max:500',
             'image'            => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
             'background_image' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
-        ]);
+        ], ValidationMessageService::getMessages('slider_item_store'));
 
         $locale = app()->getLocale();
 
@@ -89,7 +90,7 @@ class SliderItemController extends Controller
             'button_url'       => 'nullable|string|max:500',
             'image'            => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
             'background_image' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
-        ]);
+        ], ValidationMessageService::getMessages('slider_item_update'));
 
         $locale = app()->getLocale();
 
@@ -147,7 +148,7 @@ class SliderItemController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:slider_items,id',
-        ]);
+        ], ValidationMessageService::getMessages('slider_item_order'));
 
         foreach ($request->order as $index => $id) {
             SliderItem::where('id', $id)->where('slider_id', $sliderId)->update(['sort_order' => $index]);
@@ -190,7 +191,7 @@ class SliderItemController extends Controller
             'description'    => 'nullable|string|max:2000',
             'button_text'    => 'nullable|string|max:255',
             'lang'           => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('slider_item_translate'));
 
         $locale = $request->lang;
 

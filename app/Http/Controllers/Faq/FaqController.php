@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Faq;
 use App\Http\Controllers\Controller;
 use App\Models\Faq\Faq;
 use Illuminate\Http\Request;
+use App\Services\ValidationMessageService;
 
 class FaqController extends Controller
 {
@@ -24,7 +25,7 @@ class FaqController extends Controller
         $request->validate([
             'question' => 'required|string|max:500',
             'answer'   => 'required|string|max:5000',
-        ]);
+        ], ValidationMessageService::getMessages('faq_store'));
 
         $locale = app()->getLocale();
 
@@ -50,7 +51,7 @@ class FaqController extends Controller
         $request->validate([
             'question' => 'required|string|max:500',
             'answer'   => 'required|string|max:5000',
-        ]);
+        ], ValidationMessageService::getMessages('faq_update'));
 
         $faq = Faq::findOrFail($id);
         $locale = app()->getLocale();
@@ -77,7 +78,7 @@ class FaqController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:faqs,id',
-        ]);
+        ], ValidationMessageService::getMessages('faq_order'));
 
         foreach ($request->order as $index => $id) {
             Faq::where('id', $id)->update(['sort_order' => $index]);
@@ -115,7 +116,7 @@ class FaqController extends Controller
             'question' => 'required|string|max:500',
             'answer'   => 'required|string|max:5000',
             'lang'     => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('faq_translate'));
 
         $faq = Faq::findOrFail($id);
         $locale = $request->lang;

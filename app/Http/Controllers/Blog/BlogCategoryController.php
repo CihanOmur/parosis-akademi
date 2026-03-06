@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blogs\BlogCategory;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 
 class BlogCategoryController extends Controller
@@ -23,7 +24,7 @@ class BlogCategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-        ]);
+        ], ValidationMessageService::getMessages('blog_cat_store'));
 
         $locale = app()->getLocale();
 
@@ -47,7 +48,7 @@ class BlogCategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:200',
-        ]);
+        ], ValidationMessageService::getMessages('blog_cat_update'));
 
         $category = BlogCategory::findOrFail($id);
         $locale = app()->getLocale();
@@ -73,7 +74,7 @@ class BlogCategoryController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:blog_categories,id',
-        ]);
+        ], ValidationMessageService::getMessages('blog_cat_order'));
 
         foreach ($request->order as $index => $id) {
             BlogCategory::where('id', $id)->update(['sort_order' => $index]);
@@ -110,7 +111,7 @@ class BlogCategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:200',
             'lang' => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('blog_cat_translate'));
 
         $category = BlogCategory::findOrFail($id);
         $locale = $request->lang;

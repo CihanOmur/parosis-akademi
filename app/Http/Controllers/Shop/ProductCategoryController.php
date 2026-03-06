@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ProductCategory;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -25,7 +26,7 @@ class ProductCategoryController extends Controller
         $request->validate([
             'name'  => 'required|string|max:200',
             'image' => 'nullable|file|mimes:png,jpg,jpeg,svg,webp|max:2048',
-        ]);
+        ], ValidationMessageService::getMessages('product_cat_store'));
 
         $locale = app()->getLocale();
 
@@ -58,7 +59,7 @@ class ProductCategoryController extends Controller
         $request->validate([
             'name'  => 'required|string|max:200',
             'image' => 'nullable|file|mimes:png,jpg,jpeg,svg,webp|max:2048',
-        ]);
+        ], ValidationMessageService::getMessages('product_cat_update'));
 
         $category = ProductCategory::findOrFail($id);
         $locale = app()->getLocale();
@@ -95,7 +96,7 @@ class ProductCategoryController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:product_categories,id',
-        ]);
+        ], ValidationMessageService::getMessages('product_cat_order'));
 
         foreach ($request->order as $index => $id) {
             ProductCategory::where('id', $id)->update(['sort_order' => $index]);
@@ -132,7 +133,7 @@ class ProductCategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:200',
             'lang' => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('product_cat_translate'));
 
         $category = ProductCategory::findOrFail($id);
         $locale = $request->lang;

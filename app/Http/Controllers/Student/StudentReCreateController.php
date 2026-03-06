@@ -8,6 +8,7 @@ use App\Models\Student\EmergencyContact;
 use App\Models\Student\Student;
 use App\Models\Student\StudentGuardian;
 use App\Models\Student\StudentPayments;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 
 class StudentReCreateController extends Controller
@@ -67,78 +68,7 @@ class StudentReCreateController extends Controller
                 'guardian2_email' => 'nullable|email|max:200',
                 'guardian2_home_address'  => 'nullable|string|max:500',
                 'guardian2_work_address'  => 'nullable|string|max:500',
-            ], [
-                // Genel
-                'registiration_type.required' => 'Kayıt türü seçilmelidir.',
-                'registiration_type.in' => 'Kayıt türü yalnızca 1 veya 2 olabilir.',
-                'full_name.required' => 'Öğrencinin adı soyadı zorunludur.',
-                'full_name.max' => 'Öğrencinin adı soyadı en fazla 200 karakter olabilir.',
-                'gender.required' => 'Cinsiyet seçilmelidir.',
-                'birth_date.required' => 'Doğum tarihi girilmelidir.',
-                'school_name.required' => 'Okul adı zorunludur.',
-                'school_name.max' => 'Okul adı en fazla 200 karakter olabilir.',
-                'tc_no.required' => 'TC Kimlik Numarası zorunludur.',
-                'tc_no.max' => 'TC Kimlik Numarası en fazla 11 karakter olabilir.',
-                'blood_type.required' => 'Kan grubu zorunludur.',
-                'blood_type.max' => 'Kan grubu en fazla 3 karakter olabilir.',
-                'class_id.required' => 'Sınıf seçilmelidir.',
-                'class_id.exists' => 'Seçilen sınıf mevcut değil.',
-                'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
-                'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
-                'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
-
-                'student_phone.required' => 'Telefon numarası girilmelidir.',
-                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
-
-
-                // Veli 1
-                'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
-                'guardian1_full_name.max' => '1. velinin adı soyadı en fazla 200 karakter olabilir.',
-                'guardian1_national_id.required' => '1. velinin TC Kimlik Numarası zorunludur.',
-                'guardian1_national_id.max' => '1. velinin TC Kimlik Numarası en fazla 11 karakter olabilir.',
-                'guardian1_relationship.required' => '1. velinin öğrenci ile yakınlığı belirtilmelidir.',
-                'guardian1_relationship.max' => '1. velinin öğrenci ile yakınlığı en fazla 200 karakter olabilir.',
-                'guardian1_birth_date.required' => '1. velinin doğum tarihi girilmelidir.',
-                'guardian1_education_level.required' => '1. velinin eğitim durumu zorunludur.',
-                'guardian1_education_level.max' => '1. velinin eğitim durumu en fazla 200 karakter olabilir.',
-                'guardian1_job.required' => '1. velinin mesleği girilmelidir.',
-                'guardian1_job.max' => '1. velinin mesleği en fazla 200 karakter olabilir.',
-                'guardian1_phone_1.required' => '1. velinin birinci telefon numarası girilmelidir.',
-                'guardian1_phone_1.max' => '1. velinin birinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian1_phone_2.required' => '1. velinin ikinci telefon numarası girilmelidir.',
-                'guardian1_phone_2.max' => '1. velinin ikinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian1_email.required' => '1. velinin e-posta adresi girilmelidir.',
-                'guardian1_email.email' => '1. velinin e-posta adresi geçerli olmalıdır.',
-                'guardian1_email.max' => '1. velinin e-posta adresi en fazla 200 karakter olabilir.',
-                'guardian1_home_address.required' => '1. velinin ev adresi girilmelidir.',
-                'guardian1_home_address.max' => '1. velinin ev adresi en fazla 500 karakter olabilir.',
-                'guardian1_work_address.required' => '1. velinin iş adresi girilmelidir.',
-                'guardian1_work_address.max' => '1. velinin iş adresi en fazla 500 karakter olabilir.',
-
-                // Veli 2
-                'guardian2_full_name.required_if' => '2. veli aktif seçildiğinde adı soyadı zorunludur.',
-                'guardian2_full_name.max' => '2. velinin adı soyadı en fazla 200 karakter olabilir.',
-                'guardian2_national_id.required_if' => '2. veli aktif seçildiğinde TC Kimlik Numarası zorunludur.',
-                'guardian2_national_id.max' => '2. velinin TC Kimlik Numarası en fazla 11 karakter olabilir.',
-                'guardian2_relationship.required_if' => '2. veli aktif seçildiğinde öğrenci ile yakınlık girilmelidir.',
-                'guardian2_relationship.max' => '2. velinin öğrenci ile yakınlığı en fazla 200 karakter olabilir.',
-                'guardian2_birth_date.required_if' => '2. veli aktif seçildiğinde doğum tarihi girilmelidir.',
-                'guardian2_education_level.required_if' => '2. veli aktif seçildiğinde eğitim durumu girilmelidir.',
-                'guardian2_education_level.max' => '2. velinin eğitim durumu en fazla 200 karakter olabilir.',
-                'guardian2_job.required_if' => '2. veli aktif seçildiğinde mesleği girilmelidir.',
-                'guardian2_job.max' => '2. velinin mesleği en fazla 200 karakter olabilir.',
-                'guardian2_phone_1.required_if' => '2. veli aktif seçildiğinde birinci telefon numarası zorunludur.',
-                'guardian2_phone_1.max' => '2. velinin birinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian2_phone_2.required_if' => '2. veli aktif seçildiğinde ikinci telefon numarası zorunludur.',
-                'guardian2_phone_2.max' => '2. velinin ikinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian2_email.required_if' => '2. veli aktif seçildiğinde e-posta adresi zorunludur.',
-                'guardian2_email.email' => '2. velinin e-posta adresi geçerli olmalıdır.',
-                'guardian2_email.max' => '2. velinin e-posta adresi en fazla 200 karakter olabilir.',
-                'guardian2_home_address.required_if' => '2. veli aktif seçildiğinde ev adresi zorunludur.',
-                'guardian2_home_address.max' => '2. velinin ev adresi en fazla 500 karakter olabilir.',
-                'guardian2_work_address.required_if' => '2. veli aktif seçildiğinde iş adresi zorunludur.',
-                'guardian2_work_address.max' => '2. velinin iş adresi en fazla 500 karakter olabilir.',
-            ]);
+            ], ValidationMessageService::getMessages('student_recreate_pre'));
         } else {
             $validated = $request->validate([
                 'registiration_type' => 'required|in:1,2',
@@ -179,77 +109,7 @@ class StudentReCreateController extends Controller
                 'guardian2_email' => 'required_if:guardian2_active,1|email|max:200',
                 'guardian2_home_address'  => 'required_if:guardian2_active,1|string|max:500',
                 'guardian2_work_address'  => 'nullable|string|max:500',
-            ], [
-                // Genel
-                'registiration_type.required' => 'Kayıt türü seçilmelidir.',
-                'registiration_type.in' => 'Kayıt türü yalnızca 1 veya 2 olabilir.',
-                'full_name.required' => 'Öğrencinin adı soyadı zorunludur.',
-                'full_name.max' => 'Öğrencinin adı soyadı en fazla 200 karakter olabilir.',
-                'gender.required' => 'Cinsiyet seçilmelidir.',
-                'birth_date.required' => 'Doğum tarihi girilmelidir.',
-                'school_name.required' => 'Okul adı zorunludur.',
-                'school_name.max' => 'Okul adı en fazla 200 karakter olabilir.',
-                'tc_no.required' => 'TC Kimlik Numarası zorunludur.',
-                'tc_no.max' => 'TC Kimlik Numarası en fazla 11 karakter olabilir.',
-                'blood_type.required' => 'Kan grubu zorunludur.',
-                'blood_type.max' => 'Kan grubu en fazla 3 karakter olabilir.',
-                'class_id.required' => 'Sınıf seçilmelidir.',
-                'class_id.exists' => 'Seçilen sınıf mevcut değil.',
-                'allergy_detail.required_if' => 'Alerji bilgisi seçildiyse detay alanı zorunludur.',
-                'allergy_detail.max' => 'Alerji detayı en fazla 500 karakter olabilir.',
-                'notes.max' => 'Notlar en fazla 1000 karakter olabilir.',
-                'student_phone.required' => 'Telefon numarası girilmelidir.',
-                'student_phone.max' => 'Telefon numarası en fazla 200 karakter olabilir.',
-                'registiration_term.required' => 'Dönem girilmelidir.',
-
-                // Veli 1
-                'guardian1_full_name.required' => '1. velinin adı soyadı zorunludur.',
-                'guardian1_full_name.max' => '1. velinin adı soyadı en fazla 200 karakter olabilir.',
-                'guardian1_national_id.required' => '1. velinin TC Kimlik Numarası zorunludur.',
-                'guardian1_national_id.max' => '1. velinin TC Kimlik Numarası en fazla 11 karakter olabilir.',
-                'guardian1_relationship.required' => '1. velinin öğrenci ile yakınlığı belirtilmelidir.',
-                'guardian1_relationship.max' => '1. velinin öğrenci ile yakınlığı en fazla 200 karakter olabilir.',
-                'guardian1_birth_date.required' => '1. velinin doğum tarihi girilmelidir.',
-                'guardian1_education_level.required' => '1. velinin eğitim durumu zorunludur.',
-                'guardian1_education_level.max' => '1. velinin eğitim durumu en fazla 200 karakter olabilir.',
-                'guardian1_job.required' => '1. velinin mesleği girilmelidir.',
-                'guardian1_job.max' => '1. velinin mesleği en fazla 200 karakter olabilir.',
-                'guardian1_phone_1.required' => '1. velinin birinci telefon numarası girilmelidir.',
-                'guardian1_phone_1.max' => '1. velinin birinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian1_phone_2.required' => '1. velinin ikinci telefon numarası girilmelidir.',
-                'guardian1_phone_2.max' => '1. velinin ikinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian1_email.required' => '1. velinin e-posta adresi girilmelidir.',
-                'guardian1_email.email' => '1. velinin e-posta adresi geçerli olmalıdır.',
-                'guardian1_email.max' => '1. velinin e-posta adresi en fazla 200 karakter olabilir.',
-                'guardian1_home_address.required' => '1. velinin ev adresi girilmelidir.',
-                'guardian1_home_address.max' => '1. velinin ev adresi en fazla 500 karakter olabilir.',
-                'guardian1_work_address.required' => '1. velinin iş adresi girilmelidir.',
-                'guardian1_work_address.max' => '1. velinin iş adresi en fazla 500 karakter olabilir.',
-
-                // Veli 2
-                'guardian2_full_name.required_if' => '2. veli aktif seçildiğinde adı soyadı zorunludur.',
-                'guardian2_full_name.max' => '2. velinin adı soyadı en fazla 200 karakter olabilir.',
-                'guardian2_national_id.required_if' => '2. veli aktif seçildiğinde TC Kimlik Numarası zorunludur.',
-                'guardian2_national_id.max' => '2. velinin TC Kimlik Numarası en fazla 11 karakter olabilir.',
-                'guardian2_relationship.required_if' => '2. veli aktif seçildiğinde öğrenci ile yakınlık girilmelidir.',
-                'guardian2_relationship.max' => '2. velinin öğrenci ile yakınlığı en fazla 200 karakter olabilir.',
-                'guardian2_birth_date.required_if' => '2. veli aktif seçildiğinde doğum tarihi girilmelidir.',
-                'guardian2_education_level.required_if' => '2. veli aktif seçildiğinde eğitim durumu girilmelidir.',
-                'guardian2_education_level.max' => '2. velinin eğitim durumu en fazla 200 karakter olabilir.',
-                'guardian2_job.required_if' => '2. veli aktif seçildiğinde mesleği girilmelidir.',
-                'guardian2_job.max' => '2. velinin mesleği en fazla 200 karakter olabilir.',
-                'guardian2_phone_1.required_if' => '2. veli aktif seçildiğinde birinci telefon numarası zorunludur.',
-                'guardian2_phone_1.max' => '2. velinin birinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian2_phone_2.required_if' => '2. veli aktif seçildiğinde ikinci telefon numarası zorunludur.',
-                'guardian2_phone_2.max' => '2. velinin ikinci telefon numarası en fazla 200 karakter olabilir.',
-                'guardian2_email.required_if' => '2. veli aktif seçildiğinde e-posta adresi zorunludur.',
-                'guardian2_email.email' => '2. velinin e-posta adresi geçerli olmalıdır.',
-                'guardian2_email.max' => '2. velinin e-posta adresi en fazla 200 karakter olabilir.',
-                'guardian2_home_address.required_if' => '2. veli aktif seçildiğinde ev adresi zorunludur.',
-                'guardian2_home_address.max' => '2. velinin ev adresi en fazla 500 karakter olabilir.',
-                'guardian2_work_address.required_if' => '2. veli aktif seçildiğinde iş adresi zorunludur.',
-                'guardian2_work_address.max' => '2. velinin iş adresi en fazla 500 karakter olabilir.',
-            ]);
+            ], ValidationMessageService::getMessages('student_recreate_normal'));
         }
         $student  = Student::where('registration_type', '2')->findOrFail($id);
         $student->registration_type  = $request->registiration_type;

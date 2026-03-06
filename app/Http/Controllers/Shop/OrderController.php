@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderStatusMail;
 use App\Models\Shop\Order;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -44,7 +45,7 @@ class OrderController extends Controller
     {
         $request->validate([
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
-        ]);
+        ], ValidationMessageService::getMessages('order_status'));
 
         $order = Order::findOrFail($id);
         $oldStatus = $order->status;

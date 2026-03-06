@@ -8,6 +8,7 @@ use App\Models\Shop\ProductAttribute;
 use App\Models\Shop\ProductCategory;
 use App\Models\Shop\ProductImage;
 use App\Models\Shop\ProductVariant;
+use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -37,7 +38,7 @@ class ProductController extends Controller
             'sale_price'        => 'nullable|numeric|min:0',
             'stock'             => 'nullable|integer|min:0',
             'image'             => 'nullable|file|mimes:png,jpg,jpeg,webp,svg|max:2048',
-        ]);
+        ], ValidationMessageService::getMessages('product_store'));
 
         $locale = app()->getLocale();
         $product = new Product();
@@ -112,7 +113,7 @@ class ProductController extends Controller
             'sale_price'        => 'nullable|numeric|min:0',
             'stock'             => 'nullable|integer|min:0',
             'image'             => 'nullable|file|mimes:png,jpg,jpeg,webp,svg|max:2048',
-        ]);
+        ], ValidationMessageService::getMessages('product_update'));
 
         $product = Product::findOrFail($id);
         $locale = app()->getLocale();
@@ -159,7 +160,7 @@ class ProductController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:products,id',
-        ]);
+        ], ValidationMessageService::getMessages('product_order'));
 
         foreach ($request->order as $index => $id) {
             Product::where('id', $id)->update(['sort_order' => $index]);
@@ -199,7 +200,7 @@ class ProductController extends Controller
             'description'       => 'nullable|string',
             'features'          => 'nullable|string',
             'lang'              => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('product_translate'));
 
         $product = Product::findOrFail($id);
         $locale = $request->lang;
@@ -221,7 +222,7 @@ class ProductController extends Controller
         $request->validate([
             'attribute_ids'   => 'required|array|min:1',
             'attribute_ids.*' => 'integer|exists:product_attributes,id',
-        ]);
+        ], ValidationMessageService::getMessages('product_variants'));
 
         $product = Product::findOrFail($id);
         $attributes = ProductAttribute::with(['values' => fn($q) => $q->where('is_active', true)->orderBy('sort_order')])
@@ -315,7 +316,7 @@ class ProductController extends Controller
         $request->validate([
             'images'   => 'required|array',
             'images.*' => 'file|mimes:png,jpg,jpeg,webp,svg|max:2048',
-        ]);
+        ], ValidationMessageService::getMessages('product_gallery'));
 
         $product = Product::findOrFail($id);
         $images = [];
@@ -350,7 +351,7 @@ class ProductController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:product_images,id',
-        ]);
+        ], ValidationMessageService::getMessages('product_image_order'));
 
         foreach ($request->order as $index => $id) {
             ProductImage::where('id', $id)->update(['sort_order' => $index]);

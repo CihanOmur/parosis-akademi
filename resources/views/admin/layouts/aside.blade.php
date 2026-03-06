@@ -710,6 +710,27 @@
         </a>
         @endcan
 
+        {{-- Doğrulama Mesajları --}}
+        @can('settings')
+        @php $isValidation = Route::is('settings.validationMessages.*'); @endphp
+        <a href="{{ route('settings.validationMessages.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isValidation
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isValidation
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Doğrulama Mesajları</span>
+            <span class="lg:hidden">Doğrulama Mesajları</span>
+        </a>
+        @endcan
+
     </nav>
 
     {{-- Kullanıcı Profili --}}

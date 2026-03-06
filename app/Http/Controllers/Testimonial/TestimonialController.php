@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Testimonial\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class TestimonialController extends Controller
 {
@@ -28,7 +29,7 @@ class TestimonialController extends Controller
             'quote'  => 'required|string|max:2000',
             'image'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
             'rating' => 'required|integer|min:1|max:5',
-        ]);
+        ], ValidationMessageService::getMessages('testimonial_store'));
 
         $locale = app()->getLocale();
 
@@ -68,7 +69,7 @@ class TestimonialController extends Controller
             'quote'  => 'required|string|max:2000',
             'image'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
             'rating' => 'required|integer|min:1|max:5',
-        ]);
+        ], ValidationMessageService::getMessages('testimonial_update'));
 
         $testimonial = Testimonial::findOrFail($id);
         $locale = app()->getLocale();
@@ -113,7 +114,7 @@ class TestimonialController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:testimonials,id',
-        ]);
+        ], ValidationMessageService::getMessages('testimonial_order'));
 
         foreach ($request->order as $index => $id) {
             Testimonial::where('id', $id)->update(['sort_order' => $index]);
@@ -151,7 +152,7 @@ class TestimonialController extends Controller
             'role'  => 'nullable|string|max:255',
             'quote' => 'required|string|max:2000',
             'lang'  => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('testimonial_translate'));
 
         $testimonial = Testimonial::findOrFail($id);
         $locale = $request->lang;

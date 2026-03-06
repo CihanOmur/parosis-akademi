@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Teacher\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Services\ValidationMessageService;
 
 class TeacherController extends Controller
 {
@@ -26,7 +27,7 @@ class TeacherController extends Controller
             'name'  => 'required|string|max:200',
             'title' => 'required|string|max:200',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp|max:5120',
-        ]);
+        ], ValidationMessageService::getMessages('teacher_store'));
 
         $locale = app()->getLocale();
 
@@ -77,7 +78,7 @@ class TeacherController extends Controller
             'name'  => 'required|string|max:200',
             'title' => 'required|string|max:200',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp|max:5120',
-        ]);
+        ], ValidationMessageService::getMessages('teacher_update'));
 
         $teacher = Teacher::findOrFail($id);
         $locale = app()->getLocale();
@@ -126,7 +127,7 @@ class TeacherController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:teachers,id',
-        ]);
+        ], ValidationMessageService::getMessages('teacher_order'));
 
         foreach ($request->order as $index => $id) {
             Teacher::where('id', $id)->update(['sort_order' => $index]);
@@ -164,7 +165,7 @@ class TeacherController extends Controller
             'name'  => 'required|string|max:200',
             'title' => 'required|string|max:200',
             'lang'  => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('teacher_translate'));
 
         $teacher = Teacher::findOrFail($id);
         $locale = $request->lang;

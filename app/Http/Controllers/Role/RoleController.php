@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role\Permission;
 use App\Models\Role\Role;
 use Illuminate\Http\Request;
+use App\Services\ValidationMessageService;
 
 class RoleController extends Controller
 {
@@ -44,10 +45,7 @@ class RoleController extends Controller
             'name'          => 'required|string|max:100|unique:roles,name',
             'permissions'   => 'nullable|array',
             'permissions.*' => 'exists:permissions,name',
-        ], [
-            'name.required' => 'Rol adı zorunludur.',
-            'name.unique'   => 'Bu rol adı zaten kullanılıyor.',
-        ]);
+        ], ValidationMessageService::getMessages('role_store'));
 
         $role = Role::create(['name' => $request->name, 'is_visible' => 1]);
         $role->syncPermissions($request->permissions ?? []);
@@ -83,10 +81,7 @@ class RoleController extends Controller
             'name'          => 'required|string|max:100|unique:roles,name,' . $id,
             'permissions'   => 'nullable|array',
             'permissions.*' => 'exists:permissions,name',
-        ], [
-            'name.required' => 'Rol adı zorunludur.',
-            'name.unique'   => 'Bu rol adı zaten kullanılıyor.',
-        ]);
+        ], ValidationMessageService::getMessages('role_update'));
 
         $role->name = $request->name;
         $role->save();

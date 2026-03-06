@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MenuItem;
 use App\Http\Controllers\Controller;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
+use App\Services\ValidationMessageService;
 
 class MenuItemController extends Controller
 {
@@ -35,7 +36,7 @@ class MenuItemController extends Controller
             'url'       => 'required|string|max:500',
             'target'    => 'required|in:_self,_blank',
             'parent_id' => 'nullable|exists:menu_items,id',
-        ]);
+        ], ValidationMessageService::getMessages('menu_store'));
 
         $locale = app()->getLocale();
 
@@ -73,7 +74,7 @@ class MenuItemController extends Controller
             'url'       => 'required|string|max:500',
             'target'    => 'required|in:_self,_blank',
             'parent_id' => 'nullable|exists:menu_items,id',
-        ]);
+        ], ValidationMessageService::getMessages('menu_update'));
 
         $menuItem = MenuItem::findOrFail($id);
         $locale = app()->getLocale();
@@ -102,7 +103,7 @@ class MenuItemController extends Controller
         $request->validate([
             'order'   => 'required|array',
             'order.*' => 'integer|exists:menu_items,id',
-        ]);
+        ], ValidationMessageService::getMessages('menu_order'));
 
         foreach ($request->order as $index => $id) {
             MenuItem::where('id', $id)->update(['sort_order' => $index]);
@@ -213,7 +214,7 @@ class MenuItemController extends Controller
         $request->validate([
             'label' => 'required|string|max:255',
             'lang'  => 'required|string',
-        ]);
+        ], ValidationMessageService::getMessages('menu_translate'));
 
         $menuItem = MenuItem::findOrFail($id);
         $menuItem->setTranslation('label', $request->lang, $request->label);
