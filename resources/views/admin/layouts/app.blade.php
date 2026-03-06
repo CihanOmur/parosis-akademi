@@ -61,8 +61,8 @@
     @include('admin.layouts.aside')
 
     {{-- Ana İçerik Alanı --}}
-    <div class="transition-all duration-300"
-         :class="sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-72'">
+    <div class="transition-all duration-300 lg:pl-72"
+         :class="{ 'lg:pl-20': sidebarCollapsed, 'lg:pl-72': !sidebarCollapsed }"
 
         {{-- Topbar --}}
         @include('admin.layouts.navbar')

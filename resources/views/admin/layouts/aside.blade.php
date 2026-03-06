@@ -1,10 +1,14 @@
 <aside class="fixed inset-y-0 left-0 z-40 bg-white dark:bg-slate-900
               border-r border-slate-200 dark:border-slate-800
-              transition-all duration-300 ease-out flex flex-col"
-       :class="[
-           sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72',
-           sidebarCollapsed ? 'lg:translate-x-0 lg:w-20 sidebar-collapsed' : 'lg:translate-x-0 lg:w-72'
-       ]"
+              transition-all duration-300 ease-out flex flex-col
+              -translate-x-full w-72 lg:translate-x-0 lg:w-72"
+       :class="{
+           'translate-x-0': sidebarOpen,
+           '-translate-x-full': !sidebarOpen,
+           'lg:w-20': sidebarCollapsed,
+           'lg:w-72': !sidebarCollapsed,
+           'sidebar-collapsed': sidebarCollapsed
+       }"
        x-data="{ openMenu: '{{ Route::is('class.*') || Route::is('students.*') ? 'egitim' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('courses.*') || Route::is('courseCategories.*') ? 'kurs' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*') ? 'magaza' : ''))) }}' }">
 
     {{-- Logo --}}
@@ -690,7 +694,7 @@
 
         {{-- Ayarlar --}}
         @can('settings')
-        @php $isSettings = Route::is('settings.*'); @endphp
+        @php $isSettings = Route::is('settings.*') && !Route::is('settings.validationMessages.*'); @endphp
         <a href="{{ route('settings.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                   {{ $isSettings

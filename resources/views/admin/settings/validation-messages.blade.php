@@ -5,11 +5,6 @@
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Doğrulama Mesajları</h1>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Sistemdeki tüm form alanlarının doğrulama hata mesajlarını buradan özelleştirebilirsiniz. Her alan için kural bazlı (zorunlu, maksimum, format vb.) Türkçe mesajlar tanımlıdır. Değiştirdiğiniz mesajlar veritabanında saklanır; boş bırakılan alanlar varsayılan mesajı kullanır.</p>
     </div>
-    <a href="{{ route('settings.index') }}"
-       class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
-        Site Ayarları
-    </a>
 @endsection
 
 @section('content')
@@ -59,14 +54,14 @@ $ruleDescriptions = [
                 </div>
                 <nav class="p-2 max-h-[calc(100vh-14rem)] overflow-y-auto">
                     @foreach($modules as $moduleKey => $module)
-                    <div class="mb-1" x-data="{ open: activeModule === '{{ $moduleKey }}' }">
+                    <div class="mb-1" x-data="{ open: activeForm !== '' && activeModule === '{{ $moduleKey }}' }">
                         <button @click="open = !open; activeModule = '{{ $moduleKey }}'"
                                 class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-sm font-semibold transition-all"
                                 :class="activeModule === '{{ $moduleKey }}' ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'">
                             <span>{{ $module['label'] }}</span>
                             <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                        <div x-show="open" x-collapse class="ml-2 mt-1 space-y-0.5">
+                        <div x-show="open || search !== ''" x-collapse x-cloak class="ml-2 mt-1 space-y-0.5">
                             @foreach($module['forms'] as $formKey => $form)
                             <button @click="activeForm = '{{ $formKey }}'"
                                     x-show="search === '' || '{{ strtolower($form['label']) }}'.includes(search.toLowerCase())"
@@ -92,7 +87,7 @@ $ruleDescriptions = [
         <div class="flex-1 min-w-0">
             @foreach($modules as $moduleKey => $module)
                 @foreach($module['forms'] as $formKey => $form)
-                <div x-show="activeForm === '{{ $formKey }}'" x-transition.opacity>
+                <div x-show="activeForm === '{{ $formKey }}'" x-transition.opacity x-cloak>
                     <form method="POST" action="{{ route('settings.validationMessages.updateForm', $formKey) }}">
                         @csrf
 
@@ -140,7 +135,7 @@ $ruleDescriptions = [
                                                                     class="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-600 text-slate-500 dark:text-slate-300 hover:bg-fuchsia-100 hover:text-fuchsia-600 dark:hover:bg-fuchsia-900/30 dark:hover:text-fuchsia-400 flex items-center justify-center text-[9px] font-bold transition-colors flex-shrink-0">
                                                                 i
                                                             </button>
-                                                            <div x-show="showTip" x-transition.opacity
+                                                            <div x-show="showTip" x-transition.opacity x-cloak
                                                                  class="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-72 px-3 py-2 text-xs text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 rounded-xl shadow-xl border border-slate-200 dark:border-slate-600 leading-relaxed">
                                                                 <div class="font-semibold text-fuchsia-600 dark:text-fuchsia-400 mb-0.5">{{ $rule }}</div>
                                                                 {{ $ruleDescriptions[$rule] }}
@@ -187,7 +182,7 @@ $ruleDescriptions = [
             @endforeach
 
             {{-- Boş durum --}}
-            <div x-show="activeForm === ''" x-transition.opacity>
+            <div x-show="activeForm === ''" x-transition.opacity x-cloak>
                 <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-12 text-center">
                     <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"/>
