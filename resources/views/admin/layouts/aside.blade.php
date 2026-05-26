@@ -735,9 +735,46 @@
 
     </nav>
 
-    {{-- Kullanıcı Profili --}}
-    <div class="sidebar-user p-3 border-t border-slate-200 dark:border-slate-800 flex-shrink-0">
-        <div class="flex items-center gap-3">
+    {{-- Kullanıcı Profili (Dropdown) --}}
+    <div class="sidebar-user relative p-3 border-t border-slate-200 dark:border-slate-800 flex-shrink-0"
+         x-data="{ userMenuOpen: false }"
+         @click.outside="userMenuOpen = false"
+         @keydown.escape.window="userMenuOpen = false">
+
+        {{-- Açılır menü (yukarı doğru) --}}
+        <div x-show="userMenuOpen"
+             x-cloak
+             x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 translate-y-1"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 translate-y-1"
+             class="absolute z-[60] bottom-full mb-2 left-3 right-3 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-1"
+             :class="sidebarCollapsed ? 'lg:bottom-auto lg:top-1/2 lg:-translate-y-1/2 lg:left-full lg:right-auto lg:ml-2 lg:mb-0 lg:w-52' : ''">
+            <form action="{{ route('logout') }}" method="post" id="sidebar-logout-form">
+                @csrf
+            </form>
+            <button type="button"
+                    onclick="document.getElementById('sidebar-logout-form').submit();"
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm
+                           text-red-600 dark:text-red-400
+                           hover:bg-red-50 dark:hover:bg-red-500/10
+                           transition-colors">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                <span>Çıkış Yap</span>
+            </button>
+        </div>
+
+        {{-- Tetikleyici (avatar + ad/email + chevron) --}}
+        <button type="button"
+                @click="userMenuOpen = !userMenuOpen"
+                class="w-full flex items-center gap-3 p-1 rounded-xl
+                       hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                :class="{ 'bg-slate-100 dark:bg-slate-800': userMenuOpen }">
             <div class="relative flex-shrink-0">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600
                             flex items-center justify-center text-white font-bold
@@ -747,7 +784,7 @@
                 <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500
                             border-2 border-white dark:border-slate-900 rounded-full"></div>
             </div>
-            <div x-show="!sidebarCollapsed" x-transition class="hidden lg:block min-w-0">
+            <div x-show="!sidebarCollapsed" x-transition class="hidden lg:block min-w-0 flex-1 text-left">
                 <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">
                     {{ auth()->user()->name ?? 'Admin' }}
                 </p>
@@ -755,7 +792,7 @@
                     {{ auth()->user()->email ?? '' }}
                 </p>
             </div>
-            <div class="lg:hidden min-w-0">
+            <div class="lg:hidden min-w-0 flex-1 text-left">
                 <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">
                     {{ auth()->user()->name ?? 'Admin' }}
                 </p>
@@ -763,6 +800,17 @@
                     {{ auth()->user()->email ?? '' }}
                 </p>
             </div>
-        </div>
+            <svg x-show="!sidebarCollapsed" x-transition
+                 class="w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-200 hidden lg:block flex-shrink-0"
+                 :class="{ 'rotate-180': userMenuOpen }"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+            <svg class="w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-200 lg:hidden flex-shrink-0"
+                 :class="{ 'rotate-180': userMenuOpen }"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
     </div>
 </aside>
