@@ -95,7 +95,7 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('students.index');
+            return redirect()->route('dashboard.index');
         }
         return back()->withErrors([
             'check' => 'Kullanıcı adı veya şifre hatalı.',
