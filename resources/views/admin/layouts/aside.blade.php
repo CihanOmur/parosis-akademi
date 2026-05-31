@@ -13,24 +13,21 @@
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
-        {{-- Genişletilmiş logo --}}
-        <div x-show="!sidebarCollapsed" x-transition class="flex items-center gap-2 hidden lg:flex">
-            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                <span class="text-white font-bold text-sm">PA</span>
-            </div>
-            <span class="font-bold text-slate-900 dark:text-white text-sm truncate">Parosis Akademi</span>
+        {{-- Genişletilmiş logo (desktop) --}}
+        <div x-show="!sidebarCollapsed" x-transition class="hidden lg:flex items-center flex-1 min-w-0">
+            <img src="/images/corwus-board-logo.svg" alt="Corwus Board"
+                 class="h-6 w-auto max-w-full dark:invert">
         </div>
-        {{-- Her zaman görünen (mobil) --}}
-        <div class="flex items-center gap-2 lg:hidden">
-            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center flex-shrink-0">
-                <span class="text-white font-bold text-sm">PA</span>
-            </div>
-            <span class="font-bold text-slate-900 dark:text-white text-sm">Parosis Akademi</span>
+        {{-- Mobil logo (her zaman görünen) --}}
+        <div class="flex items-center flex-1 lg:hidden min-w-0">
+            <img src="/images/corwus-board-logo.svg" alt="Corwus Board"
+                 class="h-6 w-auto max-w-full dark:invert">
         </div>
-        {{-- Collapsed logo (sadece desktop) --}}
-        <div x-show="sidebarCollapsed" x-transition class="hidden lg:flex items-center justify-center">
-            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center">
-                <span class="text-white font-bold text-sm">PA</span>
+        {{-- Collapsed logo (sadece desktop daraltılmış) --}}
+        <div x-show="sidebarCollapsed" x-transition class="hidden lg:flex items-center justify-center w-full">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600
+                        flex items-center justify-center shadow-md shadow-fuchsia-500/20">
+                <span class="text-white font-bold text-sm">C</span>
             </div>
         </div>
 
