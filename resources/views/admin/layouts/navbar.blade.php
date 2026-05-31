@@ -78,67 +78,19 @@
                 </svg>
             </button>
 
-            {{-- Kullanıcı Dropdown --}}
-            <div x-data="{ userOpen: false }" class="relative">
-                <button @click="userOpen = !userOpen" type="button"
-                        class="flex items-center gap-2 p-1 rounded-xl
-                               hover:bg-slate-100 dark:hover:bg-slate-800
-                               focus:outline-none focus:ring-2 focus:ring-fuchsia-500/20
-                               transition-all duration-200">
-                    <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600
-                                flex items-center justify-center text-white font-bold text-sm
-                                shadow-md shadow-fuchsia-500/20">
-                        {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-                    </div>
-                    <svg class="w-4 h-4 text-slate-400 hidden sm:block transition-transform duration-200"
-                         :class="{ 'rotate-180': userOpen }"
-                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </button>
-
-                {{-- Dropdown menü --}}
-                <div x-show="userOpen"
-                     @click.outside="userOpen = false"
-                     x-transition:enter="transition ease-out duration-150"
-                     x-transition:enter-start="transform opacity-0 scale-95 translate-y-1"
-                     x-transition:enter-end="transform opacity-100 scale-100 translate-y-0"
-                     x-transition:leave="transition ease-in duration-100"
-                     x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
-                     x-transition:leave-end="transform opacity-0 scale-95 translate-y-1"
-                     class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl
-                            shadow-xl shadow-slate-900/10 dark:shadow-slate-950/50
-                            border border-slate-200/50 dark:border-slate-700/50 overflow-hidden z-50"
-                     style="display: none;">
-
-                    {{-- Kullanıcı bilgisi --}}
-                    <div class="px-4 py-3 border-b border-slate-100 dark:border-slate-700">
-                        <p class="text-sm font-semibold text-slate-900 dark:text-white truncate">
-                            {{ auth()->user()->name ?? 'Admin' }}
-                        </p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">
-                            {{ auth()->user()->email ?? '' }}
-                        </p>
-                    </div>
-
-                    {{-- Çıkış --}}
-                    <div class="p-1">
-                        <form action="{{ route('logout') }}" method="post" id="logout-form">
-                            @csrf
-                        </form>
-                        <button onclick="document.getElementById('logout-form').submit();"
-                                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm
-                                       text-red-600 dark:text-red-400
-                                       hover:bg-red-50 dark:hover:bg-red-500/10
-                                       transition-all duration-200 cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                            </svg>
-                            Çıkış Yap
-                        </button>
-                    </div>
+            {{-- Firma Başlığı --}}
+            @php $companyName = \App\Models\Setting::get('site_name', 'Parosis Akademi'); @endphp
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl
+                        bg-slate-100/70 dark:bg-slate-800/70
+                        border border-slate-200/60 dark:border-slate-700/60">
+                <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-fuchsia-500 to-purple-600
+                            flex items-center justify-center text-white font-bold text-xs
+                            shadow-md shadow-fuchsia-500/20 flex-shrink-0">
+                    {{ strtoupper(mb_substr($companyName, 0, 1)) }}
                 </div>
+                <span class="text-sm font-semibold text-slate-900 dark:text-white truncate max-w-[160px] sm:max-w-[260px]">
+                    {{ $companyName }}
+                </span>
             </div>
 
         </div>
