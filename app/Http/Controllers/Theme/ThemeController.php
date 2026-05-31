@@ -12,37 +12,36 @@ class ThemeController extends Controller
     public const GROUP = 'sidebar_theme';
 
     /**
-     * Sidebar tema renklerinin varsayılan değerleri.
-     * Mevcut Tailwind class'larının hex karşılıkları.
+     * Sidebar tema renklerinin varsayılan değerleri (siyah-beyaz monokrom palet).
      */
     public const DEFAULTS = [
         // Genel
-        'sidebar_bg'              => '#ffffff', // bg-white
-        'sidebar_border'          => '#e2e8f0', // slate-200
-        'section_title_text'      => '#94a3b8', // slate-400
-        'section_divider'         => '#e2e8f0', // slate-200
+        'sidebar_bg'              => '#ffffff', // beyaz
+        'sidebar_border'          => '#e5e7eb', // gray-200
+        'section_title_text'      => '#9ca3af', // gray-400
+        'section_divider'         => '#e5e7eb', // gray-200
 
         // Ana Menü
-        'menu_text'               => '#475569', // slate-600
-        'menu_text_active'        => '#c026d3', // fuchsia-600
-        'menu_bg_active'          => '#fdf4ff', // fuchsia-50
-        'menu_bg_hover'           => '#f1f5f9', // slate-100
+        'menu_text'               => '#374151', // gray-700
+        'menu_text_active'        => '#000000', // siyah
+        'menu_bg_active'          => '#f3f4f6', // gray-100
+        'menu_bg_hover'           => '#f9fafb', // gray-50
 
         // İkonlar
-        'icon_bg'                 => '#f1f5f9', // slate-100
-        'icon_text'               => '#64748b', // slate-500
-        'icon_bg_active'          => '#d946ef', // fuchsia-500
-        'icon_text_active'        => '#ffffff', // white
+        'icon_bg'                 => '#f3f4f6', // gray-100
+        'icon_text'               => '#6b7280', // gray-500
+        'icon_bg_active'          => '#111827', // gray-900 (neredeyse siyah)
+        'icon_text_active'        => '#ffffff', // beyaz
 
         // Alt Menüler
-        'submenu_text'            => '#64748b', // slate-500
-        'submenu_text_active'     => '#c026d3', // fuchsia-600
-        'submenu_bg_active'       => '#fdf4ff', // fuchsia-50
-        'submenu_bg_hover'        => '#f8fafc', // slate-50
+        'submenu_text'            => '#6b7280', // gray-500
+        'submenu_text_active'     => '#000000', // siyah
+        'submenu_bg_active'       => '#f3f4f6', // gray-100
+        'submenu_bg_hover'        => '#f9fafb', // gray-50
 
-        // Avatar
-        'avatar_from'             => '#d946ef', // fuchsia-500
-        'avatar_to'               => '#9333ea', // purple-600
+        // Avatar (siyah gradient)
+        'avatar_from'             => '#374151', // gray-700
+        'avatar_to'               => '#000000', // siyah
     ];
 
     /**
