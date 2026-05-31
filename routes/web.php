@@ -398,6 +398,13 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
     });
 
+    // ─── Sidebar Tema (settings izni) ────────────────────────────────────────
+    Route::prefix('theme')->name('theme.')->middleware('permission:settings')->group(function () {
+        Route::get('/',         [\App\Http\Controllers\Theme\ThemeController::class, 'edit'])->name('edit');
+        Route::post('/',        [\App\Http\Controllers\Theme\ThemeController::class, 'update'])->name('update');
+        Route::post('/reset',   [\App\Http\Controllers\Theme\ThemeController::class, 'reset'])->name('reset');
+    });
+
     // ─── Geliştirici Araçları (developer izni) ───────────────────────────────
     Route::prefix('settings/validation-messages')->name('settings.validationMessages.')->middleware('permission:developer')->group(function () {
         Route::get('/',                    [ValidationMessageController::class, 'index'])->name('index');

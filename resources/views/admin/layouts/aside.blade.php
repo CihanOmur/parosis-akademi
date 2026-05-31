@@ -708,6 +708,27 @@
         </div>
         @endcanany
 
+        {{-- Tema --}}
+        @can('settings')
+        @php $isTheme = Route::is('theme.*'); @endphp
+        <a href="{{ route('theme.edit') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isTheme
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isTheme
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.75 3.75 0 0 1 3 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 0 0 3.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008Z"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Tema</span>
+            <span class="lg:hidden">Tema</span>
+        </a>
+        @endcan
+
         {{-- Ayarlar --}}
         @can('settings')
         @php $isSettings = Route::is('settings.*') && !Route::is('settings.validationMessages.*'); @endphp
