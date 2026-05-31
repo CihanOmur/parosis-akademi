@@ -122,17 +122,25 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347"/>
                                     </svg>
                                 </div>
-                                <span>Kurslar</span>
+                                <span class="flex-1">Kurslar</span>
+                                <span class="text-[10px] font-normal opacity-60">aktif</span>
                             </div>
-                            {{-- Alt menü (aktif) --}}
+                            {{-- Alt menü --}}
                             <div class="ml-12 space-y-1">
-                                <div class="px-3 py-1.5 rounded-lg text-sm font-medium"
+                                <div class="flex items-center justify-between gap-2 px-3 py-1.5 rounded-lg text-sm font-medium"
                                      :style="`background:${colors.submenu_bg_active}; color:${colors.submenu_text_active};`">
-                                    Sınıflar
+                                    <span>Sınıflar</span>
+                                    <span class="text-[10px] font-normal opacity-60">aktif</span>
                                 </div>
-                                <div class="px-3 py-1.5 rounded-lg text-sm"
+                                <div class="flex items-center justify-between gap-2 px-3 py-1.5 rounded-lg text-sm"
                                      :style="`color:${colors.submenu_text};`">
-                                    Kayıtlar
+                                    <span>Kayıtlar</span>
+                                    <span class="text-[10px] opacity-60">normal</span>
+                                </div>
+                                <div class="flex items-center justify-between gap-2 px-3 py-1.5 rounded-lg text-sm"
+                                     :style="`background:${colors.submenu_bg_hover}; color:${colors.submenu_text};`">
+                                    <span>Kurs</span>
+                                    <span class="text-[10px] opacity-60">hover</span>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +154,20 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Z"/>
                                     </svg>
                                 </div>
-                                <span>Eğitmenler</span>
+                                <span class="flex-1">Eğitmenler</span>
+                                <span class="text-[10px] font-normal opacity-60">normal</span>
+                            </div>
+                            {{-- Hover state --}}
+                            <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"
+                                 :style="`background:${colors.menu_bg_hover}; color:${colors.menu_text};`">
+                                <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                     :style="`background:${colors.icon_bg}; color:${colors.icon_text};`">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5"/>
+                                    </svg>
+                                </div>
+                                <span class="flex-1">Mağaza</span>
+                                <span class="text-[10px] font-normal opacity-60">hover</span>
                             </div>
                         </div>
                         {{-- Divider --}}
