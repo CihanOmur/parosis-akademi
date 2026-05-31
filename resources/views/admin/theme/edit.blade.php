@@ -184,6 +184,26 @@
                             </div>
                         </div>
                     </div>
+                    {{-- Buton önizlemesi --}}
+                    <div class="mt-4 p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                        <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Butonlar</p>
+                        <button type="button"
+                                class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl transition-all"
+                                :style="`background-image:linear-gradient(to right, ${colors.btn_primary_from}, ${colors.btn_primary_to}); color:${colors.btn_primary_text};`">
+                            Kaydet
+                        </button>
+                        <button type="button"
+                                class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl border transition-all"
+                                :style="`background:${colors.btn_secondary_bg}; color:${colors.btn_secondary_text}; border-color:${colors.btn_secondary_border};`">
+                            Vazgeç
+                        </button>
+                        <button type="button"
+                                class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl transition-all"
+                                :style="`background:${colors.btn_danger_bg}; color:${colors.btn_danger_text};`">
+                            Sil
+                        </button>
+                    </div>
+
                     <p class="mt-3 text-xs text-slate-500 dark:text-slate-400 text-center">
                         Renkler kaydedildikten sonra tüm panelde geçerli olur.
                     </p>

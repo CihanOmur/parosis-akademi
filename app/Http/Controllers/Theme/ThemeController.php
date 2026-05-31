@@ -42,6 +42,16 @@ class ThemeController extends Controller
         // Avatar (siyah gradient)
         'avatar_from'             => '#374151', // gray-700
         'avatar_to'               => '#000000', // siyah
+
+        // Butonlar (Kaydet / Vazgeç / Sil) - sidebar dışı
+        'btn_primary_from'        => '#374151', // gray-700
+        'btn_primary_to'          => '#000000', // siyah
+        'btn_primary_text'        => '#ffffff', // beyaz
+        'btn_secondary_bg'        => '#f3f4f6', // gray-100
+        'btn_secondary_text'      => '#374151', // gray-700
+        'btn_secondary_border'    => '#e5e7eb', // gray-200
+        'btn_danger_bg'           => '#dc2626', // red-600
+        'btn_danger_text'         => '#ffffff', // beyaz
     ];
 
     /**
@@ -75,6 +85,16 @@ class ThemeController extends Controller
         'Avatar' => [
             'avatar_from'             => 'Avatar Gradient (Başlangıç)',
             'avatar_to'               => 'Avatar Gradient (Bitiş)',
+        ],
+        'Butonlar' => [
+            'btn_primary_from'        => 'Birincil (Kaydet) Gradient Başlangıç',
+            'btn_primary_to'          => 'Birincil (Kaydet) Gradient Bitiş',
+            'btn_primary_text'        => 'Birincil Yazı Rengi',
+            'btn_secondary_bg'        => 'İkincil (Vazgeç) Arka Plan',
+            'btn_secondary_text'      => 'İkincil Yazı Rengi',
+            'btn_secondary_border'    => 'İkincil Çerçeve',
+            'btn_danger_bg'           => 'Tehlike (Sil) Arka Plan',
+            'btn_danger_text'         => 'Tehlike Yazı Rengi',
         ],
     ];
 
