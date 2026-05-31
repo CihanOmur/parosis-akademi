@@ -144,4 +144,24 @@
     body > aside .from-fuchsia-500.to-purple-600 {
         background-image: linear-gradient(to bottom right, var(--sb-avatar-from), var(--sb-avatar-to)) !important;
     }
+
+    /* ---- Gölge renklerini tema rengine bağla (varsayılan fuchsia gölgeyi ezer) ---- */
+
+    /* Aktif menü icon kutusu gölgesi */
+    body > aside nav a > div.bg-fuchsia-500.shadow-lg,
+    body > aside nav div > button > div.bg-fuchsia-500.shadow-lg {
+        --tw-shadow-color: transparent !important;
+        box-shadow:
+            0 10px 15px -3px color-mix(in srgb, var(--sb-icon-bg-active) 35%, transparent),
+            0 4px 6px -4px  color-mix(in srgb, var(--sb-icon-bg-active) 25%, transparent) !important;
+    }
+
+    /* Avatar / collapsed "C" rozet gölgesi */
+    body > aside .from-fuchsia-500.to-purple-600.shadow-lg,
+    body > aside .from-fuchsia-500.to-purple-600.shadow-md {
+        --tw-shadow-color: transparent !important;
+        box-shadow:
+            0 10px 15px -3px color-mix(in srgb, var(--sb-avatar-to) 30%, transparent),
+            0 4px 6px -4px  color-mix(in srgb, var(--sb-avatar-to) 20%, transparent) !important;
+    }
 </style>
