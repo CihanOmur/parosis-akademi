@@ -152,7 +152,10 @@
                     onUnchoose: function (evt) {
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'rounded-2xl');
                     },
-                    onEnd: function () {
+                    onEnd: function (evt) {
+                        // forceFallback modunda onUnchoose her zaman tetiklenmiyor — failsafe
+                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
+                        evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost');
                         var ids = [];
                         root.querySelectorAll(':scope > .menu-group').forEach(function (el) {
                             ids.push(parseInt(el.dataset.id));
@@ -182,7 +185,10 @@
                     onUnchoose: function (evt) {
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-300', 'rounded-xl');
                     },
-                    onEnd: function () {
+                    onEnd: function (evt) {
+                        // forceFallback modunda onUnchoose her zaman tetiklenmiyor — failsafe
+                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
+                        evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost');
                         var ids = [];
                         var selector = ':scope > ' + dragCls;
                         container.querySelectorAll(selector).forEach(function (el) {
