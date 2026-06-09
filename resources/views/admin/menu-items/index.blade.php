@@ -23,10 +23,10 @@
         {{-- Root sortable --}}
         <div id="sortable-root" class="space-y-3">
             @forelse($menuItems as $rootItem)
-                <div class="menu-group bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50" data-id="{{ $rootItem->id }}">
+                <div class="menu-group bg-slate-50 dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50" data-id="{{ $rootItem->id }}">
 
                     {{-- Root item header --}}
-                    <div class="flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-800 rounded-2xl">
+                    <div class="flex items-center gap-3 px-5 py-3.5 rounded-2xl">
                         {{-- Drag --}}
                         <div class="drag-handle-root cursor-grab active:cursor-grabbing text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-400 flex-shrink-0">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -147,14 +147,15 @@
                     ghostClass: 'opacity-30',
                     forceFallback: false,
                     onChoose: function (evt) {
-                        evt.item.classList.add('ring-2', 'ring-fuchsia-400', 'rounded-2xl');
+                        evt.item.classList.add('ring-2', 'ring-fuchsia-400');
                     },
                     onUnchoose: function (evt) {
-                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'rounded-2xl');
+                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400');
                     },
                     onEnd: function (evt) {
                         // Failsafe: drop sonrası kalmış olabilecek geçici class & inline style temizliği
-                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
+                        // rounded-* class'larına DOKUNMA — kartın kendi tasarımında var
+                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300');
                         evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost', 'opacity-30');
                         evt.item.removeAttribute('style');
                         // Body'ye sızmış olabilecek Sortable artıklarını temizle (mirror/clone)
@@ -183,14 +184,15 @@
                     ghostClass: 'opacity-30',
                     forceFallback: false,
                     onChoose: function (evt) {
-                        evt.item.classList.add('ring-2', 'ring-fuchsia-300', 'rounded-xl');
+                        evt.item.classList.add('ring-2', 'ring-fuchsia-300');
                     },
                     onUnchoose: function (evt) {
-                        evt.item.classList.remove('ring-2', 'ring-fuchsia-300', 'rounded-xl');
+                        evt.item.classList.remove('ring-2', 'ring-fuchsia-300');
                     },
                     onEnd: function (evt) {
                         // Failsafe: drop sonrası kalmış olabilecek geçici class & inline style temizliği
-                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
+                        // rounded-* class'larına DOKUNMA — kartın kendi tasarımında var
+                        evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300');
                         evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost', 'opacity-30');
                         evt.item.removeAttribute('style');
                         // Body'ye sızmış olabilecek Sortable artıklarını temizle (mirror/clone)
