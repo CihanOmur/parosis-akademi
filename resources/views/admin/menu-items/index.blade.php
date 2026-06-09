@@ -145,7 +145,7 @@
                     draggable: '.menu-group',
                     animation: 200,
                     ghostClass: 'opacity-30',
-                    forceFallback: true,
+                    forceFallback: false,
                     onChoose: function (evt) {
                         evt.item.classList.add('ring-2', 'ring-fuchsia-400', 'rounded-2xl');
                     },
@@ -153,11 +153,12 @@
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'rounded-2xl');
                     },
                     onEnd: function (evt) {
-                        // forceFallback modunda onUnchoose her zaman tetiklenmiyor — failsafe
+                        // Failsafe: drop sonrası kalmış olabilecek geçici class & inline style temizliği
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
                         evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost', 'opacity-30');
-                        // Sortable'ın bıraktığı inline style (transform, box-shadow, background, vb.) komple sıfırla
                         evt.item.removeAttribute('style');
+                        // Body'ye sızmış olabilecek Sortable artıklarını temizle (mirror/clone)
+                        document.querySelectorAll('body > .sortable-fallback, body > .sortable-drag, body > .sortable-ghost').forEach(function (el) { el.remove(); });
                         var ids = [];
                         root.querySelectorAll(':scope > .menu-group').forEach(function (el) {
                             ids.push(parseInt(el.dataset.id));
@@ -180,7 +181,7 @@
                     draggable: dragCls,
                     animation: 200,
                     ghostClass: 'opacity-30',
-                    forceFallback: true,
+                    forceFallback: false,
                     onChoose: function (evt) {
                         evt.item.classList.add('ring-2', 'ring-fuchsia-300', 'rounded-xl');
                     },
@@ -188,11 +189,12 @@
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-300', 'rounded-xl');
                     },
                     onEnd: function (evt) {
-                        // forceFallback modunda onUnchoose her zaman tetiklenmiyor — failsafe
+                        // Failsafe: drop sonrası kalmış olabilecek geçici class & inline style temizliği
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
                         evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost', 'opacity-30');
-                        // Sortable'ın bıraktığı inline style (transform, box-shadow, background, vb.) komple sıfırla
                         evt.item.removeAttribute('style');
+                        // Body'ye sızmış olabilecek Sortable artıklarını temizle (mirror/clone)
+                        document.querySelectorAll('body > .sortable-fallback, body > .sortable-drag, body > .sortable-ghost').forEach(function (el) { el.remove(); });
                         var ids = [];
                         var selector = ':scope > ' + dragCls;
                         container.querySelectorAll(selector).forEach(function (el) {
