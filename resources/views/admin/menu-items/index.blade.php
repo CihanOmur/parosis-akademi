@@ -155,7 +155,9 @@
                     onEnd: function (evt) {
                         // forceFallback modunda onUnchoose her zaman tetiklenmiyor — failsafe
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
-                        evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost');
+                        evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost', 'opacity-30');
+                        // Sortable'ın bıraktığı inline style (transform, box-shadow, background, vb.) komple sıfırla
+                        evt.item.removeAttribute('style');
                         var ids = [];
                         root.querySelectorAll(':scope > .menu-group').forEach(function (el) {
                             ids.push(parseInt(el.dataset.id));
@@ -188,7 +190,9 @@
                     onEnd: function (evt) {
                         // forceFallback modunda onUnchoose her zaman tetiklenmiyor — failsafe
                         evt.item.classList.remove('ring-2', 'ring-fuchsia-400', 'ring-fuchsia-300', 'rounded-2xl', 'rounded-xl');
-                        evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost');
+                        evt.item.classList.remove('sortable-chosen', 'sortable-drag', 'sortable-fallback', 'sortable-ghost', 'opacity-30');
+                        // Sortable'ın bıraktığı inline style (transform, box-shadow, background, vb.) komple sıfırla
+                        evt.item.removeAttribute('style');
                         var ids = [];
                         var selector = ':scope > ' + dragCls;
                         container.querySelectorAll(selector).forEach(function (el) {
