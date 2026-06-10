@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | ' . ($aboutPageInfo?->getTranslation('breadcrumb_title', app()->getLocale(), false) ?: __('Hakkımızda')))
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | ' . ($aboutPageInfo?->getTranslation('breadcrumb_title', app()->getLocale(), false) ?: __('Hakkımızda')))
 
 @php
     $locale = app()->getLocale();

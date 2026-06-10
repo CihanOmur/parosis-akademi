@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | SSS')
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | SSS')
 
 @php
     $fieldStyles = $faqPageInfo?->field_styles ?? [];

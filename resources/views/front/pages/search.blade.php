@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | Arama' . ($search ? ': ' . e($search) : ''))
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | Arama' . ($search ? ': ' . e($search) : ''))
 
 @section('content')
     <!--...::: Breadcrumb Section Start :::... -->

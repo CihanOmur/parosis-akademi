@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | ' . ($coursePageInfo?->getTranslation('title', app()->getLocale()) ?: 'Kurslarımız'))
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | ' . ($coursePageInfo?->getTranslation('title', app()->getLocale()) ?: 'Kurslarımız'))
 
 @php
     $fieldStyles = $coursePageInfo?->field_styles ?? [];

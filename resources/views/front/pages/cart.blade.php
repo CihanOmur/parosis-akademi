@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | Sepetim')
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | Sepetim')
 
 @section('content')
 @php

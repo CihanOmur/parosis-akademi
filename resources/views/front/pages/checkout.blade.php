@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | Sipariş Oluştur')
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | Sipariş Oluştur')
 
 @php
     $fieldStyles = $shopInfo?->field_styles ?? [];

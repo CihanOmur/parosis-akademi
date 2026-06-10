@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | ' . $course->getTranslation('title', app()->getLocale()))
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | ' . $course->getTranslation('title', app()->getLocale()))
 
 @section('content')
 @php

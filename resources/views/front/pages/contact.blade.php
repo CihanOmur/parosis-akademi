@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | İletişim')
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | İletişim')
 
 @php
     $fieldStyles = $contactInfo?->field_styles ?? [];

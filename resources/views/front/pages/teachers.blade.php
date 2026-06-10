@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', 'Parosis Akademi | Eğitmenler')
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | Eğitmenler')
 
 @php
     $fieldStyles = $teacherPageInfo?->field_styles ?? [];
