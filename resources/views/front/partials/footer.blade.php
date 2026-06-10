@@ -234,7 +234,7 @@
 
     <!-- Footer Bottom -->
     <div class="bg-[#F5F5F5] py-6 text-center text-sm">
-        {{ $footerInfo?->getTranslation('copyright_text', $locale) ?: 'Copyright ' . date('Y') . ' Parosis Akademi | Tum Haklari Saklidir' }}
+        {{ $footerInfo?->getTranslation('copyright_text', $locale) ?: 'Copyright ' . date('Y') . ' ' . \App\Models\Setting::get('site_name', 'Parosis Akademi') . ' | Tum Haklari Saklidir' }}
     </div>
     <!-- Footer Bottom -->
 </footer>

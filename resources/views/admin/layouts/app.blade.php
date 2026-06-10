@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Parosis Akademi')</title>
+    <title>@yield('title', \App\Models\Setting::get('site_name', 'Parosis Akademi'))</title>
 
     {{-- Vite Assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -83,7 +83,7 @@
         {{-- Footer --}}
         <footer class="px-4 sm:px-6 lg:px-8 py-4 border-t border-slate-200 dark:border-slate-800">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <p>&copy; {{ date('Y') }} Parosis Akademi. Tüm hakları saklıdır.</p>
+                <p>&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }}. Tüm hakları saklıdır.</p>
                 <p>Laravel v{{ app()->version() }}</p>
             </div>
         </footer>

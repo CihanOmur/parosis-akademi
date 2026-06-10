@@ -1,47 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Parosis Akademi - Login')</title>
+    <title>{{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }} - Giriş</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .login-card {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        .input-focus:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #4338ca, #4f46e5);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        .pattern-overlay {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
 </head>
 
-<body class="h-screen relative bg-[#FAFAFB]" style="font-family: plus-jakarta-sans, sans-serif;">
+<body class="h-screen gradient-bg">
+    <div class="pattern-overlay h-full w-full flex items-center justify-center p-4">
+        <div class="login-card w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-slate-900 px-8 py-8 text-center">
+                <img class="h-10 mx-auto mb-3" src="https://parosisakademi.com/images/corwus-board-logo.svg" alt="Corwus Logo">
+                <p class="text-slate-400 text-sm">Yönetim Paneli</p>
+            </div>
 
+            <!-- Form -->
+            <div class="px-8 py-8">
+                <h2 class="text-xl font-semibold text-slate-800 mb-1">Hoş Geldiniz</h2>
+                <p class="text-slate-500 text-sm mb-6">Devam etmek için giriş yapın</p>
 
-  <div class="h-full w-full md:w-w-1/3 flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 ">
-          <img class="w-52 mr-2" src="https://parosisakademi.com/images/corwus-board-logo.svg" alt="logo">    
-      </a>
-      <div class="w-full bg-white rounded-lg border border-gray-200 md:mt-0 sm:max-w-md xl:p-0">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <form action="{{ route('loginPost') }}" method="POST" class="space-y-4 md:space-y-6">
+                @if ($errors->has('email'))
+                    <div class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200">
+                        <p class="text-sm text-red-600">{{ $errors->first('email') }}</p>
+                    </div>
+                @endif
+
+                <form action="{{ route('loginPost') }}" method="POST" class="space-y-5">
                     @csrf
-                  <div>
-                      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">E-posta veya Kullanıcı Adı</label>
-                      <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="ornek@parosis.com" required="">
-                  </div>
-                  <div>
-                      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Şifrenizi girin</label>
-                      <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
-                  </div>
-                  
-                  <button type="submit" class="w-full cursor-pointer  text-white bg-gray-700 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-4 text-center ">Giriş Yap</button>
-                 @if ($errors->has('email'))
-                  <p class="text-sm font-light text-red-500">
-                      {{ $errors->first('email') }}
-                  </p>
-                  @endif
-                  
-              </form>
-          </div>
-      </div>
-  </div>
-    @yield('scripts')
+                    <div>
+                        <label for="email" class="block mb-1.5 text-sm font-medium text-slate-700">E-posta veya Kullanıcı Adı</label>
+                        <input type="email" name="email" id="email"
+                            class="input-focus w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 outline-none transition-all"
+                            placeholder="ornek@parosis.com" value="{{ old('email') }}" required autofocus>
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-1.5 text-sm font-medium text-slate-700">Şifre</label>
+                        <input type="password" name="password" id="password"
+                            class="input-focus w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 outline-none transition-all"
+                            placeholder="Şifrenizi girin" required>
+                    </div>
+                    <button type="submit"
+                        class="btn-primary w-full text-white font-medium rounded-xl text-sm px-5 py-3.5 text-center cursor-pointer">
+                        Giriş Yap
+                    </button>
+                </form>
+            </div>
 
+            <!-- Footer -->
+            <div class="px-8 pb-6 text-center">
+                <p class="text-xs text-slate-400">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }}. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+    @yield('scripts')
 </body>
 
 </html>
