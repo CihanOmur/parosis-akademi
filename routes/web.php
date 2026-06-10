@@ -54,7 +54,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/store',        [LanguagesController::class, 'store'])->name('store');
         Route::get('/{id}/edit',     [LanguagesController::class, 'edit'])->name('edit');
         Route::post('/{id}/update',  [LanguagesController::class, 'update'])->name('update');
-        Route::delete('/{id}',       [LanguagesController::class, 'delete'])->name('delete');
+        Route::delete('/{id}',       [LanguagesController::class, 'delete'])->name('delete')->middleware('permission:developer');
     });
 
     // ─── Rol Yönetimi ────────────────────────────────────────────────────────────
