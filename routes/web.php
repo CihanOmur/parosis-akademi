@@ -48,13 +48,17 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
     Route::prefix('languages')->name('languages.')->middleware('permission:language')->group(function () {
         Route::get('/',              [LanguagesController::class, 'index'])->name('index');
         Route::post('/toggle',        [LanguagesController::class, 'toggleActive'])->name('toggle');
-        Route::post('/set-default',   [LanguagesController::class, 'setDefault'])->name('setDefault');
         Route::post('/update-order',  [LanguagesController::class, 'updateOrder'])->name('updateOrder');
-        Route::get('/create',        [LanguagesController::class, 'create'])->name('create');
-        Route::post('/store',        [LanguagesController::class, 'store'])->name('store');
         Route::get('/{id}/edit',     [LanguagesController::class, 'edit'])->name('edit');
         Route::post('/{id}/update',  [LanguagesController::class, 'update'])->name('update');
-        Route::delete('/{id}',       [LanguagesController::class, 'delete'])->name('delete')->middleware('permission:developer');
+
+        // Sadece SuperAdmin: yeni dil ekleme + varsayılan dil belirleme + silme
+        Route::middleware('role:SuperAdmin')->group(function () {
+            Route::get('/create',        [LanguagesController::class, 'create'])->name('create');
+            Route::post('/store',        [LanguagesController::class, 'store'])->name('store');
+            Route::post('/set-default',  [LanguagesController::class, 'setDefault'])->name('setDefault');
+            Route::delete('/{id}',       [LanguagesController::class, 'delete'])->name('delete');
+        });
     });
 
     // ─── Rol Yönetimi ────────────────────────────────────────────────────────────

@@ -12,8 +12,23 @@ class LanguagesController extends Controller
 {
     public function index()
     {
-        $languages = Languages::where('status', 1)->orderBy('sort_order')->get();
+        $query = Languages::where('status', 1);
+        if (!auth()->user()->hasRole('SuperAdmin')) {
+            // SuperAdmin değilse sadece aktif diller görünür
+            $query->where('is_active', 1);
+        }
+        $languages = $query->orderBy('sort_order')->get();
         return view('admin.languages.index', compact('languages'));
+    }
+
+    /**
+     * Pasif bir dile SuperAdmin olmayanların erişimini engeller.
+     */
+    protected function ensureAccessible(Languages $language): void
+    {
+        if (!auth()->user()->hasRole('SuperAdmin') && !$language->is_active) {
+            abort(403, 'Bu dile erişim yetkiniz yok.');
+        }
     }
 
     /**
@@ -24,6 +39,7 @@ class LanguagesController extends Controller
         $request->validate(['id' => 'required|exists:languages,id'], ValidationMessageService::getMessages('language_toggle'));
 
         $language = Languages::findOrFail($request->id);
+        $this->ensureAccessible($language);
         $language->is_active = !$language->is_active;
         $language->save();
 
@@ -80,6 +96,7 @@ class LanguagesController extends Controller
     public function edit(Request $request, $id)
     {
         $language     = Languages::findOrFail($id);
+        $this->ensureAccessible($language);
         $localeInfo   = getLocaleInfo($request->get('lang'));
         $selectedLang = $localeInfo['translateLang'];
         return view('admin.languages.edit', compact('language', 'selectedLang'));
@@ -88,6 +105,7 @@ class LanguagesController extends Controller
     public function update(Request $request, $id)
     {
         $language = Languages::findOrFail($id);
+        $this->ensureAccessible($language);
 
         $request->validate([
             'locale'       => ['required', 'string', 'regex:/^[a-z]{2}(-[a-z]{2,4})?$/', 'unique:languages,locale,' . $id],

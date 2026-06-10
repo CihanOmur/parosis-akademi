@@ -265,7 +265,7 @@
                 </a>
 
                 {{-- Silme (varsayılan değilse + developer yetkisi varsa) --}}
-                @can('developer')
+                @role('SuperAdmin')
                     @if(!$language->is_default)
                     <form action="{{ route('languages.delete', $language->id) }}" method="POST"
                           x-data @submit.prevent="$dispatch('confirm-dialog', { title: 'Dili Sil', message: '{{ addslashes($language->getTranslation('name', app()->getLocale()) ?: $language->locale) }} dilini silmek istediğinize emin misiniz?', form: $el })">
@@ -285,7 +285,7 @@
                         </button>
                     </form>
                     @endif
-                @endcan
+                @endrole
             </div>
 
         </div>

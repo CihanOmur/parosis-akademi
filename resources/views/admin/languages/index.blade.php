@@ -5,6 +5,7 @@
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Diller</h1>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Desteklenen dilleri yönetin</p>
     </div>
+    @role('SuperAdmin')
     <a href="{{ route('languages.create') }}"
        class="inline-flex items-center gap-2 px-6 py-3
               bg-gradient-to-r from-fuchsia-500 to-purple-500
@@ -16,6 +17,7 @@
         </svg>
         Yeni Dil Ekle
     </a>
+    @endrole
 @endsection
 
 @section('content')
@@ -75,6 +77,7 @@
                                         Varsayılan
                                     </span>
                                 @else
+                                    @role('SuperAdmin')
                                     <button type="button"
                                             id="default-badge-{{ $item->id }}"
                                             onclick="setDefault({{ $item->id }}, this)"
@@ -86,6 +89,9 @@
                                         </svg>
                                         Varsayılan Yap
                                     </button>
+                                    @else
+                                    <span class="inline-flex items-center px-3 py-1.5 text-xs text-slate-400 dark:text-slate-500">—</span>
+                                    @endrole
                                 @endif
                             </td>
                             <td class="px-6 py-4">
@@ -107,7 +113,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/>
                                         </svg>
                                     </a>
-                                    @can('developer')
+                                    @role('SuperAdmin')
                                         @if(!$item->is_default)
                                             <form action="{{ route('languages.delete', $item->id) }}" method="POST"
                                                   x-data @submit.prevent="$dispatch('confirm-dialog', { title: 'Dili Sil', message: 'Bu dili silmek istediğinize emin misiniz?', form: $el })">
@@ -127,7 +133,7 @@
                                                 </svg>
                                             </span>
                                         @endif
-                                    @endcan
+                                    @endrole
                                 </div>
                             </td>
                         </tr>
