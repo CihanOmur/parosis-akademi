@@ -40,8 +40,15 @@
     <div class="pattern-overlay h-full w-full flex items-center justify-center p-4">
         <div class="login-card w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
             <!-- Header -->
+            @php
+                $adminLogo = \App\Models\Setting::get('admin_logo', '', 'logos');
+                $logoSrc = $adminLogo
+                    ? asset(ltrim($adminLogo, '/'))
+                    : '/images/corwus-board-logo.svg';
+                $logoAlt = \App\Models\Setting::get('site_name', 'Parosis Akademi');
+            @endphp
             <div class="bg-slate-900 px-8 py-8 text-center">
-                <img class="h-10 mx-auto mb-3" src="https://parosisakademi.com/images/corwus-board-logo.svg" alt="Corwus Logo">
+                <img class="h-10 mx-auto mb-3" src="{{ $logoSrc }}" alt="{{ $logoAlt }}">
                 <p class="text-slate-400 text-sm">Yönetim Paneli</p>
             </div>
 
