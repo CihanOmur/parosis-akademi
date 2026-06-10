@@ -30,8 +30,8 @@
     {{-- Preview container --}}
     <div x-ref="previewContainer" class="flex flex-wrap gap-3">
         @foreach($existingArray as $url)
-        <div class="group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50">
-            <img src="{{ $url }}" class="absolute inset-0 w-full h-full object-cover" />
+        <div class="group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-900/40">
+            <img src="{{ $url }}" class="absolute inset-0 w-full h-full object-contain p-3" />
             <button type="button" onclick="this.parentElement.remove()"
                     class="absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full
                            flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer
@@ -68,8 +68,8 @@
                        rawFiles.push(f);
                        const url = URL.createObjectURL(f);
                        const wrapper = document.createElement('div');
-                       wrapper.className = 'group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50';
-                       wrapper.innerHTML = `<img src='${url}' class='absolute inset-0 w-full h-full object-cover' /><button type='button' class='absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer opacity-0 group-hover/img:opacity-100'><svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24' stroke-width='2.5'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'/></svg></button>`;
+                       wrapper.className = 'group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-900/40';
+                       wrapper.innerHTML = `<img src='${url}' class='absolute inset-0 w-full h-full object-contain p-3' /><button type='button' class='absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer opacity-0 group-hover/img:opacity-100'><svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24' stroke-width='2.5'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18L18 6M6 6l12 12'/></svg></button>`;
                        wrapper.querySelector('button').addEventListener('click', (e) => {
                            e.preventDefault();
                            const idx = Array.from(container.children).indexOf(wrapper);
@@ -105,8 +105,8 @@
 @endphp
 <div x-data="{ preview: {!! $existingJson !!}, removed: false }" class="space-y-3">
     {{-- Preview --}}
-    <div x-show="preview" x-cloak class="group/img relative w-40 aspect-square overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50">
-        <img :src="preview" class="absolute inset-0 w-full h-full object-cover" />
+    <div x-show="preview" x-cloak class="group/img relative w-full max-w-sm h-32 overflow-hidden rounded-xl border border-slate-200/50 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-900/40 p-3">
+        <img :src="preview" class="absolute inset-0 w-full h-full object-contain p-3" />
         <button type="button" @click.prevent="preview = null; $refs.input.value = ''; removed = true"
                 class="absolute top-3 right-3 z-10 w-9 h-9 bg-red-500 hover:bg-red-600 text-white rounded-full
                        flex items-center justify-center transition-all shadow-lg ring-2 ring-white/50 cursor-pointer
