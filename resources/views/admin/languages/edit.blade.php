@@ -24,6 +24,14 @@
     $existingTranslations = $language->getTranslations('name');
     $currentDefaultName   = old('default_name', $existingTranslations[$language->locale] ?? (array_values($existingTranslations)[0] ?? ''));
     $otherLanguages       = $activeLanguages->filter(fn($l) => $l->locale !== $language->locale)->values();
+
+    // Sadece aktif dillere ait çevirileri göster (pasif diller filtrelensin)
+    $activeLocalesAll     = $activeLanguages->pluck('locale')->push($language->locale)->unique()->toArray();
+    $existingTranslations = array_filter(
+        $existingTranslations,
+        fn($val, $loc) => $val && in_array($loc, $activeLocalesAll, true),
+        ARRAY_FILTER_USE_BOTH
+    );
     $activeTab            = $otherLanguages->firstWhere('locale', $selectedLang)
         ? $selectedLang
         : ($otherLanguages->first()?->locale ?? '');
