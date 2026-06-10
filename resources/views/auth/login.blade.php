@@ -11,10 +11,12 @@
         body { font-family: 'Inter', sans-serif; }
         .login-card {
             backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12),
+                        0 8px 16px -8px rgba(15, 23, 42, 0.06);
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 50%, #e2e8f0 100%);
         }
         .input-focus:focus {
             border-color: #6366f1;
@@ -30,7 +32,7 @@
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
         }
         .pattern-overlay {
-            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-image: radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.06) 1px, transparent 0);
             background-size: 40px 40px;
         }
     </style>
@@ -47,9 +49,9 @@
                     : '/images/corwus-board-logo.svg';
                 $logoAlt = \App\Models\Setting::get('site_name', 'Parosis Akademi');
             @endphp
-            <div class="bg-slate-900 px-8 py-8 text-center">
-                <img class="h-10 mx-auto mb-3" src="{{ $logoSrc }}" alt="{{ $logoAlt }}">
-                <p class="text-slate-400 text-sm">Yönetim Paneli</p>
+            <div class="bg-white px-8 py-8 text-center border-b border-slate-100">
+                <img class="h-12 mx-auto mb-3 object-contain" src="{{ $logoSrc }}" alt="{{ $logoAlt }}">
+                <p class="text-slate-500 text-sm">Yönetim Paneli</p>
             </div>
 
             <!-- Form -->
@@ -86,7 +88,7 @@
 
             <!-- Footer -->
             <div class="px-8 pb-6 text-center">
-                <p class="text-xs text-slate-400">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }}. Tüm hakları saklıdır.</p>
+                <p class="text-xs text-slate-500">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }}. Tüm hakları saklıdır.</p>
             </div>
         </div>
     </div>
