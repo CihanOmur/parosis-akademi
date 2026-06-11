@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-<form action="{{ route('blogCategories.store') }}" method="POST">
+<form action="{{ route('blogCategories.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -44,6 +44,14 @@
 
                 <div class="relative p-6 space-y-5">
                     <x-text-input name="name" label="Kategori Adı" placeholder="Kategori adını yazın..." required />
+
+                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
+
+                    <x-textarea name="description" label="Açıklama (opsiyonel)" placeholder="Kategori için kısa bir açıklama..." rows="4" />
+
+                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
+
+                    <x-image-upload name="image" label="Kategori Görseli (opsiyonel)" />
                 </div>
             </div>
         </div>

@@ -9,13 +9,13 @@ class BlogCategory extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['name', 'is_active', 'sort_order'];
+    protected $fillable = ['name', 'description', 'image', 'is_active', 'sort_order'];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
 
-    public $translatable = ['name'];
+    public $translatable = ['name', 'description'];
 
     public function blogs()
     {
