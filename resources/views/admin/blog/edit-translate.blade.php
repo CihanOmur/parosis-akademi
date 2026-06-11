@@ -44,10 +44,6 @@
                         <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">{{ $blog->getTranslation('title', app()->getLocale(), false) ?: '—' }}</p>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-400 uppercase">Kısa Açıklama</span>
-                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-1 whitespace-pre-line">{{ $blog->getTranslation('short_description', app()->getLocale(), false) ?: '—' }}</p>
-                    </div>
-                    <div>
                         <span class="text-xs text-slate-400 uppercase">Kategoriler</span>
                         <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">{{ $blog->categories->pluck('name')->join(', ') ?: '—' }}</p>
                     </div>
@@ -78,10 +74,6 @@
 
                 <div class="relative p-6 space-y-5">
                     <x-text-input name="title" label="Başlık" placeholder="Başlığın çevirisini yazın..." :value="$blog->getTranslation('title', $selectedLang, false)" ringColor="blue" required />
-
-                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
-
-                    <x-textarea name="short_description" label="Kısa Açıklama" placeholder="Kısa açıklamanın çevirisini yazın..." rows="3" :value="$blog->getTranslation('short_description', $selectedLang, false)" ringColor="blue" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 

@@ -46,10 +46,6 @@
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <x-textarea name="short_description" label="Kısa Açıklama" placeholder="Blog yazısının kısa açıklaması..." rows="3" />
-
-                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
-
                     <x-textarea name="content" label="İçerik" placeholder="Blog yazısının içeriği (HTML destekler)..." rows="10" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>

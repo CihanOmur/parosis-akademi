@@ -41,9 +41,6 @@ class BlogController extends Controller
         $blog = new Blog();
         $blog->setTranslation('title', $locale, $request->title);
 
-        if ($request->filled('short_description')) {
-            $blog->setTranslation('short_description', $locale, $request->short_description);
-        }
         if ($request->filled('content')) {
             $blog->setTranslation('content', $locale, $request->content);
         }
@@ -97,9 +94,6 @@ class BlogController extends Controller
 
         $blog->setTranslation('title', $locale, $request->title);
 
-        if ($request->has('short_description')) {
-            $blog->setTranslation('short_description', $locale, $request->short_description);
-        }
         if ($request->has('content')) {
             $blog->setTranslation('content', $locale, $request->content);
         }
@@ -181,9 +175,6 @@ class BlogController extends Controller
 
         $blog->setTranslation('title', $locale, $request->title);
 
-        if ($request->filled('short_description')) {
-            $blog->setTranslation('short_description', $locale, $request->short_description);
-        }
         if ($request->filled('content')) {
             $blog->setTranslation('content', $locale, $request->content);
         }
