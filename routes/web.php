@@ -52,12 +52,13 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::get('/{id}/edit',     [LanguagesController::class, 'edit'])->name('edit');
         Route::post('/{id}/update',  [LanguagesController::class, 'update'])->name('update');
 
-        // Sadece SuperAdmin: yeni dil ekleme + varsayılan dil belirleme + silme
+        // Sadece SuperAdmin: yeni dil + varsayılan + silme + müşteriye görünür toggle
         Route::middleware('role:SuperAdmin')->group(function () {
-            Route::get('/create',        [LanguagesController::class, 'create'])->name('create');
-            Route::post('/store',        [LanguagesController::class, 'store'])->name('store');
-            Route::post('/set-default',  [LanguagesController::class, 'setDefault'])->name('setDefault');
-            Route::delete('/{id}',       [LanguagesController::class, 'delete'])->name('delete');
+            Route::get('/create',           [LanguagesController::class, 'create'])->name('create');
+            Route::post('/store',           [LanguagesController::class, 'store'])->name('store');
+            Route::post('/set-default',     [LanguagesController::class, 'setDefault'])->name('setDefault');
+            Route::post('/toggle-visibility',[LanguagesController::class, 'toggleVisibility'])->name('toggleVisibility');
+            Route::delete('/{id}',          [LanguagesController::class, 'delete'])->name('delete');
         });
     });
 

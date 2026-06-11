@@ -30,6 +30,9 @@
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Dil Adı</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Locale</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Varsayılan</th>
+                        @role('SuperAdmin')
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Müşteriye Görünür</th>
+                        @endrole
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Frontend</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">İşlem</th>
                     </tr>
@@ -94,6 +97,19 @@
                                     @endrole
                                 @endif
                             </td>
+                            @role('SuperAdmin')
+                            <td class="px-6 py-4">
+                                <label class="inline-flex items-center gap-2.5 cursor-pointer">
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only peer visibility-toggle" data-id="{{ $item->id }}" {{ $item->is_visible ? 'checked' : '' }}>
+                                        <div class="w-11 h-6 bg-slate-200 dark:bg-slate-600 rounded-full peer peer-checked:bg-emerald-500 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full transition-colors duration-200"></div>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300" id="visibility-label{{ $item->id }}">
+                                        {{ $item->is_visible ? 'Açık' : 'Gizli' }}
+                                    </span>
+                                </label>
+                            </td>
+                            @endrole
                             <td class="px-6 py-4">
                                 <label class="inline-flex items-center gap-2.5 cursor-pointer">
                                     <div class="relative">
@@ -183,6 +199,31 @@
             }
         });
     }
+
+    // ── Müşteriye Görünür toggle (sadece SuperAdmin) ─────────────────────────
+    document.querySelectorAll('.visibility-toggle').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            const itemId    = this.dataset.id;
+            const label     = document.getElementById('visibility-label' + itemId);
+            const prevState = !this.checked;
+            const self      = this;
+
+            axios.post('{{ route('languages.toggleVisibility') }}', { id: itemId, _token: csrfToken })
+            .then(function (response) {
+                if (response.data.status === 1) {
+                    showToast('success', response.data.message);
+                    if (label) label.textContent = response.data.action;
+                } else {
+                    showToast('error', response.data.message);
+                    self.checked = prevState;
+                }
+            })
+            .catch(function () {
+                showToast('error', 'Bir hata oluştu.');
+                self.checked = prevState;
+            });
+        });
+    });
 
     // ── Aktif / Pasif toggle ──────────────────────────────────────────────────
     document.querySelectorAll('.status-toggle').forEach(function (checkbox) {

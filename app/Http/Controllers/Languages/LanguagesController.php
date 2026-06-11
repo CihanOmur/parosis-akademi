@@ -14,21 +14,39 @@ class LanguagesController extends Controller
     {
         $query = Languages::where('status', 1);
         if (!auth()->user()->hasRole('SuperAdmin')) {
-            // SuperAdmin değilse sadece aktif diller görünür
-            $query->where('is_active', 1);
+            // SuperAdmin değilse sadece kendisine açılmış (is_visible=1) diller görünür
+            $query->where('is_visible', 1);
         }
         $languages = $query->orderBy('sort_order')->get();
         return view('admin.languages.index', compact('languages'));
     }
 
     /**
-     * Pasif bir dile SuperAdmin olmayanların erişimini engeller.
+     * Müşteriye kapalı (is_visible=0) bir dile SuperAdmin olmayanların erişimini engeller.
      */
     protected function ensureAccessible(Languages $language): void
     {
-        if (!auth()->user()->hasRole('SuperAdmin') && !$language->is_active) {
+        if (!auth()->user()->hasRole('SuperAdmin') && !$language->is_visible) {
             abort(403, 'Bu dile erişim yetkiniz yok.');
         }
+    }
+
+    /**
+     * AJAX: Müşteriye görünür/gizli toggle (sadece SuperAdmin).
+     */
+    public function toggleVisibility(Request $request)
+    {
+        $request->validate(['id' => 'required|exists:languages,id']);
+
+        $language = Languages::findOrFail($request->id);
+        $language->is_visible = !$language->is_visible;
+        $language->save();
+
+        return response()->json([
+            'status'  => 1,
+            'message' => $language->is_visible ? 'Dil müşteriye açıldı.' : 'Dil müşteriden gizlendi.',
+            'action'  => $language->is_visible ? 'Açık' : 'Gizli',
+        ]);
     }
 
     /**
