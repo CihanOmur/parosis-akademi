@@ -46,7 +46,7 @@
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <x-textarea name="content" label="İçerik" placeholder="Blog yazısının içeriği (HTML destekler)..." rows="10" />
+                    <x-textarea name="content" label="İçerik" placeholder="Blog yazısının içeriği..." rows="10" inputClass="tinymce-editor" data-upload-url="{{ route('blogs.uploadImage') }}" />
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
@@ -164,4 +164,13 @@
         </div>
     </div>
 </form>
+@endsection
+
+@push('head')
+    <link rel="preload" href="/tinymce/tinymce.min.js" as="script">
+@endpush
+
+@section('scripts')
+    <script src="/tinymce/tinymce.min.js"></script>
+    @vite('resources/js/tinymce-init.js')
 @endsection

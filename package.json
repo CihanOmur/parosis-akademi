@@ -3,8 +3,9 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "tinymce:copy": "rm -rf public/tinymce && cp -r node_modules/tinymce public/tinymce",
+        "build": "npm run tinymce:copy && vite build",
+        "dev": "npm run tinymce:copy && vite"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.1.11",
@@ -15,6 +16,7 @@
         "vite": "^7.0.4"
     },
     "dependencies": {
-        "flowbite": "^3.1.2"
+        "flowbite": "^3.1.2",
+        "tinymce": "^8.6.0"
     }
 }

@@ -169,6 +169,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/toggle',  [BlogController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
         Route::get('/{id}/translate/{lang}', [BlogController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
         Route::post('/{id}/translate',       [BlogController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::post('/upload-image',         [BlogController::class, 'uploadImage'])->name('uploadImage')->middleware('permission:content');
     });
 
     // ─── Blog Kategorileri ──────────────────────────────────────────────────

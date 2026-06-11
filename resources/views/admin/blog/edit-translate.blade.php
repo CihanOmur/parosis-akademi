@@ -77,7 +77,7 @@
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-                    <x-textarea name="content" label="İçerik" placeholder="İçeriğin çevirisini yazın..." rows="10" :value="$blog->getTranslation('content', $selectedLang, false)" ringColor="blue" />
+                    <x-textarea name="content" label="İçerik" placeholder="İçeriğin çevirisini yazın..." rows="10" :value="$blog->getTranslation('content', $selectedLang, false)" ringColor="blue" inputClass="tinymce-editor" data-upload-url="{{ route('blogs.uploadImage') }}" />
 
                 </div>
             </div>
@@ -132,4 +132,13 @@
         </div>
     </div>
 </form>
+@endsection
+
+@push('head')
+    <link rel="preload" href="/tinymce/tinymce.min.js" as="script">
+@endpush
+
+@section('scripts')
+    <script src="/tinymce/tinymce.min.js"></script>
+    @vite('resources/js/tinymce-init.js')
 @endsection

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', \App\Models\Setting::get('site_name', 'Parosis Akademi'))</title>
 
     {{-- Vite Assets --}}
@@ -30,6 +31,7 @@
     @include('admin.layouts.theme-vars')
 
     @yield('styles')
+    @stack('head')
 </head>
 
 <body x-data="{

@@ -29,6 +29,7 @@ class BlogController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:300',
+            'content' => 'nullable|string|max:5000000',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:blog_categories,id',
@@ -82,6 +83,7 @@ class BlogController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:300',
+            'content' => 'nullable|string|max:5000000',
             'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:blog_categories,id',
@@ -163,10 +165,34 @@ class BlogController extends Controller
         return view('admin.blog.edit-translate', compact('blog', 'selectedLang', 'selectedLanguage'));
     }
 
+    /**
+     * TinyMCE editor'den içerik içine resim yükler.
+     * public/uploads/blogs/content/ altına UUID'lenmiş dosya kaydeder, JSON ile location döner.
+     */
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif,webp,svg|max:10240',
+        ]);
+
+        $file = $request->file('image');
+        $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+        $dir = public_path('uploads/blogs/content');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        $file->move($dir, $filename);
+
+        return response()->json([
+            'location' => asset('uploads/blogs/content/' . $filename),
+        ]);
+    }
+
     public function updateTranslate(Request $request, $id)
     {
         $request->validate([
             'title' => 'required|string|max:300',
+            'content' => 'nullable|string|max:5000000',
             'lang'  => 'required|string',
         ], ValidationMessageService::getMessages('blog_translate'));
 
