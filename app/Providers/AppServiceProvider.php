@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Setting;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
@@ -54,6 +55,18 @@ class AppServiceProvider extends ServiceProvider
 
         $this->overrideMailConfig();
         $this->overrideValidationMessages();
+        $this->setDefaultRouteLocale();
+    }
+
+    /**
+     * route('front.X') çağrılarının {locale} parametresi olmadan da çalışmasını
+     * sağlar. Admin panelinden / mail'lerden / artisan'dan üretilen URL'lerde
+     * default locale (config('app.locale')) otomatik kullanılır.
+     * SetLocale middleware front grubunda bunu URL'deki locale ile override eder.
+     */
+    private function setDefaultRouteLocale(): void
+    {
+        URL::defaults(['locale' => config('app.locale', 'tr')]);
     }
 
     private function overrideValidationMessages(): void

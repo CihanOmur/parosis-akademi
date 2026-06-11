@@ -418,32 +418,56 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
     });
 });
 
-// ─── Frontend Sayfaları ─────────────────────────────────────────────────────
-Route::middleware([SharedDatas::class, CheckMaintenanceMode::class])->name('front.')->group(function () {
-    Route::get('/',                [FrontController::class, 'home'])->name('home');
-    Route::get('/hakkimizda',      [FrontController::class, 'about'])->name('about');
-    Route::get('/ara',             [FrontController::class, 'search'])->name('search');
-    Route::get('/ara/suggest',     [FrontController::class, 'searchSuggest'])->name('search.suggest');
-    Route::get('/kurslar',         [FrontController::class, 'courses'])->name('courses');
-    Route::get('/kurs-detay/{id}',  [FrontController::class, 'courseDetails'])->name('course.details');
-    Route::get('/egitmenler',      [FrontController::class, 'teachers'])->name('teachers');
-    Route::get('/egitmen-detay/{id}', [FrontController::class, 'teacherDetails'])->name('teacher.details');
-    Route::get('/blog',            [FrontController::class, 'blog'])->name('blog');
-    Route::get('/blog-detay/{id}',  [FrontController::class, 'blogDetails'])->name('blog.details');
-    Route::get('/iletisim',        [FrontController::class, 'contact'])->name('contact');
-    Route::post('/iletisim',       [ContactController::class, 'send'])->middleware('throttle:5,1')->name('contact.send');
-    Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
-    Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
-    Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
-    Route::get('/sepet',            [CartController::class, 'show'])->name('cart');
-    Route::get('/odeme',            [CheckoutController::class, 'show'])->name('checkout');
-    Route::post('/sepet/ekle',      [CartController::class, 'add'])->name('cart.add');
-    Route::post('/sepet/guncelle',  [CartController::class, 'update'])->name('cart.update');
-    Route::post('/sepet/sil',       [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/odeme/tamamla',   [CheckoutController::class, 'process'])->name('checkout.process');
-    Route::post('/kupon-uygula',    [CheckoutController::class, 'applyCoupon'])->middleware('throttle:20,1')->name('coupon.apply');
-    Route::post('/kupon-kaldir',    [CheckoutController::class, 'removeCoupon'])->name('coupon.remove');
-});
+// ─── Root: cookie veya default locale'e redirect ─────────────────────────────
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    $cookieLocale = $request->cookie('app_locale');
+
+    $isValidLocale = $cookieLocale
+        && \App\Models\Languages\Languages::where('locale', $cookieLocale)
+            ->where('status', 1)->where('is_active', 1)->exists();
+
+    if ($isValidLocale) {
+        return redirect('/' . $cookieLocale);
+    }
+
+    $defaultLocale = optional(
+        \App\Models\Languages\Languages::where('is_default', 1)
+            ->where('status', 1)->where('is_active', 1)->first()
+    )->locale ?? config('app.locale', 'tr');
+
+    return redirect('/' . $defaultLocale);
+})->name('root');
+
+// ─── Frontend Sayfaları (locale prefix) ──────────────────────────────────────
+Route::prefix('{locale}')
+    ->where(['locale' => '[a-z]{2}(-[a-z]{2,4})?'])
+    ->middleware(['setlocale', SharedDatas::class, CheckMaintenanceMode::class])
+    ->name('front.')
+    ->group(function () {
+        Route::get('/',                [FrontController::class, 'home'])->name('home');
+        Route::get('/hakkimizda',      [FrontController::class, 'about'])->name('about');
+        Route::get('/ara',             [FrontController::class, 'search'])->name('search');
+        Route::get('/ara/suggest',     [FrontController::class, 'searchSuggest'])->name('search.suggest');
+        Route::get('/kurslar',         [FrontController::class, 'courses'])->name('courses');
+        Route::get('/kurs-detay/{id}',  [FrontController::class, 'courseDetails'])->name('course.details');
+        Route::get('/egitmenler',      [FrontController::class, 'teachers'])->name('teachers');
+        Route::get('/egitmen-detay/{id}', [FrontController::class, 'teacherDetails'])->name('teacher.details');
+        Route::get('/blog',            [FrontController::class, 'blog'])->name('blog');
+        Route::get('/blog-detay/{id}',  [FrontController::class, 'blogDetails'])->name('blog.details');
+        Route::get('/iletisim',        [FrontController::class, 'contact'])->name('contact');
+        Route::post('/iletisim',       [ContactController::class, 'send'])->middleware('throttle:5,1')->name('contact.send');
+        Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
+        Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
+        Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
+        Route::get('/sepet',            [CartController::class, 'show'])->name('cart');
+        Route::get('/odeme',            [CheckoutController::class, 'show'])->name('checkout');
+        Route::post('/sepet/ekle',      [CartController::class, 'add'])->name('cart.add');
+        Route::post('/sepet/guncelle',  [CartController::class, 'update'])->name('cart.update');
+        Route::post('/sepet/sil',       [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/odeme/tamamla',   [CheckoutController::class, 'process'])->name('checkout.process');
+        Route::post('/kupon-uygula',    [CheckoutController::class, 'applyCoupon'])->middleware('throttle:20,1')->name('coupon.apply');
+        Route::post('/kupon-kaldir',    [CheckoutController::class, 'removeCoupon'])->name('coupon.remove');
+    });
 Route::get('/panel/login', function () {
     return view('auth.login');
 })->name('login');

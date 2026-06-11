@@ -16,7 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'setlocale' => \App\Http\Middleware\SetLocale::class,
         ]);
+
+        // app_locale cookie'si plain saklanır: SetLocale middleware her okuduğunda
+        // Languages tablosuyla doğrular, geçersiz değer default'a redirect olur.
+        $middleware->encryptCookies(except: ['app_locale']);
 
         // Cloudflare / reverse proxy arkasında: X-Forwarded-Proto header'ından
         // gerçek scheme'i (HTTPS) algıla. Aksi halde Flexible SSL ile mixed

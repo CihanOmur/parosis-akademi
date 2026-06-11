@@ -196,6 +196,44 @@
                     </div>
                     @endif
 
+                    <!-- Language Switcher -->
+                    @if(($activeLanguages ?? collect())->count() > 1)
+                    @php
+                        $currentPath = trim(request()->path(), '/');
+                        $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
+                        $queryStr = request()->getQueryString();
+                    @endphp
+                    <details class="lang-switcher relative">
+                        <summary class="flex h-10 cursor-pointer list-none items-center gap-x-1.5 rounded-full border border-slate-200 bg-white px-3 text-sm font-medium text-colorBlackPearl hover:border-colorPurpleBlue hover:text-colorPurpleBlue transition">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path stroke-linecap="round" d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/>
+                            </svg>
+                            <span>{{ strtoupper($locale) }}</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </summary>
+                        <div class="absolute right-0 top-full z-50 mt-1 min-w-[160px] overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+                            @foreach($activeLanguages as $lang)
+                                @php
+                                    $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
+                                    if ($queryStr) { $href .= '?' . $queryStr; }
+                                    $isCurrent = $lang->locale === $locale;
+                                @endphp
+                                <a href="{{ $href }}" class="flex items-center justify-between gap-x-3 px-4 py-2.5 text-sm transition {{ $isCurrent ? 'bg-slate-50 font-semibold text-colorPurpleBlue' : 'text-colorBlackPearl hover:bg-slate-50' }}">
+                                    <span>{{ $lang->name ?: strtoupper($lang->locale) }}</span>
+                                    <span class="text-xs uppercase tracking-wider opacity-60">{{ $lang->locale }}</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </details>
+                    <style>
+                        .lang-switcher > summary::-webkit-details-marker { display: none; }
+                        .lang-switcher > summary::marker { content: ''; }
+                    </style>
+                    @endif
+
                     <!-- User Event -->
                     <div class="flex items-center gap-x-2.5">
                         @if($navbarInfo?->show_register_button ?? true)
