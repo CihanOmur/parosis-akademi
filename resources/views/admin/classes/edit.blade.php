@@ -287,36 +287,42 @@
                 </a>
             </div>
 
-            {{-- Sil --}}
+            {{-- Sil (button ana form'da, form="class-delete-form" ile dış form'a bağlanır;
+                 iç içe form sorunu önlenmiş olur — DELETE method ana form'a karışmaz) --}}
             @can('class_delete')
                 <div class="bg-white dark:bg-slate-800 rounded-2xl border border-red-200/60 dark:border-red-800/40 shadow-sm p-5">
                     <h4 class="text-xs font-semibold text-red-500 dark:text-red-400 uppercase tracking-wider mb-3">Tehlikeli Bölge</h4>
-                    <form action="{{ route('class.delete', $lessonClass->id) }}" method="POST"
-                          x-data @submit.prevent="$dispatch('confirm-dialog', {
-                              title: 'Sınıfı Sil',
-                              message: '{{ addslashes($lessonClass->name) }} adlı sınıfı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.',
-                              form: $el
-                          })">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5
-                                       text-red-600 dark:text-red-400 text-sm font-medium rounded-xl
-                                       border border-red-200 dark:border-red-800
-                                       hover:bg-red-50 dark:hover:bg-red-900/20 transition-all cursor-pointer">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-                            </svg>
-                            Sınıfı Sil
-                        </button>
-                    </form>
+                    <button type="submit" form="class-delete-form"
+                            x-data
+                            @click.prevent="$dispatch('confirm-dialog', {
+                                title: 'Sınıfı Sil',
+                                message: '{{ addslashes($lessonClass->name) }} adlı sınıfı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.',
+                                form: document.getElementById('class-delete-form')
+                            })"
+                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5
+                                   text-red-600 dark:text-red-400 text-sm font-medium rounded-xl
+                                   border border-red-200 dark:border-red-800
+                                   hover:bg-red-50 dark:hover:bg-red-900/20 transition-all cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                        </svg>
+                        Sınıfı Sil
+                    </button>
                 </div>
             @endcan
 
         </div>
     </div>
 </form>
+
+{{-- Sil form'u ana form'un DIŞINDA; HTML5 form attribute ile button'a bağlandı --}}
+@can('class_delete')
+    <form action="{{ route('class.delete', $lessonClass->id) }}" method="POST" id="class-delete-form" class="hidden">
+        @csrf
+        @method('DELETE')
+    </form>
+@endcan
 @endsection
 
 @section('scripts')

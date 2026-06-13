@@ -47,6 +47,10 @@
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
+                    <x-textarea name="description" label="Açıklama (opsiyonel)" placeholder="Kategori için kısa bir açıklama..." rows="4" :value="$category->description" />
+
+                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
+
                     {{-- Renk --}}
                     <div class="space-y-1">
                         <label for="color" class="block text-sm font-medium text-slate-700 dark:text-slate-300">
