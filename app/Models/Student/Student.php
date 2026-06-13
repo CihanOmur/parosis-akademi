@@ -2,9 +2,11 @@
 
 namespace App\Models\Student;
 
+use App\Models\Certificate;
 use App\Models\Class\LessonClass;
 use App\Models\Student\StudentPayments;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Student extends Model
 {
@@ -40,5 +42,10 @@ class Student extends Model
     public function payments()
     {
         return $this->hasMany(StudentPayments::class);
+    }
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class)->orderByDesc('issue_date');
     }
 }

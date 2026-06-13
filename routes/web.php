@@ -127,6 +127,12 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/pre-to-normal', [PreRegistrationController::class, 'convertToNormalPost'])->name('pre-to-normal.post')->middleware('permission:student');
 
         Route::get('/pre/students',  [PreRegistrationController::class, 'index'])->name('pre.students')->middleware('permission:student');
+
+        // ─── Sertifikalar ────────────────────────────────────────────────
+        Route::post('/{student}/certificates',                       [\App\Http\Controllers\Certificate\CertificateController::class, 'store'])->name('certificates.store')->middleware('permission:student');
+        Route::post('/{student}/certificates/{certificate}/update',  [\App\Http\Controllers\Certificate\CertificateController::class, 'update'])->name('certificates.update')->middleware('permission:student');
+        Route::delete('/{student}/certificates/{certificate}',       [\App\Http\Controllers\Certificate\CertificateController::class, 'destroy'])->name('certificates.destroy')->middleware('permission:student');
+        Route::get('/{student}/certificates/{certificate}/download', [\App\Http\Controllers\Certificate\CertificateController::class, 'download'])->name('certificates.download')->middleware('permission:student|accounting');
     });
 
     // ─── SSS Yönetimi (CRUD) ──────────────────────────────────────────────────
