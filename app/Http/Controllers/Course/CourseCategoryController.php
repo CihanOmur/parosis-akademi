@@ -24,15 +24,19 @@ class CourseCategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'  => 'required|string|max:200',
-            'icon'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
-            'color' => 'nullable|string|max:20',
+            'name'        => 'required|string|max:200',
+            'description' => 'nullable|string|max:5000',
+            'icon'        => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
+            'color'       => 'nullable|string|max:20',
         ], ValidationMessageService::getMessages('course_cat_store'));
 
         $locale = app()->getLocale();
 
         $category = new CourseCategory();
         $category->setTranslation('name', $locale, $request->name);
+        if ($request->filled('description')) {
+            $category->setTranslation('description', $locale, $request->description);
+        }
         $category->color = $request->color;
         $category->sort_order = CourseCategory::max('sort_order') + 1;
         $category->is_active = true;
@@ -59,15 +63,19 @@ class CourseCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name'  => 'required|string|max:200',
-            'icon'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
-            'color' => 'nullable|string|max:20',
+            'name'        => 'required|string|max:200',
+            'description' => 'nullable|string|max:5000',
+            'icon'        => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
+            'color'       => 'nullable|string|max:20',
         ], ValidationMessageService::getMessages('course_cat_update'));
 
         $category = CourseCategory::findOrFail($id);
         $locale = app()->getLocale();
 
         $category->setTranslation('name', $locale, $request->name);
+        if ($request->has('description')) {
+            $category->setTranslation('description', $locale, $request->description ?? '');
+        }
         $category->color = $request->color;
 
         if ($request->hasFile('icon')) {
@@ -135,14 +143,18 @@ class CourseCategoryController extends Controller
     public function updateTranslate(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:200',
-            'lang' => 'required|string',
+            'name'        => 'required|string|max:200',
+            'description' => 'nullable|string|max:5000',
+            'lang'        => 'required|string',
         ], ValidationMessageService::getMessages('course_cat_translate'));
 
         $category = CourseCategory::findOrFail($id);
         $locale = $request->lang;
 
         $category->setTranslation('name', $locale, $request->name);
+        if ($request->has('description')) {
+            $category->setTranslation('description', $locale, $request->description ?? '');
+        }
         $category->save();
 
         return redirect()->route('courseCategories.edit', $id)

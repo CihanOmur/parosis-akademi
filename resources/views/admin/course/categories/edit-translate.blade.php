@@ -43,6 +43,10 @@
                         <span class="text-xs text-slate-400 uppercase">Kategori Adı</span>
                         <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">{{ $category->getTranslation('name', app()->getLocale(), false) ?: '—' }}</p>
                     </div>
+                    <div>
+                        <span class="text-xs text-slate-400 uppercase">Açıklama</span>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-1 whitespace-pre-line">{{ $category->getTranslation('description', app()->getLocale(), false) ?: '—' }}</p>
+                    </div>
                 </div>
             </div>
 
@@ -66,6 +70,10 @@
 
                 <div class="relative p-6 space-y-5">
                     <x-text-input name="name" label="Kategori Adı" placeholder="Kategori adının çevirisini yazın..." :value="$category->getTranslation('name', $selectedLang, false)" ringColor="blue" required />
+
+                    <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
+
+                    <x-textarea name="description" label="Açıklama (opsiyonel)" placeholder="Açıklamanın çevirisini yazın..." rows="4" :value="$category->getTranslation('description', $selectedLang, false)" ringColor="blue" />
                 </div>
             </div>
         </div>
