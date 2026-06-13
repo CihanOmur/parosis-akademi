@@ -15,4 +15,15 @@
         </svg>
         Ödeme Bilgileri
     </a>
+    <a href="{{ route('students.certificates', $student->id) }}"
+       class="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl transition-all
+              {{ Route::is('students.certificates') ? 'bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white shadow-sm shadow-fuchsia-500/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9Z"/>
+        </svg>
+        Sertifikalar
+        @if(isset($student) && $student->certificates_count > 0)
+            <span class="ml-0.5 text-[10px] font-bold bg-white/20 text-current px-1.5 py-0.5 rounded-full">{{ $student->certificates_count }}</span>
+        @endif
+    </a>
 </div>

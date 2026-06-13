@@ -29,9 +29,8 @@ class CertificateController extends Controller
         $certificate->save();
 
         return redirect()
-            ->route('students.edit', $student->id)
+            ->route('students.certificates', $student->id)
             ->with('success', 'Sertifika başarıyla eklendi.')
-            ->with('active_tab', 'certificates');
     }
 
     public function update(Request $request, $studentId, $certificateId)
@@ -54,9 +53,8 @@ class CertificateController extends Controller
         $certificate->save();
 
         return redirect()
-            ->route('students.edit', $student->id)
+            ->route('students.certificates', $student->id)
             ->with('success', 'Sertifika güncellendi.')
-            ->with('active_tab', 'certificates');
     }
 
     public function destroy($studentId, $certificateId)
@@ -71,9 +69,8 @@ class CertificateController extends Controller
         $certificate->delete();
 
         return redirect()
-            ->route('students.edit', $student->id)
+            ->route('students.certificates', $student->id)
             ->with('success', 'Sertifika silindi.')
-            ->with('active_tab', 'certificates');
     }
 
     public function download($studentId, $certificateId): BinaryFileResponse

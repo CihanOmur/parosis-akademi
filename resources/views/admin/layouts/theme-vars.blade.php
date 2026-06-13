@@ -389,6 +389,14 @@
         color: var(--btn-primary-from) !important;
     }
 
+    /* Fuchsia border'lar (radio kart seçimi, vurgu border'ları) */
+    .border-fuchsia-300:not(aside *),
+    .border-fuchsia-400:not(aside *),
+    .border-fuchsia-500:not(aside *),
+    .border-fuchsia-600:not(aside *) {
+        border-color: var(--btn-primary-from) !important;
+    }
+
     /* Hover varyantları (link hover, ikon hover, dropdown item) */
     .hover\:text-fuchsia-400:not(aside *):hover,
     .hover\:text-fuchsia-500:not(aside *):hover,

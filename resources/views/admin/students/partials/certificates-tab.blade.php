@@ -160,20 +160,24 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto">
+         @keydown.escape.window="closeModal()"
+         class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm"
+         style="height: 100dvh;">
 
         <div @click.outside="closeModal()"
              x-transition:enter="transition ease-out duration-200 delay-75"
              x-transition:enter-start="opacity-0 scale-95"
              x-transition:enter-end="opacity-100 scale-100"
-             class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 w-full max-w-2xl my-8 max-h-[90vh] overflow-y-auto">
+             class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 w-full max-w-2xl flex flex-col overflow-hidden"
+             style="max-height: calc(100dvh - 2rem);">
 
             <form :action="form.id ? updateUrlBase + '/' + form.id + '/update' : storeUrl"
-                  method="POST" enctype="multipart/form-data">
+                  method="POST" enctype="multipart/form-data"
+                  class="flex flex-col flex-1 min-h-0 overflow-hidden">
                 @csrf
 
-                {{-- Header --}}
-                <div class="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700/50">
+                {{-- Header (sabit) --}}
+                <div class="flex-shrink-0 flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700/50">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-purple-600 flex items-center justify-center shadow-md shadow-fuchsia-500/20">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
@@ -190,8 +194,8 @@
                     </button>
                 </div>
 
-                {{-- Body --}}
-                <div class="p-6 space-y-5">
+                {{-- Body (scroll edilebilir) --}}
+                <div class="flex-1 overflow-y-auto p-6 space-y-5" style="min-height: 0;">
 
                     {{-- Sertifika Türü --}}
                     <div>
@@ -288,20 +292,80 @@
                                class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-700/70 border-0 rounded-xl text-sm ring-1 ring-slate-200 dark:ring-slate-600 focus:ring-2 focus:ring-fuchsia-500/60 transition-all">
                     </div>
 
-                    {{-- Dosya --}}
+                    {{-- Dosya (drop-zone) --}}
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                            Sertifika Dosyası <span class="text-xs text-slate-400 font-normal ml-1">(PDF, PNG, JPEG — maks 10MB)</span>
+                            Sertifika Dosyası
                         </label>
-                        <input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg,.webp"
-                               class="block w-full text-sm text-slate-500
-                                      file:mr-3 file:py-2 file:px-4 file:rounded-xl
-                                      file:border-0 file:text-sm file:font-medium
-                                      file:bg-fuchsia-50 file:text-fuchsia-600
-                                      hover:file:bg-fuchsia-100 cursor-pointer
-                                      px-4 py-3 bg-slate-50 dark:bg-slate-700/70 rounded-xl ring-1 ring-slate-200 dark:ring-slate-600">
-                        <p x-show="form.id && form.has_file" x-cloak class="text-xs text-emerald-600 dark:text-emerald-400 mt-1.5">
-                            ✓ Mevcut dosya var — yeni dosya seçerseniz değiştirilir
+
+                        <label
+                            @dragover.prevent="dragging = true"
+                            @dragleave.prevent="dragging = false"
+                            @drop.prevent="dragging = false; if ($event.dataTransfer.files.length) { $refs.certFileInput.files = $event.dataTransfer.files; handleFileSelect($event.dataTransfer.files); }"
+                            :class="dragging
+                                ? 'border-fuchsia-500 bg-fuchsia-50/60 dark:bg-fuchsia-900/20 scale-[1.01]'
+                                : (fileName
+                                    ? 'border-emerald-300 dark:border-emerald-700 bg-emerald-50/40 dark:bg-emerald-900/10'
+                                    : 'border-slate-200 dark:border-slate-700 hover:border-fuchsia-400 dark:hover:border-fuchsia-500 hover:bg-fuchsia-50/40 dark:hover:bg-fuchsia-900/10')"
+                            class="group block w-full border-2 border-dashed rounded-xl cursor-pointer transition-all duration-200">
+
+                            {{-- Boş hal --}}
+                            <template x-if="!fileName">
+                                <div class="flex flex-col items-center justify-center text-center px-4 py-7 gap-2.5">
+                                    <div :class="dragging ? 'bg-fuchsia-100 dark:bg-fuchsia-900/40 scale-110' : 'bg-slate-100 dark:bg-slate-700 group-hover:bg-fuchsia-100 dark:group-hover:bg-fuchsia-900/30'"
+                                         class="w-12 h-12 rounded-xl flex items-center justify-center transition-all">
+                                        <svg :class="dragging ? 'text-fuchsia-600' : 'text-slate-400 group-hover:text-fuchsia-500'"
+                                             class="w-6 h-6 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p :class="dragging ? 'text-fuchsia-600 dark:text-fuchsia-400' : 'text-slate-700 dark:text-slate-300 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400'"
+                                           class="text-sm font-medium transition-colors">
+                                            <span x-text="dragging ? 'Bırakın' : 'Dosya seçin ya da sürükleyin'"></span>
+                                        </p>
+                                        <p class="text-xs text-slate-400 mt-0.5">PDF, PNG, JPEG, WEBP &bull; Maks 10MB</p>
+                                    </div>
+                                </div>
+                            </template>
+
+                            {{-- Seçili hal --}}
+                            <template x-if="fileName">
+                                <div class="flex items-center justify-between gap-3 px-4 py-3">
+                                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                                        <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
+                                            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9Z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <p class="text-sm font-medium text-slate-900 dark:text-white truncate" x-text="fileName"></p>
+                                            <p class="text-xs text-slate-400 mt-0.5" x-text="fileSize"></p>
+                                        </div>
+                                    </div>
+                                    <button type="button"
+                                            @click.stop.prevent="clearFile()"
+                                            class="flex-shrink-0 p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
+
+                            <input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg,.webp"
+                                   x-ref="certFileInput"
+                                   @change="handleFileSelect($event.target.files)"
+                                   class="sr-only">
+                        </label>
+
+                        {{-- Mevcut dosya bilgisi (sadece düzenleme modunda, yeni dosya seçilmemişken) --}}
+                        <p x-show="!fileName && form.id && form.has_file" x-cloak
+                           class="mt-2 flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400">
+                            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+                            </svg>
+                            Mevcut dosya var — yeni dosya seçerseniz değiştirilir
                         </p>
                     </div>
 
@@ -316,8 +380,8 @@
                     </div>
                 </div>
 
-                {{-- Footer --}}
-                <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50">
+                {{-- Footer (sabit) --}}
+                <div class="flex-shrink-0 flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/50">
                     <button type="button" @click="closeModal()"
                             class="px-5 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors cursor-pointer">
                         İptal
@@ -342,6 +406,33 @@
             ...initial,
             filterType: '',
             modalOpen: false,
+            // Drop-zone state
+            fileName: '',
+            fileSize: '',
+            dragging: false,
+            init() {
+                // Modal açık iken arka plandaki sayfa scroll'unu kilitle
+                this.$watch('modalOpen', (value) => {
+                    document.body.style.overflow = value ? 'hidden' : '';
+                });
+            },
+            formatFileSize(bytes) {
+                if (!bytes && bytes !== 0) return '';
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+            },
+            handleFileSelect(files) {
+                if (files && files.length > 0) {
+                    this.fileName = files[0].name;
+                    this.fileSize = this.formatFileSize(files[0].size);
+                }
+            },
+            clearFile() {
+                this.fileName = '';
+                this.fileSize = '';
+                if (this.$refs.certFileInput) this.$refs.certFileInput.value = '';
+            },
             form: {
                 id: null,
                 type: 'kurumsal',
@@ -370,6 +461,8 @@
             },
             openCreate() {
                 this.form = this.blankForm();
+                this.fileName = '';
+                this.fileSize = '';
                 this.modalOpen = true;
             },
             openEdit(data) {
@@ -385,6 +478,8 @@
                     notes: data.notes ?? '',
                     has_file: !!data.has_file,
                 };
+                this.fileName = '';
+                this.fileSize = '';
                 this.modalOpen = true;
             },
             closeModal() {

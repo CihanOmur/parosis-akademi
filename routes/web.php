@@ -111,6 +111,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::get('/{id}/payment',  [StudentPaymentController::class, 'payment'])->name('payment')->middleware('permission:student|accounting');
         Route::post('/{id}/payment', [StudentPaymentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('permission:student|accounting');
         Route::get('/{id}/payments', [StudentPaymentController::class, 'allPayments'])->name('allPayments')->middleware('permission:student|accounting');
+        Route::get('/{id}/certificates',[StudentController::class, 'certificates'])->name('certificates')->middleware('permission:student|accounting');
 
         // PDF İndirme
         Route::post('/downloadRegistrationForm',[StudentDocumentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('permission:student|student_delete|accounting');
