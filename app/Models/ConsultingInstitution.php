@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ConsultingInstitution extends Model
 {
@@ -18,4 +19,9 @@ class ConsultingInstitution extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class)->orderByDesc('issue_date');
+    }
 }

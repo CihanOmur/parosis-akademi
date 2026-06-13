@@ -36,17 +36,45 @@
             @endforeach
         </div>
 
-        <button type="button" @click="openCreate()"
-                class="inline-flex items-center justify-center gap-2 px-5 py-2.5
-                       bg-gradient-to-r from-fuchsia-500 to-purple-600
-                       hover:from-fuchsia-600 hover:to-purple-700
-                       text-white font-semibold text-sm rounded-xl
-                       shadow-lg shadow-fuchsia-500/25 transition-all duration-200 active:scale-[.98] cursor-pointer">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-            </svg>
-            Sertifika Ekle
-        </button>
+        <div class="flex items-center gap-2 no-print">
+            @if(!$student->certificates->isEmpty())
+                <button type="button" @click="window.print()"
+                        class="inline-flex items-center justify-center gap-2 px-4 py-2.5
+                               bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600
+                               text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600
+                               font-semibold text-sm rounded-xl transition-all duration-200 cursor-pointer"
+                        title="Filtrelenmiş sertifikaları CV / başarı özeti olarak yazdırın">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
+                    </svg>
+                    Yazdır / CV
+                </button>
+            @endif
+
+            <button type="button" @click="openCreate()"
+                    class="inline-flex items-center justify-center gap-2 px-5 py-2.5
+                           bg-gradient-to-r from-fuchsia-500 to-purple-600
+                           hover:from-fuchsia-600 hover:to-purple-700
+                           text-white font-semibold text-sm rounded-xl
+                           shadow-lg shadow-fuchsia-500/25 transition-all duration-200 active:scale-[.98] cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                Sertifika Ekle
+            </button>
+        </div>
+    </div>
+
+    {{-- Print başlığı: sadece yazdırılırken görünür --}}
+    <div class="hidden print-only mb-6">
+        <h1 class="text-2xl font-bold mb-1">{{ $student->full_name }} — Sertifika Özeti</h1>
+        <div class="text-sm text-slate-600">
+            <span x-show="filterType === ''">Tüm sertifikalar</span>
+            <template x-for="(label, key) in types" :key="key">
+                <span x-show="filterType === key" x-text="label + ' sertifikalar'"></span>
+            </template>
+            <span> · Çıktı tarihi: {{ now()->format('d.m.Y') }}</span>
+        </div>
     </div>
 
     {{-- Liste --}}
@@ -71,7 +99,7 @@
                             <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Veren Kurum</th>
                             <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Branş</th>
                             <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-32">Tarih</th>
-                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-40">İşlem</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-40 no-print">İşlem</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
@@ -112,7 +140,7 @@
                                 <td class="px-6 py-4 text-slate-500 dark:text-slate-400 text-xs">
                                     {{ $cert->issue_date?->format('d.m.Y') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 no-print">
                                     <div class="flex items-center gap-1">
                                         @if($cert->file_path)
                                             <a href="{{ route('students.certificates.download', [$student->id, $cert->id]) }}"
@@ -488,3 +516,27 @@
         };
     }
 </script>
+
+<style>
+    .print-only { display: none; }
+    @media print {
+        @page { size: A4; margin: 14mm 12mm; }
+        body { background: #fff !important; }
+        /* Aside, navbar, footer, banner butonları gizle */
+        aside, nav, header, .no-print, [x-data] form button[type="submit"].bg-red-50,
+        .tab-menu-student, .sidebar, .navbar-wrapper { display: none !important; }
+        /* Tüm tabs, page-banner ayarla */
+        main, .content-wrapper { padding: 0 !important; margin: 0 !important; box-shadow: none !important; }
+        .print-only { display: block !important; }
+        /* Tabloyu temizle */
+        table { border-collapse: collapse; width: 100%; font-size: 11pt; }
+        table thead { background: #f1f5f9 !important; }
+        table th, table td { padding: 8px 10px !important; border-bottom: 1px solid #e5e7eb; }
+        .shadow-sm, .shadow-lg { box-shadow: none !important; }
+        .rounded-2xl, .rounded-xl { border-radius: 0 !important; }
+        /* Filtre chipleri, modallar gizle */
+        [x-data] [x-show="modalOpen"], [x-cloak] { display: none !important; }
+        /* Genel arka plan ve renkler */
+        * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+</style>

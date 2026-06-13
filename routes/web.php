@@ -225,6 +225,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
     Route::prefix('consulting-institutions')->name('consultingInstitutions.')->group(function () {
         Route::get('/',              [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'index'])->name('index')->middleware('permission:student|content');
         Route::get('/create',        [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'create'])->name('create')->middleware('permission:student|content');
+        Route::get('/{id}/sertifikalar', [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'show'])->name('show')->middleware('permission:student|content');
         Route::post('/store',        [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'store'])->name('store')->middleware('permission:student|content');
         Route::get('/{id}/edit',     [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'edit'])->name('edit')->middleware('permission:student|content');
         Route::post('/{id}/update',  [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'update'])->name('update')->middleware('permission:student|content');

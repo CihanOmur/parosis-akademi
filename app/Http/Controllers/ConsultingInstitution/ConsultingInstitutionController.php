@@ -11,8 +11,20 @@ class ConsultingInstitutionController extends Controller
 {
     public function index()
     {
-        $institutions = ConsultingInstitution::orderBy('sort_order')->orderBy('name')->get();
+        $institutions = ConsultingInstitution::withCount('certificates')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
         return view('admin.consulting-institutions.index', compact('institutions'));
+    }
+
+    public function show($id)
+    {
+        $institution = ConsultingInstitution::withCount('certificates')->findOrFail($id);
+        $certificates = $institution->certificates()
+            ->with(['student', 'category'])
+            ->paginate(20);
+        return view('admin.consulting-institutions.show', compact('institution', 'certificates'));
     }
 
     public function create()

@@ -27,6 +27,7 @@
                         <th class="w-10 px-3 py-4"></th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Kurum Adı</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">İletişim</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-32 text-center">Sertifika</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-28">Durum</th>
                         <th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-32">İşlem</th>
                     </tr>
@@ -68,6 +69,22 @@
                                     @endif
                                 </div>
                             </td>
+                            <td class="px-6 py-4 text-center">
+                                @if($item->certificates_count > 0)
+                                    <a href="{{ route('consultingInstitutions.show', $item->id) }}"
+                                       class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold
+                                              bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-400
+                                              hover:bg-fuchsia-200 dark:hover:bg-fuchsia-900/50 transition-all"
+                                       title="Bu kurumun sertifikalarını listele">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                        {{ $item->certificates_count }} sertifika
+                                    </a>
+                                @else
+                                    <span class="text-xs italic text-slate-400 dark:text-slate-500">—</span>
+                                @endif
+                            </td>
                             <td class="px-6 py-4">
                                 <label class="inline-flex items-center gap-2.5 cursor-pointer">
                                     <div class="relative">
@@ -103,7 +120,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-16 text-center">
+                            <td colspan="6" class="px-6 py-16 text-center">
                                 <div class="flex flex-col items-center gap-3">
                                     <svg class="w-12 h-12 text-slate-300 dark:text-slate-600" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/>
