@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Class;
 use App\Http\Controllers\Controller;
 use App\Models\Class\LessonClass;
 use App\Models\Class\LessonClassDays;
+use App\Models\Courses\Course;
 use App\Models\User\User;
 use Carbon\Carbon;
 use App\Services\ValidationMessageService;
@@ -82,11 +83,13 @@ class LessonClassController extends Controller
             $start->addMinutes(30);
         }
         $teachers = User::role('Eğitmen')->get();
+        $courses = Course::where('is_active', true)->orderBy('id')->get();
 
         return view('admin.classes.create', [
             'days' => $days,
             'times' => $times,
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'courses' => $courses,
         ]);
     }
     public function store(Request $request)
@@ -96,6 +99,7 @@ class LessonClassController extends Controller
             'name' => 'required|string|max:255',
             'quota'       => 'required|integer|min:1',
             'teacher_id'  => 'required|exists:users,id',
+            'course_id'   => 'nullable|exists:courses,id',
             'start_date'  => 'required|date',
             'end_date'    => 'required|date|after_or_equal:start_date',
             'course_time' => 'required|string|max:255',
@@ -127,6 +131,7 @@ class LessonClassController extends Controller
         $lessonClass->price       = '0.00';
         $lessonClass->quota       = $validated['quota'];
         $lessonClass->teacher_id  = $validated['teacher_id'];
+        $lessonClass->course_id   = $validated['course_id'] ?? null;
         $lessonClass->start_date  = $validated['start_date'];
         $lessonClass->end_date    = $validated['end_date'];
         $lessonClass->course_time = $validated['course_time'];
@@ -166,12 +171,14 @@ class LessonClassController extends Controller
             $start->addMinutes(30);
         }
         $teachers = User::role('Eğitmen')->get();
+        $courses = Course::where('is_active', true)->orderBy('id')->get();
 
         return view('admin.classes.edit', [
             'days' => $days,
             'times' => $times,
             'lessonClass' => $lessonClass,
-            'teachers' => $teachers
+            'teachers' => $teachers,
+            'courses' => $courses,
         ]);
     }
     public function update(Request $request, $id)
@@ -180,6 +187,7 @@ class LessonClassController extends Controller
             'name' => 'required|string|max:255',
             'quota'       => 'required|integer|min:1',
             'teacher_id'  => 'required|exists:users,id',
+            'course_id'   => 'nullable|exists:courses,id',
             'start_date'  => 'required|date',
             'end_date'    => 'required|date|after_or_equal:start_date',
             'course_time' => 'required|string|max:255',
@@ -213,6 +221,7 @@ class LessonClassController extends Controller
         $lessonClass->price       = '0.00';
         $lessonClass->quota       = $validated['quota'];
         $lessonClass->teacher_id  = $validated['teacher_id'];
+        $lessonClass->course_id   = $validated['course_id'] ?? null;
         $lessonClass->start_date  = $validated['start_date'];
         $lessonClass->end_date    = $validated['end_date'];
         $lessonClass->course_time = $validated['course_time'];

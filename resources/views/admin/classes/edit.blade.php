@@ -102,6 +102,29 @@
                 </div>
             </div>
 
+            {{-- Kurs (opsiyonel) --}}
+            <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm">
+                <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700/50">
+                    <h3 class="text-sm font-semibold text-slate-900 dark:text-white">Kurs</h3>
+                </div>
+                <div class="p-6">
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                        Kurs Seçin <span class="text-xs text-slate-400 font-normal ml-1">(opsiyonel)</span>
+                    </label>
+                    <x-checkbox-dropdown
+                        name="course_id"
+                        :items="$courses->map(fn($c) => ['id' => $c->id, 'name' => $c->title])->toArray()"
+                        :selected="$lessonClass->course_id ? [old('course_id', $lessonClass->course_id)] : (old('course_id') ? [(int) old('course_id')] : [])"
+                        placeholder="Kurs seçin..."
+                        :multiple="false"
+                        :required="false"
+                    />
+                    @error('course_id')
+                        <p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
             {{-- Çalışma Saatleri --}}
             <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-700/50 flex items-center justify-between">

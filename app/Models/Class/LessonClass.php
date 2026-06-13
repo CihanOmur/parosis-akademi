@@ -2,8 +2,10 @@
 
 namespace App\Models\Class;
 
+use App\Models\Courses\Course;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LessonClass extends Model
@@ -15,6 +17,7 @@ class LessonClass extends Model
         'price',
         'quota',
         'teacher_name',
+        'course_id',
         'start_date',
         'end_date',
         'course_time',
@@ -33,5 +36,10 @@ class LessonClass extends Model
     public function days()
     {
         return $this->hasMany(LessonClassDays::class, 'lesson_class_id', 'id');
+    }
+
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }
