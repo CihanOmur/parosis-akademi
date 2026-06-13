@@ -9,7 +9,7 @@
            'lg:w-72': !sidebarCollapsed,
            'sidebar-collapsed': sidebarCollapsed
        }"
-       x-data="{ openMenu: '{{ (Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*')) ? 'kurs' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*') ? 'magaza' : (Route::is('users.*') || Route::is('roles.*') ? 'users' : ''))) }}' }">
+       x-data="{ openMenu: '{{ (Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('consultingInstitutions.*')) ? 'kurs' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*') ? 'magaza' : (Route::is('users.*') || Route::is('roles.*') ? 'users' : ''))) }}' }">
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -80,7 +80,7 @@
 
         {{-- Kurslar Dropdown (Sınıflar, Kayıtlar, Kurs, Kategoriler) --}}
         @canany(['class', 'class_delete', 'student', 'student_delete', 'accounting', 'content', 'content_delete'])
-        @php $isKursActive = Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*'); @endphp
+        @php $isKursActive = Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('consultingInstitutions.*'); @endphp
         <div class="group/kurs relative">
             <button @click="openMenu = openMenu === 'kurs' ? '' : 'kurs'"
                     class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -147,6 +147,15 @@
                         Kategoriler
                     </a>
                 @endcanany
+                @canany(['student', 'content'])
+                    <a href="{{ route('consultingInstitutions.index') }}"
+                       class="block px-3 py-2 rounded-lg text-sm transition-colors
+                              {{ Route::is('consultingInstitutions.*')
+                                  ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                        Danışmanlık Kurumları
+                    </a>
+                @endcanany
             </div>
 
             <template x-if="sidebarCollapsed">
@@ -185,6 +194,15 @@
                                           ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                           : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
                                 Kategoriler
+                            </a>
+                        @endcanany
+                        @canany(['student', 'content'])
+                            <a href="{{ route('consultingInstitutions.index') }}"
+                               class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
+                                      {{ Route::is('consultingInstitutions.*')
+                                          ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                          : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
+                                Danışmanlık Kurumları
                             </a>
                         @endcanany
                     </div>

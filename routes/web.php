@@ -215,6 +215,17 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
     });
 
     // ─── Kurs Kategorileri ────────────────────────────────────────────────────
+    Route::prefix('consulting-institutions')->name('consultingInstitutions.')->group(function () {
+        Route::get('/',              [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'index'])->name('index')->middleware('permission:student|content');
+        Route::get('/create',        [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'create'])->name('create')->middleware('permission:student|content');
+        Route::post('/store',        [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'store'])->name('store')->middleware('permission:student|content');
+        Route::get('/{id}/edit',     [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'edit'])->name('edit')->middleware('permission:student|content');
+        Route::post('/{id}/update',  [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'update'])->name('update')->middleware('permission:student|content');
+        Route::delete('/{id}',       [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'delete'])->name('delete')->middleware('permission:student_delete|content_delete');
+        Route::post('/update-order', [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:student|content');
+        Route::post('/{id}/toggle',  [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'toggleActive'])->name('toggle')->middleware('permission:student|content');
+    });
+
     Route::prefix('course-categories')->name('courseCategories.')->group(function () {
         Route::get('/',              [CourseCategoryController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
         Route::get('/create',        [CourseCategoryController::class, 'create'])->name('create')->middleware('permission:content');
