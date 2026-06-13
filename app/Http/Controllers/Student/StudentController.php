@@ -237,11 +237,22 @@ class StudentController extends Controller
         $education_levels = ['İlkokul', 'Ortaokul', 'Lise', 'Önlisans', 'Lisans', 'Diğer'];
         $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
 
-        $student = Student::with(['guardians', 'emergencyContact'])->where('registration_type', '2')->findOrFail($id);
+        $student = Student::with(['guardians', 'emergencyContact', 'certificates.consultingInstitution', 'certificates.category'])
+            ->where('registration_type', '2')
+            ->findOrFail($id);
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();
 
-        return view('admin.students.edit', compact('student', 'classes', 'education_levels', 'jobs', 'normalCount', 'preCount'));
+        // Sertifika sekmesi için
+        $consultingInstitutions = \App\Models\ConsultingInstitution::where('is_active', true)->orderBy('name')->get();
+        $courseCategories       = \App\Models\Courses\CourseCategory::where('is_active', true)->orderBy('id')->get();
+        $certificateTypes       = \App\Models\Certificate::TYPES;
+        $siteName               = \App\Models\Setting::get('site_name', config('app.name', 'Parosis Akademi'));
+
+        return view('admin.students.edit', compact(
+            'student', 'classes', 'education_levels', 'jobs', 'normalCount', 'preCount',
+            'consultingInstitutions', 'courseCategories', 'certificateTypes', 'siteName'
+        ));
     }
 
     public function update(Request $request, $id)

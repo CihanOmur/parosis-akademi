@@ -60,6 +60,37 @@
 @endsection
 
 @section('content')
+<div x-data="{ activeTab: '{{ session('active_tab', 'info') }}' }" class="space-y-5">
+
+    {{-- Sekme Navigasyonu --}}
+    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-1.5 inline-flex gap-1">
+        <button type="button" @click="activeTab = 'info'"
+                :class="activeTab === 'info' ? 'bg-fuchsia-50 text-fuchsia-600 dark:bg-fuchsia-900/20 dark:text-fuchsia-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'"
+                class="px-5 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer">
+            <span class="inline-flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                </svg>
+                Bilgiler
+            </span>
+        </button>
+        <button type="button" @click="activeTab = 'certificates'"
+                :class="activeTab === 'certificates' ? 'bg-fuchsia-50 text-fuchsia-600 dark:bg-fuchsia-900/20 dark:text-fuchsia-400' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'"
+                class="px-5 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer">
+            <span class="inline-flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9Z"/>
+                </svg>
+                Sertifikalar
+                @if($student->certificates->count() > 0)
+                    <span class="ml-0.5 text-[10px] font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-1.5 py-0.5 rounded-full">{{ $student->certificates->count() }}</span>
+                @endif
+            </span>
+        </button>
+    </div>
+
+    {{-- ─── Bilgiler Sekmesi ─── --}}
+    <div x-show="activeTab === 'info'" x-cloak>
     <div class="flex justify-between items-center mb-5">
         @include('admin.components.tab-menu-student')
         @include('admin.components.action-button-student', ['student' => $student])
@@ -642,5 +673,16 @@
         </div>
     </div>
 </form>
+    </div>
+    {{-- /Bilgiler Sekmesi --}}
+
+    {{-- ─── Sertifikalar Sekmesi ─── --}}
+    <div x-show="activeTab === 'certificates'" x-cloak>
+        @include('admin.students.partials.certificates-tab')
+    </div>
+    {{-- /Sertifikalar Sekmesi --}}
+
+</div>
+{{-- /Sekme Wrapper --}}
 
 @endsection
