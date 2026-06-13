@@ -125,19 +125,10 @@
                 @canany(['student', 'student_delete', 'accounting'])
                     <a href="{{ route('students.index') }}"
                        class="block px-3 py-2 rounded-lg text-sm transition-colors
-                              {{ Route::is('students.*') && !Route::is('students.pre.*')
+                              {{ Route::is('students.*')
                                   ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
-                        Kesin Kayıtlar
-                    </a>
-                @endcanany
-                @canany(['student', 'student_delete'])
-                    <a href="{{ route('students.pre.students') }}"
-                       class="block px-3 py-2 rounded-lg text-sm transition-colors
-                              {{ Route::is('students.pre.*')
-                                  ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
-                                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
-                        Ön Kayıtlar
+                        Kayıtlar
                     </a>
                 @endcanany
                 @canany(['content', 'content_delete'])
@@ -174,19 +165,10 @@
                         @canany(['student', 'student_delete', 'accounting'])
                             <a href="{{ route('students.index') }}"
                                class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
-                                      {{ Route::is('students.*') && !Route::is('students.pre.*')
+                                      {{ Route::is('students.*')
                                           ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                           : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
-                                Kesin Kayıtlar
-                            </a>
-                        @endcanany
-                        @canany(['student', 'student_delete'])
-                            <a href="{{ route('students.pre.students') }}"
-                               class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
-                                      {{ Route::is('students.pre.*')
-                                          ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
-                                          : 'text-slate-600 dark:text-slate-300 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-500/10 hover:text-fuchsia-600 dark:hover:text-fuchsia-400' }}">
-                                Ön Kayıtlar
+                                Kayıtlar
                             </a>
                         @endcanany
                         @canany(['content', 'content_delete'])
