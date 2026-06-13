@@ -12,50 +12,76 @@ class ThemeController extends Controller
     public const GROUP = 'sidebar_theme';
 
     /**
-     * Sidebar tema renklerinin varsayılan değerleri (siyah-beyaz monokrom palet).
+     * Zorunlu renkler — sidebar paleti + butonlar.
      */
     public const DEFAULTS = [
         // Genel
-        'sidebar_bg'              => '#ffffff', // beyaz
-        'sidebar_border'          => '#e5e7eb', // gray-200
-        'section_title_text'      => '#9ca3af', // gray-400
-        'section_divider'         => '#e5e7eb', // gray-200
+        'sidebar_bg'              => '#ffffff',
+        'sidebar_border'          => '#e5e7eb',
+        'section_title_text'      => '#9ca3af',
+        'section_divider'         => '#e5e7eb',
 
         // Ana Menü
-        'menu_text'               => '#374151', // gray-700
-        'menu_text_active'        => '#000000', // siyah
-        'menu_bg_active'          => '#f3f4f6', // gray-100
-        'menu_bg_hover'           => '#f9fafb', // gray-50
+        'menu_text'               => '#374151',
+        'menu_text_active'        => '#000000',
+        'menu_bg_active'          => '#f3f4f6',
+        'menu_bg_hover'           => '#f9fafb',
 
         // İkonlar
-        'icon_bg'                 => '#f3f4f6', // gray-100
-        'icon_text'               => '#6b7280', // gray-500
-        'icon_bg_active'          => '#111827', // gray-900 (neredeyse siyah)
-        'icon_text_active'        => '#ffffff', // beyaz
+        'icon_bg'                 => '#f3f4f6',
+        'icon_text'               => '#6b7280',
+        'icon_bg_active'          => '#111827',
+        'icon_text_active'        => '#ffffff',
 
         // Alt Menüler
-        'submenu_text'            => '#6b7280', // gray-500
-        'submenu_text_active'     => '#000000', // siyah
-        'submenu_bg_active'       => '#f3f4f6', // gray-100
-        'submenu_bg_hover'        => '#f9fafb', // gray-50
+        'submenu_text'            => '#6b7280',
+        'submenu_text_active'     => '#000000',
+        'submenu_bg_active'       => '#f3f4f6',
+        'submenu_bg_hover'        => '#f9fafb',
 
-        // Avatar (siyah gradient)
-        'avatar_from'             => '#374151', // gray-700
-        'avatar_to'               => '#000000', // siyah
+        // Avatar
+        'avatar_from'             => '#374151',
+        'avatar_to'               => '#000000',
 
-        // Butonlar (Kaydet / Vazgeç / Sil) - sidebar dışı
-        'btn_primary_from'        => '#374151', // gray-700
-        'btn_primary_to'          => '#000000', // siyah
-        'btn_primary_text'        => '#ffffff', // beyaz
-        'btn_secondary_bg'        => '#f3f4f6', // gray-100
-        'btn_secondary_text'      => '#374151', // gray-700
-        'btn_secondary_border'    => '#e5e7eb', // gray-200
-        'btn_danger_bg'           => '#dc2626', // red-600
-        'btn_danger_text'         => '#ffffff', // beyaz
+        // Butonlar
+        'btn_primary_from'        => '#374151',
+        'btn_primary_to'          => '#000000',
+        'btn_primary_text'        => '#ffffff',
+        'btn_secondary_bg'        => '#f3f4f6',
+        'btn_secondary_text'      => '#374151',
+        'btn_secondary_border'    => '#e5e7eb',
+        'btn_danger_bg'           => '#dc2626',
+        'btn_danger_text'         => '#ffffff',
     ];
 
     /**
-     * Form için label'lar (5 grup).
+     * Opsiyonel panel renkleri — boş bırakılırsa sidebar paletinden otomatik türetilir.
+     * (CSS'te var(--panel-bg-color, var(--sb-bg)) ile fallback olur.)
+     */
+    public const COLOR_OPTIONAL = [
+        'panel_bg'                => '', // Body arka planı (boş = sidebar_bg'den türet)
+        'card_bg'                 => '', // Kart arka planı (boş = sidebar_bg'den türet)
+        'card_border'             => '', // Kart kenarlık (boş = sidebar_border'dan türet)
+        'form_bg'                 => '', // Form input arka planı
+        'hover_bg'                => '', // Hover arka plan (link/menu)
+        'badge_bg'                => '', // Badge arka planı
+    ];
+
+    /**
+     * Karışım yoğunlukları (%). Renk override yoksa sidebar paletiyle bu yüzdeden karıştırılır.
+     */
+    public const MIX_DEFAULTS = [
+        'panel_bg_mix'            => 35, // body bg yoğunluğu
+        'card_bg_mix'             => 12, // kart bg yoğunluğu
+        'card_border_mix'         => 60, // kart border yoğunluğu
+        'form_bg_mix'             => 8,  // form input bg
+        'hover_bg_mix'            => 22, // link/menu hover
+        'hover_bg_strong_mix'     => 26, // bg-fuchsia-500/X hover
+        'badge_bg_mix'            => 10, // badge tint
+    ];
+
+    /**
+     * Form grupları + label'lar.
      */
     public const GROUPS = [
         'Genel' => [
@@ -98,40 +124,87 @@ class ThemeController extends Controller
         ],
     ];
 
+    /**
+     * Panel renkleri (opsiyonel) — boş = sidebar paletinden türet.
+     */
+    public const PANEL_COLOR_GROUP = [
+        'panel_bg'                => 'Panel Arka Planı (boş = otomatik)',
+        'card_bg'                 => 'Kart Arka Planı (boş = otomatik)',
+        'card_border'             => 'Kart Kenarlık (boş = otomatik)',
+        'form_bg'                 => 'Form Alanı Arka Planı (boş = otomatik)',
+        'hover_bg'                => 'Hover Arka Planı (boş = otomatik)',
+        'badge_bg'                => 'Badge Arka Planı (boş = otomatik)',
+    ];
+
+    /**
+     * Panel yoğunluk slider'ları.
+     */
+    public const PANEL_MIX_GROUP = [
+        'panel_bg_mix'            => ['label' => 'Panel BG Yoğunluğu', 'min' => 0, 'max' => 100, 'step' => 1],
+        'card_bg_mix'             => ['label' => 'Kart BG Yoğunluğu',  'min' => 0, 'max' => 50,  'step' => 1],
+        'card_border_mix'         => ['label' => 'Kart Kenarlık Yoğunluğu', 'min' => 0, 'max' => 100, 'step' => 1],
+        'form_bg_mix'             => ['label' => 'Form BG Yoğunluğu',  'min' => 0, 'max' => 30,  'step' => 1],
+        'hover_bg_mix'            => ['label' => 'Hover Yoğunluğu',    'min' => 0, 'max' => 60,  'step' => 1],
+        'hover_bg_strong_mix'     => ['label' => 'Hover (Yoğun) Yoğunluğu', 'min' => 0, 'max' => 70, 'step' => 1],
+        'badge_bg_mix'            => ['label' => 'Badge Yoğunluğu',    'min' => 0, 'max' => 50,  'step' => 1],
+    ];
+
     public function edit()
     {
-        $saved   = Setting::getGroup(self::GROUP);
-        $colors  = array_merge(self::DEFAULTS, array_filter($saved, fn ($v) => !empty($v)));
-        $groups  = self::GROUPS;
+        $saved = Setting::getGroup(self::GROUP);
+        $savedFiltered = array_filter($saved, fn ($v) => $v !== null && $v !== '');
 
-        return view('admin.theme.edit', compact('colors', 'groups'));
+        $colors = array_merge(
+            self::DEFAULTS,
+            self::COLOR_OPTIONAL,
+            array_intersect_key($savedFiltered, array_merge(self::DEFAULTS, self::COLOR_OPTIONAL))
+        );
+
+        $mixes = array_merge(
+            self::MIX_DEFAULTS,
+            array_map('intval', array_intersect_key($savedFiltered, self::MIX_DEFAULTS))
+        );
+
+        return view('admin.theme.edit', [
+            'colors'           => $colors,
+            'mixes'            => $mixes,
+            'groups'           => self::GROUPS,
+            'panelColorGroup'  => self::PANEL_COLOR_GROUP,
+            'panelMixGroup'    => self::PANEL_MIX_GROUP,
+        ]);
     }
 
     public function update(Request $request)
     {
         $validated = $request->validate([
             'colors'   => 'required|array',
-            'colors.*' => ['required', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'colors.*' => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/'],
+            'mixes'    => 'nullable|array',
+            'mixes.*'  => ['nullable', 'integer', 'min:0', 'max:100'],
         ], [
             'colors.*.regex' => 'Her renk #RRGGBB formatında geçerli bir hex olmalı.',
+            'mixes.*.integer' => 'Yoğunluk değeri tam sayı olmalı.',
         ]);
 
-        // Sadece tanımlı key'leri kabul et
-        $clean = array_intersect_key($validated['colors'], self::DEFAULTS);
-        $clean = array_map('strtolower', $clean);
+        // Tanımlı renk anahtarlarını filtrele
+        $validKeys = array_merge(self::DEFAULTS, self::COLOR_OPTIONAL);
+        $colors = array_intersect_key($validated['colors'], $validKeys);
+        $colors = array_map(fn ($v) => is_string($v) ? strtolower($v) : $v, $colors);
 
-        Setting::saveGroup(self::GROUP, $clean);
+        // Yoğunlukları filtrele
+        $mixes = array_intersect_key($validated['mixes'] ?? [], self::MIX_DEFAULTS);
 
-        return redirect()->route('theme.edit')->with(['success' => 'Tema renkleri kaydedildi.']);
+        Setting::saveGroup(self::GROUP, array_merge($colors, $mixes));
+
+        return redirect()->route('theme.edit')->with(['success' => 'Tema ayarları kaydedildi.']);
     }
 
     public function reset()
     {
         Setting::where('group', self::GROUP)->delete();
 
-        // Cache temizliği
         Cache::forget('settings.group.' . self::GROUP);
-        foreach (array_keys(self::DEFAULTS) as $key) {
+        foreach (array_keys(array_merge(self::DEFAULTS, self::COLOR_OPTIONAL, self::MIX_DEFAULTS)) as $key) {
             Cache::forget("setting." . self::GROUP . ".{$key}");
         }
 

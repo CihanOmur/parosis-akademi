@@ -60,8 +60,8 @@
                             <td class="px-6 py-4">
                                 @forelse ($item->roles as $role)
                                     <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium
-                                                 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300
-                                                 border border-violet-200/60 dark:border-violet-700/40 mr-1">
+                                                 bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-300
+                                                 border border-fuchsia-200/60 dark:border-fuchsia-700/40 mr-1">
                                         {{ $role->name }}
                                     </span>
                                 @empty

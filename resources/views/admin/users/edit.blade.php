@@ -130,8 +130,8 @@
             {{-- Roller --}}
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
                 <div class="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
-                    <div class="w-9 h-9 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-4.5 h-4.5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="w-9 h-9 rounded-xl bg-fuchsia-100 dark:bg-fuchsia-900/30 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4.5 h-4.5 text-fuchsia-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                   d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>
                         </svg>
@@ -140,7 +140,7 @@
                         <h3 class="text-base font-semibold text-slate-900 dark:text-white">Roller</h3>
                         <p class="text-xs text-slate-400 mt-0.5">Kullanıcının sahip olacağı roller</p>
                     </div>
-                    <span class="text-xs font-medium px-2.5 py-1 rounded-lg bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 border border-violet-100 dark:border-violet-800/40"
+                    <span class="text-xs font-medium px-2.5 py-1 rounded-lg bg-fuchsia-50 dark:bg-fuchsia-900/20 text-fuchsia-600 dark:text-fuchsia-400 border border-fuchsia-100 dark:border-fuchsia-800/40"
                           x-text="selectedRoles.length + ' seçili'"></span>
                 </div>
 
@@ -155,11 +155,11 @@
                                 @click="toggleRole('{{ $role->name }}')"
                                 class="relative flex items-start gap-3.5 p-4 rounded-xl border-2 text-left transition-all duration-200 cursor-pointer"
                                 :class="hasRole('{{ $role->name }}')
-                                    ? 'border-violet-400 dark:border-violet-500 bg-violet-50 dark:bg-violet-900/20'
+                                    ? 'border-fuchsia-400 dark:border-fuchsia-500 bg-fuchsia-50 dark:bg-fuchsia-900/20'
                                     : 'border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-700/30 hover:border-slate-300 dark:hover:border-slate-600'">
                             <div class="flex-shrink-0 mt-0.5 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200"
                                  :class="hasRole('{{ $role->name }}')
-                                     ? 'bg-violet-500 border-violet-500'
+                                     ? 'bg-fuchsia-500 border-fuchsia-500'
                                      : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700'">
                                 <svg x-show="hasRole('{{ $role->name }}')" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
@@ -167,7 +167,7 @@
                             </div>
                             <div class="min-w-0">
                                 <p class="text-sm font-semibold transition-colors"
-                                   :class="hasRole('{{ $role->name }}') ? 'text-violet-700 dark:text-violet-300' : 'text-slate-700 dark:text-slate-300'">
+                                   :class="hasRole('{{ $role->name }}') ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-700 dark:text-slate-300'">
                                     {{ $role->name }}
                                 </p>
                                 @if($role->permissions->count())
