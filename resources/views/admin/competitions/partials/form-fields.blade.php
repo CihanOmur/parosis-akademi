@@ -55,48 +55,138 @@
 
         <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-        {{-- Yarışma Kategorileri — projedeki aramalı seçim komponenti --}}
+        {{-- Yarışma Kategorileri — x-checkbox-dropdown ile aynı görünüm, içinde 'yeni ekle' alanı --}}
         <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                 Yarışma Kategorileri
             </label>
 
-            <x-checkbox-dropdown
-                name="categories[]"
-                :items="$allCategories->map(fn($cat) => ['id' => $cat->id, 'name' => $cat->name])->values()->toArray()"
-                :selected="$selectedCategoryIds"
-                placeholder="Kategori seçin..."
-                searchPlaceholder="Kategori ara..."
-                singularLabel="kategori"
-                pluralLabel="kategori seçildi"
-                :maxVisible="6"
-            />
+            <div class="relative"
+                 x-data="{
+                     open: false,
+                     search: '',
+                     newCat: '',
+                     selected: {{ json_encode($selectedCategoryIds) }},
+                     newItems: [],
+                     items: {{ json_encode($allCategories->map(fn($cat) => ['id' => $cat->id, 'name' => $cat->name])->values()->toArray()) }},
+                     toggle(id) {
+                         const i = this.selected.indexOf(id);
+                         if (i === -1) this.selected.push(id);
+                         else this.selected.splice(i, 1);
+                     },
+                     addNew() {
+                         const v = this.newCat.trim();
+                         if (!v) return;
+                         if (this.newItems.includes(v)) { this.newCat = ''; return; }
+                         if (this.items.some(it => it.name.toLowerCase() === v.toLowerCase())) { this.newCat = ''; return; }
+                         this.newItems.push(v);
+                         this.newCat = '';
+                     },
+                     removeNew(i) { this.newItems.splice(i, 1); },
+                     totalCount() { return this.selected.length + this.newItems.length; },
+                     label() {
+                         const total = this.totalCount();
+                         if (!total) return 'Kategori seçin...';
+                         if (total === 1) {
+                             if (this.selected.length === 1) {
+                                 const f = this.items.find(i => i.id === this.selected[0]);
+                                 return f ? f.name : '1 kategori';
+                             }
+                             return this.newItems[0];
+                         }
+                         return total + ' kategori seçildi';
+                     }
+                 }"
+                 @click.outside="open = false">
 
-            {{-- Inline yeni kategori ekleme (havuza eklemeden direkt forma) --}}
-            <div x-data="{ newCat: '', newCats: [], add() { const v = this.newCat.trim(); if (!v) return; if (this.newCats.includes(v)) { this.newCat = ''; return; } this.newCats.push(v); this.newCat = ''; } }" class="mt-2">
-                <div class="flex gap-2">
-                    <input type="text" x-model="newCat"
-                           @keydown.enter.prevent="add()"
-                           placeholder="Yeni kategori adı yazıp Enter'a basın veya + tıklayın"
-                           class="flex-1 px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-fuchsia-500/30 focus:border-fuchsia-500">
-                    <button type="button" @click="add()"
-                            class="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-white bg-slate-700 hover:bg-slate-800 rounded-xl transition-all whitespace-nowrap">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-                        Ekle
-                    </button>
-                </div>
-                <template x-if="newCats.length">
-                    <div class="flex flex-wrap gap-1.5 mt-2">
-                        <template x-for="(cat, i) in newCats" :key="i">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-fuchsia-500 to-purple-600">
-                                <span x-text="cat"></span>
-                                <button type="button" @click="newCats.splice(i, 1)" class="hover:bg-white/20 rounded p-0.5 transition-all">
-                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                                </button>
-                                <input type="hidden" name="categories[]" :value="cat">
-                            </span>
+                {{-- Trigger --}}
+                <button type="button"
+                        @click.stop="open = !open; search = ''"
+                        :class="totalCount() ? 'ring-fuchsia-300 dark:ring-fuchsia-600 bg-fuchsia-50/50 dark:bg-fuchsia-900/10' : 'ring-slate-200 dark:ring-slate-600 bg-slate-50 dark:bg-slate-700/70'"
+                        class="w-full flex items-center justify-between px-4 py-3 text-sm rounded-xl ring-1 transition-all cursor-pointer">
+                    <span :class="totalCount() ? 'text-fuchsia-700 dark:text-fuchsia-300' : 'text-slate-400'" x-text="label()"></span>
+                    <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                {{-- Panel --}}
+                <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                     x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0"
+                     class="absolute z-30 mt-1 w-full bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-600 shadow-lg overflow-hidden">
+
+                    {{-- Search --}}
+                    <div class="px-3 py-2 border-b border-slate-100 dark:border-slate-700/50">
+                        <input type="text" x-model="search" @click.stop placeholder="Kategori ara..."
+                               class="w-full px-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-700/70 border-0 rounded-lg
+                                      text-slate-900 dark:text-white placeholder-slate-400
+                                      ring-1 ring-slate-200 dark:ring-slate-600
+                                      focus:ring-fuchsia-500/60 focus:ring-2 transition-all">
+                    </div>
+
+                    {{-- Yeni kategori ekleme alanı --}}
+                    <div class="px-3 py-2 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-900/30">
+                        <div class="flex gap-1.5">
+                            <input type="text" x-model="newCat" @click.stop
+                                   @keydown.enter.prevent.stop="addNew()"
+                                   placeholder="Yeni kategori adı yazıp Enter veya + 'a tıklayın"
+                                   class="flex-1 px-3 py-1.5 text-xs bg-white dark:bg-slate-800 border-0 rounded-lg
+                                          text-slate-900 dark:text-white placeholder-slate-400
+                                          ring-1 ring-slate-200 dark:ring-slate-600
+                                          focus:ring-fuchsia-500/60 focus:ring-2 transition-all">
+                            <button type="button" @click.stop="addNew()"
+                                    class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-white
+                                           bg-gradient-to-r from-fuchsia-500 to-purple-600
+                                           hover:from-fuchsia-600 hover:to-purple-700
+                                           rounded-lg transition-all whitespace-nowrap">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                                Ekle
+                            </button>
+                        </div>
+                        {{-- Yeni eklenen etiketler (havuza henüz girmemiş) --}}
+                        <template x-if="newItems.length">
+                            <div class="flex flex-wrap gap-1 mt-2">
+                                <template x-for="(cat, i) in newItems" :key="i">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold text-white bg-gradient-to-r from-fuchsia-500 to-purple-600">
+                                        <span x-text="cat"></span>
+                                        <button type="button" @click.stop="removeNew(i)" class="hover:bg-white/20 rounded p-0.5">
+                                            <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </span>
+                                </template>
+                            </div>
                         </template>
                     </div>
+
+                    {{-- Items listesi --}}
+                    <div class="overflow-y-auto" style="max-height: 264px">
+                        <template x-for="item in items" :key="item.id">
+                            <div x-show="item.name.toLowerCase().includes(search.toLowerCase())"
+                                 @click.stop="toggle(item.id)"
+                                 class="flex items-center gap-3 px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors select-none cursor-pointer">
+                                <div :class="selected.includes(item.id) ? 'bg-fuchsia-500 border-fuchsia-500' : 'border-slate-300 dark:border-slate-500 bg-white dark:bg-slate-700'"
+                                     class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all">
+                                    <svg x-show="selected.includes(item.id)" class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-slate-700 dark:text-slate-300 flex-1" x-text="item.name"></span>
+                            </div>
+                        </template>
+                        <template x-if="!items.length">
+                            <div class="px-3 py-6 text-center text-xs text-slate-400">
+                                Henüz havuzda kategori yok. Üstten yeni kategori ekleyebilirsiniz.
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                {{-- Hidden inputs: hem seçili ID'ler, hem yeni string isimler --}}
+                <template x-for="id in selected" :key="'sel-' + id">
+                    <input type="hidden" name="categories[]" :value="id">
+                </template>
+                <template x-for="(cat, i) in newItems" :key="'new-' + i">
+                    <input type="hidden" name="categories[]" :value="cat">
                 </template>
             </div>
         </div>
