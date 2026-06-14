@@ -112,6 +112,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/payment', [StudentPaymentController::class, 'paymentUpdate'])->name('paymentUpdate')->middleware('permission:student|accounting');
         Route::get('/{id}/payments', [StudentPaymentController::class, 'allPayments'])->name('allPayments')->middleware('permission:student|accounting');
         Route::get('/{id}/certificates',[StudentController::class, 'certificates'])->name('certificates')->middleware('permission:student|accounting');
+        Route::get('/{id}/competitions',[StudentController::class, 'competitions'])->name('competitions')->middleware('permission:student|accounting');
 
         // PDF İndirme
         Route::post('/downloadRegistrationForm',[StudentDocumentController::class, 'downloadRegistrationForm'])->name('downloadRegistrationForm')->middleware('permission:student|student_delete|accounting');
@@ -134,6 +135,13 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{student}/certificates/{certificate}/update',  [\App\Http\Controllers\Certificate\CertificateController::class, 'update'])->name('certificates.update')->middleware('permission:student');
         Route::delete('/{student}/certificates/{certificate}',       [\App\Http\Controllers\Certificate\CertificateController::class, 'destroy'])->name('certificates.destroy')->middleware('permission:student');
         Route::get('/{student}/certificates/{certificate}/download', [\App\Http\Controllers\Certificate\CertificateController::class, 'download'])->name('certificates.download')->middleware('permission:student|accounting');
+
+        // ─── Yarışmalar (öğrenci-yarışma pivot işlemleri) ──────────────────────
+        Route::post('/{student}/competitions',                                     [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'attach'])->name('competitions.attach')->middleware('permission:student');
+        Route::delete('/{student}/competitions/{entry}',                           [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'detach'])->name('competitions.detach')->middleware('permission:student');
+        Route::post('/{student}/competitions/{entry}/statuses',                    [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'updateStatuses'])->name('competitions.statuses')->middleware('permission:student');
+        Route::post('/{student}/competitions/{entry}/result',                      [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'updateResult'])->name('competitions.result')->middleware('permission:student');
+        Route::post('/{student}/competitions/{entry}/create-certificate',          [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'createCertificateFromResult'])->name('competitions.createCertificate')->middleware('permission:student');
     });
 
     // ─── SSS Yönetimi (CRUD) ──────────────────────────────────────────────────
@@ -221,17 +229,30 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::post('/{id}/translate',       [CourseController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
     });
 
-    // ─── Kurs Kategorileri ────────────────────────────────────────────────────
+    // ─── Danışmanlık Kurumları ────────────────────────────────────────────────
     Route::prefix('consulting-institutions')->name('consultingInstitutions.')->group(function () {
-        Route::get('/',              [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'index'])->name('index')->middleware('permission:student|content');
-        Route::get('/create',        [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'create'])->name('create')->middleware('permission:student|content');
+        Route::get('/',                  [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'index'])->name('index')->middleware('permission:student|content');
+        Route::get('/create',            [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'create'])->name('create')->middleware('permission:student|content');
         Route::get('/{id}/sertifikalar', [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'show'])->name('show')->middleware('permission:student|content');
-        Route::post('/store',        [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'store'])->name('store')->middleware('permission:student|content');
-        Route::get('/{id}/edit',     [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'edit'])->name('edit')->middleware('permission:student|content');
-        Route::post('/{id}/update',  [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'update'])->name('update')->middleware('permission:student|content');
-        Route::delete('/{id}',       [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'delete'])->name('delete')->middleware('permission:student_delete|content_delete');
-        Route::post('/update-order', [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:student|content');
-        Route::post('/{id}/toggle',  [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'toggleActive'])->name('toggle')->middleware('permission:student|content');
+        Route::post('/store',            [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'store'])->name('store')->middleware('permission:student|content');
+        Route::get('/{id}/edit',         [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'edit'])->name('edit')->middleware('permission:student|content');
+        Route::post('/{id}/update',      [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'update'])->name('update')->middleware('permission:student|content');
+        Route::delete('/{id}',           [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'delete'])->name('delete')->middleware('permission:student_delete|content_delete');
+        Route::post('/update-order',     [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:student|content');
+        Route::post('/{id}/toggle',      [\App\Http\Controllers\ConsultingInstitution\ConsultingInstitutionController::class, 'toggleActive'])->name('toggle')->middleware('permission:student|content');
+    });
+
+    // ─── Yarışmalar (kataloğu) ────────────────────────────────────────────────
+    Route::prefix('competitions')->name('competitions.')->group(function () {
+        Route::get('/',                [\App\Http\Controllers\Competition\CompetitionController::class, 'index'])->name('index')->middleware('permission:student|content');
+        Route::get('/create',          [\App\Http\Controllers\Competition\CompetitionController::class, 'create'])->name('create')->middleware('permission:student|content');
+        Route::get('/{id}/katilanlar', [\App\Http\Controllers\Competition\CompetitionController::class, 'show'])->name('show')->middleware('permission:student|content');
+        Route::post('/store',          [\App\Http\Controllers\Competition\CompetitionController::class, 'store'])->name('store')->middleware('permission:student|content');
+        Route::get('/{id}/edit',       [\App\Http\Controllers\Competition\CompetitionController::class, 'edit'])->name('edit')->middleware('permission:student|content');
+        Route::post('/{id}/update',    [\App\Http\Controllers\Competition\CompetitionController::class, 'update'])->name('update')->middleware('permission:student|content');
+        Route::delete('/{id}',         [\App\Http\Controllers\Competition\CompetitionController::class, 'delete'])->name('delete')->middleware('permission:student_delete|content_delete');
+        Route::post('/update-order',   [\App\Http\Controllers\Competition\CompetitionController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:student|content');
+        Route::post('/{id}/toggle',    [\App\Http\Controllers\Competition\CompetitionController::class, 'toggleActive'])->name('toggle')->middleware('permission:student|content');
     });
 
     Route::prefix('course-categories')->name('courseCategories.')->group(function () {

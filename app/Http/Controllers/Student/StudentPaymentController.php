@@ -55,7 +55,9 @@ class StudentPaymentController extends Controller
 
     public function allPayments($id)
     {
-        $student = Student::where('registration_type', '2')->findOrFail($id);
+        $student = Student::withCount(['certificates', 'competitions'])
+            ->where('registration_type', '2')
+            ->findOrFail($id);
         $payments = StudentPayments::with(['installments', 'class'])->where('student_id', $student->id)->orderBy('created_at', 'ASC')->get();
         $normalCount = Student::where('registration_type', 2)->count();
         $preCount = Student::where('registration_type', 1)->count();

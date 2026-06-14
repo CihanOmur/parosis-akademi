@@ -238,7 +238,7 @@ class StudentController extends Controller
         $jobs = ['İşçi', 'Memur', 'Öğretmen', 'Akademisyen', 'Doktor', 'Esnaf', 'Çiftçi', 'Öğrenci', 'Serbest meslek erbabı', 'Patron / İşveren', 'Diğer'];
 
         $student = Student::with(['guardians', 'emergencyContact'])
-            ->withCount('certificates')
+            ->withCount(['certificates', 'competitions'])
             ->where('registration_type', '2')
             ->findOrFail($id);
         $normalCount = Student::where('registration_type', 2)->count();
@@ -255,7 +255,7 @@ class StudentController extends Controller
     public function certificates($id)
     {
         $student = Student::with(['certificates.consultingInstitution', 'certificates.category'])
-            ->withCount('certificates')
+            ->withCount(['certificates', 'competitions'])
             ->where('registration_type', '2')
             ->findOrFail($id);
 
@@ -266,6 +266,37 @@ class StudentController extends Controller
 
         return view('admin.students.certificates', compact(
             'student', 'consultingInstitutions', 'courseCategories', 'certificateTypes', 'siteName'
+        ));
+    }
+
+    /**
+     * Öğrenci profili → Yarışmalar sekmesi.
+     */
+    public function competitions($id)
+    {
+        $student = Student::with(['competitions' => function ($q) {
+                $q->orderByDesc('competitions.start_date');
+            }])
+            ->withCount('certificates')
+            ->withCount('competitions')
+            ->where('registration_type', '2')
+            ->findOrFail($id);
+
+        $availableCompetitions = \App\Models\Competition::where('is_active', true)
+            ->whereNotIn('id', $student->competitions->pluck('id'))
+            ->orderBy('name')
+            ->get();
+
+        $statusOptions = [
+            'parent_consent' => \App\Models\CompetitionStudent::PARENT_CONSENT,
+            'passport'       => \App\Models\CompetitionStudent::PASSPORT,
+            'visa'           => \App\Models\CompetitionStudent::VISA,
+            'payment'        => \App\Models\CompetitionStudent::PAYMENT,
+            'currencies'     => \App\Models\CompetitionStudent::CURRENCIES,
+        ];
+
+        return view('admin.students.competitions', compact(
+            'student', 'availableCompetitions', 'statusOptions'
         ));
     }
 

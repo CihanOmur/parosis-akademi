@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3 sm:flex sm:items-center gap-1 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-1.5">
+<div class="grid grid-cols-2 sm:grid-cols-4 sm:flex sm:items-center gap-1 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-1.5">
     <a href="{{ route('students.edit', $student->id) }}"
        class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-5 py-2.5 text-[11px] sm:text-sm font-semibold rounded-xl transition-all whitespace-nowrap text-center
               {{ Route::is('students.edit') ? 'bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white shadow-sm shadow-fuchsia-500/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
@@ -24,6 +24,17 @@
         Sertifikalar
         @if(isset($student) && $student->certificates_count > 0)
             <span class="ml-0.5 text-[9px] sm:text-[10px] font-bold bg-white/20 text-current px-1.5 py-0.5 rounded-full">{{ $student->certificates_count }}</span>
+        @endif
+    </a>
+    <a href="{{ route('students.competitions', $student->id) }}"
+       class="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-5 py-2.5 text-[11px] sm:text-sm font-semibold rounded-xl transition-all whitespace-nowrap text-center
+              {{ Route::is('students.competitions') ? 'bg-gradient-to-r from-fuchsia-500 to-purple-500 text-white shadow-sm shadow-fuchsia-500/20' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
+        <svg class="hidden sm:block w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172"/>
+        </svg>
+        Yarışmalar
+        @if(isset($student) && ($student->competitions_count ?? 0) > 0)
+            <span class="ml-0.5 text-[9px] sm:text-[10px] font-bold bg-white/20 text-current px-1.5 py-0.5 rounded-full">{{ $student->competitions_count }}</span>
         @endif
     </a>
 </div>
