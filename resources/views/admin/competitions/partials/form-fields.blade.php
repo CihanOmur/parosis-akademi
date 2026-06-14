@@ -1,7 +1,6 @@
 @php
     $c = $competition ?? null;
-    $selectedCategoryIds = $c ? $c->categories->pluck('id')->toArray() : (array) old('categories', []);
-    // Yaygın ülke listesi — gerektiğinde uzatılabilir
+    $selectedCategoryIds = $c ? $c->categories->pluck('id')->toArray() : array_map('intval', (array) old('categories', []));
     $countries = [
         'Türkiye','Almanya','Amerika Birleşik Devletleri','Avusturya','Azerbaycan','Belçika',
         'Birleşik Krallık','Bosna-Hersek','Bulgaristan','Çekya','Danimarka','Estonya','Finlandiya',
@@ -56,18 +55,50 @@
 
         <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>
 
-        {{-- Kategoriler (Tom Select tagging) --}}
+        {{-- Yarışma Kategorileri — projedeki aramalı seçim komponenti --}}
         <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
                 Yarışma Kategorileri
-                <span class="text-slate-400 font-normal">(Mini Sumo, Çizgi İzleyen vb. — yazıp Enter'a basarak yeni ekleyebilirsiniz)</span>
             </label>
-            <select name="categories[]" id="categories-select" multiple
-                    class="w-full" placeholder="Kategori seçin veya yeni yazın...">
-                @foreach($allCategories as $cat)
-                    <option value="{{ $cat->id }}" {{ in_array($cat->id, $selectedCategoryIds) ? 'selected' : '' }}>{{ $cat->name }}</option>
-                @endforeach
-            </select>
+
+            <x-checkbox-dropdown
+                name="categories[]"
+                :items="$allCategories->map(fn($cat) => ['id' => $cat->id, 'name' => $cat->name])->values()->toArray()"
+                :selected="$selectedCategoryIds"
+                placeholder="Kategori seçin..."
+                searchPlaceholder="Kategori ara..."
+                singularLabel="kategori"
+                pluralLabel="kategori seçildi"
+                :maxVisible="6"
+            />
+
+            {{-- Inline yeni kategori ekleme (havuza eklemeden direkt forma) --}}
+            <div x-data="{ newCat: '', newCats: [], add() { const v = this.newCat.trim(); if (!v) return; if (this.newCats.includes(v)) { this.newCat = ''; return; } this.newCats.push(v); this.newCat = ''; } }" class="mt-2">
+                <div class="flex gap-2">
+                    <input type="text" x-model="newCat"
+                           @keydown.enter.prevent="add()"
+                           placeholder="Yeni kategori adı yazıp Enter'a basın veya + tıklayın"
+                           class="flex-1 px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 focus:ring-2 focus:ring-fuchsia-500/30 focus:border-fuchsia-500">
+                    <button type="button" @click="add()"
+                            class="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-white bg-slate-700 hover:bg-slate-800 rounded-xl transition-all whitespace-nowrap">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                        Ekle
+                    </button>
+                </div>
+                <template x-if="newCats.length">
+                    <div class="flex flex-wrap gap-1.5 mt-2">
+                        <template x-for="(cat, i) in newCats" :key="i">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-fuchsia-500 to-purple-600">
+                                <span x-text="cat"></span>
+                                <button type="button" @click="newCats.splice(i, 1)" class="hover:bg-white/20 rounded p-0.5 transition-all">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                                <input type="hidden" name="categories[]" :value="cat">
+                            </span>
+                        </template>
+                    </div>
+                </template>
+            </div>
         </div>
 
         <x-text-input type="url" name="website_url" label="Yarışma Web Linki (opsiyonel)" placeholder="https://..." value="{{ old('website_url', $c?->website_url) }}" />
@@ -85,42 +116,3 @@
         @endisset
     </div>
 </div>
-
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
-<style>
-    .ts-wrapper.form-select { padding: 0 !important; }
-    .ts-control {
-        border-radius: 0.75rem !important;
-        border-color: rgb(226 232 240) !important;
-        padding: 0.5rem 0.75rem !important;
-        min-height: 42px;
-    }
-    .dark .ts-control { background-color: rgb(15 23 42) !important; border-color: rgb(71 85 105) !important; color: rgb(226 232 240); }
-    .ts-control .item {
-        background: linear-gradient(to right, rgb(217 70 239), rgb(147 51 234)) !important;
-        color: white !important;
-        border-radius: 0.5rem !important;
-        padding: 0.125rem 0.5rem !important;
-        font-size: 0.75rem !important;
-        font-weight: 600 !important;
-    }
-    .ts-dropdown { border-radius: 0.75rem !important; }
-    .ts-dropdown .option.active { background: rgb(252 232 254) !important; color: rgb(134 25 143) !important; }
-    .dark .ts-dropdown { background: rgb(30 41 59) !important; color: rgb(226 232 240); }
-</style>
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const el = document.getElementById('categories-select');
-        if (!el) return;
-        new TomSelect(el, {
-            plugins: ['remove_button'],
-            create: function(input) {
-                return { value: input, text: input };
-            },
-            createOnBlur: true,
-            persist: true,
-            placeholder: 'Kategori seçin veya yeni yazın ve Enter\'a basın...',
-        });
-    });
-</script>

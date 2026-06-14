@@ -277,12 +277,16 @@
                 <div class="flex-1 overflow-y-auto p-6 space-y-5" style="min-height: 0;">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Öğrenci(ler)</label>
-                        <select name="student_ids[]" id="attach-students" multiple required class="w-full">
-                            @foreach(\App\Models\Student\Student::where('registration_type', 2)->orderBy('full_name')->get() as $st)
-                                <option value="{{ $st->id }}">{{ $st->full_name }}</option>
-                            @endforeach
-                        </select>
-                        <p class="text-[11px] text-slate-400 mt-1">İsim yazarak arayın, çoklu seçim için tıklayın</p>
+                        <x-checkbox-dropdown
+                            name="student_ids[]"
+                            :items="\App\Models\Student\Student::where('registration_type', 2)->orderBy('full_name')->get(['id','full_name'])->map(fn(\$s) => ['id' => \$s->id, 'name' => \$s->full_name])->values()->toArray()"
+                            placeholder="Öğrenci seçin..."
+                            searchPlaceholder="İsim ile ara..."
+                            singularLabel="öğrenci"
+                            pluralLabel="öğrenci seçildi"
+                            :maxVisible="6"
+                            :required="true"
+                        />
                     </div>
 
                     @if($competition->categories->isNotEmpty())
@@ -314,18 +318,3 @@
 </div>
 @endsection
 
-@section('scripts')
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
-<style>
-    .ts-control { border-radius: 0.75rem !important; padding: 0.5rem 0.75rem !important; min-height: 42px; }
-    .ts-control .item { background: linear-gradient(to right, rgb(217 70 239), rgb(147 51 234)) !important; color: white !important; border-radius: 0.5rem !important; padding: 0.125rem 0.5rem !important; font-size: 0.75rem !important; }
-    .ts-dropdown { border-radius: 0.75rem !important; }
-</style>
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const el = document.getElementById('attach-students');
-        if (el) new TomSelect(el, { plugins: ['remove_button'], placeholder: 'Öğrenci arayın...' });
-    });
-</script>
-@endsection
