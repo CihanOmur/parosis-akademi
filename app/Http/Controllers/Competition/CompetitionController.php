@@ -4,28 +4,42 @@ namespace App\Http\Controllers\Competition;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\CompetitionCategory;
+use App\Models\CompetitionStudent;
 use Illuminate\Http\Request;
 
 class CompetitionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $competitions = Competition::withCount('participants')
+        $query = Competition::withCount('participants')->with('categories');
+
+        if ($request->filled('category_id')) {
+            $catId = (int) $request->input('category_id');
+            $query->whereHas('categories', fn($q) => $q->where('competition_categories.id', $catId));
+        }
+
+        $competitions = $query
             ->orderBy('sort_order')
             ->orderByDesc('start_date')
             ->orderBy('name')
             ->get();
-        return view('admin.competitions.index', compact('competitions'));
+
+        $allCategories = CompetitionCategory::orderBy('name')->get();
+
+        return view('admin.competitions.index', compact('competitions', 'allCategories'));
     }
 
     public function create()
     {
-        return view('admin.competitions.create');
+        $allCategories = CompetitionCategory::orderBy('name')->get();
+        return view('admin.competitions.create', compact('allCategories'));
     }
 
     public function store(Request $request)
     {
         $validated = $this->validateRequest($request);
+        $categoryIds = $this->resolveCategories($request->input('categories', []));
 
         $competition = new Competition();
         $competition->fill($validated);
@@ -33,38 +47,65 @@ class CompetitionController extends Controller
         $competition->is_active = $request->boolean('is_active', true);
         $competition->save();
 
+        $competition->categories()->sync($categoryIds);
+
         return redirect()->route('competitions.index')
             ->with('success', 'Yarışma eklendi.');
     }
 
     public function edit($id)
     {
-        $competition = Competition::findOrFail($id);
-        return view('admin.competitions.edit', compact('competition'));
+        $competition = Competition::with('categories')->findOrFail($id);
+        $allCategories = CompetitionCategory::orderBy('name')->get();
+        return view('admin.competitions.edit', compact('competition', 'allCategories'));
     }
 
     public function update(Request $request, $id)
     {
         $competition = Competition::findOrFail($id);
         $validated = $this->validateRequest($request);
+        $categoryIds = $this->resolveCategories($request->input('categories', []));
 
         $competition->fill($validated);
         $competition->is_active = $request->boolean('is_active', $competition->is_active);
         $competition->save();
 
+        $competition->categories()->sync($categoryIds);
+
         return redirect()->route('competitions.index')
             ->with('success', 'Yarışma güncellendi.');
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $competition = Competition::withCount('participants')->findOrFail($id);
-        $entries = $competition->entries()
-            ->with('student')
+        $competition = Competition::with('categories')->withCount('participants')->findOrFail($id);
+
+        $query = $competition->entries()
+            ->with(['student', 'category']);
+
+        // Kombinasyon filtreleri
+        if ($request->filled('category_id')) {
+            $query->where('competition_category_id', (int) $request->input('category_id'));
+        }
+        if ($request->filled('visa_status')) {
+            $query->where('visa_status', $request->input('visa_status'));
+        }
+        if ($request->filled('payment_status')) {
+            $query->where('payment_status', $request->input('payment_status'));
+        }
+
+        $entries = $query
             ->orderBy('result_rank')
             ->orderByDesc('created_at')
-            ->paginate(20);
-        return view('admin.competitions.show', compact('competition', 'entries'));
+            ->paginate(20)
+            ->withQueryString();
+
+        $statusOptions = [
+            'visa'    => CompetitionStudent::VISA,
+            'payment' => CompetitionStudent::PAYMENT,
+        ];
+
+        return view('admin.competitions.show', compact('competition', 'entries', 'statusOptions'));
     }
 
     public function delete($id)
@@ -106,12 +147,25 @@ class CompetitionController extends Controller
     private function validateRequest(Request $request): array
     {
         return $request->validate([
-            'name'        => 'required|string|max:200',
-            'organizer'   => 'nullable|string|max:200',
-            'location'    => 'nullable|string|max:200',
-            'start_date'  => 'nullable|date',
-            'end_date'    => 'nullable|date|after_or_equal:start_date',
-            'description' => 'nullable|string|max:5000',
+            'name'              => 'required|string|max:200',
+            'organizer'         => 'nullable|string|max:200',
+            'country'           => 'nullable|string|max:100',
+            'city'              => 'nullable|string|max:100',
+            'location'          => 'nullable|string|max:200',
+            'start_date'        => 'nullable|date',
+            'end_date'          => 'nullable|date|after_or_equal:start_date',
+            'internal_deadline' => 'nullable|date',
+            'description'       => 'nullable|string|max:5000',
+            'website_url'       => 'nullable|url|max:500',
         ]);
+    }
+
+    /**
+     * Tom Select tagging: input dizisi (string|int) → category id'leri.
+     * Yeni etiket varsa otomatik kayıt oluşturur.
+     */
+    private function resolveCategories(array $items): array
+    {
+        return CompetitionCategory::syncFromInput($items);
     }
 }

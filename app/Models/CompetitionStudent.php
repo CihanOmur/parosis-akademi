@@ -15,8 +15,11 @@ class CompetitionStudent extends Pivot
     protected $fillable = [
         'student_id',
         'competition_id',
+        'competition_category_id',
+        'team_name',
         'parent_consent_status',
         'passport_status',
+        'passport_valid_6m',
         'visa_status',
         'payment_status',
         'payment_amount',
@@ -24,19 +27,21 @@ class CompetitionStudent extends Pivot
         'result_rank',
         'result_label',
         'result_notes',
+        'result_file',
         'joined_at',
     ];
 
     protected $casts = [
-        'payment_amount' => 'decimal:2',
-        'result_rank'    => 'integer',
-        'joined_at'      => 'date',
+        'payment_amount'    => 'decimal:2',
+        'result_rank'       => 'integer',
+        'joined_at'         => 'date',
+        'passport_valid_6m' => 'boolean',
     ];
 
     public const PARENT_CONSENT = [
-        'bekliyor'       => 'Bekliyor',
-        'alindi'         => 'Alındı',
-        'teslim_edildi'  => 'Teslim Edildi',
+        'bekliyor'       => 'Alınmadı',
+        'alindi'         => 'İmzalı Geldi',
+        'teslim_edildi'  => 'Sistemde Yüklü',
     ];
 
     public const PASSPORT = [
@@ -46,16 +51,16 @@ class CompetitionStudent extends Pivot
     ];
 
     public const VISA = [
-        'gerekli_degil'  => 'Gerekli Değil',
+        'gerekli_degil'  => 'Muaf',
         'basvuruldu'     => 'Başvuruldu',
         'onaylandi'      => 'Onaylandı',
         'reddedildi'     => 'Reddedildi',
     ];
 
     public const PAYMENT = [
-        'bekliyor' => 'Bekliyor',
+        'bekliyor' => 'Ödenmedi',
         'kismi'    => 'Kısmi Ödendi',
-        'odendi'   => 'Ödendi',
+        'odendi'   => 'Tamamı Ödendi',
     ];
 
     public const CURRENCIES = ['TRY', 'EUR', 'USD'];
@@ -68,6 +73,11 @@ class CompetitionStudent extends Pivot
     public function competition(): BelongsTo
     {
         return $this->belongsTo(Competition::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(CompetitionCategory::class, 'competition_category_id');
     }
 
     public function getParentConsentLabelAttribute(): string

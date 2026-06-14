@@ -141,6 +141,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::delete('/{student}/competitions/{entry}',                           [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'detach'])->name('competitions.detach')->middleware('permission:student');
         Route::post('/{student}/competitions/{entry}/statuses',                    [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'updateStatuses'])->name('competitions.statuses')->middleware('permission:student');
         Route::post('/{student}/competitions/{entry}/result',                      [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'updateResult'])->name('competitions.result')->middleware('permission:student');
+        Route::get('/{student}/competitions/{entry}/result-file',                  [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'downloadResultFile'])->name('competitions.resultFile')->middleware('permission:student|accounting');
         Route::post('/{student}/competitions/{entry}/create-certificate',          [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'createCertificateFromResult'])->name('competitions.createCertificate')->middleware('permission:student');
     });
 
@@ -253,6 +254,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::delete('/{id}',         [\App\Http\Controllers\Competition\CompetitionController::class, 'delete'])->name('delete')->middleware('permission:student_delete|content_delete');
         Route::post('/update-order',   [\App\Http\Controllers\Competition\CompetitionController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:student|content');
         Route::post('/{id}/toggle',    [\App\Http\Controllers\Competition\CompetitionController::class, 'toggleActive'])->name('toggle')->middleware('permission:student|content');
+        Route::post('/{id}/attach-students', [\App\Http\Controllers\Competition\StudentCompetitionController::class, 'attachMultiple'])->name('attachStudents')->middleware('permission:student');
     });
 
     Route::prefix('course-categories')->name('courseCategories.')->group(function () {

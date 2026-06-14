@@ -58,8 +58,11 @@ class Student extends Model
             ->using(CompetitionStudent::class)
             ->withPivot([
                 'id',
+                'competition_category_id',
+                'team_name',
                 'parent_consent_status',
                 'passport_status',
+                'passport_valid_6m',
                 'visa_status',
                 'payment_status',
                 'payment_amount',
@@ -67,6 +70,7 @@ class Student extends Model
                 'result_rank',
                 'result_label',
                 'result_notes',
+                'result_file',
                 'joined_at',
             ])
             ->withTimestamps()
