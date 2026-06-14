@@ -80,6 +80,16 @@ class CompetitionController extends Controller
     {
         $competition = Competition::with('categories')->withCount('participants')->findOrFail($id);
 
+        // Bu yarışmaya henüz atanmamış aktif öğrenciler
+        $attachedIds = $competition->participants()->pluck('students.id')->toArray();
+        $availableStudents = \App\Models\Student\Student::where('registration_type', 2)
+            ->whereNotIn('id', $attachedIds)
+            ->orderBy('full_name')
+            ->get(['id', 'full_name'])
+            ->map(fn($s) => ['id' => $s->id, 'name' => $s->full_name])
+            ->values()
+            ->toArray();
+
         $query = $competition->entries()
             ->with(['student', 'category']);
 
@@ -105,7 +115,7 @@ class CompetitionController extends Controller
             'payment' => CompetitionStudent::PAYMENT,
         ];
 
-        return view('admin.competitions.show', compact('competition', 'entries', 'statusOptions'));
+        return view('admin.competitions.show', compact('competition', 'entries', 'statusOptions', 'availableStudents'));
     }
 
     public function delete($id)

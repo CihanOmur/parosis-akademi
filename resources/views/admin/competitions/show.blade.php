@@ -277,16 +277,22 @@
                 <div class="flex-1 overflow-y-auto p-6 space-y-5" style="min-height: 0;">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Öğrenci(ler)</label>
-                        <x-checkbox-dropdown
-                            name="student_ids[]"
-                            :items="\App\Models\Student\Student::where('registration_type', 2)->orderBy('full_name')->get(['id','full_name'])->map(fn(\$s) => ['id' => \$s->id, 'name' => \$s->full_name])->values()->toArray()"
-                            placeholder="Öğrenci seçin..."
-                            searchPlaceholder="İsim ile ara..."
-                            singularLabel="öğrenci"
-                            pluralLabel="öğrenci seçildi"
-                            :maxVisible="6"
-                            :required="true"
-                        />
+                        @if(empty($availableStudents))
+                            <div class="text-sm text-slate-500 dark:text-slate-400 italic">
+                                Tüm aktif öğrenciler zaten bu yarışmaya atanmış.
+                            </div>
+                        @else
+                            <x-checkbox-dropdown
+                                name="student_ids[]"
+                                :items="$availableStudents"
+                                placeholder="Öğrenci seçin..."
+                                searchPlaceholder="İsim ile ara..."
+                                singularLabel="öğrenci"
+                                pluralLabel="öğrenci seçildi"
+                                :maxVisible="6"
+                                :required="true"
+                            />
+                        @endif
                     </div>
 
                     @if($competition->categories->isNotEmpty())
