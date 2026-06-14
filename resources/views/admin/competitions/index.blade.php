@@ -26,13 +26,13 @@
                 <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mr-1">Kategori Filtresi:</span>
                 <a href="{{ route('competitions.index') }}"
                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-all
-                          {{ !request('category_id') ? 'bg-fuchsia-500 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' }}">
+                          {{ !request('category_id') ? 'bg-slate-900 dark:bg-slate-700 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' }}">
                     Tümü
                 </a>
                 @foreach($allCategories as $cat)
                     <a href="{{ route('competitions.index', ['category_id' => $cat->id]) }}"
                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-all
-                              {{ (int) request('category_id') === $cat->id ? 'bg-fuchsia-500 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' }}">
+                              {{ (int) request('category_id') === $cat->id ? 'bg-slate-900 dark:bg-slate-700 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600' }}">
                         {{ $cat->name }}
                     </a>
                 @endforeach
