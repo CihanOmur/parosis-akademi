@@ -147,7 +147,7 @@
                         Kategoriler
                     </a>
                 @endcanany
-                @canany(['student', 'content'])
+                @canany(['consulting_institution'])
                     <a href="{{ route('consultingInstitutions.index') }}"
                        class="block px-3 py-2 rounded-lg text-sm transition-colors
                               {{ Route::is('consultingInstitutions.*')
@@ -233,7 +233,7 @@
         @endcanany
 
         {{-- Yarışmalar --}}
-        @canany(['student', 'content'])
+        @canany(['competition'])
         @php $isCompetitions = Route::is('competitions.*'); @endphp
         <a href="{{ route('competitions.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
