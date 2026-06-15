@@ -71,16 +71,14 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 @if($item->certificates_count > 0)
-                                    <a href="{{ route('consultingInstitutions.show', $item->id) }}"
-                                       class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold
-                                              bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-700 dark:text-fuchsia-400
-                                              hover:bg-fuchsia-200 dark:hover:bg-fuchsia-900/50 transition-all"
-                                       title="Bu kurumun sertifikalarını listele">
-                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-                                        {{ $item->certificates_count }} sertifika
-                                    </a>
+                                    <x-count-badge
+                                        :count="$item->certificates_count"
+                                        label="sertifika"
+                                        :href="route('consultingInstitutions.show', $item->id)"
+                                        color="fuchsia"
+                                        title="Bu kurumun sertifikalarını listele">
+                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                    </x-count-badge>
                                 @else
                                     <span class="text-xs italic text-slate-400 dark:text-slate-500">—</span>
                                 @endif
