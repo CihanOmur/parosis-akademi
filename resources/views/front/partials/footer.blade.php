@@ -45,7 +45,7 @@
                             {!! nl2br(e($ctaInfo?->getTranslation('cta_description', $locale) ?: 'Kariyerinizi bir adim oteye tasiyacak egitimlerle tanismaya hazir misiniz? Hemen kayit olun ve ogrenmeye baslayin.')) !!}
                         </p>
                         <div class="inline-block">
-                            <a href="{{ $ctaInfo?->cta_button_url ?: route('front.courses') }}" class="btn btn-secondary is-icon group">{{ $ctaInfo?->getTranslation('cta_button_text', $locale) ?: 'Ogrenmeye Basla' }}
+                            <a href="{{ $ctaInfo?->cta_button_url ?: route('front.courses', app()->getLocale()) }}" class="btn btn-secondary is-icon group">{{ $ctaInfo?->getTranslation('cta_button_text', $locale) ?: 'Ogrenmeye Basla' }}
                                 <span class="btn-icon bg-colorBlackPearl group-hover:right-0 group-hover:translate-x-full">
                                     <img src="{{ asset('assets-front/img/icons/icon-golden-yellow-arrow-right.svg') }}" alt="icon-golden-yellow-arrow-right" width="13" height="12" />
                                 </span>
@@ -80,7 +80,7 @@
                 <div class="grid grid-cols-1 flex-wrap justify-between gap-10 sm:grid-cols-2 lg:flex">
                     <!-- Footer Widget - About -->
                     <div class="max-w-[298px]">
-                        <a href="{{ route('front.home') }}" class="">
+                        <a href="{{ route('front.home', app()->getLocale()) }}" class="">
                             @if(!empty($globalSettings['logos']['footer_logo']))
                                 <img src="{{ asset($globalSettings['logos']['footer_logo']) }}" alt="logo" width="137" height="33" />
                             @elseif($footerInfo?->logo)
@@ -125,6 +125,11 @@
                                             ? ($navLink['label'][$locale] ?? ($navLink['label'][config('app.locale')] ?? ''))
                                             : ($navLink['label'] ?? '');
                                         $linkUrl = $navLink['url'] ?? '#';
+                                        // Lokal göreceli yolları locale ile prefix'le
+                                        if ($linkUrl && $linkUrl !== '#' && !preg_match('#^(https?:)?//#', $linkUrl)) {
+                                            $linkUrl = '/' . $locale . '/' . ltrim($linkUrl, '/');
+                                            $linkUrl = rtrim($linkUrl, '/') ?: '/' . $locale;
+                                        }
                                     @endphp
                                     <li>
                                         <a href="{{ $linkUrl }}" class="hover:text-colorBlackPearl hover:underline">{{ $linkLabel }}</a>
@@ -132,19 +137,19 @@
                                 @endforeach
                             @else
                                 <li>
-                                    <a href="{{ route('front.about') }}" class="hover:text-colorBlackPearl hover:underline">Hakkimizda</a>
+                                    <a href="{{ route('front.about', app()->getLocale()) }}" class="hover:text-colorBlackPearl hover:underline">Hakkimizda</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('front.courses') }}" class="hover:text-colorBlackPearl hover:underline">Kurslarimiz</a>
+                                    <a href="{{ route('front.courses', app()->getLocale()) }}" class="hover:text-colorBlackPearl hover:underline">Kurslarimiz</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('front.contact') }}" class="hover:text-colorBlackPearl hover:underline">Iletisim</a>
+                                    <a href="{{ route('front.contact', app()->getLocale()) }}" class="hover:text-colorBlackPearl hover:underline">Iletisim</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('front.blog') }}" class="hover:text-colorBlackPearl hover:underline">Haberler</a>
+                                    <a href="{{ route('front.blog', app()->getLocale()) }}" class="hover:text-colorBlackPearl hover:underline">Haberler</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('front.faq') }}" class="hover:text-colorBlackPearl hover:underline">SSS</a>
+                                    <a href="{{ route('front.faq', app()->getLocale()) }}" class="hover:text-colorBlackPearl hover:underline">SSS</a>
                                 </li>
                             @endif
                         </ul>

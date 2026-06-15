@@ -40,4 +40,32 @@ class MenuItem extends Model
     {
         return $this->children()->with('allChildren');
     }
+
+    /**
+     * URL'i mevcut locale ile prefixle.
+     * - "#" veya boş → değişmez (placeholder)
+     * - "http(s)://" veya "//" → dış link, değişmez
+     * - "/foo" → "/tr/foo"
+     */
+    public function getLocalizedUrlAttribute(): string
+    {
+        $url = (string) $this->url;
+
+        if ($url === '' || $url === '#') {
+            return $url;
+        }
+        if (preg_match('#^(https?:)?//#', $url)) {
+            return $url;
+        }
+
+        $locale = app()->getLocale() ?: config('app.locale', 'tr');
+        $path = '/' . ltrim($url, '/');
+
+        // Anasayfa kısa yolu: '/' → '/tr'
+        if ($path === '/') {
+            return '/' . $locale;
+        }
+
+        return '/' . $locale . $path;
+    }
 }

@@ -11,7 +11,7 @@
         <div class="container-expand">
             <div class="flex items-center gap-x-6 lg:gap-x-10 xl:gap-x-[76px]">
                 <!-- Header Logo -->
-                <a href="{{ route('front.home') }}" class="inline-flex">
+                <a href="{{ route('front.home', app()->getLocale()) }}" class="inline-flex">
                     @if(!empty($globalSettings['logos']['header_logo']))
                         <img src="{{ asset($globalSettings['logos']['header_logo']) }}" alt="logo" width="137" height="33" />
                     @elseif($footerInfo?->logo)
@@ -25,7 +25,7 @@
                     <!-- Search Block -->
                     @if($navbarInfo?->show_search ?? true)
                     <div id="headerSearchWrap" class="relative hidden w-full max-w-xl flex-1 md:flex">
-                        <form action="{{ route('front.search') }}" method="get" class="relative w-full group">
+                        <form action="{{ route('front.search', app()->getLocale()) }}" method="get" class="relative w-full group">
                             <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
                                 <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/>
@@ -278,7 +278,7 @@
                             @foreach($navMenuItems ?? [] as $item)
                                 @php $hasChildren = $item->children->isNotEmpty(); @endphp
                                 <li class="nav-item{{ $hasChildren ? ' nav-item-has-children' : '' }}">
-                                    <a href="{{ $item->url }}" {!! $item->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!} class="nav-link-item{{ $hasChildren ? ' drop-trigger' : '' }} rounded-none border border-transparent text-colorBlackPearl">{{ $item->label }}
+                                    <a href="{{ $item->localized_url }}" {!! $item->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!} class="nav-link-item{{ $hasChildren ? ' drop-trigger' : '' }} rounded-none border border-transparent text-colorBlackPearl">{{ $item->label }}
                                         @if($hasChildren)
                                             <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90 lg:rotate-0" />
                                         @endif
@@ -288,7 +288,7 @@
                                             @foreach($item->children as $child)
                                                 @php $childHasChildren = $child->children->isNotEmpty(); @endphp
                                                 <li class="sub-menu--item{{ $childHasChildren ? ' nav-item-has-children' : '' }}">
-                                                    <a href="{{ $child->url }}" {!! $child->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!}{{ $childHasChildren ? ' data-menu-get=h3' : '' }} class="{{ $childHasChildren ? 'drop-trigger' : '' }}">{{ $child->label }}
+                                                    <a href="{{ $child->localized_url }}" {!! $child->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!}{{ $childHasChildren ? ' data-menu-get=h3' : '' }} class="{{ $childHasChildren ? 'drop-trigger' : '' }}">{{ $child->label }}
                                                         @if($childHasChildren)
                                                             <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90" />
                                                         @endif
@@ -297,7 +297,7 @@
                                                         <ul class="sub-menu shape-none">
                                                             @foreach($child->children as $sub)
                                                                 <li class="sub-menu--item">
-                                                                    <a href="{{ $sub->url }}" {!! $sub->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!}>{{ $sub->label }}</a>
+                                                                    <a href="{{ $sub->localized_url }}" {!! $sub->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!}>{{ $sub->label }}</a>
                                                                 </li>
                                                             @endforeach
                                                         </ul>
