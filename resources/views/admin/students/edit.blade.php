@@ -311,21 +311,21 @@
                         <x-text-input name="guardian2_relationship" label="Yakınlık"
                             :value="$student->guardians[1]?->relationship ?? ''"
                             placeholder="örn: Baba" ringColor="indigo"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <x-text-input name="guardian2_full_name" label="Ad Soyad"
                             :value="$student->guardians[1]?->full_name ?? ''"
                             placeholder="Mehmet Yılmaz" ringColor="indigo"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <x-text-input name="guardian2_national_id" label="T.C. Kimlik No"
                             :value="$student->guardians[1]?->national_id ?? ''"
                             placeholder="12345678901" ringColor="indigo"
                             inputmode="numeric"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <x-text-input type="date" name="guardian2_birth_date" label="Doğum Tarihi"
                             :value="$student->guardians[1]?->birth_date ?? ''"
                             ringColor="indigo"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <div class="space-y-1">
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Eğitim Düzeyi</label>
                             <select name="guardian2_education_level" x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot
@@ -341,34 +341,34 @@
                         <x-text-input name="guardian2_job" label="Meslek"
                             :value="$student->guardians[1]?->job ?? ''"
                             placeholder="örn: Memur" ringColor="indigo"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <x-text-input type="tel" name="guardian2_phone_1" label="Telefon 1"
                             :value="$student->guardians[1]?->phone_1 ?? ''"
                             placeholder="05551234545" ringColor="indigo"
                             inputmode="numeric"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <x-text-input type="tel" name="guardian2_phone_2" label="Telefon 2"
                             :value="$student->guardians[1]?->phone_2 ?? ''"
                             placeholder="05551234545" ringColor="indigo"
                             inputmode="numeric"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,11)"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <x-text-input type="email" name="guardian2_email" label="E-mail"
                             :value="$student->guardians[1]?->email ?? ''"
                             placeholder="ornek@parosis.com" ringColor="indigo"
-                            x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                            x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         <div class="sm:col-span-2">
                             <x-text-input name="guardian2_home_address" label="Ev Adresi"
                                 :value="$student->guardians[1]?->home_address ?? ''"
                                 placeholder="mahalle, sokak, no, ilçe, il" ringColor="indigo"
-                                x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                                x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         </div>
                         <div class="sm:col-span-2">
                             <x-text-input name="guardian2_work_address" label="İş Adresi"
                                 :value="$student->guardians[1]?->work_address ?? ''"
                                 placeholder="mahalle, sokak, no, ilçe, il" ringColor="indigo"
-                                x-bind:disabled="!guardian2Active" @cannot('student') disabled @endcannot />
+                                x-bind:disabled="!guardian2Active || {{ Gate::denies('student') ? 'true' : 'false' }}" />
                         </div>
                     </div>
                 </div>
