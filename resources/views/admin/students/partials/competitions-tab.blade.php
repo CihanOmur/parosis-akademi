@@ -421,11 +421,68 @@
                                   class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 text-sm" placeholder="Performans hakkında notlar..."></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Sertifika / Madalya Dosyası (PDF / PNG / JPG — max 10MB)</label>
-                        <input type="file" name="result_file" accept=".pdf,.png,.jpg,.jpeg,.webp"
-                               class="w-full text-sm text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-fuchsia-50 file:text-fuchsia-700 hover:file:bg-fuchsia-100 dark:file:bg-fuchsia-900/30 dark:file:text-fuchsia-400">
-                        <template x-if="form.has_file">
-                            <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1">✓ Önceden bir dosya yüklenmiş. Yeni seçim eskisini değiştirir.</p>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Sertifika / Madalya Dosyası</label>
+
+                        {{-- Gizli native input --}}
+                        <input type="file" name="result_file" x-ref="resultFileInput" accept=".pdf,.png,.jpg,.jpeg,.webp"
+                               @change="handleFileSelect($event.target.files)" class="sr-only">
+
+                        {{-- Drop-zone --}}
+                        <div @click="$refs.resultFileInput.click()"
+                             @dragover.prevent="dragging = true"
+                             @dragleave.prevent="dragging = false"
+                             @drop.prevent="dragging = false; handleFileSelect($event.dataTransfer.files); $refs.resultFileInput.files = $event.dataTransfer.files"
+                             :class="dragging ? 'border-fuchsia-500 bg-fuchsia-50 dark:bg-fuchsia-900/20' : (fileName ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/10' : 'border-slate-300 dark:border-slate-600 hover:border-fuchsia-400 hover:bg-fuchsia-50/30 dark:hover:bg-fuchsia-900/10')"
+                             class="relative cursor-pointer border-2 border-dashed rounded-xl p-5 text-center transition-all">
+
+                            {{-- Seçilmiş dosya görünümü --}}
+                            <template x-if="fileName">
+                                <div class="flex items-center gap-3 text-left">
+                                    <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9Z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-slate-900 dark:text-white truncate" x-text="fileName"></p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400" x-text="fileSize"></p>
+                                    </div>
+                                    <button type="button" @click.stop="clearFile()"
+                                            class="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                                            title="Dosyayı kaldır">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
+
+                            {{-- Boş hâl --}}
+                            <template x-if="!fileName">
+                                <div class="flex flex-col items-center gap-2">
+                                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-fuchsia-500/10 to-purple-500/10 dark:from-fuchsia-500/20 dark:to-purple-500/20 flex items-center justify-center"
+                                         :class="dragging ? 'scale-110' : ''"
+                                         style="transition: transform .15s ease">
+                                        <svg class="w-6 h-6 text-fuchsia-600 dark:text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
+                                            <span class="text-fuchsia-600 dark:text-fuchsia-400 font-semibold">Tıkla</span>
+                                            veya dosyayı buraya sürükle
+                                        </p>
+                                        <p class="text-[11px] text-slate-400 mt-0.5">PDF, PNG, JPG, WEBP — max 10MB</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <template x-if="form.has_file && !fileName">
+                            <p class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd"/></svg>
+                                Önceden yüklenmiş bir dosya var. Yeni dosya seçimi eskisini değiştirir.
+                            </p>
                         </template>
                     </div>
                 </div>
@@ -448,6 +505,9 @@
             urlBase: '{{ url('panel/students/' . $student->id . '/competitions') }}',
             attachCompetitionId: '',
             attachCategories: [],
+            fileName: '',
+            fileSize: '',
+            dragging: false,
             form: {
                 entry_id: null,
                 competition_id: null,
@@ -511,7 +571,26 @@
                     result_notes:     data.result_notes ?? '',
                     has_file:         !!data.has_file,
                 };
+                this.fileName = '';
+                this.fileSize = '';
+                this.dragging = false;
                 this.resultOpen = true;
+            },
+            handleFileSelect(files) {
+                if (!files || !files.length) return;
+                const f = files[0];
+                this.fileName = f.name;
+                this.fileSize = this.formatFileSize(f.size);
+            },
+            clearFile() {
+                this.fileName = '';
+                this.fileSize = '';
+                if (this.$refs.resultFileInput) this.$refs.resultFileInput.value = '';
+            },
+            formatFileSize(bytes) {
+                if (bytes < 1024) return bytes + ' B';
+                if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
             },
             statusActionUrl()  { return this.urlBase + '/' + this.form.entry_id + '/statuses'; },
             resultActionUrl()  { return this.urlBase + '/' + this.form.entry_id + '/result'; },
