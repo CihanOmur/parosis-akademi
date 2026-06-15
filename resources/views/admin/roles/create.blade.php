@@ -18,36 +18,7 @@
 
 @section('content')
 @php
-    $permissionGroups = [
-        'Kullanıcı Yönetimi' => [
-            'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>',
-            'color' => 'blue',
-            'perms' => ['user' => 'Kullanıcıları Görüntüle', 'user_delete' => 'Kullanıcı Sil'],
-        ],
-        'Sınıf Yönetimi' => [
-            'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/>',
-            'color' => 'emerald',
-            'perms' => ['class' => 'Sınıfları Yönet', 'class_delete' => 'Sınıf Sil'],
-        ],
-        'Öğrenci Yönetimi' => [
-            'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>',
-            'color' => 'violet',
-            'perms' => ['student' => 'Öğrencileri Yönet', 'student_delete' => 'Öğrenci Sil'],
-        ],
-        'Muhasebe' => [
-            'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>',
-            'color' => 'amber',
-            'perms' => ['accounting' => 'Ödeme & Muhasebe Yönetimi'],
-        ],
-    ];
-
-    $colorMap = [
-        'blue'    => ['bg' => 'bg-blue-100 dark:bg-blue-900/30',    'icon' => 'text-blue-500',    'sel' => 'border-blue-400 dark:border-blue-500 bg-blue-50 dark:bg-blue-900/20',    'check' => 'bg-blue-500 border-blue-500',    'text' => 'text-blue-700 dark:text-blue-300'],
-        'emerald' => ['bg' => 'bg-emerald-100 dark:bg-emerald-900/30', 'icon' => 'text-emerald-500', 'sel' => 'border-emerald-400 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20', 'check' => 'bg-emerald-500 border-emerald-500', 'text' => 'text-emerald-700 dark:text-emerald-300'],
-        'violet'  => ['bg' => 'bg-violet-100 dark:bg-violet-900/30',  'icon' => 'text-violet-500',  'sel' => 'border-violet-400 dark:border-violet-500 bg-violet-50 dark:bg-violet-900/20',  'check' => 'bg-violet-500 border-violet-500',  'text' => 'text-violet-700 dark:text-violet-300'],
-        'amber'   => ['bg' => 'bg-amber-100 dark:bg-amber-900/30',   'icon' => 'text-amber-500',   'sel' => 'border-amber-400 dark:border-amber-500 bg-amber-50 dark:bg-amber-900/20',   'check' => 'bg-amber-500 border-amber-500',   'text' => 'text-amber-700 dark:text-amber-300'],
-    ];
-
+    // $permissionGroups + $colorMap controller'dan geliyor (App\Http\Controllers\Role\RoleController)
     $allPermNames = collect($permissionGroups)->flatMap(fn($g) => array_keys($g['perms']))->values()->toArray();
     $oldPerms     = old('permissions', []);
 @endphp
