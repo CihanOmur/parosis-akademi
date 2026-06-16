@@ -725,20 +725,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- Address --}}
-                                        <div class="sw-contact-row">
-                                            <div class="sw-contact-icon">
-                                                <img src="{{ asset('assets-front/img/icons/icon-purple-location.svg') }}" alt="location" width="28" height="28" />
-                                            </div>
-                                            <div style="flex: 1;">
-                                                <div class="ez" :class="activeField === 'sidebar_contact_address_label' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_address_label', 'Adres Etiketi')">
-                                                    <span class="sw-contact-label" :style="getFieldStyle('sidebar_contact_address_label')" x-text="fields.sidebar_contact_address_label || 'Adresimiz'"></span>
-                                                </div>
-                                                <div class="ez" :class="activeField === 'sidebar_contact_address' && 'ez-active'" data-label="Düzenle" @click="openModal('sidebar_contact_address', 'Adres', 'textarea')">
-                                                    <span class="sw-contact-value" style="font-size: 0.95rem;" :style="getFieldStyle('sidebar_contact_address')" x-html="nl2br(fields.sidebar_contact_address || 'İstanbul, Türkiye')"></span>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
 
