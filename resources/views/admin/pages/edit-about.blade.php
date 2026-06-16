@@ -221,7 +221,6 @@
 
         @include('admin.pages.partials.dev-panel')
 
-        @include('admin.pages.partials.breadcrumb-bg-control')
         @include('admin.pages.partials.cta-visibility-toggle')
 
         {{-- ═════════════ TAB NAVIGATION ═════════════ --}}
@@ -252,21 +251,39 @@
 
             {{-- ── Breadcrumb ── --}}
             <div>
-                <section style="position: relative; z-index: 10; overflow: hidden; background-color: #FAF9F6;">
+                <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
+                         data-label="Arka Plan Gorseli"
+                         @click.self="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                         :style="getBreadcrumbBgStyle()"
+                         style="position: relative; z-index: 10; overflow: hidden; cursor: pointer;">
+                    {{-- Renk picker overlay (her zaman görünür, sol üst) --}}
+                    <div @click.stop style="position: absolute; top: 10px; left: 10px; z-index: 5; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Inter, sans-serif; font-size: 11px;">
+                        <span style="color: #475569;">Arka plan rengi:</span>
+                        <input type="color" :value="fields.breadcrumb_bg_color || '#FAF9F6'"
+                               @input="fields.breadcrumb_bg_color = $event.target.value"
+                               style="width: 26px; height: 22px; padding: 0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; background: transparent;">
+                        <button type="button" @click="fields.breadcrumb_bg_color = ''" title="Sıfırla"
+                                style="border: none; background: transparent; cursor: pointer; color: #94a3b8; font-size: 14px; padding: 0 4px;">↺</button>
+                        <template x-if="fields.breadcrumb_bg_image">
+                            <button type="button" @click="fields.breadcrumb_bg_image = ''" title="Görseli kaldır"
+                                    style="border: none; background: #fee2e2; color: #b91c1c; cursor: pointer; font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">✕ Görsel</button>
+                        </template>
+                    </div>
+
                     <div style="padding: 60px 0;">
                         <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                             <div style="text-align: center;">
-                                <div class="ez" :class="activeField === 'breadcrumb_title' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_title', 'Sayfa Basligi')">
+                                <div class="ez" :class="activeField === 'breadcrumb_title' && 'ez-active'" data-label="Duzenle" @click.stop="openModal('breadcrumb_title', 'Sayfa Basligi')">
                                     <h1 style="margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal;" :style="getFieldStyle('breadcrumb_title')" x-html="nl2br(fields.breadcrumb_title || 'Hakkimizda')"></h1>
                                 </div>
                                 <nav style="font-size: 1rem; font-weight: 500; text-transform: uppercase;">
                                     <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
                                         <li>
-                                            <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')" style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_home')" x-html="nl2br(fields.breadcrumb_home || 'ANA SAYFA')"></span>
+                                            <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Duzenle" @click.stop="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')" style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_home')" x-html="nl2br(fields.breadcrumb_home || 'ANA SAYFA')"></span>
                                         </li>
                                         <li style="color: rgb(95 93 93);">/</li>
                                         <li>
-                                            <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Duzenle" @click="openModal('breadcrumb_current', 'Mevcut Sayfa')" style="color: rgb(95 93 93);" :style="getFieldStyle('breadcrumb_current')" x-html="nl2br(fields.breadcrumb_current || 'HAKKIMIZDA')"></span>
+                                            <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Duzenle" @click.stop="openModal('breadcrumb_current', 'Mevcut Sayfa')" style="color: rgb(95 93 93);" :style="getFieldStyle('breadcrumb_current')" x-html="nl2br(fields.breadcrumb_current || 'HAKKIMIZDA')"></span>
                                         </li>
                                     </ul>
                                 </nav>
@@ -1442,6 +1459,17 @@ function aboutEditor() {
                 textAlign: defaults.textAlign || '',
                 opacity: '',
             };
+        },
+
+        getBreadcrumbBgStyle() {
+            const color = this.fields.breadcrumb_bg_color || '#FAF9F6';
+            let style = 'background-color: ' + color + ';';
+            const img = this.fields.breadcrumb_bg_image;
+            if (img) {
+                const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
+                style += ' background-image: url(' + url + '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+            }
+            return style;
         },
 
         getFieldStyle(field, extraStyle) {

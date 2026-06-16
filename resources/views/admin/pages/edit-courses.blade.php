@@ -379,8 +379,6 @@
         {{-- Developer Mode Panel --}}
         @include('admin.pages.partials.dev-panel')
 
-        @include('admin.pages.partials.breadcrumb-bg-control')
-
         {{-- Page Tabs --}}
         <div class="mb-5">
             <div class="page-tabs" style="display: inline-flex;">
@@ -408,7 +406,12 @@
             <div x-show="pageTab === 'liste'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
             {{-- Breadcrumb --}}
-            <section style="position: relative; z-index: 10; overflow: hidden; background-color: #FAF9F6; margin: 16px 20px 0; border-radius: 12px;">
+            <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
+                     data-label="Arka Plan Gorseli"
+                     @click.self="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                     :style="getBreadcrumbBgStyle()"
+                     style="position: relative; z-index: 10; overflow: hidden; margin: 16px 20px 0; border-radius: 12px; cursor: pointer;">
+                @include('admin.pages.partials.breadcrumb-preview-overlay')
                 <div style="padding: 50px 0;">
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                         <div style="text-align: center;">
@@ -419,12 +422,12 @@
                             <nav style="font-size: 0.9375rem; font-weight: 500; text-transform: uppercase;">
                                 <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
                                     <li>
-                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
+                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
                                               style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_home')" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
                                     </li>
                                     <li style="color: rgb(95 93 93);">/</li>
                                     <li>
-                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_current', 'Breadcrumb Mevcut')"
+                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('breadcrumb_current', 'Breadcrumb Mevcut')"
                                               style="color: rgb(95 93 93);" :style="getFieldStyle('breadcrumb_current')" x-text="fields.breadcrumb_current || 'KURSLAR'"></span>
                                     </li>
                                 </ul>
@@ -527,19 +530,19 @@
                 <div style="padding: 40px 0;">
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                         <div style="text-align: center;">
-                            <div class="ez" :class="activeField === 'detail_breadcrumb_current' && 'ez-active'" data-label="Başlık" @click="openModal('detail_breadcrumb_current', 'Detay Sayfa Başlığı')">
+                            <div class="ez" :class="activeField === 'detail_breadcrumb_current' && 'ez-active'" data-label="Başlık" @click.stop="openModal('detail_breadcrumb_current', 'Detay Sayfa Başlığı')">
                                 <h1 style="margin-bottom: 1rem; text-transform: capitalize; letter-spacing: normal; font-size: 2rem;"
                                     :style="getFieldStyle('detail_breadcrumb_current')" x-text="fields.detail_breadcrumb_current || 'Kurs Detayı'"></h1>
                             </div>
                             <nav style="font-size: 0.9375rem; font-weight: 500; text-transform: uppercase;">
                                 <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
                                     <li>
-                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
+                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
                                               style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_home')" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
                                     </li>
                                     <li style="color: rgb(95 93 93);">/</li>
                                     <li>
-                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_current', 'Breadcrumb Mevcut')"
+                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('breadcrumb_current', 'Breadcrumb Mevcut')"
                                               style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_current')" x-text="fields.breadcrumb_current || 'KURSLAR'"></span>
                                     </li>
                                     <li style="color: rgb(95 93 93);">/</li>
@@ -1425,6 +1428,17 @@
                     textAlign: defaults.textAlign || '',
                     opacity: '',
                 };
+            },
+
+            getBreadcrumbBgStyle() {
+                const color = this.fields.breadcrumb_bg_color || '#FAF9F6';
+                let style = 'background-color: ' + color + ';';
+                const img = this.fields.breadcrumb_bg_image;
+                if (img) {
+                    const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
+                    style += ' background-image: url(' + url + '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+                }
+                return style;
             },
 
             getFieldStyle(field, extraStyle) {

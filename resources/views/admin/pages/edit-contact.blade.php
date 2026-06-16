@@ -422,19 +422,22 @@
 
         @include('admin.pages.partials.dev-panel')
 
-        @include('admin.pages.partials.breadcrumb-bg-control')
-
         {{-- ═══════════════════════════════════════════════════════════════ --}}
         {{-- LIVE PREVIEW --}}
         {{-- ═══════════════════════════════════════════════════════════════ --}}
         <div class="lp" style="border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid rgba(226,232,240,0.5);">
 
             {{-- ── Breadcrumb ── --}}
-            <section style="position: relative; z-index: 10; overflow: hidden; background-color: #FAF9F6;">
+            <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
+                     data-label="Arka Plan Gorseli"
+                     @click.self="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                     :style="getBreadcrumbBgStyle()"
+                     style="position: relative; z-index: 10; overflow: hidden; cursor: pointer;">
+                @include('admin.pages.partials.breadcrumb-preview-overlay')
                 <div style="padding: 60px 0;">
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                         <div style="text-align: center;">
-                            <div class="ez" :class="activeField === 'title' && 'ez-active'" data-label="Düzenle" @click="openModal('title', 'Sayfa Başlığı')">
+                            <div class="ez" :class="activeField === 'title' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('title', 'Sayfa Başlığı')">
                                 <h1 style="margin-bottom: 1.25rem; text-transform: capitalize; letter-spacing: normal;"
                                     :style="getFieldStyle('title')"
                                     x-html="nl2br(fields.title || 'Bizimle Iletisim Kurun')"></h1>
@@ -442,12 +445,12 @@
                             <nav style="font-size: 1rem; font-weight: 500; text-transform: uppercase;">
                                 <ul style="display: flex; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 4px; align-items: center;">
                                     <li>
-                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
+                                        <span class="ez" :class="activeField === 'breadcrumb_home' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('breadcrumb_home', 'Breadcrumb Ana Sayfa')"
                                               style="color: rgb(215 59 62);" :style="getFieldStyle('breadcrumb_home')" x-text="fields.breadcrumb_home || 'ANA SAYFA'"></span>
                                     </li>
                                     <li style="color: rgb(95 93 93);">/</li>
                                     <li>
-                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click="openModal('breadcrumb_current', 'Breadcrumb Mevcut Sayfa')"
+                                        <span class="ez" :class="activeField === 'breadcrumb_current' && 'ez-active'" data-label="Düzenle" @click.stop="openModal('breadcrumb_current', 'Breadcrumb Mevcut Sayfa')"
                                               style="color: rgb(95 93 93);" :style="getFieldStyle('breadcrumb_current')" x-text="fields.breadcrumb_current || 'ILETISIM'"></span>
                                     </li>
                                 </ul>
@@ -1273,6 +1276,16 @@
                     textAlign: defaults.textAlign || '',
                     opacity: '',
                 };
+            },
+            getBreadcrumbBgStyle() {
+                const color = this.fields.breadcrumb_bg_color || '#FAF9F6';
+                let style = 'background-color: ' + color + ';';
+                const img = this.fields.breadcrumb_bg_image;
+                if (img) {
+                    const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
+                    style += ' background-image: url(' + url + '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+                }
+                return style;
             },
             getFieldStyle(field) {
                 const s = this.fieldStyles[field];
