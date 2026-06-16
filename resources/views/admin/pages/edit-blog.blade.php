@@ -562,8 +562,14 @@
                                         <div style="color: rgb(84 62 232); font-size: 0.8125rem; font-weight: 500;">{{ $previewBlog->categories->pluck('name')->join(', ') }}</div>
                                         @endif
                                     </div>
-                                    @if($previewBlog->getTranslation('short_description', app()->getLocale()))
-                                    <p style="color: rgb(95 93 93); font-size: 0.9375rem; line-height: 1.75; margin-bottom: 16px;">{{ Str::limit($previewBlog->getTranslation('short_description', app()->getLocale()), 200) }}</p>
+                                    @php
+                                        // short_description content'ten dinamik üretilen bir accessor — getTranslation çevirilebilir attribute beklediği için
+                                        // önce content'i locale ile çek, sonra static generateShortDescription helper'ı ile özet oluştur.
+                                        $previewContent  = $previewBlog->getTranslation('content', app()->getLocale());
+                                        $previewShortDesc = $previewContent ? \App\Models\Blogs\Blog::generateShortDescription($previewContent) : '';
+                                    @endphp
+                                    @if($previewShortDesc)
+                                    <p style="color: rgb(95 93 93); font-size: 0.9375rem; line-height: 1.75; margin-bottom: 16px;">{{ Str::limit($previewShortDesc, 200) }}</p>
                                     @endif
                                     <div style="display: flex; flex-direction: column; gap: 10px;">
                                         <div style="width: 100%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>

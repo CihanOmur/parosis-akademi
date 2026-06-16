@@ -180,8 +180,12 @@
                                 <a href="{{ route('front.blog.details', $blog->id) }}" class="mb-2 block text-lg font-bold text-colorBlackPearl hover:text-colorPurpleBlue transition-colors">
                                     {{ $blog->getTranslation('title', app()->getLocale()) }}
                                 </a>
-                                @if($blog->getTranslation('short_description', app()->getLocale()))
-                                <p class="line-clamp-2 text-sm text-slate-500">{{ $blog->getTranslation('short_description', app()->getLocale()) }}</p>
+                                @php
+                                    $blogContent = $blog->getTranslation('content', app()->getLocale());
+                                    $blogShort = $blogContent ? \App\Models\Blogs\Blog::generateShortDescription($blogContent) : '';
+                                @endphp
+                                @if($blogShort)
+                                <p class="line-clamp-2 text-sm text-slate-500">{{ $blogShort }}</p>
                                 @endif
                                 @if($blog->published_at)
                                 <p class="mt-3 text-xs text-slate-400">{{ \Carbon\Carbon::parse($blog->published_at)->translatedFormat('d F Y') }}</p>
