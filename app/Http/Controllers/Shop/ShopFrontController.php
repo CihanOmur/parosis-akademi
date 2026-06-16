@@ -38,7 +38,7 @@ class ShopFrontController extends Controller
         return view('front.pages.products', compact('products', 'categories', 'search', 'categoryId'));
     }
 
-    public function productDetails($id)
+    public function productDetails($locale, $id)
     {
         $product = Product::with([
             'categories',

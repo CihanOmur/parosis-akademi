@@ -187,7 +187,7 @@ class FrontController extends Controller
         ]);
     }
 
-    public function courseDetails($id)
+    public function courseDetails($locale, $id)
     {
         $coursePageInfo = CoursePageInfo::first();
         $course = Course::with('categories')->findOrFail($id);
@@ -203,7 +203,7 @@ class FrontController extends Controller
         return view('front.pages.teachers', compact('teacherPageInfo', 'teachers', 'ctaInfo'));
     }
 
-    public function teacherDetails($id)
+    public function teacherDetails($locale, $id)
     {
         $teacherPageInfo = TeacherPageInfo::first();
         $teacher = Teacher::findOrFail($id);
@@ -219,7 +219,7 @@ class FrontController extends Controller
         return view('front.pages.blog', compact('blogPageInfo', 'blogs', 'ctaInfo'));
     }
 
-    public function blogDetails($id)
+    public function blogDetails($locale, $id)
     {
         $blogPageInfo = BlogPageInfo::first();
         $blog = Blog::with(['categories', 'blogTags'])->findOrFail($id);
