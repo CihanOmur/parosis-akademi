@@ -195,19 +195,6 @@
                                                     </div>
                                                 </li>
                                                 @endif
-                                                @if($coursePageInfo?->getTranslation('sidebar_contact_address', app()->getLocale()))
-                                                <li class="inline-flex gap-x-6">
-                                                    <div class="h-7 w-auto">
-                                                        <img src="{{ asset('assets-front/img/icons/icon-purple-location.svg') }}" alt="location" width="28" height="28" />
-                                                    </div>
-                                                    <div class="flex-1">
-                                                        <span class="block" @if($fs('sidebar_contact_address_label')) style="{{ $fs('sidebar_contact_address_label') }}" @endif>{{ $coursePageInfo->getTranslation('sidebar_contact_address_label', app()->getLocale()) ?: 'Adresimiz' }}</span>
-                                                        <address class="font-title text-xl not-italic text-colorBlackPearl" @if($fs('sidebar_contact_address')) style="{{ $fs('sidebar_contact_address') }}" @endif>
-                                                            {!! nl2br(e($coursePageInfo->getTranslation('sidebar_contact_address', app()->getLocale()))) !!}
-                                                        </address>
-                                                    </div>
-                                                </li>
-                                                @endif
                                             </ul>
                                         </li>
                                         <!-- Contact Us -->

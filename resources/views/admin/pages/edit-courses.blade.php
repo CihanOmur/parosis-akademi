@@ -590,25 +590,23 @@
                                         <div style="width: 60%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                     </div>
 
-                                    {{-- Editable section title: What You Learn --}}
-                                    <div class="ez" :class="activeField === 'detail_what_learn_title' && 'ez-active'" data-label="Başlığı Düzenle" @click="openModal('detail_what_learn_title', 'Neler Öğreneceksiniz Başlığı')">
-                                        <h5 style="font-size: 1.1rem; margin-bottom: 12px;" :style="getFieldStyle('detail_what_learn_title')" x-text="fields.detail_what_learn_title || 'Neler Öğreneceksiniz?'"></h5>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+                                    {{-- Statik: Neler Öğreneceksiniz başlığı (içerik her kursun kendi what_you_learn alanından gelir) --}}
+                                    <h5 style="font-size: 1.1rem; margin-bottom: 12px;" :style="getFieldStyle('detail_what_learn_title')" x-text="fields.detail_what_learn_title || 'Neler Öğreneceksiniz?'"></h5>
+                                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                                         <div style="width: 90%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                         <div style="width: 80%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                         <div style="width: 85%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                     </div>
+                                    <p style="font-size: 0.75rem; color: #94a3b8; font-style: italic; margin-bottom: 24px;">İçerik her kurs için <strong>Kurslar &raquo; Düzenle</strong> sayfasından girilir.</p>
 
-                                    {{-- Editable section title: Why Choose --}}
-                                    <div class="ez" :class="activeField === 'detail_why_choose_title' && 'ez-active'" data-label="Başlığı Düzenle" @click="openModal('detail_why_choose_title', 'Neden Bu Kurs Başlığı')">
-                                        <h5 style="font-size: 1.1rem; margin-bottom: 12px;" :style="getFieldStyle('detail_why_choose_title')" x-text="fields.detail_why_choose_title || 'Neden Bu Kurs?'"></h5>
-                                    </div>
-                                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    {{-- Statik: Neden Bu Kurs başlığı (içerik her kursun kendi why_choose alanından gelir) --}}
+                                    <h5 style="font-size: 1.1rem; margin-bottom: 12px;" :style="getFieldStyle('detail_why_choose_title')" x-text="fields.detail_why_choose_title || 'Neden Bu Kurs?'"></h5>
+                                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">
                                         <div style="width: 85%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                         <div style="width: 90%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                         <div style="width: 70%; height: 10px; border-radius: 3px; background: #F0F0F0;"></div>
                                     </div>
+                                    <p style="font-size: 0.75rem; color: #94a3b8; font-style: italic;">İçerik her kurs için <strong>Kurslar &raquo; Düzenle</strong> sayfasından girilir.</p>
                                 </div>
                             @else
                                 <div style="width: 100%; height: 220px; border-radius: 10px; background: linear-gradient(135deg, #F0F0F0 0%, #E8E8E8 100%); display: flex; align-items: center; justify-content: center;">
