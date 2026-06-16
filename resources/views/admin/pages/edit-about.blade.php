@@ -285,10 +285,12 @@
                                 <div style="display: flex; align-items: center; gap: 0.625rem;">
                                     <input type="color" :value="fields.breadcrumb_bg_color || '#FAF9F6'"
                                            @input="fields.breadcrumb_bg_color = $event.target.value"
+                                           @change="saveAll()"
                                            style="width: 48px; height: 40px; padding: 0; border: 1px solid rgb(1 28 26 / 0.1); border-radius: 8px; cursor: pointer; background: transparent;">
                                     <input type="text" x-model="fields.breadcrumb_bg_color" placeholder="#FAF9F6"
+                                           @change="saveAll()"
                                            style="flex: 1; padding: 0.5rem 0.875rem; border: 1px solid rgb(1 28 26 / 0.1); border-radius: 8px; font-family: monospace; font-size: 0.875rem; color: rgb(1 28 26);">
-                                    <button type="button" @click="fields.breadcrumb_bg_color = ''" title="Sıfırla"
+                                    <button type="button" @click="fields.breadcrumb_bg_color = ''; saveAll()" title="Sıfırla"
                                             style="width: 40px; height: 40px; border: 1px solid rgb(1 28 26 / 0.1); background: rgb(1 28 26 / 0.04); border-radius: 8px; cursor: pointer; color: rgb(1 28 26 / 0.7); font-size: 1rem;">↺</button>
                                 </div>
                             </div>
@@ -304,7 +306,7 @@
                                         <span x-text="fields.breadcrumb_bg_image ? 'Görseli Değiştir' : 'Görsel Yükle'"></span>
                                     </button>
                                     <template x-if="fields.breadcrumb_bg_image">
-                                        <button type="button" @click="fields.breadcrumb_bg_image = ''"
+                                        <button type="button" @click="fields.breadcrumb_bg_image = ''; saveAll()"
                                                 style="padding: 0.625rem 1rem; background: rgb(215 59 62 / 0.1); color: rgb(215 59 62); border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">Kaldır</button>
                                     </template>
                                 </div>
