@@ -250,7 +250,7 @@
             <div x-show="pageTab === 'ust'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
             {{-- ── Breadcrumb ── --}}
-            <div x-data="{ bgPopover: false }">
+            <div>
                 <section :style="getBreadcrumbBgStyle()"
                          style="position: relative; z-index: 10; overflow: hidden;">
 
@@ -1013,6 +1013,7 @@
 function aboutEditor() {
     return {
         pageTab: 'ust',
+        bgPopover: false,
         modal: false,
         modalField: '',
         modalLabel: '',
