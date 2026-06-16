@@ -251,11 +251,8 @@
 
             {{-- ── Breadcrumb ── --}}
             <div>
-                <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
-                         data-label="Arka Plan Gorseli"
-                         @click="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
-                         :style="getBreadcrumbBgStyle()"
-                         style="position: relative; z-index: 10; overflow: hidden; cursor: pointer;">
+                <section :style="getBreadcrumbBgStyle()"
+                         style="position: relative; z-index: 10; overflow: hidden;">
                     {{-- Renk picker overlay (her zaman görünür, sol üst) --}}
                     <div @click.stop style="position: absolute; top: 10px; left: 10px; z-index: 5; display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(255,255,255,0.95); border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Inter, sans-serif; font-size: 11px;">
                         <span style="color: #475569;">Arka plan rengi:</span>
@@ -1468,6 +1465,9 @@ function aboutEditor() {
             if (img) {
                 const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
                 style += ' background-image: url(' + url + '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+            }
+            if (this.activeField === 'breadcrumb_bg_image') {
+                style += ' outline: 3px solid #fb923c; outline-offset: -3px;';
             }
             return style;
         },

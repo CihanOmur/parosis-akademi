@@ -428,11 +428,8 @@
         <div class="lp" style="border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid rgba(226,232,240,0.5);">
 
             {{-- ── Breadcrumb ── --}}
-            <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
-                     data-label="Arka Plan Gorseli"
-                     @click="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
-                     :style="getBreadcrumbBgStyle()"
-                     style="position: relative; z-index: 10; overflow: hidden; cursor: pointer;">
+            <section :style="getBreadcrumbBgStyle()"
+                     style="position: relative; z-index: 10; overflow: hidden;">
                 @include('admin.pages.partials.breadcrumb-preview-overlay')
                 <div style="padding: 60px 0;">
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
@@ -1284,6 +1281,9 @@
                 if (img) {
                     const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
                     style += ' background-image: url(' + url + '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+                }
+                if (this.activeField === 'breadcrumb_bg_image') {
+                    style += ' outline: 3px solid #fb923c; outline-offset: -3px;';
                 }
                 return style;
             },
