@@ -1277,7 +1277,7 @@
             },
             getBreadcrumbBgStyle() {
                 const color = this.fields.breadcrumb_bg_color || '#FAF9F6';
-                let style = 'background-color: ' + color + ';';
+                let style = 'position: relative; z-index: 10; overflow: hidden; background-color: ' + color + ';';
                 const img = this.fields.breadcrumb_bg_image;
                 if (img) {
                     const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
