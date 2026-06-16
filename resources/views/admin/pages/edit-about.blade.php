@@ -249,50 +249,75 @@
             {{-- ═══════════ ÜST BÖLÜM ═══════════ --}}
             <div x-show="pageTab === 'ust'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
-            {{-- Breadcrumb Arka Plan Modal — section dışında, ekran ortasında --}}
+            {{-- Breadcrumb Arka Plan Modal — image modal ile aynı stil --}}
             <div x-show="bgPopover" x-cloak
-                 @keydown.escape.window="bgPopover = false"
-                 style="position: fixed; inset: 0; z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(2px);">
-                <div @click.outside="bgPopover = false"
-                     style="width: 100%; max-width: 480px; padding: 24px; background: #ffffff; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); font-family: Inter, sans-serif;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
-                        <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Üst Bölüm Arka Planı</h3>
-                        <button type="button" @click="bgPopover = false"
-                                style="border: none; background: transparent; cursor: pointer; padding: 4px; color: #64748b; line-height: 0;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
-                    </div>
+                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                 style="position: fixed; inset: 0; z-index: 9999; padding: 1rem;"
+                 @keydown.escape.window="bgPopover = false">
+                <div style="position: absolute; inset: 0; background: rgba(1,28,26,0.4);" @click="bgPopover = false"></div>
+                <div style="position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 100%;">
+                    <div x-show="bgPopover"
+                         x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                         style="background: white; border-radius: 16px; box-shadow: 0 25px 50px rgba(1,28,26,0.2); width: 100%; max-width: 540px; overflow: hidden; display: flex; flex-direction: column;"
+                         @click.stop>
 
-                    {{-- Renk --}}
-                    <label style="display: block; font-size: 13px; color: #475569; font-weight: 600; margin-bottom: 8px;">Arka Plan Rengi</label>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                        <input type="color" :value="fields.breadcrumb_bg_color || '#FAF9F6'"
-                               @input="fields.breadcrumb_bg_color = $event.target.value"
-                               style="width: 48px; height: 38px; padding: 0; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; background: transparent;">
-                        <input type="text" x-model="fields.breadcrumb_bg_color" placeholder="#FAF9F6"
-                               style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 13px;">
-                        <button type="button" @click="fields.breadcrumb_bg_color = ''" title="Sıfırla"
-                                style="width: 38px; height: 38px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: #64748b; font-size: 16px;">↺</button>
-                    </div>
+                        {{-- Header --}}
+                        <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid rgb(1 28 26 / 0.06); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div style="width: 36px; height: 36px; background: rgb(84 62 232); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <svg style="width: 18px; height: 18px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15"/></svg>
+                                </div>
+                                <h3 style="font-size: 1.125rem; font-weight: 600; color: rgb(1 28 26); font-family: 'Aeonik Pro TRIAL', sans-serif;">Üst Bölüm Arka Planı</h3>
+                            </div>
+                            <button type="button" @click="bgPopover = false"
+                                    style="background: rgb(1 28 26 / 0.04); border: none; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: rgb(1 28 26);">
+                                <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
 
-                    {{-- Görsel --}}
-                    <label style="display: block; font-size: 13px; color: #475569; font-weight: 600; margin-bottom: 8px;">Arka Plan Görseli</label>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                        <button type="button"
-                                @click="bgPopover = false; openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
-                                style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; background: #0ea5e9; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159M2.25 15.75v3a1.5 1.5 0 0 0 1.5 1.5h16.5a1.5 1.5 0 0 0 1.5-1.5v-3M15.75 8.25h.008v.008h-.008V8.25Z"/></svg>
-                            <span x-text="fields.breadcrumb_bg_image ? 'Görseli Değiştir' : 'Görsel Yükle'"></span>
-                        </button>
-                        <template x-if="fields.breadcrumb_bg_image">
-                            <button type="button" @click="fields.breadcrumb_bg_image = ''"
-                                    style="padding: 10px 14px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;">✕ Kaldır</button>
-                        </template>
-                    </div>
+                        {{-- Body --}}
+                        <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
+                            {{-- Renk --}}
+                            <div>
+                                <label style="display: block; font-size: 0.875rem; color: rgb(1 28 26 / 0.7); font-weight: 600; margin-bottom: 0.625rem; font-family: 'Aeonik Pro TRIAL', sans-serif;">Arka Plan Rengi</label>
+                                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                                    <input type="color" :value="fields.breadcrumb_bg_color || '#FAF9F6'"
+                                           @input="fields.breadcrumb_bg_color = $event.target.value"
+                                           style="width: 48px; height: 40px; padding: 0; border: 1px solid rgb(1 28 26 / 0.1); border-radius: 8px; cursor: pointer; background: transparent;">
+                                    <input type="text" x-model="fields.breadcrumb_bg_color" placeholder="#FAF9F6"
+                                           style="flex: 1; padding: 0.5rem 0.875rem; border: 1px solid rgb(1 28 26 / 0.1); border-radius: 8px; font-family: monospace; font-size: 0.875rem; color: rgb(1 28 26);">
+                                    <button type="button" @click="fields.breadcrumb_bg_color = ''" title="Sıfırla"
+                                            style="width: 40px; height: 40px; border: 1px solid rgb(1 28 26 / 0.1); background: rgb(1 28 26 / 0.04); border-radius: 8px; cursor: pointer; color: rgb(1 28 26 / 0.7); font-size: 1rem;">↺</button>
+                                </div>
+                            </div>
 
-                    <div style="display: flex; justify-content: flex-end;">
-                        <button type="button" @click="bgPopover = false"
-                                style="padding: 8px 16px; background: #0f172a; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;">Tamam</button>
+                            {{-- Görsel --}}
+                            <div>
+                                <label style="display: block; font-size: 0.875rem; color: rgb(1 28 26 / 0.7); font-weight: 600; margin-bottom: 0.625rem; font-family: 'Aeonik Pro TRIAL', sans-serif;">Arka Plan Görseli</label>
+                                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                                    <button type="button"
+                                            @click="bgPopover = false; openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                                            style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.625rem 1rem; background: rgb(84 62 232); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                                        <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159M2.25 15.75v3a1.5 1.5 0 0 0 1.5 1.5h16.5a1.5 1.5 0 0 0 1.5-1.5v-3M15.75 8.25h.008v.008h-.008V8.25Z"/></svg>
+                                        <span x-text="fields.breadcrumb_bg_image ? 'Görseli Değiştir' : 'Görsel Yükle'"></span>
+                                    </button>
+                                    <template x-if="fields.breadcrumb_bg_image">
+                                        <button type="button" @click="fields.breadcrumb_bg_image = ''"
+                                                style="padding: 0.625rem 1rem; background: rgb(215 59 62 / 0.1); color: rgb(215 59 62); border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">Kaldır</button>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Footer --}}
+                        <div style="padding: 1rem 1.5rem; border-top: 1px solid rgb(1 28 26 / 0.06); display: flex; justify-content: flex-end; gap: 0.625rem;">
+                            <button type="button" @click="bgPopover = false"
+                                    style="padding: 0.5rem 1rem; background: rgb(1 28 26 / 0.04); color: rgb(1 28 26); border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">Kapat</button>
+                            <button type="button" @click="bgPopover = false"
+                                    style="padding: 0.5rem 1.25rem; background: rgb(84 62 232); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">Tamam</button>
+                        </div>
                     </div>
                 </div>
             </div>
