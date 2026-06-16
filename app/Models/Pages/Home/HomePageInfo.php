@@ -22,6 +22,8 @@ class HomePageInfo extends Model
         'funfact_image', 'funfact_items',
         'testimonial_label', 'testimonial_title', 'testimonial_image',
         'testimonial_stat_number', 'testimonial_stat_text',
+        'cta_label', 'cta_title', 'cta_description',
+        'cta_button_text', 'cta_button_url', 'cta_image',
         'field_styles', 'default_styles',
     ];
 
@@ -75,5 +77,11 @@ class HomePageInfo extends Model
         'testimonial_label',
         'testimonial_title',
         'testimonial_stat_text',
+
+        // CTA Section (footer üst bloğu)
+        'cta_label',
+        'cta_title',
+        'cta_description',
+        'cta_button_text',
     ];
 }

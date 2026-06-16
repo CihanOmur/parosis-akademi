@@ -117,10 +117,8 @@ class PagesController extends Controller
         $selectedLang = $localeInfo['translateLang'];
         $selectedLanguage = $localeInfo['selectedLanguage'];
 
-        $ctaInfo = ContactPageInfo::first();
-        if (!$ctaInfo) {
-            $ctaInfo = ContactPageInfo::create([]);
-        }
+        // Anasayfa CTA bağımsız: HomePageInfo üstünden okunup yazılır
+        $ctaInfo = $homePageInfo;
 
         return view('admin.pages.edit-home', compact('homePageInfo', 'ctaInfo', 'selectedLang', 'selectedLanguage'));
     }
@@ -143,6 +141,7 @@ class PagesController extends Controller
             'courses_label', 'courses_title',
             'blog_label', 'blog_title',
             'testimonial_label', 'testimonial_title', 'testimonial_stat_text',
+            'cta_label', 'cta_title', 'cta_description', 'cta_button_text',
         ];
 
         foreach ($translatableFields as $field) {
@@ -200,25 +199,17 @@ class PagesController extends Controller
             $homePageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
-        $homePageInfo->save();
-
-        // CTA (ContactPageInfo)
+        // CTA (HomePageInfo'ya yazılır — diğer sayfaları etkilemez)
         $ctaTranslatable = ['cta_label', 'cta_title', 'cta_description', 'cta_button_text'];
-        $hasCtaData = false;
         foreach ($ctaTranslatable as $field) {
-            if ($request->has($field)) $hasCtaData = true;
-        }
-        if ($hasCtaData || $request->has('cta_image') || $request->has('cta_button_url')) {
-            $ctaInfo = ContactPageInfo::first() ?? ContactPageInfo::create([]);
-            foreach ($ctaTranslatable as $field) {
-                if ($request->has($field)) {
-                    $ctaInfo->setTranslation($field, $locale, $request->$field);
-                }
+            if ($request->has($field)) {
+                $homePageInfo->setTranslation($field, $locale, $request->$field);
             }
-            if ($request->has('cta_image')) $ctaInfo->cta_image = $request->cta_image;
-            if ($request->has('cta_button_url')) $ctaInfo->cta_button_url = $request->cta_button_url;
-            $ctaInfo->save();
         }
+        if ($request->has('cta_image'))      $homePageInfo->cta_image      = $request->cta_image;
+        if ($request->has('cta_button_url')) $homePageInfo->cta_button_url = $request->cta_button_url;
+
+        $homePageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
@@ -250,6 +241,7 @@ class PagesController extends Controller
             'courses_label', 'courses_title',
             'blog_label', 'blog_title',
             'testimonial_label', 'testimonial_title', 'testimonial_stat_text',
+            'cta_label', 'cta_title', 'cta_description', 'cta_button_text',
         ];
 
         foreach ($translatableFields as $field) {
@@ -289,6 +281,10 @@ class PagesController extends Controller
                 $homePageInfo->setTranslation('funfact_items', $locale, $decoded);
             }
         }
+
+        // CTA non-translatable
+        if ($request->has('cta_image'))      $homePageInfo->cta_image      = $request->cta_image;
+        if ($request->has('cta_button_url')) $homePageInfo->cta_button_url = $request->cta_button_url;
 
         $homePageInfo->save();
 

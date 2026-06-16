@@ -36,7 +36,8 @@ class FrontController extends Controller
         $homePageInfo = HomePageInfo::first();
         $clientLogos = ClientLogo::where('is_active', true)->orderBy('sort_order')->get();
         $testimonials = Testimonial::where('is_active', true)->orderBy('sort_order')->get();
-        return view('front.pages.home', compact('courses', 'blogs', 'activeSlider', 'courseCategories', 'homePageInfo', 'clientLogos', 'testimonials'));
+        $ctaInfo = $homePageInfo;
+        return view('front.pages.home', compact('courses', 'blogs', 'activeSlider', 'courseCategories', 'homePageInfo', 'clientLogos', 'testimonials', 'ctaInfo'));
     }
 
     public function about()
