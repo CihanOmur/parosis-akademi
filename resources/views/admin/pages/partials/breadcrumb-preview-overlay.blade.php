@@ -15,8 +15,7 @@
     {{-- Görsel butonu --}}
     <button type="button"
             @click="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
-            :style="(activeField === 'breadcrumb_bg_image') ? 'background:#16a34a' : 'background:#0ea5e9'"
-            style="display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border: none; border-radius: 4px; cursor: pointer; color: white; font-size: 11px; font-weight: 600; transition: background .15s;">
+            style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border: none; border-radius: 4px; cursor: pointer; color: white; background: #0ea5e9; font-size: 11px; font-weight: 600;">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159M2.25 15.75v3a1.5 1.5 0 0 0 1.5 1.5h16.5a1.5 1.5 0 0 0 1.5-1.5v-3M15.75 8.25h.008v.008h-.008V8.25Z"/></svg>
         <span x-text="fields.breadcrumb_bg_image ? 'Değiştir' : 'Görsel'"></span>
     </button>
