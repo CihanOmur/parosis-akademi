@@ -224,30 +224,11 @@
         @include('admin.pages.partials.cta-visibility-toggle')
 
         {{-- ═════════════ TAB NAVIGATION ═════════════ --}}
-        <div class="page-tabs mb-5" style="display: inline-flex;">
-            {{-- Üst Bölüm --}}
-            <button type="button" class="page-tab" :class="pageTab === 'ust' && 'page-tab-active'" @click="pageTab = 'ust'">
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/></svg>
-                Ust Bolum
-                <span class="page-tab-badge">/hakkimizda</span>
-            </button>
-            {{-- Orta Bölüm --}}
-            <button type="button" class="page-tab" :class="pageTab === 'orta' && 'page-tab-active'" @click="pageTab = 'orta'">
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
-                Orta Bolum
-            </button>
-            {{-- Alt Bölüm --}}
-            <button type="button" class="page-tab" :class="pageTab === 'alt' && 'page-tab-active'" @click="pageTab = 'alt'">
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
-                Alt Bolum
-            </button>
-        </div>
-
-        {{-- ═════════════ LIVE PREVIEW PANELS ═════════════ --}}
+        {{-- ═════════════ LIVE PREVIEW PANELS (tek sayfa, ardışık scroll) ═════════════ --}}
         <div class="lp" style="border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid rgba(226,232,240,0.5);">
 
             {{-- ═══════════ ÜST BÖLÜM ═══════════ --}}
-            <div x-show="pageTab === 'ust'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+            <div>
 
             {{-- ── Breadcrumb ── --}}
             <div>
@@ -430,7 +411,7 @@
             </div>{{-- / ÜST BÖLÜM --}}
 
             {{-- ═══════════ ORTA BÖLÜM ═══════════ --}}
-            <div x-show="pageTab === 'orta'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+            <div>
 
             {{-- ── Logolar ── --}}
             <div>
@@ -562,7 +543,7 @@
             </div>{{-- / ORTA BÖLÜM --}}
 
             {{-- ═══════════ ALT BÖLÜM ═══════════ --}}
-            <div x-show="pageTab === 'alt'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+            <div>
 
             {{-- ── Yorumlar ── --}}
             <div>
