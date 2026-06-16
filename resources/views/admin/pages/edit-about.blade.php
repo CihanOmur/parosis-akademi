@@ -221,6 +221,8 @@
 
         @include('admin.pages.partials.dev-panel')
 
+        @include('admin.pages.partials.cta-visibility-toggle')
+
         {{-- ═════════════ TAB NAVIGATION ═════════════ --}}
         <div class="page-tabs mb-5" style="display: inline-flex;">
             {{-- Üst Bölüm --}}
@@ -451,8 +453,6 @@
 
             {{-- ── Section divider ── --}}
             <div style="padding: 2rem 1.25rem;"><div style="border-top: 2px dashed #E5E7EB; margin: 0 auto; max-width: 1200px; position: relative;"><span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; padding: 0 16px; font-size: 0.75rem; font-weight: 700; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; font-family: Inter, sans-serif;">CTA</span></div></div>
-
-            @include('admin.pages.partials.cta-visibility-toggle')
 
             {{-- ── CTA ── --}}
             <div>
