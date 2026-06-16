@@ -19,8 +19,14 @@
     };
 @endphp
             <!--...::: Breadcrumb Section Start :::... -->
+            @php
+                $bcColor = $shopInfo?->breadcrumb_bg_color ?: '#FAF9F6';
+                $bcImage = $shopInfo?->breadcrumb_bg_image ?? null;
+                $bcStyle = 'background-color: ' . e($bcColor) . ';';
+                if ($bcImage) $bcStyle .= ' background-image: url(' . e(asset($bcImage)) . '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+            @endphp
             <section class="section-breadcrum">
-                <div class="relative z-10 overflow-hidden bg-[#FAF9F6]">
+                <div class="relative z-10 overflow-hidden" style="{{ $bcStyle }}">
                     <div class="py-[60px] lg:py-[90px]">
                         <div class="container">
                             <div class="text-center">

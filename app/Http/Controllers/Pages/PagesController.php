@@ -1464,6 +1464,9 @@ class PagesController extends Controller
             $shopPageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
+        if ($request->has('breadcrumb_bg_color')) $shopPageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $shopPageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
+
         $shopPageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {

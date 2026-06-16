@@ -310,6 +310,7 @@
 <script>
     function shopEditor() {
         return {
+            bgPopover: false,
             modal: false,
             modalField: '',
             modalLabel: '',
@@ -322,6 +323,8 @@
             modalMaxLength: 0,
 
             fields: {
+                breadcrumb_bg_color: @json($shopPageInfo->breadcrumb_bg_color ?? ''),
+                breadcrumb_bg_image: @json($shopPageInfo->breadcrumb_bg_image ?? ''),
                 // Ürünler
                 products_title: @json(translateAttribute($shopPageInfo, 'products_title', $selectedLang) ?? ''),
                 products_breadcrumb_home: @json(translateAttribute($shopPageInfo, 'products_breadcrumb_home', $selectedLang) ?? ''),
@@ -506,6 +509,17 @@
             getStyleProp(prop) { const s = this.fieldStyles[this.modalField]; return s ? (s[prop] || '') : ''; },
             setStyleProp(prop, value) { if (!this.fieldStyles[this.modalField]) { this.fieldStyles[this.modalField] = {}; } this.fieldStyles[this.modalField][prop] = value; },
             resetFieldStyle() { const defaults = this._getDefaults(this.modalField); this.fieldStyles[this.modalField] = { color: defaults.color || '#011c1a', fontSize: defaults.fontSize || '', fontFamily: '', fontWeight: '', fontStyle: '', textAlign: defaults.textAlign || '', opacity: '' }; },
+
+            getBreadcrumbBgStyle() {
+                const color = this.fields.breadcrumb_bg_color || '#FAF9F6';
+                let style = 'position: relative; z-index: 10; overflow: hidden; background-color: ' + color + ';';
+                const img = this.fields.breadcrumb_bg_image;
+                if (img) {
+                    const url = img.startsWith('http') ? img : (this.baseUrl + '/' + img);
+                    style += ' background-image: url(' + url + '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+                }
+                return style;
+            },
 
             getFieldStyle(field, extraStyle) {
                 const s = this.fieldStyles[field] || {};

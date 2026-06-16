@@ -10,6 +10,7 @@ class ShopPageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         // Ürünler Listesi
         'products_title', 'products_breadcrumb_home', 'products_breadcrumb_current',
         'products_search_placeholder', 'products_search_button', 'products_all_text',
