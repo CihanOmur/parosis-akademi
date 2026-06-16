@@ -408,7 +408,7 @@
             {{-- Breadcrumb --}}
             <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
                      data-label="Arka Plan Gorseli"
-                     @click.self="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                     @click="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
                      :style="getBreadcrumbBgStyle()"
                      style="position: relative; z-index: 10; overflow: hidden; margin: 16px 20px 0; border-radius: 12px; cursor: pointer;">
                 @include('admin.pages.partials.breadcrumb-preview-overlay')
@@ -526,7 +526,12 @@
             <div x-show="pageTab === 'detay'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
             {{-- Detail Breadcrumb --}}
-            <section style="position: relative; z-index: 10; overflow: hidden; background-color: #FAF9F6; margin: 16px 20px 0; border-radius: 12px;">
+            <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
+                     data-label="Arka Plan Gorseli"
+                     @click="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                     :style="getBreadcrumbBgStyle()"
+                     style="position: relative; z-index: 10; overflow: hidden; margin: 16px 20px 0; border-radius: 12px; cursor: pointer;">
+                @include('admin.pages.partials.breadcrumb-preview-overlay')
                 <div style="padding: 40px 0;">
                     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.25rem;">
                         <div style="text-align: center;">

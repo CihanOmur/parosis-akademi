@@ -253,7 +253,7 @@
             <div>
                 <section class="ez ez-img" :class="activeField === 'breadcrumb_bg_image' && 'ez-active'"
                          data-label="Arka Plan Gorseli"
-                         @click.self="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                         @click="openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
                          :style="getBreadcrumbBgStyle()"
                          style="position: relative; z-index: 10; overflow: hidden; cursor: pointer;">
                     {{-- Renk picker overlay (her zaman görünür, sol üst) --}}
