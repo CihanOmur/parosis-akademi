@@ -37,15 +37,12 @@
 <body x-data="{
         sidebarOpen: false,
         sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
-        darkMode: localStorage.getItem('darkMode') === 'true',
     }"
-    :class="{ 'dark': darkMode }"
     x-init="
         $watch('sidebarCollapsed', val => localStorage.setItem('sidebarCollapsed', val));
-        $watch('darkMode', val => localStorage.setItem('darkMode', val));
         $nextTick(() => setTimeout(() => document.body.classList.remove('is-loading'), 50));
     "
-    class="h-full font-[Inter] antialiased bg-slate-100 dark:bg-slate-950 transition-colors duration-300 is-loading">
+    class="h-full font-[Inter] antialiased bg-slate-100 transition-colors duration-300 is-loading">
 
     {{-- Mobile Overlay --}}
     <div x-show="sidebarOpen"
