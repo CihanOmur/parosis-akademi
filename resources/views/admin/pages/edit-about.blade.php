@@ -249,51 +249,65 @@
             {{-- ═══════════ ÜST BÖLÜM ═══════════ --}}
             <div x-show="pageTab === 'ust'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
+            {{-- Breadcrumb Arka Plan Modal — section dışında, ekran ortasında --}}
+            <div x-show="bgPopover" x-cloak
+                 @keydown.escape.window="bgPopover = false"
+                 style="position: fixed; inset: 0; z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(2px);">
+                <div @click.outside="bgPopover = false"
+                     style="width: 100%; max-width: 480px; padding: 24px; background: #ffffff; border-radius: 12px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); font-family: Inter, sans-serif;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+                        <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #0f172a;">Üst Bölüm Arka Planı</h3>
+                        <button type="button" @click="bgPopover = false"
+                                style="border: none; background: transparent; cursor: pointer; padding: 4px; color: #64748b; line-height: 0;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+
+                    {{-- Renk --}}
+                    <label style="display: block; font-size: 13px; color: #475569; font-weight: 600; margin-bottom: 8px;">Arka Plan Rengi</label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <input type="color" :value="fields.breadcrumb_bg_color || '#FAF9F6'"
+                               @input="fields.breadcrumb_bg_color = $event.target.value"
+                               style="width: 48px; height: 38px; padding: 0; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; background: transparent;">
+                        <input type="text" x-model="fields.breadcrumb_bg_color" placeholder="#FAF9F6"
+                               style="flex: 1; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-size: 13px;">
+                        <button type="button" @click="fields.breadcrumb_bg_color = ''" title="Sıfırla"
+                                style="width: 38px; height: 38px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: #64748b; font-size: 16px;">↺</button>
+                    </div>
+
+                    {{-- Görsel --}}
+                    <label style="display: block; font-size: 13px; color: #475569; font-weight: 600; margin-bottom: 8px;">Arka Plan Görseli</label>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <button type="button"
+                                @click="bgPopover = false; openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
+                                style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 14px; background: #0ea5e9; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159M2.25 15.75v3a1.5 1.5 0 0 0 1.5 1.5h16.5a1.5 1.5 0 0 0 1.5-1.5v-3M15.75 8.25h.008v.008h-.008V8.25Z"/></svg>
+                            <span x-text="fields.breadcrumb_bg_image ? 'Görseli Değiştir' : 'Görsel Yükle'"></span>
+                        </button>
+                        <template x-if="fields.breadcrumb_bg_image">
+                            <button type="button" @click="fields.breadcrumb_bg_image = ''"
+                                    style="padding: 10px 14px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;">✕ Kaldır</button>
+                        </template>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end;">
+                        <button type="button" @click="bgPopover = false"
+                                style="padding: 8px 16px; background: #0f172a; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;">Tamam</button>
+                    </div>
+                </div>
+            </div>
+
             {{-- ── Breadcrumb ── --}}
             <div>
-                <section :style="getBreadcrumbBgStyle()"
-                         style="position: relative; z-index: 10; overflow: hidden;">
+                <section :style="getBreadcrumbBgStyle()">
 
                     {{-- Sağ üst Düzenle butonu --}}
-                    <div style="position: absolute; top: 12px; right: 12px; z-index: 50;" @click.outside="bgPopover = false">
-                        <button type="button" @click.stop="bgPopover = !bgPopover"
+                    <div style="position: absolute; top: 12px; right: 12px; z-index: 50;">
+                        <button type="button" @click="bgPopover = true"
                                 style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #1e293b; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-family: Inter, sans-serif; font-size: 12px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z"/></svg>
                             <span>Düzenle</span>
                         </button>
-
-                        {{-- Popover --}}
-                        <div x-show="bgPopover" x-cloak @click.stop
-                             style="position: absolute; top: calc(100% + 6px); right: 0; min-width: 240px; padding: 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-family: Inter, sans-serif; font-size: 12px;">
-                            <div style="font-weight: 700; color: #0f172a; margin-bottom: 10px;">Üst Bölüm Arka Planı</div>
-
-                            {{-- Renk --}}
-                            <label style="display: block; color: #475569; font-weight: 600; margin-bottom: 6px;">Arka Plan Rengi</label>
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                                <input type="color" :value="fields.breadcrumb_bg_color || '#FAF9F6'"
-                                       @input="fields.breadcrumb_bg_color = $event.target.value"
-                                       style="width: 40px; height: 32px; padding: 0; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; background: transparent;">
-                                <input type="text" x-model="fields.breadcrumb_bg_color" placeholder="#FAF9F6"
-                                       style="flex: 1; padding: 6px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: monospace; font-size: 12px;">
-                                <button type="button" @click="fields.breadcrumb_bg_color = ''" title="Sıfırla"
-                                        style="width: 28px; height: 28px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 4px; cursor: pointer; color: #64748b; font-size: 14px;">↺</button>
-                            </div>
-
-                            {{-- Görsel --}}
-                            <label style="display: block; color: #475569; font-weight: 600; margin-bottom: 6px;">Arka Plan Görseli</label>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <button type="button"
-                                        @click="bgPopover = false; openModal('breadcrumb_bg_image', 'Ust Bolum Arka Plan Gorseli', 'image')"
-                                        style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 12px; background: #0ea5e9; color: #ffffff; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159M2.25 15.75v3a1.5 1.5 0 0 0 1.5 1.5h16.5a1.5 1.5 0 0 0 1.5-1.5v-3M15.75 8.25h.008v.008h-.008V8.25Z"/></svg>
-                                    <span x-text="fields.breadcrumb_bg_image ? 'Değiştir' : 'Yükle'"></span>
-                                </button>
-                                <template x-if="fields.breadcrumb_bg_image">
-                                    <button type="button" @click="fields.breadcrumb_bg_image = ''" title="Kaldır"
-                                            style="padding: 8px 12px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;">✕</button>
-                                </template>
-                            </div>
-                        </div>
                     </div>
 
                     <div style="padding: 60px 0;">
