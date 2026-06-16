@@ -11,6 +11,7 @@ class AboutUsPageInfo extends Model
 
     protected $fillable = [
         'cta_enabled',
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         'breadcrumb_title', 'breadcrumb_home', 'breadcrumb_current',
         'section1_label', 'section1_title', 'section1_description', 'section1_features',
         'section1_feature1_title', 'section1_feature1_description', 'section1_feature1_icon',

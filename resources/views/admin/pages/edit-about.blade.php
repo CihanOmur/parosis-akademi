@@ -221,6 +221,7 @@
 
         @include('admin.pages.partials.dev-panel')
 
+        @include('admin.pages.partials.breadcrumb-bg-control')
         @include('admin.pages.partials.cta-visibility-toggle')
 
         {{-- ═════════════ TAB NAVIGATION ═════════════ --}}
@@ -991,6 +992,8 @@ function aboutEditor() {
 
         fields: {
             cta_enabled: @json((bool) ($aboutPageInfo->cta_enabled ?? true)),
+            breadcrumb_bg_color: @json($aboutPageInfo->breadcrumb_bg_color ?? ''),
+            breadcrumb_bg_image: @json($aboutPageInfo->breadcrumb_bg_image ?? ''),
             breadcrumb_title: @json(translateAttribute($aboutPageInfo, 'breadcrumb_title', $selectedLang) ?? ''),
             breadcrumb_home: @json(translateAttribute($aboutPageInfo, 'breadcrumb_home', $selectedLang) ?? ''),
             breadcrumb_current: @json(translateAttribute($aboutPageInfo, 'breadcrumb_current', $selectedLang) ?? ''),

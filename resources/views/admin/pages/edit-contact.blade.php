@@ -422,6 +422,8 @@
 
         @include('admin.pages.partials.dev-panel')
 
+        @include('admin.pages.partials.breadcrumb-bg-control')
+
         {{-- ═══════════════════════════════════════════════════════════════ --}}
         {{-- LIVE PREVIEW --}}
         {{-- ═══════════════════════════════════════════════════════════════ --}}
@@ -1046,6 +1048,8 @@
 
             fields: {
                 cta_enabled: @json((bool) ($contactPageInfo->cta_enabled ?? true)),
+                breadcrumb_bg_color: @json($contactPageInfo->breadcrumb_bg_color ?? ''),
+                breadcrumb_bg_image: @json($contactPageInfo->breadcrumb_bg_image ?? ''),
                 title: @json(translateAttribute($contactPageInfo, 'title', $selectedLang) ?? ''),
                 subtitle: @json(translateAttribute($contactPageInfo, 'subtitle', $selectedLang) ?? ''),
                 content: @json(translateAttribute($contactPageInfo, 'description', $selectedLang) ?? ''),

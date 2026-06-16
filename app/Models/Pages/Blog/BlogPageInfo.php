@@ -11,6 +11,7 @@ class BlogPageInfo extends Model
 
     protected $fillable = [
         'cta_enabled',
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'sidebar_search_title', 'sidebar_search_placeholder',
         'sidebar_categories_title', 'sidebar_popular_title',

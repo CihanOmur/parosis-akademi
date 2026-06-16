@@ -273,6 +273,8 @@
 
         @include('admin.pages.partials.dev-panel')
 
+        @include('admin.pages.partials.breadcrumb-bg-control')
+
         {{-- LIVE PREVIEW --}}
         <div class="lp" style="border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid rgba(226,232,240,0.5);">
 
@@ -715,6 +717,8 @@
 
             fields: {
                 cta_enabled: @json((bool) ($teacherPageInfo->cta_enabled ?? true)),
+                breadcrumb_bg_color: @json($teacherPageInfo->breadcrumb_bg_color ?? ''),
+                breadcrumb_bg_image: @json($teacherPageInfo->breadcrumb_bg_image ?? ''),
                 title: @json(translateAttribute($teacherPageInfo, 'title', $selectedLang) ?? ''),
                 subtitle: @json(translateAttribute($teacherPageInfo, 'subtitle', $selectedLang) ?? ''),
                 cta_label: @json(translateAttribute($teacherPageInfo, 'cta_label', $selectedLang) ?? ''),

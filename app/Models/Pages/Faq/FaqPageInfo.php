@@ -11,6 +11,7 @@ class FaqPageInfo extends Model
 
     protected $fillable = [
         'cta_enabled',
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         'title', 'subtitle', 'description',
         'breadcrumb_home', 'breadcrumb_current',
         'section_label', 'section_title',

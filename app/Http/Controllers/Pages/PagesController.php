@@ -388,6 +388,8 @@ class PagesController extends Controller
         }
 
         if ($request->has('cta_enabled')) $aboutPageInfo->cta_enabled = $request->boolean('cta_enabled');
+        if ($request->has('breadcrumb_bg_color')) $aboutPageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $aboutPageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
 
         $aboutPageInfo->save();
 
@@ -585,6 +587,8 @@ class PagesController extends Controller
         }
 
         if ($request->has('cta_enabled')) $contactPageInfo->cta_enabled = $request->boolean('cta_enabled');
+        if ($request->has('breadcrumb_bg_color')) $contactPageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $contactPageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
 
         $contactPageInfo->save();
 
@@ -703,6 +707,8 @@ class PagesController extends Controller
         }
 
         if ($request->has('cta_enabled')) $faqPageInfo->cta_enabled = $request->boolean('cta_enabled');
+        if ($request->has('breadcrumb_bg_color')) $faqPageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $faqPageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
 
         $faqPageInfo->save();
 
@@ -813,6 +819,8 @@ class PagesController extends Controller
         }
 
         if ($request->has('cta_enabled')) $teacherPageInfo->cta_enabled = $request->boolean('cta_enabled');
+        if ($request->has('breadcrumb_bg_color')) $teacherPageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $teacherPageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
 
         $teacherPageInfo->save();
 
@@ -928,6 +936,8 @@ class PagesController extends Controller
         }
 
         if ($request->has('cta_enabled')) $blogPageInfo->cta_enabled = $request->boolean('cta_enabled');
+        if ($request->has('breadcrumb_bg_color')) $blogPageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $blogPageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
 
         $blogPageInfo->save();
 
@@ -1050,6 +1060,8 @@ class PagesController extends Controller
         }
 
         if ($request->has('cta_enabled')) $coursePageInfo->cta_enabled = $request->boolean('cta_enabled');
+        if ($request->has('breadcrumb_bg_color')) $coursePageInfo->breadcrumb_bg_color = $request->breadcrumb_bg_color ?: null;
+        if ($request->has('breadcrumb_bg_image')) $coursePageInfo->breadcrumb_bg_image = $request->breadcrumb_bg_image ?: null;
 
         $coursePageInfo->save();
 

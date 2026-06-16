@@ -11,6 +11,7 @@ class TeacherPageInfo extends Model
 
     protected $fillable = [
         'cta_enabled',
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         'title', 'subtitle',
         'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'cta_label', 'cta_title', 'cta_description', 'cta_button_text',

@@ -20,8 +20,14 @@
 
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
+            @php
+                $bcColor = $faqPageInfo?->breadcrumb_bg_color ?: '#FAF9F6';
+                $bcImage = $faqPageInfo?->breadcrumb_bg_image ?? null;
+                $bcStyle = 'background-color: ' . e($bcColor) . ';';
+                if ($bcImage) $bcStyle .= ' background-image: url(' . e(asset($bcImage)) . '); background-size: cover; background-position: center; background-repeat: no-repeat;';
+            @endphp
             <section class="section-breadcrum">
-                <div class="relative z-10 overflow-hidden bg-[#FAF9F6]">
+                <div class="relative z-10 overflow-hidden" style="{{ $bcStyle }}">
                     <!-- Section Space -->
                     <div class="py-[60px] lg:py-[90px]">
                         <!-- Section Container -->

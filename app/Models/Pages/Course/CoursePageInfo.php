@@ -11,6 +11,7 @@ class CoursePageInfo extends Model
 
     protected $fillable = [
         'cta_enabled',
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'search_placeholder', 'search_button_text', 'result_text',
         'detail_what_learn_title', 'detail_why_choose_title',

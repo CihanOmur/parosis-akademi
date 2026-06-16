@@ -392,6 +392,8 @@
         {{-- Developer Mode Panel --}}
         @include('admin.pages.partials.dev-panel')
 
+        @include('admin.pages.partials.breadcrumb-bg-control')
+
         {{-- Page Tabs --}}
         <div class="mb-5">
             <div class="page-tabs" style="display: inline-flex;">
@@ -1105,6 +1107,8 @@
 
             fields: {
                 cta_enabled: @json((bool) ($blogPageInfo->cta_enabled ?? true)),
+                breadcrumb_bg_color: @json($blogPageInfo->breadcrumb_bg_color ?? ''),
+                breadcrumb_bg_image: @json($blogPageInfo->breadcrumb_bg_image ?? ''),
                 title: @json(translateAttribute($blogPageInfo, 'title', $selectedLang) ?? ''),
                 breadcrumb_home: @json(translateAttribute($blogPageInfo, 'breadcrumb_home', $selectedLang) ?? ''),
                 breadcrumb_current: @json(translateAttribute($blogPageInfo, 'breadcrumb_current', $selectedLang) ?? ''),

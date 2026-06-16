@@ -11,6 +11,7 @@ class ContactPageInfo extends Model
 
     protected $fillable = [
         'cta_enabled',
+        'breadcrumb_bg_color', 'breadcrumb_bg_image',
         'title', 'subtitle', 'description',
         'form_title', 'form_description',
         'phone_1', 'phone_2', 'email_1', 'email_2',
