@@ -300,6 +300,7 @@
             </div>
             <!--...::: Client Logo Section End :::... -->
 
+            @if(($aboutPageInfo?->cta_enabled ?? true))
             <!--...::: Content Section Start :::... -->
             <section class="section-content">
                 <!-- Section Background -->
@@ -354,6 +355,7 @@
                 <!-- Section Background -->
             </section>
             <!--...::: Content Section End :::... -->
+            @endif
 
             <!--...::: Content Section Start :::... -->
             <section class="section-content">

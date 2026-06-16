@@ -5,10 +5,11 @@
     $locale = app()->getLocale();
 @endphp
 <footer class="section-footer">
+    @php $ctaInfo = $ctaInfo ?? $footerContact; @endphp
+    @if(($ctaInfo?->cta_enabled ?? true))
     <div class="-mt-48">
         <!-- Section Container -->
         <div class="container">
-            @php $ctaInfo = $ctaInfo ?? $footerContact; @endphp
             <!-- CTA Area -->
             <div class="jos relative z-10 grid grid-cols-1 items-end overflow-hidden rounded-lg bg-colorPurpleBlue lg:grid-cols-[0.8fr_1fr] lg:gap-14">
                 <!-- CTA Left Block -->
@@ -69,6 +70,7 @@
         </div>
         <!-- Section Container -->
     </div>
+    @endif
 
     <!-- Footer Top -->
     <div class="relative z-10 overflow-hidden">

@@ -10,6 +10,7 @@ class ContactPageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'title', 'subtitle', 'description',
         'form_title', 'form_description',
         'phone_1', 'phone_2', 'email_1', 'email_2',
@@ -25,6 +26,7 @@ class ContactPageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'phones' => 'array',
         'emails' => 'array',
         'addresses' => 'array',

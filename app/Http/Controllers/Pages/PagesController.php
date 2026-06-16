@@ -208,6 +208,7 @@ class PagesController extends Controller
         }
         if ($request->has('cta_image'))      $homePageInfo->cta_image      = $request->cta_image;
         if ($request->has('cta_button_url')) $homePageInfo->cta_button_url = $request->cta_button_url;
+        if ($request->has('cta_enabled'))    $homePageInfo->cta_enabled    = $request->boolean('cta_enabled');
 
         $homePageInfo->save();
 
@@ -385,6 +386,8 @@ class PagesController extends Controller
         if ($request->has('default_styles')) {
             $aboutPageInfo->default_styles = json_decode($request->default_styles, true);
         }
+
+        if ($request->has('cta_enabled')) $aboutPageInfo->cta_enabled = $request->boolean('cta_enabled');
 
         $aboutPageInfo->save();
 
@@ -581,6 +584,8 @@ class PagesController extends Controller
             $contactPageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
+        if ($request->has('cta_enabled')) $contactPageInfo->cta_enabled = $request->boolean('cta_enabled');
+
         $contactPageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -697,6 +702,8 @@ class PagesController extends Controller
             $faqPageInfo->default_styles = json_decode($request->default_styles, true);
         }
 
+        if ($request->has('cta_enabled')) $faqPageInfo->cta_enabled = $request->boolean('cta_enabled');
+
         $faqPageInfo->save();
 
         if ($request->ajax() || $request->wantsJson()) {
@@ -804,6 +811,8 @@ class PagesController extends Controller
         if ($request->has('default_styles')) {
             $teacherPageInfo->default_styles = json_decode($request->default_styles, true);
         }
+
+        if ($request->has('cta_enabled')) $teacherPageInfo->cta_enabled = $request->boolean('cta_enabled');
 
         $teacherPageInfo->save();
 
@@ -917,6 +926,8 @@ class PagesController extends Controller
         if ($request->has('default_styles')) {
             $blogPageInfo->default_styles = json_decode($request->default_styles, true);
         }
+
+        if ($request->has('cta_enabled')) $blogPageInfo->cta_enabled = $request->boolean('cta_enabled');
 
         $blogPageInfo->save();
 
@@ -1037,6 +1048,8 @@ class PagesController extends Controller
         if ($request->has('default_styles')) {
             $coursePageInfo->default_styles = json_decode($request->default_styles, true);
         }
+
+        if ($request->has('cta_enabled')) $coursePageInfo->cta_enabled = $request->boolean('cta_enabled');
 
         $coursePageInfo->save();
 

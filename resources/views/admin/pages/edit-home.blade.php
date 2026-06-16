@@ -724,6 +724,8 @@
             {{-- ── Section divider ── --}}
             <div style="padding: 2rem 1.25rem;"><div style="border-top: 2px dashed #E5E7EB; margin: 0 auto; max-width: 1200px; position: relative;"><span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; padding: 0 16px; font-size: 0.75rem; font-weight: 700; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; font-family: Inter, sans-serif;">CTA</span></div></div>
 
+            @include('admin.pages.partials.cta-visibility-toggle', ['ctaInfo' => $homePageInfo])
+
             {{-- ── CTA Section ── --}}
             <div>
                 <div style="background: white; padding: 40px 0;">
@@ -1005,6 +1007,7 @@ function homeEditor() {
         baseUrl: @json(url('/')),
 
         fields: {
+            cta_enabled: @json((bool) ($homePageInfo->cta_enabled ?? true)),
             welcome_label: @json(translateAttribute($homePageInfo, 'welcome_label', $selectedLang) ?? ''),
             welcome_title: @json(translateAttribute($homePageInfo, 'welcome_title', $selectedLang) ?? ''),
             welcome_description: @json(translateAttribute($homePageInfo, 'welcome_description', $selectedLang) ?? ''),
@@ -1526,6 +1529,8 @@ function homeEditor() {
                 for (const [key, value] of Object.entries(this.fields)) {
                     if (jsonFields.includes(key)) {
                         formData.append(key, JSON.stringify(value));
+                    } else if (key === 'cta_enabled') {
+                        formData.append(key, value ? 1 : 0);
                     } else {
                         formData.append(key, value || '');
                     }

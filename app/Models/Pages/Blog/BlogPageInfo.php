@@ -10,6 +10,7 @@ class BlogPageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'sidebar_search_title', 'sidebar_search_placeholder',
         'sidebar_categories_title', 'sidebar_popular_title',
@@ -23,6 +24,7 @@ class BlogPageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'field_styles' => 'array',
         'default_styles' => 'array',
     ];

@@ -10,6 +10,7 @@ class TeacherPageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'title', 'subtitle',
         'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'cta_label', 'cta_title', 'cta_description', 'cta_button_text',
@@ -18,6 +19,7 @@ class TeacherPageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'field_styles' => 'array',
         'default_styles' => 'array',
     ];

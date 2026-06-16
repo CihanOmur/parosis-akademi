@@ -452,6 +452,8 @@
             {{-- ── Section divider ── --}}
             <div style="padding: 2rem 1.25rem;"><div style="border-top: 2px dashed #E5E7EB; margin: 0 auto; max-width: 1200px; position: relative;"><span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; padding: 0 16px; font-size: 0.75rem; font-weight: 700; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; font-family: Inter, sans-serif;">CTA</span></div></div>
 
+            @include('admin.pages.partials.cta-visibility-toggle')
+
             {{-- ── CTA ── --}}
             <div>
                 <div style="position: relative; z-index: 10; overflow: hidden; background: rgb(84 62 232); border-radius: 8px; margin: 1.5rem; display: grid; grid-template-columns: 0.8fr 1fr; gap: 56px;">
@@ -988,6 +990,7 @@ function aboutEditor() {
         baseUrl: @json(url('/')),
 
         fields: {
+            cta_enabled: @json((bool) ($aboutPageInfo->cta_enabled ?? true)),
             breadcrumb_title: @json(translateAttribute($aboutPageInfo, 'breadcrumb_title', $selectedLang) ?? ''),
             breadcrumb_home: @json(translateAttribute($aboutPageInfo, 'breadcrumb_home', $selectedLang) ?? ''),
             breadcrumb_current: @json(translateAttribute($aboutPageInfo, 'breadcrumb_current', $selectedLang) ?? ''),
@@ -1461,6 +1464,8 @@ function aboutEditor() {
                 for (const [key, value] of Object.entries(this.fields)) {
                     if (key === 'section1_features' || key === 'section2_features') {
                         formData.append(key, JSON.stringify(value));
+                    } else if (key === 'cta_enabled') {
+                        formData.append(key, value ? 1 : 0);
                     } else {
                         formData.append(key, value || '');
                     }

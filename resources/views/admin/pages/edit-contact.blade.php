@@ -608,6 +608,8 @@
                 </div>
             </div>
 
+            @include('admin.pages.partials.cta-visibility-toggle')
+
             {{-- ── CTA Section ── --}}
             <div style="position: relative; z-index: 10; overflow: hidden; background: rgb(84 62 232); border-radius: 8px; margin: 1.5rem; display: grid; grid-template-columns: 0.8fr 1fr; gap: 56px;">
                 {{-- CTA Image --}}
@@ -1043,6 +1045,7 @@
             listIndex: -1,
 
             fields: {
+                cta_enabled: @json((bool) ($contactPageInfo->cta_enabled ?? true)),
                 title: @json(translateAttribute($contactPageInfo, 'title', $selectedLang) ?? ''),
                 subtitle: @json(translateAttribute($contactPageInfo, 'subtitle', $selectedLang) ?? ''),
                 content: @json(translateAttribute($contactPageInfo, 'description', $selectedLang) ?? ''),
@@ -1295,7 +1298,11 @@
                     formData.append('default_styles', JSON.stringify(JSON.parse(JSON.stringify(this.customDefaults))));
 
                     for (const [key, value] of Object.entries(this.fields)) {
-                        formData.append(key, value || '');
+                        if (key === 'cta_enabled') {
+                            formData.append(key, value ? 1 : 0);
+                        } else {
+                            formData.append(key, value || '');
+                        }
                     }
 
                     // Append dynamic arrays as JSON

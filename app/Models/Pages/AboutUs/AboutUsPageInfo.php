@@ -10,6 +10,7 @@ class AboutUsPageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'breadcrumb_title', 'breadcrumb_home', 'breadcrumb_current',
         'section1_label', 'section1_title', 'section1_description', 'section1_features',
         'section1_feature1_title', 'section1_feature1_description', 'section1_feature1_icon',
@@ -27,6 +28,7 @@ class AboutUsPageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'section1_features' => 'array',
         'field_styles' => 'array',
         'default_styles' => 'array',

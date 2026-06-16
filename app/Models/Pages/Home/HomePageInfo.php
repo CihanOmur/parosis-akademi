@@ -10,6 +10,7 @@ class HomePageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'welcome_label', 'welcome_title', 'welcome_description', 'welcome_features',
         'welcome_image', 'welcome_stat_number', 'welcome_stat_text',
         'categories_label', 'categories_title', 'categories_button_text', 'categories_button_url',
@@ -28,6 +29,7 @@ class HomePageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'welcome_features' => 'array',
         'features' => 'array',
         'why_items' => 'array',

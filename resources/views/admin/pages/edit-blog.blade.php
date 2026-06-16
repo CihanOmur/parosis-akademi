@@ -731,6 +731,8 @@
             {{-- ═══ TAB 3: CTA ═══ --}}
             <div x-show="pageTab === 'cta'" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
 
+            @include('admin.pages.partials.cta-visibility-toggle')
+
             <div style="padding: 16px 20px 20px; background: white;">
                 <div style="position: relative; z-index: 10; overflow: hidden; background: rgb(84 62 232); border-radius: 16px; display: grid; grid-template-columns: 0.8fr 1fr; gap: 56px;">
                     {{-- CTA Image --}}
@@ -1096,6 +1098,7 @@
             modalMaxLength: 0,
 
             fields: {
+                cta_enabled: @json((bool) ($blogPageInfo->cta_enabled ?? true)),
                 title: @json(translateAttribute($blogPageInfo, 'title', $selectedLang) ?? ''),
                 breadcrumb_home: @json(translateAttribute($blogPageInfo, 'breadcrumb_home', $selectedLang) ?? ''),
                 breadcrumb_current: @json(translateAttribute($blogPageInfo, 'breadcrumb_current', $selectedLang) ?? ''),
@@ -1375,7 +1378,11 @@
                     formData.append('_token', '{{ csrf_token() }}');
 
                     for (const [key, value] of Object.entries(this.fields)) {
-                        formData.append(key, value || '');
+                        if (key === 'cta_enabled') {
+                            formData.append(key, value ? 1 : 0);
+                        } else {
+                            formData.append(key, value || '');
+                        }
                     }
 
                     // Field styles

@@ -10,6 +10,7 @@ class FaqPageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'title', 'subtitle', 'description',
         'breadcrumb_home', 'breadcrumb_current',
         'section_label', 'section_title',
@@ -23,6 +24,7 @@ class FaqPageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'field_styles' => 'array',
         'default_styles' => 'array',
     ];

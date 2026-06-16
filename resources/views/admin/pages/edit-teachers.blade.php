@@ -350,6 +350,8 @@
                 </div>
             </div>
 
+            @include('admin.pages.partials.cta-visibility-toggle')
+
             {{-- ── CTA Section ── --}}
             <div style="position: relative; z-index: 10; overflow: hidden; background: rgb(84 62 232); border-radius: 8px; margin: 1.5rem; display: grid; grid-template-columns: 0.8fr 1fr; gap: 56px;">
                 {{-- CTA Image --}}
@@ -712,6 +714,7 @@
             modalMaxLength: 0,
 
             fields: {
+                cta_enabled: @json((bool) ($teacherPageInfo->cta_enabled ?? true)),
                 title: @json(translateAttribute($teacherPageInfo, 'title', $selectedLang) ?? ''),
                 subtitle: @json(translateAttribute($teacherPageInfo, 'subtitle', $selectedLang) ?? ''),
                 cta_label: @json(translateAttribute($teacherPageInfo, 'cta_label', $selectedLang) ?? ''),
@@ -909,7 +912,11 @@
                     formData.append('_token', '{{ csrf_token() }}');
 
                     for (const [key, value] of Object.entries(this.fields)) {
-                        formData.append(key, value || '');
+                        if (key === 'cta_enabled') {
+                            formData.append(key, value ? 1 : 0);
+                        } else {
+                            formData.append(key, value || '');
+                        }
                     }
 
                     formData.append('field_styles', JSON.stringify(this.fieldStyles));

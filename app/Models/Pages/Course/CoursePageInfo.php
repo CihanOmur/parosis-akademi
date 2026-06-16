@@ -10,6 +10,7 @@ class CoursePageInfo extends Model
     use HasTranslations;
 
     protected $fillable = [
+        'cta_enabled',
         'title', 'breadcrumb_home', 'breadcrumb_current', 'detail_breadcrumb_current',
         'search_placeholder', 'search_button_text', 'result_text',
         'detail_what_learn_title', 'detail_why_choose_title',
@@ -27,6 +28,7 @@ class CoursePageInfo extends Model
     ];
 
     protected $casts = [
+        'cta_enabled' => 'boolean',
         'field_styles' => 'array',
         'default_styles' => 'array',
     ];
