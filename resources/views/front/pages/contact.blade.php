@@ -21,8 +21,8 @@
 @section('content')
             <!--...::: Breadcrumb Section Start :::... -->
             @php
-                $bcColor = $contactPageInfo?->breadcrumb_bg_color ?: '#FAF9F6';
-                $bcImage = $contactPageInfo?->breadcrumb_bg_image ?? null;
+                $bcColor = $contactInfo?->breadcrumb_bg_color ?: '#FAF9F6';
+                $bcImage = $contactInfo?->breadcrumb_bg_image ?? null;
                 $bcStyle = 'background-color: ' . e($bcColor) . ';';
                 if ($bcImage) $bcStyle .= ' background-image: url(' . e(asset($bcImage)) . '); background-size: cover; background-position: center; background-repeat: no-repeat;';
             @endphp
