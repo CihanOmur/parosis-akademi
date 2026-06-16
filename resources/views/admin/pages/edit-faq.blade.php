@@ -771,6 +771,7 @@
 <script>
     function faqEditor() {
         return {
+            bgPopover: false,
             modal: false,
             modalField: '',
             modalLabel: '',

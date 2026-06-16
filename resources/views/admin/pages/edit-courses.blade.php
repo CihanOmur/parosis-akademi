@@ -1106,6 +1106,7 @@
 <script>
     function courseEditor() {
         return {
+            bgPopover: false,
             modal: false,
             modalField: '',
             modalLabel: '',

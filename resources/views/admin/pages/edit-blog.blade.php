@@ -1091,6 +1091,7 @@
 <script>
     function blogEditor() {
         return {
+            bgPopover: false,
             modal: false,
             modalField: '',
             modalLabel: '',

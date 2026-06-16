@@ -969,6 +969,7 @@
 <script>
     function contactEditor() {
         return {
+            bgPopover: false,
             modal: false,
             modalField: '',
             modalLabel: '',

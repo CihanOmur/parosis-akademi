@@ -699,6 +699,7 @@
 <script>
     function teachersEditor() {
         return {
+            bgPopover: false,
             modal: false,
             modalField: '',
             modalLabel: '',
