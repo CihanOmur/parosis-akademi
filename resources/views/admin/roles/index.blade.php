@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Roller</h1>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Tüm rolleri ve izinlerini yönetin</p>
     </div>
-    @can('user')
+    @can('role')
         <a href="{{ route('roles.create') }}"
            class="inline-flex items-center gap-2 px-6 py-3
                   bg-gradient-to-r from-fuchsia-500 to-purple-500
@@ -85,7 +85,7 @@
                             {{-- İşlemler --}}
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-1">
-                                    @can('user')
+                                    @can('role')
                                         <a href="{{ route('roles.edit', $role->id) }}"
                                            class="p-2 text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400
                                                   hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20

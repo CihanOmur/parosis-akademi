@@ -64,12 +64,12 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
     // ─── Rol Yönetimi ────────────────────────────────────────────────────────────
     Route::prefix('roles')->name('roles.')->group(function () {
-        Route::get('/',              [RoleController::class, 'index'])->name('index')->middleware('permission:user');
-        Route::get('/create',        [RoleController::class, 'create'])->name('create')->middleware('permission:user');
-        Route::post('/store',        [RoleController::class, 'store'])->name('store')->middleware('permission:user');
-        Route::get('/{id}/edit',     [RoleController::class, 'edit'])->name('edit')->middleware('permission:user');
-        Route::post('/{id}/update',  [RoleController::class, 'update'])->name('update')->middleware('permission:user');
-        Route::delete('/{id}',       [RoleController::class, 'delete'])->name('delete')->middleware('permission:user_delete');
+        Route::get('/',              [RoleController::class, 'index'])->name('index')->middleware('permission:role|role_delete');
+        Route::get('/create',        [RoleController::class, 'create'])->name('create')->middleware('permission:role');
+        Route::post('/store',        [RoleController::class, 'store'])->name('store')->middleware('permission:role');
+        Route::get('/{id}/edit',     [RoleController::class, 'edit'])->name('edit')->middleware('permission:role');
+        Route::post('/{id}/update',  [RoleController::class, 'update'])->name('update')->middleware('permission:role');
+        Route::delete('/{id}',       [RoleController::class, 'delete'])->name('delete')->middleware('permission:role_delete');
     });
 
     // ─── Kullanıcı Yönetimi ──────────────────────────────────────────────────────
@@ -147,87 +147,87 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
     // ─── SSS Yönetimi (CRUD) ──────────────────────────────────────────────────
     Route::prefix('faq')->name('faq.')->group(function () {
-        Route::get('/',              [FaqController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [FaqController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [FaqController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [FaqController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [FaqController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [FaqController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [FaqController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [FaqController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [FaqController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [FaqController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [FaqController::class, 'index'])->name('index')->middleware('permission:faq|faq_delete');
+        Route::get('/create',        [FaqController::class, 'create'])->name('create')->middleware('permission:faq');
+        Route::post('/store',        [FaqController::class, 'store'])->name('store')->middleware('permission:faq');
+        Route::get('/{id}/edit',     [FaqController::class, 'edit'])->name('edit')->middleware('permission:faq');
+        Route::post('/{id}/update',  [FaqController::class, 'update'])->name('update')->middleware('permission:faq');
+        Route::delete('/{id}',       [FaqController::class, 'delete'])->name('delete')->middleware('permission:faq_delete');
+        Route::post('/update-order', [FaqController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:faq');
+        Route::post('/{id}/toggle',  [FaqController::class, 'toggleActive'])->name('toggle')->middleware('permission:faq');
+        Route::get('/{id}/translate/{lang}', [FaqController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:faq');
+        Route::post('/{id}/translate',       [FaqController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:faq');
     });
 
     // ─── Eğitmen Yönetimi (CRUD) ────────────────────────────────────────────────
     Route::prefix('teachers')->name('teachers.')->group(function () {
-        Route::get('/',              [TeacherController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [TeacherController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [TeacherController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [TeacherController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [TeacherController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [TeacherController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [TeacherController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [TeacherController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [TeacherController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [TeacherController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [TeacherController::class, 'index'])->name('index')->middleware('permission:teacher|teacher_delete');
+        Route::get('/create',        [TeacherController::class, 'create'])->name('create')->middleware('permission:teacher');
+        Route::post('/store',        [TeacherController::class, 'store'])->name('store')->middleware('permission:teacher');
+        Route::get('/{id}/edit',     [TeacherController::class, 'edit'])->name('edit')->middleware('permission:teacher');
+        Route::post('/{id}/update',  [TeacherController::class, 'update'])->name('update')->middleware('permission:teacher');
+        Route::delete('/{id}',       [TeacherController::class, 'delete'])->name('delete')->middleware('permission:teacher_delete');
+        Route::post('/update-order', [TeacherController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:teacher');
+        Route::post('/{id}/toggle',  [TeacherController::class, 'toggleActive'])->name('toggle')->middleware('permission:teacher');
+        Route::get('/{id}/translate/{lang}', [TeacherController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:teacher');
+        Route::post('/{id}/translate',       [TeacherController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:teacher');
     });
 
     // ─── Blog Yönetimi (CRUD) ────────────────────────────────────────────────
     Route::prefix('blogs')->name('blogs.')->group(function () {
-        Route::get('/',              [BlogController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [BlogController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [BlogController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [BlogController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [BlogController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [BlogController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [BlogController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [BlogController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [BlogController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [BlogController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
-        Route::post('/upload-image',         [BlogController::class, 'uploadImage'])->name('uploadImage')->middleware('permission:content');
+        Route::get('/',              [BlogController::class, 'index'])->name('index')->middleware('permission:blog|blog_delete');
+        Route::get('/create',        [BlogController::class, 'create'])->name('create')->middleware('permission:blog');
+        Route::post('/store',        [BlogController::class, 'store'])->name('store')->middleware('permission:blog');
+        Route::get('/{id}/edit',     [BlogController::class, 'edit'])->name('edit')->middleware('permission:blog');
+        Route::post('/{id}/update',  [BlogController::class, 'update'])->name('update')->middleware('permission:blog');
+        Route::delete('/{id}',       [BlogController::class, 'delete'])->name('delete')->middleware('permission:blog_delete');
+        Route::post('/update-order', [BlogController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:blog');
+        Route::post('/{id}/toggle',  [BlogController::class, 'toggleActive'])->name('toggle')->middleware('permission:blog');
+        Route::get('/{id}/translate/{lang}', [BlogController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:blog');
+        Route::post('/{id}/translate',       [BlogController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:blog');
+        Route::post('/upload-image',         [BlogController::class, 'uploadImage'])->name('uploadImage')->middleware('permission:blog');
     });
 
     // ─── Blog Kategorileri ──────────────────────────────────────────────────
     Route::prefix('blog-categories')->name('blogCategories.')->group(function () {
-        Route::get('/',              [BlogCategoryController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [BlogCategoryController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [BlogCategoryController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [BlogCategoryController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [BlogCategoryController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [BlogCategoryController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [BlogCategoryController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [BlogCategoryController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [BlogCategoryController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [BlogCategoryController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [BlogCategoryController::class, 'index'])->name('index')->middleware('permission:blog|blog_delete');
+        Route::get('/create',        [BlogCategoryController::class, 'create'])->name('create')->middleware('permission:blog');
+        Route::post('/store',        [BlogCategoryController::class, 'store'])->name('store')->middleware('permission:blog');
+        Route::get('/{id}/edit',     [BlogCategoryController::class, 'edit'])->name('edit')->middleware('permission:blog');
+        Route::post('/{id}/update',  [BlogCategoryController::class, 'update'])->name('update')->middleware('permission:blog');
+        Route::delete('/{id}',       [BlogCategoryController::class, 'delete'])->name('delete')->middleware('permission:blog_delete');
+        Route::post('/update-order', [BlogCategoryController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:blog');
+        Route::post('/{id}/toggle',  [BlogCategoryController::class, 'toggleActive'])->name('toggle')->middleware('permission:blog');
+        Route::get('/{id}/translate/{lang}', [BlogCategoryController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:blog');
+        Route::post('/{id}/translate',       [BlogCategoryController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:blog');
     });
 
     // ─── Blog Etiketleri ────────────────────────────────────────────────────
     Route::prefix('blog-tags')->name('blogTags.')->group(function () {
-        Route::get('/',              [BlogTagController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [BlogTagController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [BlogTagController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [BlogTagController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [BlogTagController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [BlogTagController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [BlogTagController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [BlogTagController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [BlogTagController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [BlogTagController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [BlogTagController::class, 'index'])->name('index')->middleware('permission:blog|blog_delete');
+        Route::get('/create',        [BlogTagController::class, 'create'])->name('create')->middleware('permission:blog');
+        Route::post('/store',        [BlogTagController::class, 'store'])->name('store')->middleware('permission:blog');
+        Route::get('/{id}/edit',     [BlogTagController::class, 'edit'])->name('edit')->middleware('permission:blog');
+        Route::post('/{id}/update',  [BlogTagController::class, 'update'])->name('update')->middleware('permission:blog');
+        Route::delete('/{id}',       [BlogTagController::class, 'delete'])->name('delete')->middleware('permission:blog_delete');
+        Route::post('/update-order', [BlogTagController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:blog');
+        Route::post('/{id}/toggle',  [BlogTagController::class, 'toggleActive'])->name('toggle')->middleware('permission:blog');
+        Route::get('/{id}/translate/{lang}', [BlogTagController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:blog');
+        Route::post('/{id}/translate',       [BlogTagController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:blog');
     });
 
     // ─── Kurs Yönetimi (CRUD) ──────────────────────────────────────────────────
     Route::prefix('courses')->name('courses.')->group(function () {
-        Route::get('/',              [CourseController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [CourseController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [CourseController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [CourseController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [CourseController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [CourseController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [CourseController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [CourseController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [CourseController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [CourseController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [CourseController::class, 'index'])->name('index')->middleware('permission:course|course_delete');
+        Route::get('/create',        [CourseController::class, 'create'])->name('create')->middleware('permission:course');
+        Route::post('/store',        [CourseController::class, 'store'])->name('store')->middleware('permission:course');
+        Route::get('/{id}/edit',     [CourseController::class, 'edit'])->name('edit')->middleware('permission:course');
+        Route::post('/{id}/update',  [CourseController::class, 'update'])->name('update')->middleware('permission:course');
+        Route::delete('/{id}',       [CourseController::class, 'delete'])->name('delete')->middleware('permission:course_delete');
+        Route::post('/update-order', [CourseController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:course');
+        Route::post('/{id}/toggle',  [CourseController::class, 'toggleActive'])->name('toggle')->middleware('permission:course');
+        Route::get('/{id}/translate/{lang}', [CourseController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:course');
+        Route::post('/{id}/translate',       [CourseController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:course');
     });
 
     // ─── Danışmanlık Kurumları ────────────────────────────────────────────────
@@ -258,57 +258,57 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
     });
 
     Route::prefix('course-categories')->name('courseCategories.')->group(function () {
-        Route::get('/',              [CourseCategoryController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [CourseCategoryController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [CourseCategoryController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [CourseCategoryController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [CourseCategoryController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [CourseCategoryController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [CourseCategoryController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [CourseCategoryController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [CourseCategoryController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [CourseCategoryController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [CourseCategoryController::class, 'index'])->name('index')->middleware('permission:course|course_delete');
+        Route::get('/create',        [CourseCategoryController::class, 'create'])->name('create')->middleware('permission:course');
+        Route::post('/store',        [CourseCategoryController::class, 'store'])->name('store')->middleware('permission:course');
+        Route::get('/{id}/edit',     [CourseCategoryController::class, 'edit'])->name('edit')->middleware('permission:course');
+        Route::post('/{id}/update',  [CourseCategoryController::class, 'update'])->name('update')->middleware('permission:course');
+        Route::delete('/{id}',       [CourseCategoryController::class, 'delete'])->name('delete')->middleware('permission:course_delete');
+        Route::post('/update-order', [CourseCategoryController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:course');
+        Route::post('/{id}/toggle',  [CourseCategoryController::class, 'toggleActive'])->name('toggle')->middleware('permission:course');
+        Route::get('/{id}/translate/{lang}', [CourseCategoryController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:course');
+        Route::post('/{id}/translate',       [CourseCategoryController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:course');
     });
 
     // ─── Öğrenci Yorumları ───────────────────────────────────────────────────────
     Route::prefix('testimonials')->name('testimonials.')->group(function () {
-        Route::get('/',              [TestimonialController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [TestimonialController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [TestimonialController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [TestimonialController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [TestimonialController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [TestimonialController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [TestimonialController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [TestimonialController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
-        Route::get('/{id}/translate/{lang}', [TestimonialController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:content');
-        Route::post('/{id}/translate',       [TestimonialController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:content');
+        Route::get('/',              [TestimonialController::class, 'index'])->name('index')->middleware('permission:testimonial|testimonial_delete');
+        Route::get('/create',        [TestimonialController::class, 'create'])->name('create')->middleware('permission:testimonial');
+        Route::post('/store',        [TestimonialController::class, 'store'])->name('store')->middleware('permission:testimonial');
+        Route::get('/{id}/edit',     [TestimonialController::class, 'edit'])->name('edit')->middleware('permission:testimonial');
+        Route::post('/{id}/update',  [TestimonialController::class, 'update'])->name('update')->middleware('permission:testimonial');
+        Route::delete('/{id}',       [TestimonialController::class, 'delete'])->name('delete')->middleware('permission:testimonial_delete');
+        Route::post('/update-order', [TestimonialController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:testimonial');
+        Route::post('/{id}/toggle',  [TestimonialController::class, 'toggleActive'])->name('toggle')->middleware('permission:testimonial');
+        Route::get('/{id}/translate/{lang}', [TestimonialController::class, 'editTranslate'])->name('editTranslate')->middleware('permission:testimonial');
+        Route::post('/{id}/translate',       [TestimonialController::class, 'updateTranslate'])->name('updateTranslate')->middleware('permission:testimonial');
     });
 
     // ─── İş Ortağı Logoları ──────────────────────────────────────────────────────
     Route::prefix('client-logos')->name('client-logos.')->group(function () {
-        Route::get('/',              [ClientLogoController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [ClientLogoController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [ClientLogoController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [ClientLogoController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [ClientLogoController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [ClientLogoController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [ClientLogoController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [ClientLogoController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
+        Route::get('/',              [ClientLogoController::class, 'index'])->name('index')->middleware('permission:client_logo|client_logo_delete');
+        Route::get('/create',        [ClientLogoController::class, 'create'])->name('create')->middleware('permission:client_logo');
+        Route::post('/store',        [ClientLogoController::class, 'store'])->name('store')->middleware('permission:client_logo');
+        Route::get('/{id}/edit',     [ClientLogoController::class, 'edit'])->name('edit')->middleware('permission:client_logo');
+        Route::post('/{id}/update',  [ClientLogoController::class, 'update'])->name('update')->middleware('permission:client_logo');
+        Route::delete('/{id}',       [ClientLogoController::class, 'delete'])->name('delete')->middleware('permission:client_logo_delete');
+        Route::post('/update-order', [ClientLogoController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:client_logo');
+        Route::post('/{id}/toggle',  [ClientLogoController::class, 'toggleActive'])->name('toggle')->middleware('permission:client_logo');
     });
 
     // ─── Slider Yönetimi ────────────────────────────────────────────────────────
     Route::prefix('sliders')->name('sliders.')->group(function () {
-        Route::get('/',              [SliderController::class, 'index'])->name('index')->middleware('permission:content|content_delete');
-        Route::get('/create',        [SliderController::class, 'create'])->name('create')->middleware('permission:content');
-        Route::post('/store',        [SliderController::class, 'store'])->name('store')->middleware('permission:content');
-        Route::get('/{id}/edit',     [SliderController::class, 'edit'])->name('edit')->middleware('permission:content');
-        Route::post('/{id}/update',  [SliderController::class, 'update'])->name('update')->middleware('permission:content');
-        Route::delete('/{id}',       [SliderController::class, 'delete'])->name('delete')->middleware('permission:content_delete');
-        Route::post('/update-order', [SliderController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:content');
-        Route::post('/{id}/toggle',  [SliderController::class, 'toggleActive'])->name('toggle')->middleware('permission:content');
+        Route::get('/',              [SliderController::class, 'index'])->name('index')->middleware('permission:slider|slider_delete');
+        Route::get('/create',        [SliderController::class, 'create'])->name('create')->middleware('permission:slider');
+        Route::post('/store',        [SliderController::class, 'store'])->name('store')->middleware('permission:slider');
+        Route::get('/{id}/edit',     [SliderController::class, 'edit'])->name('edit')->middleware('permission:slider');
+        Route::post('/{id}/update',  [SliderController::class, 'update'])->name('update')->middleware('permission:slider');
+        Route::delete('/{id}',       [SliderController::class, 'delete'])->name('delete')->middleware('permission:slider_delete');
+        Route::post('/update-order', [SliderController::class, 'updateOrder'])->name('updateOrder')->middleware('permission:slider');
+        Route::post('/{id}/toggle',  [SliderController::class, 'toggleActive'])->name('toggle')->middleware('permission:slider');
 
         // Slider Items
-        Route::prefix('/{sliderId}/items')->name('items.')->middleware('permission:content')->group(function () {
+        Route::prefix('/{sliderId}/items')->name('items.')->middleware('permission:slider')->group(function () {
             Route::get('/',              [SliderItemController::class, 'index'])->name('index');
             Route::get('/create',        [SliderItemController::class, 'create'])->name('create');
             Route::post('/store',        [SliderItemController::class, 'store'])->name('store');
@@ -446,8 +446,8 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
 
     });
 
-    // ─── Sidebar Tema (settings izni) ────────────────────────────────────────
-    Route::prefix('theme')->name('theme.')->middleware('permission:settings')->group(function () {
+    // ─── Sidebar Tema (theme izni) ───────────────────────────────────────────
+    Route::prefix('theme')->name('theme.')->middleware('permission:theme')->group(function () {
         Route::get('/',         [\App\Http\Controllers\Theme\ThemeController::class, 'edit'])->name('edit');
         Route::post('/',        [\App\Http\Controllers\Theme\ThemeController::class, 'update'])->name('update');
         Route::post('/reset',   [\App\Http\Controllers\Theme\ThemeController::class, 'reset'])->name('reset');

@@ -66,7 +66,7 @@
         {{-- ============================== --}}
         {{-- Bölüm: Eğitim                  --}}
         {{-- ============================== --}}
-        @canany(['class', 'class_delete', 'student', 'student_delete', 'accounting', 'content', 'content_delete', 'shop', 'shop_delete', 'page'])
+        @canany(['class', 'class_delete', 'student', 'student_delete', 'accounting', 'course', 'course_delete', 'shop', 'shop_delete', 'page', 'consulting_institution'])
             <div class="pt-4">
                 <p x-show="!sidebarCollapsed" x-transition
                    class="px-3 text-xs font-medium uppercase text-slate-400 dark:text-slate-500 mb-2 hidden lg:block">
@@ -79,7 +79,7 @@
         @endcanany
 
         {{-- Kurslar Dropdown (Sınıflar, Kayıtlar, Kurs, Kategoriler) --}}
-        @canany(['class', 'class_delete', 'student', 'student_delete', 'accounting', 'content', 'content_delete'])
+        @canany(['class', 'class_delete', 'student', 'student_delete', 'accounting', 'course', 'course_delete', 'consulting_institution'])
         @php $isKursActive = Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('consultingInstitutions.*'); @endphp
         <div class="group/kurs relative">
             <button @click="openMenu = openMenu === 'kurs' ? '' : 'kurs'"
@@ -131,7 +131,7 @@
                         Kayıtlar
                     </a>
                 @endcanany
-                @canany(['content', 'content_delete'])
+                @canany(['course', 'course_delete'])
                     <a href="{{ route('courses.index') }}"
                        class="block px-3 py-2 rounded-lg text-sm transition-colors
                               {{ Route::is('courses.*')
@@ -180,7 +180,7 @@
                                 Kayıtlar
                             </a>
                         @endcanany
-                        @canany(['content', 'content_delete'])
+                        @canany(['course', 'course_delete'])
                             <a href="{{ route('courses.index') }}"
                                class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
                                       {{ Route::is('courses.*')
@@ -196,7 +196,7 @@
                                 Kategoriler
                             </a>
                         @endcanany
-                        @canany(['student', 'content'])
+                        @canany(['consulting_institution'])
                             <a href="{{ route('consultingInstitutions.index') }}"
                                class="block px-3 py-2 text-sm rounded-lg mx-1 transition-colors
                                       {{ Route::is('consultingInstitutions.*')
@@ -212,7 +212,7 @@
         @endcanany
 
         {{-- Eğitmenler --}}
-        @canany(['content', 'content_delete'])
+        @canany(['teacher', 'teacher_delete'])
         @php $isTeachers = Route::is('teachers.*'); @endphp
         <a href="{{ route('teachers.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -393,7 +393,7 @@
         @endcan
 
         {{-- Blog Dropdown --}}
-        @canany(['content', 'content_delete'])
+        @canany(['blog', 'blog_delete'])
         @php $isBlogActive = Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*'); @endphp
         <div class="group/blog relative">
             <button @click="openMenu = openMenu === 'blog' ? '' : 'blog'"
@@ -482,7 +482,7 @@
         @endcanany
 
         {{-- İş Ortakları --}}
-        @canany(['content', 'content_delete'])
+        @canany(['client_logo', 'client_logo_delete'])
         @php $isClientLogos = Route::is('client-logos.*'); @endphp
         <a href="{{ route('client-logos.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -503,7 +503,7 @@
         @endcanany
 
         {{-- SSS --}}
-        @canany(['content', 'content_delete'])
+        @canany(['faq', 'faq_delete'])
         @php $isFaq = Route::is('faq.*'); @endphp
         <a href="{{ route('faq.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -526,7 +526,7 @@
         {{-- ============================== --}}
         {{-- Bölüm: Görünüm                 --}}
         {{-- ============================== --}}
-        @canany(['content', 'content_delete', 'menu', 'language'])
+        @canany(['slider', 'slider_delete', 'menu', 'language'])
             <div class="pt-4">
                 <p x-show="!sidebarCollapsed" x-transition
                    class="px-3 text-xs font-medium uppercase text-slate-400 dark:text-slate-500 mb-2 hidden lg:block">
@@ -539,7 +539,7 @@
         @endcanany
 
         {{-- Slider --}}
-        @canany(['content', 'content_delete'])
+        @canany(['slider', 'slider_delete'])
         @php $isSliders = Route::is('sliders.*'); @endphp
         <a href="{{ route('sliders.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -605,14 +605,14 @@
         {{-- ============================== --}}
         {{-- Bölüm: (Başlıksız divider)     --}}
         {{-- ============================== --}}
-        @canany(['content', 'content_delete', 'developer', 'user', 'user_delete', 'settings'])
+        @canany(['testimonial', 'testimonial_delete', 'developer', 'user', 'user_delete', 'role', 'role_delete', 'settings', 'theme'])
             <div class="pt-4">
                 <div class="mx-3 border-t border-slate-200 dark:border-slate-700 mb-2"></div>
             </div>
         @endcanany
 
         {{-- Yorumlar --}}
-        @canany(['content', 'content_delete'])
+        @canany(['testimonial', 'testimonial_delete'])
         @php $isTestimonials = Route::is('testimonials.*'); @endphp
         <a href="{{ route('testimonials.index') }}"
            class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -654,7 +654,7 @@
         @endcan
 
         {{-- Kullanıcılar Dropdown (Tümü, Roller) --}}
-        @canany(['user', 'user_delete'])
+        @canany(['user', 'user_delete', 'role', 'role_delete'])
         @php $isUsersActive = Route::is('users.*') || Route::is('roles.*'); @endphp
         <div class="group/users relative">
             <button @click="openMenu = openMenu === 'users' ? '' : 'users'"
