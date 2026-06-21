@@ -39,13 +39,14 @@ return new class extends Migration
             Permission::firstOrCreate(['name' => $name, 'guard_name' => 'web']);
         }
 
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
         foreach ($roles as $role) {
-            $hasContent = $role->hasPermissionTo('content');
-            $hasContentDelete = $role->hasPermissionTo('content_delete');
-            $hasUser = $role->hasPermissionTo('user');
-            $hasUserDelete = $role->hasPermissionTo('user_delete');
-            $hasSettings = $role->hasPermissionTo('settings');
+            $roleNames = $role->permissions->pluck('name')->toArray();
+            $hasContent       = in_array('content', $roleNames, true);
+            $hasContentDelete = in_array('content_delete', $roleNames, true);
+            $hasUser          = in_array('user', $roleNames, true);
+            $hasUserDelete    = in_array('user_delete', $roleNames, true);
+            $hasSettings      = in_array('settings', $roleNames, true);
 
             if ($hasContent) {
                 $role->givePermissionTo($this->contentRoleMigration);
