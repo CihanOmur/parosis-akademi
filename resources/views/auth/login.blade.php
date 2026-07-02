@@ -54,7 +54,7 @@
         <!-- Logo -->
         <div class="relative z-10">
             <a href="/" class="flex justify-center mb-8 transition-transform duration-300 hover:scale-105">
-                <img class="h-28 sm:h-32 w-auto object-contain drop-shadow-lg" src="{{ $logoSrc }}" alt="{{ $siteName }}">
+                <img class="h-14 sm:h-16 w-auto object-contain drop-shadow-md" src="{{ $logoSrc }}" alt="{{ $siteName }}">
             </a>
         </div>
 
