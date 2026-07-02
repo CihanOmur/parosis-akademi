@@ -43,26 +43,26 @@
         $siteName = \App\Models\Setting::get('site_name', 'Parosis Akademi');
     @endphp
 
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 animate-gradient relative overflow-hidden">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-slate-100 via-slate-200 to-slate-100 animate-gradient relative overflow-hidden">
         <!-- Animated Background Elements -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute -top-40 -right-40 w-80 h-80 bg-indigo-400/25 rounded-full blur-3xl animate-float"></div>
-            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400/30 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-400/15 rounded-full blur-3xl animate-float" style="animation-delay: 4s;"></div>
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-slate-400/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-slate-300/30 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-slate-400/10 rounded-full blur-3xl animate-float" style="animation-delay: 4s;"></div>
         </div>
 
         <!-- Logo -->
         <div class="relative z-10">
             <a href="/" class="flex justify-center mb-8">
-                <div class="bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-2xl ring-1 ring-indigo-200 hover:shadow-indigo-400/40 transition-all duration-300 hover:scale-110">
+                <div class="bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-2xl ring-1 ring-slate-200 hover:shadow-slate-400/30 transition-all duration-300 hover:scale-110">
                     <img class="h-16 w-auto object-contain" src="{{ $logoSrc }}" alt="{{ $siteName }}">
                 </div>
             </a>
         </div>
 
         <!-- Card -->
-        <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-white/90 backdrop-blur-md shadow-2xl overflow-hidden rounded-2xl relative z-10 border border-indigo-100">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 to-purple-600"></div>
+        <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-white/90 backdrop-blur-md shadow-2xl overflow-hidden rounded-2xl relative z-10 border border-slate-200">
+            <div class="absolute top-0 left-0 w-full h-1 bg-slate-900"></div>
 
             <div class="mb-8 text-center">
                 <h2 class="text-3xl font-bold text-slate-900">Hoş Geldiniz</h2>
@@ -89,13 +89,13 @@
                     <label for="email" class="block text-sm font-medium text-slate-700">E-posta veya Kullanıcı Adı</label>
                     <div class="relative mt-2">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-indigo-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-slate-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                             </svg>
                         </div>
                         <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
                                placeholder="ornek@parosis.com"
-                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white outline-none transition-all">
+                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-slate-500 focus:border-transparent focus:bg-white outline-none transition-all">
                     </div>
                 </div>
 
@@ -104,13 +104,13 @@
                     <label for="password" class="block text-sm font-medium text-slate-700">Şifre</label>
                     <div class="relative mt-2">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-indigo-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-slate-900 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                         </div>
                         <input id="password" name="password" type="password" required autocomplete="current-password"
                                placeholder="Şifrenizi girin"
-                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white outline-none transition-all">
+                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-slate-500 focus:border-transparent focus:bg-white outline-none transition-all">
                     </div>
                 </div>
 
@@ -118,12 +118,12 @@
                 <div class="flex items-center justify-between">
                     <label for="remember" class="inline-flex items-center cursor-pointer group">
                         <input id="remember" type="checkbox" name="remember"
-                               class="rounded border-slate-300 text-indigo-600 shadow-sm focus:ring-indigo-500 cursor-pointer transition-all">
-                        <span class="ms-2 text-sm text-slate-600 group-hover:text-indigo-600 transition-colors">Beni hatırla</span>
+                               class="rounded border-slate-300 text-slate-900 shadow-sm focus:ring-slate-500 cursor-pointer transition-all">
+                        <span class="ms-2 text-sm text-slate-600 group-hover:text-slate-900 transition-colors">Beni hatırla</span>
                     </label>
 
                     @if (Route::has('password.request'))
-                        <a class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors" href="{{ route('password.request') }}">
+                        <a class="text-sm font-medium text-slate-700 hover:text-slate-900 transition-colors" href="{{ route('password.request') }}">
                             Şifremi unuttum?
                         </a>
                     @endif
@@ -131,7 +131,7 @@
 
                 <!-- Submit -->
                 <button type="submit"
-                        class="w-full flex justify-center items-center px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform hover:scale-[1.02] transition-all duration-200 cursor-pointer">
+                        class="w-full flex justify-center items-center px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transform hover:scale-[1.02] transition-all duration-200 cursor-pointer">
                     <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                     </svg>
