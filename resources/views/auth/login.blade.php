@@ -53,10 +53,8 @@
 
         <!-- Logo -->
         <div class="relative z-10">
-            <a href="/" class="flex justify-center mb-8">
-                <div class="bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-2xl ring-1 ring-slate-200 hover:shadow-slate-400/30 transition-all duration-300 hover:scale-110">
-                    <img class="h-16 w-auto object-contain" src="{{ $logoSrc }}" alt="{{ $siteName }}">
-                </div>
+            <a href="/" class="flex justify-center mb-8 transition-transform duration-300 hover:scale-105">
+                <img class="h-28 sm:h-32 w-auto object-contain drop-shadow-lg" src="{{ $logoSrc }}" alt="{{ $siteName }}">
             </a>
         </div>
 
