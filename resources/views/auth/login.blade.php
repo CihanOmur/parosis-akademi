@@ -4,94 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }} - Giriş</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .login-card {
-            backdrop-filter: blur(20px);
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 20px 50px -12px rgba(15, 23, 42, 0.12),
-                        0 8px 16px -8px rgba(15, 23, 42, 0.06);
+        body { font-family: 'Figtree', ui-sans-serif, system-ui, sans-serif; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 50%, #e2e8f0 100%);
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .input-focus:focus {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #4f46e5, #6366f1);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #4338ca, #4f46e5);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
-        }
-        .pattern-overlay {
-            background-image: radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.06) 1px, transparent 0);
-            background-size: 40px 40px;
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
     </style>
 </head>
 
-<body class="h-screen gradient-bg">
-    <div class="pattern-overlay h-full w-full flex items-center justify-center p-4">
-        <div class="login-card w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
-            <!-- Header -->
-            @php
-                $adminLogo = \App\Models\Setting::get('admin_logo', '', 'logos');
-                $logoSrc = $adminLogo
-                    ? asset(ltrim($adminLogo, '/'))
-                    : '/images/corwus-board-logo.svg';
-                $logoAlt = \App\Models\Setting::get('site_name', 'Parosis Akademi');
-            @endphp
-            <div class="bg-white px-8 py-8 text-center border-b border-slate-100">
-                <img class="h-12 mx-auto mb-3 object-contain" src="{{ $logoSrc }}" alt="{{ $logoAlt }}">
-                <p class="text-slate-500 text-sm">Yönetim Paneli</p>
+<body class="font-sans antialiased">
+    @php
+        $adminLogo = \App\Models\Setting::get('admin_logo', '', 'logos');
+        $logoSrc = $adminLogo
+            ? asset(ltrim($adminLogo, '/'))
+            : '/images/corwus-board-logo.svg';
+        $siteName = \App\Models\Setting::get('site_name', 'Parosis Akademi');
+    @endphp
+
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-indigo-100 animate-gradient relative overflow-hidden">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-indigo-400/25 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400/30 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-fuchsia-400/15 rounded-full blur-3xl animate-float" style="animation-delay: 4s;"></div>
+        </div>
+
+        <!-- Logo -->
+        <div class="relative z-10">
+            <a href="/" class="flex justify-center mb-8">
+                <div class="bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-2xl ring-1 ring-indigo-200 hover:shadow-indigo-400/40 transition-all duration-300 hover:scale-110">
+                    <img class="h-16 w-auto object-contain" src="{{ $logoSrc }}" alt="{{ $siteName }}">
+                </div>
+            </a>
+        </div>
+
+        <!-- Card -->
+        <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-white/90 backdrop-blur-md shadow-2xl overflow-hidden rounded-2xl relative z-10 border border-indigo-100">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 to-purple-600"></div>
+
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-bold text-slate-900">Hoş Geldiniz</h2>
+                <p class="mt-2 text-sm text-slate-600">Devam etmek için hesabınıza giriş yapın</p>
             </div>
 
-            <!-- Form -->
-            <div class="px-8 py-8">
-                <h2 class="text-xl font-semibold text-slate-800 mb-1">Hoş Geldiniz</h2>
-                <p class="text-slate-500 text-sm mb-6">Devam etmek için giriş yapın</p>
+            @if ($errors->has('email'))
+                <div class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200">
+                    <p class="text-sm text-red-600">{{ $errors->first('email') }}</p>
+                </div>
+            @endif
 
-                @if ($errors->has('email'))
-                    <div class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200">
-                        <p class="text-sm text-red-600">{{ $errors->first('email') }}</p>
-                    </div>
-                @endif
+            @if (session('status'))
+                <div class="mb-4 p-3 rounded-lg bg-emerald-50 border border-emerald-200">
+                    <p class="text-sm text-emerald-700">{{ session('status') }}</p>
+                </div>
+            @endif
 
-                <form action="{{ route('loginPost') }}" method="POST" class="space-y-5">
-                    @csrf
-                    <div>
-                        <label for="email" class="block mb-1.5 text-sm font-medium text-slate-700">E-posta veya Kullanıcı Adı</label>
-                        <input type="email" name="email" id="email"
-                            class="input-focus w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 outline-none transition-all"
-                            placeholder="ornek@parosis.com" value="{{ old('email') }}" required autofocus>
-                    </div>
-                    <div>
-                        <label for="password" class="block mb-1.5 text-sm font-medium text-slate-700">Şifre</label>
-                        <input type="password" name="password" id="password"
-                            class="input-focus w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 outline-none transition-all"
-                            placeholder="Şifrenizi girin" required>
-                    </div>
-                    <button type="submit"
-                        class="btn-primary w-full text-white font-medium rounded-xl text-sm px-5 py-3.5 text-center cursor-pointer">
-                        Giriş Yap
-                    </button>
-                </form>
-            </div>
+            <form method="POST" action="{{ route('loginPost') }}" class="space-y-6">
+                @csrf
 
-            <!-- Footer -->
-            <div class="px-8 pb-6 text-center">
-                <p class="text-xs text-slate-500">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'Parosis Akademi') }}. Tüm hakları saklıdır.</p>
-            </div>
+                <!-- Email -->
+                <div class="group">
+                    <label for="email" class="block text-sm font-medium text-slate-700">E-posta veya Kullanıcı Adı</label>
+                    <div class="relative mt-2">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-indigo-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                            </svg>
+                        </div>
+                        <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                               placeholder="ornek@parosis.com"
+                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="group">
+                    <label for="password" class="block text-sm font-medium text-slate-700">Şifre</label>
+                    <div class="relative mt-2">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-slate-400 group-focus-within:text-indigo-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <input id="password" name="password" type="password" required autocomplete="current-password"
+                               placeholder="Şifrenizi girin"
+                               class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:bg-white outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label for="remember" class="inline-flex items-center cursor-pointer group">
+                        <input id="remember" type="checkbox" name="remember"
+                               class="rounded border-slate-300 text-indigo-600 shadow-sm focus:ring-indigo-500 cursor-pointer transition-all">
+                        <span class="ms-2 text-sm text-slate-600 group-hover:text-indigo-600 transition-colors">Beni hatırla</span>
+                    </label>
+
+                    @if (Route::has('password.request'))
+                        <a class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors" href="{{ route('password.request') }}">
+                            Şifremi unuttum?
+                        </a>
+                    @endif
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                        class="w-full flex justify-center items-center px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform hover:scale-[1.02] transition-all duration-200 cursor-pointer">
+                    <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                    Giriş Yap
+                </button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center text-slate-500 text-sm relative z-10">
+            <p>&copy; {{ date('Y') }} {{ $siteName }}. Tüm hakları saklıdır.</p>
         </div>
     </div>
+
     @yield('scripts')
 </body>
 
