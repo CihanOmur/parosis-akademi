@@ -158,6 +158,7 @@
         <!-- Footer -->
         <div class="mt-8 text-center text-slate-500 text-sm relative z-10">
             <p>&copy; {{ date('Y') }} {{ $siteName }}. Tüm hakları saklıdır.</p>
+            <p class="mt-1 text-xs text-slate-400">Designed by <a href="https://corwus.com" target="_blank" rel="noopener" class="font-medium hover:text-slate-700 transition-colors">Corwus</a></p>
         </div>
     </div>
 
