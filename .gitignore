@@ -23,3 +23,8 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /public/tinymce
+
+# Kullanici tarafindan panelden yuklenen dosyalar (uploads)
+# public/uploads git ile takip edilmez; sadece dizin yapisi (.gitkeep) tutulur
+/public/uploads/*
+!/public/uploads/.gitkeep

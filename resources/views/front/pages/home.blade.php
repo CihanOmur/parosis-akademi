@@ -27,7 +27,7 @@
                     @if($slides->count() === 1)
                         {{-- Tek slayt — statik hero --}}
                         @php $slide = $slides->first(); @endphp
-                        <div class="relative z-10 overflow-hidden bg-cover bg-center bg-no-repeat h-[520px] md:h-[600px] lg:h-[680px] xxl:h-[740px]"
+                        <div class="relative z-10 overflow-hidden bg-cover bg-center bg-no-repeat h-[420px] md:h-[500px] lg:h-[580px] xxl:h-[640px]"
                              style="background-image: url('{{ $slide->background_image ? asset($slide->background_image) : asset('assets-front/img/images/th-1/hero-bg.svg') }}')">
                             <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full">
                                 <div class="py-8 lg:py-16 xxl:py-24">
@@ -72,7 +72,7 @@
                                 <div class="swiper-wrapper">
                                     @foreach($slides as $slide)
                                         <div class="swiper-slide">
-                                            <div class="relative z-10 bg-cover bg-center bg-no-repeat h-[520px] md:h-[600px] lg:h-[680px] xxl:h-[740px]"
+                                            <div class="relative z-10 bg-cover bg-center bg-no-repeat h-[420px] md:h-[500px] lg:h-[580px] xxl:h-[640px]"
                                                  style="background-image: url('{{ $slide->background_image ? asset($slide->background_image) : asset('assets-front/img/images/th-1/hero-bg.svg') }}')">
                                                 <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full">
                                                     <div class="py-8 lg:py-16 xxl:py-24">
