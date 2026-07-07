@@ -68,15 +68,17 @@
                             <div class="grid grid-cols-1 items-center gap-x-[60px] gap-y-10 lg:grid-cols-[minmax(0,0.85fr)_1fr] xl:gap-x-[100px]">
                                 <!-- Teacher Details Image -->
                                 <div class="relative">
-                                    @if($teacher->image)
-                                        <img src="{{ asset($teacher->image) }}" alt="{{ $teacher->getTranslation('name', app()->getLocale()) }}" width="487" height="450" class="jos h-auto w-full rounded-lg" />
-                                    @else
-                                        <div class="jos h-[450px] w-full rounded-lg bg-gray-100 flex items-center justify-center">
-                                            <svg class="w-24 h-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
-                                            </svg>
-                                        </div>
-                                    @endif
+                                    <div class="jos aspect-[3/4] overflow-hidden rounded-lg">
+                                        @if($teacher->image)
+                                            <img src="{{ asset($teacher->image) }}" alt="{{ $teacher->getTranslation('name', app()->getLocale()) }}" width="487" height="450" class="h-full w-full object-cover" />
+                                        @else
+                                            <div class="h-full w-full bg-gray-100 flex items-center justify-center">
+                                                <svg class="w-24 h-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                                                </svg>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                                 <!-- Teacher Details Image -->
                                 <!-- Teacher Details Content -->

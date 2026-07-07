@@ -69,7 +69,9 @@
                                 <!-- Course Details Content -->
                                 <div class="jos">
                                     @if($course->image)
-                                    <img src="{{ asset($course->image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" width="783" height="479" class="max-w-full rounded-xl shadow-sm" />
+                                    <div class="aspect-video overflow-hidden rounded-xl shadow-sm">
+                                        <img src="{{ asset($course->image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" width="783" height="479" class="h-full w-full object-cover" />
+                                    </div>
                                     @endif
 
                                     <div class="rich-text-area mt-11">
@@ -96,7 +98,9 @@
                                         @endif
 
                                         @if($course->inner_image)
-                                        <img src="{{ asset($course->inner_image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" width="783" height="353" class="mt-8 max-w-full rounded-xl shadow-sm" />
+                                        <div class="mt-8 aspect-video overflow-hidden rounded-xl shadow-sm">
+                                            <img src="{{ asset($course->inner_image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" width="783" height="353" class="h-full w-full object-cover" />
+                                        </div>
                                         @endif
                                     </div>
 

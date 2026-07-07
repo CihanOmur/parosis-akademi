@@ -70,7 +70,9 @@
                                 <div class="jos">
                                     <div>
                                         @if($blog->image)
-                                        <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="783" height="439" class="max-w-full rounded-lg" />
+                                        <div class="aspect-video overflow-hidden rounded-lg">
+                                            <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="783" height="439" class="h-full w-full object-cover" />
+                                        </div>
                                         @endif
                                         <div class="rich-text-area mt-11">
                                             <h2>{{ $blog->getTranslation('title', app()->getLocale()) }}</h2>

@@ -605,11 +605,11 @@
                                 <li class="jos" data-jos_animation="flip-left">
                                     <div class="group overflow-hidden rounded-lg transition-all duration-300">
                                         <!-- Thumbnail -->
-                                        <div class="relative block overflow-hidden rounded-[10px]">
+                                        <div class="relative block aspect-[4/3] overflow-hidden rounded-[10px]">
                                             @if($blog->image)
-                                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="370" height="334" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105" />
                                             @else
-                                                <img src="{{ asset('assets-front/img/images/th-1/blog-img-1.jpg') }}" alt="blog" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                                <img src="{{ asset('assets-front/img/images/th-1/blog-img-1.jpg') }}" alt="blog" width="370" height="334" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105" />
                                             @endif
 
                                             @if($blog->categories->count())

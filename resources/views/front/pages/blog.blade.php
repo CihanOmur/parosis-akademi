@@ -75,11 +75,11 @@
                                 <li class="jos" data-jos_animation="flip-left">
                                     <div class="group overflow-hidden rounded-lg transition-all duration-300">
                                         <!-- Thumbnail -->
-                                        <div class="relative block overflow-hidden rounded-[10px]">
+                                        <div class="relative block aspect-[4/3] overflow-hidden rounded-[10px]">
                                             @if($blog->image)
-                                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="370" height="334" class="h-auto w-full transition-all duration-300 group-hover:scale-105" />
+                                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="370" height="334" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105" />
                                             @else
-                                                <div class="h-[250px] w-full bg-gray-100 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+                                                <div class="h-full w-full bg-gray-100 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
                                                     <svg class="w-16 h-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
                                                     </svg>
