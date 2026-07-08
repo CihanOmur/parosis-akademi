@@ -85,6 +85,43 @@ class UserController extends Controller
         return redirect()->route('users.index')->with(['success' => 'Kulllanıcı silindi']);
     }
 
+    /**
+     * Kullanıcı (özellikle eğitmen) detayı için hafif JSON — modal'da gösterilir.
+     */
+    public function detail($id)
+    {
+        $user = User::with('roles')->findOrFail($id);
+
+        $classes = \App\Models\Class\LessonClass::with('days')
+            ->where('teacher_id', $user->id)
+            ->orderBy('start_date', 'desc')
+            ->get()
+            ->map(function ($c) {
+                $studentCount = \App\Models\Student\Student::where('class_id', $c->id)->count();
+                return [
+                    'id'             => $c->id,
+                    'name'           => $c->name,
+                    'students_count' => $studentCount,
+                    'days'           => $c->days->pluck('day_name')->filter()->values(),
+                    'start_date'     => $c->start_date,
+                    'end_date'       => $c->end_date,
+                    'course_time'    => $c->course_time,
+                ];
+            });
+
+        return response()->json([
+            'id'             => $user->id,
+            'name'           => $user->name,
+            'email'          => $user->email,
+            'phone'          => $user->phone,
+            'image_url'      => $user->image_url ? asset($user->image_url) : null,
+            'roles'          => $user->roles->pluck('name')->values(),
+            'classes'        => $classes,
+            'classes_count'  => $classes->count(),
+            'total_students' => $classes->sum('students_count'),
+        ]);
+    }
+
     public function login(Request $request)
     {
         $request->validate([

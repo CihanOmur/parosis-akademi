@@ -80,6 +80,7 @@ Route::middleware(['auth', SharedDatas::class])->prefix('panel')->group(function
         Route::get('/{id}/edit',     [UserController::class, 'edit'])->name('edit')->middleware('permission:user');
         Route::post('/{id}/update',  [UserController::class, 'update'])->name('update')->middleware('permission:user');
         Route::delete('/{id}',       [UserController::class, 'delete'])->name('delete')->middleware('permission:user_delete');
+        Route::get('/{id}/detail',   [UserController::class, 'detail'])->name('detail')->middleware('permission:user|class|student');
     });
 
     // ─── Sınıf Yönetimi ──────────────────────────────────────────────────────────

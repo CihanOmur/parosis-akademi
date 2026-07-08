@@ -242,15 +242,19 @@
                             {{-- Eğitmen --}}
                             <td class="px-6 py-4">
                                 @if ($item->teacher)
-                                    <div class="flex items-center gap-2">
+                                    <button type="button"
+                                            @click="$dispatch('open-teacher-detail', { id: {{ $item->teacher->id }} })"
+                                            class="flex items-center gap-2 group cursor-pointer text-left"
+                                            title="Detayı görüntüle">
                                         <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500
-                                                    flex items-center justify-center flex-shrink-0">
+                                                    flex items-center justify-center flex-shrink-0
+                                                    group-hover:scale-110 transition-transform">
                                             <span class="text-xs font-bold text-white uppercase">
                                                 {{ strtoupper(substr($item->teacher->name, 0, 2)) }}
                                             </span>
                                         </div>
-                                        <span class="text-slate-700 dark:text-slate-300 font-medium">{{ $item->teacher->name }}</span>
-                                    </div>
+                                        <span class="text-slate-700 dark:text-slate-300 font-medium group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 group-hover:underline transition-colors">{{ $item->teacher->name }}</span>
+                                    </button>
                                 @else
                                     <span class="text-xs text-slate-400 dark:text-slate-500 italic">Atanmamış</span>
                                 @endif
@@ -312,4 +316,173 @@
         </div>
         {{ $classes->appends(request()->has('_f') ? ['_f' => 1] : [])->links() }}
     </div>
+
+    {{-- ═══════ Eğitmen Detay Modal ═══════ --}}
+    <div x-data="teacherDetailModal()"
+         x-show="open"
+         x-cloak
+         @open-teacher-detail.window="load($event.detail.id)"
+         @keydown.escape.window="close()"
+         class="fixed inset-0 z-[100] overflow-y-auto"
+         x-transition.opacity>
+        {{-- Backdrop --}}
+        <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" @click="close()"></div>
+
+        {{-- Panel --}}
+        <div class="relative min-h-screen flex items-center justify-center p-4">
+            <div class="relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden"
+                 @click.stop
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100">
+
+                {{-- Header --}}
+                <div class="relative bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-5">
+                    <button @click="close()"
+                            class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/20 hover:bg-white/30 text-white flex items-center justify-center cursor-pointer transition-colors">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+
+                    <template x-if="loading">
+                        <div class="text-white text-sm">Yükleniyor…</div>
+                    </template>
+
+                    <template x-if="!loading && data">
+                        <div class="flex items-center gap-4 pr-10">
+                            <div class="w-14 h-14 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                <template x-if="data.image_url">
+                                    <img :src="data.image_url" :alt="data.name" class="w-full h-full object-cover" />
+                                </template>
+                                <template x-if="!data.image_url">
+                                    <span class="text-lg font-bold text-white uppercase" x-text="data.name?.substring(0, 2)"></span>
+                                </template>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-xl font-bold text-white truncate" x-text="data.name"></h3>
+                                <div class="mt-1 flex flex-wrap gap-1.5">
+                                    <template x-for="role in data.roles" :key="role">
+                                        <span class="inline-block px-2 py-0.5 rounded-md bg-white/25 text-white text-xs font-medium" x-text="role"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                {{-- Content --}}
+                <div class="px-6 py-5 max-h-[70vh] overflow-y-auto">
+                    <template x-if="!loading && data">
+                        <div class="space-y-5">
+                            {{-- İletişim --}}
+                            <div>
+                                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">İletişim</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                        <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                                        </svg>
+                                        <a :href="'mailto:' + data.email" class="hover:text-fuchsia-600 dark:hover:text-fuchsia-400" x-text="data.email || '—'"></a>
+                                    </div>
+                                    <template x-if="data.phone">
+                                        <div class="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                            <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>
+                                            </svg>
+                                            <a :href="'tel:' + data.phone" class="hover:text-fuchsia-600 dark:hover:text-fuchsia-400" x-text="data.phone"></a>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            {{-- Özet istatistik --}}
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-4 rounded-xl bg-gradient-to-br from-fuchsia-50 to-purple-50 dark:from-fuchsia-900/20 dark:to-purple-900/20 border border-fuchsia-100 dark:border-fuchsia-900/30">
+                                    <div class="text-2xl font-bold text-fuchsia-600 dark:text-fuchsia-400" x-text="data.classes_count"></div>
+                                    <div class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">Aktif Sınıf</div>
+                                </div>
+                                <div class="p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border border-emerald-100 dark:border-emerald-900/30">
+                                    <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400" x-text="data.total_students"></div>
+                                    <div class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">Toplam Öğrenci</div>
+                                </div>
+                            </div>
+
+                            {{-- Sınıflar --}}
+                            <div>
+                                <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Verdiği Sınıflar</h4>
+                                <template x-if="data.classes.length === 0">
+                                    <p class="text-sm text-slate-400 italic">Bu eğitmene atanmış sınıf yok.</p>
+                                </template>
+                                <div class="space-y-2">
+                                    <template x-for="cls in data.classes" :key="cls.id">
+                                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
+                                            <div class="min-w-0 flex-1">
+                                                <div class="font-medium text-slate-800 dark:text-slate-200 truncate" x-text="cls.name"></div>
+                                                <div class="mt-0.5 text-xs text-slate-500 dark:text-slate-400 flex flex-wrap gap-x-3 gap-y-1">
+                                                    <template x-if="cls.start_date">
+                                                        <span x-text="cls.start_date + (cls.end_date ? ' → ' + cls.end_date : '')"></span>
+                                                    </template>
+                                                    <template x-if="cls.course_time">
+                                                        <span x-text="cls.course_time"></span>
+                                                    </template>
+                                                    <template x-if="cls.days && cls.days.length">
+                                                        <span x-text="cls.days.join(', ')"></span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0 px-2.5 py-1 rounded-md bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                                                <span x-text="cls.students_count"></span> öğrenci
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template x-if="error">
+                        <p class="text-sm text-red-600" x-text="error"></p>
+                    </template>
+                </div>
+
+                {{-- Footer --}}
+                <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 flex items-center justify-end gap-2">
+                    <button @click="close()"
+                            class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors cursor-pointer">
+                        Kapat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function teacherDetailModal() {
+            return {
+                open: false,
+                loading: false,
+                error: null,
+                data: null,
+                async load(id) {
+                    this.open = true;
+                    this.loading = true;
+                    this.error = null;
+                    this.data = null;
+                    try {
+                        const res = await fetch('/panel/users/' + id + '/detail', {
+                            headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        this.data = await res.json();
+                    } catch (e) {
+                        this.error = 'Bilgi yüklenemedi: ' + e.message;
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                close() { this.open = false; }
+            };
+        }
+    </script>
 @endsection
