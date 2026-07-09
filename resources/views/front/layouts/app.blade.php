@@ -67,9 +67,6 @@
         </main>
 
         @include('front.partials.footer')
-
-        <!-- Scroll to Top Button -->
-        <button id="scrollTopBtn" title="Go to top">Top</button>
     </div>
 
     <!-- Preloader -->
