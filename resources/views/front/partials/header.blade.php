@@ -5,6 +5,22 @@
         .site-menu-main .mobile-only-nav { display: none !important; }
     }
 
+    /* Mobilde header sticky (yukari kayarken hep gorunsun) */
+    @media (max-width: 991px) {
+        .header-wrap {
+            position: sticky !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 40 !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(7, 2, 41, 0.06);
+        }
+        /* Home style'da transparan header top bg kaldirildi */
+        .header-wrap > div:first-child {
+            background-color: transparent !important;
+        }
+    }
+
     /* Mobil menu tam ekran + arka plan scroll lock */
     @media (max-width: 991px) {
         .site-header .menu-block {
@@ -57,7 +73,7 @@
     $contactInfo = $contactInfo ?? \App\Models\Pages\Contact\ContactPageInfo::first();
     $locale = app()->getLocale();
 @endphp
-<div class="{{ ($headerStyle ?? 'inner') === 'home' ? 'absolute left-0 top-0 z-20 w-full' : 'relative z-20' }}">
+<div class="{{ ($headerStyle ?? 'inner') === 'home' ? 'absolute left-0 top-0 z-20 w-full' : 'relative z-20' }} header-wrap">
     <!-- Header Top Area -->
     <div class="{{ ($headerStyle ?? 'inner') === 'home' ? 'bg-transparent' : 'bg-[#fbfbfb]' }} py-4">
         <div class="container-expand">
