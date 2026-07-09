@@ -182,9 +182,12 @@
                                                 $welcomeFeatures = ['Our Expert Trainers', 'Online Remote Learning', 'Easy to follow curriculum', 'Lifetime Access'];
                                             }
                                         @endphp
-                                        <ul class="mt-6 flex list-inside list-image-[url(../img/icons/icon-purple-check.svg)] flex-col gap-y-4 font-title text-colorBlackPearl">
+                                        <ul class="mt-6 flex flex-col gap-y-4 font-title text-colorBlackPearl">
                                             @foreach($welcomeFeatures as $wfIdx => $feature)
-                                                <li @if($fs('wf_' . $wfIdx)) style="{{ $fs('wf_' . $wfIdx) }}" @endif>{{ $feature }}</li>
+                                                <li class="flex items-start gap-3" @if($fs('wf_' . $wfIdx)) style="{{ $fs('wf_' . $wfIdx) }}" @endif>
+                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-check.svg') }}" alt="check" class="mt-1 h-5 w-5 flex-shrink-0" />
+                                                    <span>{{ $feature }}</span>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
