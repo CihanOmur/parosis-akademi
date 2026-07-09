@@ -269,7 +269,7 @@
                     <nav class="menu-block" id="append-menu-header">
                         <div class="mobile-menu-head">
                             <div class="go-back">
-                                <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" class="-rotate-90" />
+                                <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" />
                             </div>
                             <div class="current-menu-title"></div>
                             <div class="mobile-menu-close">&times;</div>
@@ -284,17 +284,17 @@
                                         @endif
                                     </a>
                                     @if($hasChildren)
-                                        <ul class="sub-menu">
+                                        <ul class="sub-menu" id="submenu-item-{{ $item->id }}">
                                             @foreach($item->children as $child)
                                                 @php $childHasChildren = $child->children->isNotEmpty(); @endphp
                                                 <li class="sub-menu--item{{ $childHasChildren ? ' nav-item-has-children' : '' }}">
-                                                    <a href="{{ $child->localized_url }}" {!! $child->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!}{{ $childHasChildren ? ' data-menu-get=h3' : '' }} class="{{ $childHasChildren ? 'drop-trigger' : '' }}">{{ $child->label }}
+                                                    <a href="{{ $child->localized_url }}" {!! $child->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!} class="{{ $childHasChildren ? 'drop-trigger' : '' }}">{{ $child->label }}
                                                         @if($childHasChildren)
                                                             <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90" />
                                                         @endif
                                                     </a>
                                                     @if($childHasChildren)
-                                                        <ul class="sub-menu shape-none">
+                                                        <ul class="sub-menu shape-none" id="submenu-child-{{ $child->id }}">
                                                             @foreach($child->children as $sub)
                                                                 <li class="sub-menu--item">
                                                                     <a href="{{ $sub->localized_url }}" {!! $sub->target === '_blank' ? 'target="_blank" rel="noopener noreferrer"' : '' !!}>{{ $sub->label }}</a>
@@ -320,7 +320,7 @@
                                     Dil ({{ strtoupper($locale) }})
                                     <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90 lg:rotate-0" />
                                 </a>
-                                <ul class="sub-menu">
+                                <ul class="sub-menu" id="submenu-lang">
                                     @foreach($activeLanguages as $lang)
                                         @php
                                             $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
