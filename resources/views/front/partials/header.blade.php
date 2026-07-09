@@ -308,60 +308,58 @@
                                     @endif
                                 </li>
                             @endforeach
-                        </ul>
+                            {{-- Mobil menu ic ek bolum: Giris Yap + Dil secenegi (sadece mobilde) --}}
+                            <li class="mobile-menu-extra lg:hidden">
+                                <div class="mt-4 mx-4 pt-4 border-t border-slate-200 space-y-4 pb-6">
+                                    {{-- Dil switcher --}}
+                                    @if(($activeLanguages ?? collect())->count() > 1)
+                                    @php
+                                        $currentPath = trim(request()->path(), '/');
+                                        $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
+                                        $queryStr = request()->getQueryString();
+                                    @endphp
+                                    <div>
+                                        <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Dil</div>
+                                        <div class="flex flex-wrap gap-2">
+                                            @foreach($activeLanguages as $lang)
+                                                @php
+                                                    $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
+                                                    if ($queryStr) { $href .= '?' . $queryStr; }
+                                                    $isCurrent = $lang->locale === $locale;
+                                                @endphp
+                                                <a href="{{ $href }}"
+                                                   class="inline-flex h-9 items-center gap-x-1.5 rounded-full border px-3 text-sm font-medium transition
+                                                          {{ $isCurrent
+                                                              ? 'border-colorPurpleBlue bg-colorPurpleBlue text-white'
+                                                              : 'border-slate-200 bg-white text-colorBlackPearl hover:border-colorPurpleBlue' }}">
+                                                    <span class="uppercase">{{ $lang->locale }}</span>
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    @endif
 
-                        {{-- Mobil menu ic ek bolum: Giris Yap + Dil secenegi (sadece mobilde) --}}
-                        <div class="lg:hidden mt-6 mx-6 pt-6 border-t border-slate-200 space-y-5">
-                            {{-- Dil switcher --}}
-                            @if(($activeLanguages ?? collect())->count() > 1)
-                            @php
-                                $currentPath = trim(request()->path(), '/');
-                                $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
-                                $queryStr = request()->getQueryString();
-                            @endphp
-                            <div>
-                                <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Dil</div>
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach($activeLanguages as $lang)
-                                        @php
-                                            $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
-                                            if ($queryStr) { $href .= '?' . $queryStr; }
-                                            $isCurrent = $lang->locale === $locale;
-                                        @endphp
-                                        <a href="{{ $href }}"
-                                           class="inline-flex h-9 items-center gap-x-1.5 rounded-full border px-3 text-sm font-medium transition
-                                                  {{ $isCurrent
-                                                      ? 'border-colorPurpleBlue bg-colorPurpleBlue text-white'
-                                                      : 'border-slate-200 bg-white text-colorBlackPearl hover:border-colorPurpleBlue' }}">
-                                            <span class="uppercase">{{ $lang->locale }}</span>
-                                            @if($lang->name)
-                                                <span class="opacity-80">— {{ $lang->name }}</span>
-                                            @endif
-                                        </a>
-                                    @endforeach
+                                    {{-- Giris Yap --}}
+                                    @if($navbarInfo?->show_login_button ?? true)
+                                    <button type="button" onclick="signinBtn()"
+                                            class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-t from-[#D7E1D8] to-white text-sm font-semibold text-colorBlackPearl shadow-sm">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
+                                        </svg>
+                                        {{ $navbarInfo?->getTranslation('login_button_text', $locale) ?: 'Giriş Yap' }}
+                                    </button>
+                                    @endif
+
+                                    {{-- Kayit Ol (opsiyonel) --}}
+                                    @if($navbarInfo?->show_register_button ?? true)
+                                    <button type="button" onclick="signupBtn()"
+                                            class="w-full inline-flex items-center justify-center h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
+                                        {{ $navbarInfo?->getTranslation('register_button_text', $locale) ?: 'Kayıt Ol' }}
+                                    </button>
+                                    @endif
                                 </div>
-                            </div>
-                            @endif
-
-                            {{-- Giris Yap --}}
-                            @if($navbarInfo?->show_login_button ?? true)
-                            <button type="button" onclick="signinBtn()"
-                                    class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-t from-[#D7E1D8] to-white text-sm font-semibold text-colorBlackPearl shadow-sm">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
-                                </svg>
-                                {{ $navbarInfo?->getTranslation('login_button_text', $locale) ?: 'Giriş Yap' }}
-                            </button>
-                            @endif
-
-                            {{-- Kayit Ol (opsiyonel) --}}
-                            @if($navbarInfo?->show_register_button ?? true)
-                            <button type="button" onclick="signupBtn()"
-                                    class="w-full inline-flex items-center justify-center h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
-                                {{ $navbarInfo?->getTranslation('register_button_text', $locale) ?: 'Kayıt Ol' }}
-                            </button>
-                            @endif
-                        </div>
+                            </li>
+                        </ul>
                     </nav>
                 </div>
                 <!-- Header Navigation -->
