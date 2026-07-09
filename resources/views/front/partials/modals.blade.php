@@ -233,8 +233,10 @@ function _formatTL(n) {
 }
 
 function _updateGlobals(data) {
-    var badge = document.getElementById('cart-badge');
-    if (badge) { badge.textContent = data.cart_count; badge.classList.toggle('hidden', data.cart_count === 0); }
+    document.querySelectorAll('.js-cart-badge').forEach(function (badge) {
+        badge.textContent = data.cart_count;
+        badge.classList.toggle('hidden', data.cart_count === 0);
+    });
     var sc = document.getElementById('sidebar-cart-count');
     if (sc) sc.textContent = data.cart_count;
     var tot = document.getElementById('sidebar-cart-total');
