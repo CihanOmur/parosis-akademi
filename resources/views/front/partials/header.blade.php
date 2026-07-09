@@ -1,4 +1,10 @@
 <!--...::: Header Start :::... -->
+<style>
+    /* Sadece mobilde (lg altinda) gorunecek menu ogeleri — desktop'ta gizli */
+    @media (min-width: 992px) {
+        .site-menu-main .mobile-only-nav { display: none !important; }
+    }
+</style>
 @php
     $navbarInfo = $navbarInfo ?? \App\Models\Pages\Navbar\NavbarPageInfo::first();
     $footerInfo = $footerInfo ?? \App\Models\Pages\Footer\FooterPageInfo::first();
@@ -315,7 +321,7 @@
                                 $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
                                 $queryStr = request()->getQueryString();
                             @endphp
-                            <li class="nav-item nav-item-has-children lg:hidden">
+                            <li class="nav-item nav-item-has-children mobile-only-nav">
                                 <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">
                                     Dil ({{ strtoupper($locale) }})
                                     <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90 lg:rotate-0" />
@@ -338,7 +344,7 @@
                             @endif
 
                             {{-- Giris/Kayit butonlari (mobilde) --}}
-                            <li class="mobile-menu-cta lg:hidden">
+                            <li class="mobile-menu-cta mobile-only-nav">
                                 <div class="px-6 pt-4 pb-6 space-y-3">
                                     @if($navbarInfo?->show_login_button ?? true)
                                     <button type="button" onclick="signinBtn()"
