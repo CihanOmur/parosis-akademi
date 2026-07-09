@@ -308,57 +308,36 @@
                                     @endif
                                 </li>
                             @endforeach
-                            {{-- Mobil menu ic ek bolum: Dil dropdown + Giris Yap (sadece mobilde) --}}
+                            {{-- Dil secenegi — diger menu ogeleri ile ayni pattern (mobilde) --}}
                             @if(($activeLanguages ?? collect())->count() > 1)
                             @php
                                 $currentPath = trim(request()->path(), '/');
                                 $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
                                 $queryStr = request()->getQueryString();
                             @endphp
-                            <li class="mobile-lang-dropdown-item lg:hidden">
-                                <details class="mobile-lang-dropdown">
-                                    <summary class="mobile-lang-summary flex items-center justify-between gap-2 cursor-pointer list-none py-3 px-6 font-title text-base font-medium text-colorBlackPearl">
-                                        <span class="flex items-center gap-2">
-                                            <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10"/>
-                                                <path stroke-linecap="round" d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/>
-                                            </svg>
-                                            <span>Dil</span>
-                                            <span class="text-xs uppercase font-semibold text-colorPurpleBlue">({{ $locale }})</span>
-                                        </span>
-                                        <svg class="mobile-lang-chevron h-4 w-4 text-slate-500 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
-                                        </svg>
-                                    </summary>
-                                    <div class="mobile-lang-options bg-slate-50">
-                                        @foreach($activeLanguages as $lang)
-                                            @php
-                                                $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
-                                                if ($queryStr) { $href .= '?' . $queryStr; }
-                                                $isCurrent = $lang->locale === $locale;
-                                            @endphp
-                                            <a href="{{ $href }}"
-                                               class="flex items-center justify-between gap-3 py-3 px-6 pl-12 text-sm transition
-                                                      {{ $isCurrent
-                                                          ? 'font-semibold text-colorPurpleBlue bg-white'
-                                                          : 'text-colorBlackPearl hover:bg-white' }}">
-                                                <span class="flex items-center gap-2">
-                                                    <span class="uppercase text-xs font-bold w-8">{{ $lang->locale }}</span>
-                                                    <span>{{ $lang->name ?: strtoupper($lang->locale) }}</span>
-                                                </span>
-                                                @if($isCurrent)
-                                                <svg class="h-4 w-4 text-colorPurpleBlue" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
-                                                </svg>
-                                                @endif
+                            <li class="nav-item nav-item-has-children lg:hidden">
+                                <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">
+                                    Dil ({{ strtoupper($locale) }})
+                                    <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90 lg:rotate-0" />
+                                </a>
+                                <ul class="sub-menu">
+                                    @foreach($activeLanguages as $lang)
+                                        @php
+                                            $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
+                                            if ($queryStr) { $href .= '?' . $queryStr; }
+                                            $isCurrent = $lang->locale === $locale;
+                                        @endphp
+                                        <li class="sub-menu--item">
+                                            <a href="{{ $href }}" @if($isCurrent) class="font-semibold text-colorPurpleBlue" @endif>
+                                                {{ strtoupper($lang->locale) }} — {{ $lang->name ?: strtoupper($lang->locale) }}{{ $isCurrent ? ' ✓' : '' }}
                                             </a>
-                                        @endforeach
-                                    </div>
-                                </details>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </li>
                             @endif
 
-                            {{-- Giris Yap butonu ic ozel li --}}
+                            {{-- Giris/Kayit butonlari (mobilde) --}}
                             <li class="mobile-menu-cta lg:hidden">
                                 <div class="mt-2 px-6 pt-4 pb-6 space-y-3 border-t border-slate-200">
                                     @if($navbarInfo?->show_login_button ?? true)
@@ -378,13 +357,6 @@
                                     @endif
                                 </div>
                             </li>
-
-                            {{-- Dropdown chevron rotate style --}}
-                            <style>
-                                .mobile-lang-summary::-webkit-details-marker { display: none; }
-                                .mobile-lang-summary::marker { content: ''; }
-                                .mobile-lang-dropdown[open] .mobile-lang-chevron { transform: rotate(180deg); }
-                            </style>
                         </ul>
                     </nav>
                 </div>
