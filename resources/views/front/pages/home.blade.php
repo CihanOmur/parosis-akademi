@@ -427,7 +427,7 @@
 
                                 <!-- Content Right Block -->
                                 <div class="jos relative z-10" data-jos_animation="fade-left">
-                                    <img src="{{ $homePageInfo && $homePageInfo->why_image ? asset($homePageInfo->why_image) : asset('assets-front/img/images/th-1/content-img-1.png') }}" alt="content-img-1" width="586" height="585" class="max-w-full pl-5 rounded-3xl" />
+                                    <img src="{{ $homePageInfo && $homePageInfo->why_image ? asset($homePageInfo->why_image) : asset('assets-front/img/images/th-1/content-img-1.png') }}" alt="content-img-1" width="586" height="585" class="max-w-full rounded-3xl" />
 
                                     <!-- Card -->
                                     <div class="jos absolute bottom-[60px] left-0 z-10 inline-flex items-center gap-5 rounded-3xl bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10">
