@@ -302,7 +302,7 @@
                         @if($navbarInfo?->show_cart_button ?? true)
                         <button class="relative lg:hidden inline-flex items-center justify-center h-10 w-10" onclick="openCartSidebar()" aria-label="Sepet">
                             <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="cart" width="22" height="22" />
-                            <span class="js-cart-badge absolute -top-1 -right-1 inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-colorPurpleBlue px-1 text-xs font-medium leading-none text-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
+                            <span class="js-cart-badge absolute top-1 right-1 inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-colorPurpleBlue px-1 text-[10px] font-semibold leading-none text-white ring-2 ring-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
                         </button>
                         @endif
                         <!-- Responsive Offcanvas Menu Button -->
@@ -457,9 +457,9 @@
                     <div class="flex items-center justify-between gap-x-5">
                         <!-- Cart Button (SADECE DESKTOP) -->
                         @if($navbarInfo?->show_cart_button ?? true)
-                        <button class="relative hidden lg:inline-block" onclick="openCartSidebar()">
-                            <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="icon-grey-bag" width="21" height="21" />
-                            <span class="js-cart-badge absolute left-2 top-full inline-flex h-[18px] min-w-[18px] -translate-y-3 items-center justify-center rounded-[50%] bg-colorPurpleBlue text-sm font-normal leading-none text-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
+                        <button class="relative hidden lg:inline-flex items-center justify-center h-10 w-10" onclick="openCartSidebar()" aria-label="Sepet">
+                            <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="cart" width="22" height="22" />
+                            <span class="js-cart-badge absolute top-1 right-1 inline-flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-colorPurpleBlue px-1 text-[10px] font-semibold leading-none text-white ring-2 ring-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
                         </button>
                         @endif
                         <!-- Side Info Button -->
