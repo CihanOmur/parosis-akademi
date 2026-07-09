@@ -447,8 +447,9 @@
                 <!-- Header Navigation -->
 
                 <!-- Right Block -->
-                <div class="flex flex-1 flex-row items-center justify-between gap-x-9 gap-y-3 py-5 lg:justify-end lg:py-0">
-                    <div class="flex flex-col gap-x-4 sm:flex-row sm:items-center">
+                <div class="flex flex-1 flex-row items-center justify-end gap-x-9 gap-y-3 py-5 lg:justify-end lg:py-0">
+                    {{-- Telefon + Email SADECE DESKTOP --}}
+                    <div class="hidden lg:flex flex-col gap-x-4 sm:flex-row sm:items-center">
                         @php $phone = $contactInfo?->phone_1 ?? '+532 321 33 33'; @endphp
                         <a href="tel:{{ preg_replace('/\s+/', '', $phone) }}" class="text-sm text-[#263238]">{{ $phone }}</a>
                         <div class="h-[5px] w-[5px] flex-1 rounded-[50%] bg-[#263238]/30"></div>
