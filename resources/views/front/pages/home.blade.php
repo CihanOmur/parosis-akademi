@@ -140,10 +140,10 @@
                             <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 xl:gap-32">
                                 <!-- Welcome Left Block -->
                                 <div class="jos relative order-2 mx-auto lg:order-1" data-jos_animation="fade-right">
-                                    <img src="{{ $homePageInfo && $homePageInfo->welcome_image ? asset($homePageInfo->welcome_image) : asset('assets-front/img/images/th-1/welcome-img.png') }}" alt="welcome-img" width="482" height="486" class="max-w-full" />
+                                    <img src="{{ $homePageInfo && $homePageInfo->welcome_image ? asset($homePageInfo->welcome_image) : asset('assets-front/img/images/th-1/welcome-img.png') }}" alt="welcome-img" width="482" height="486" class="max-w-full rounded-3xl" />
 
                                     <!-- Card -->
-                                    <div class="jos absolute bottom-24 left-16 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-4 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10 xxl:-left-16 xxxl:-left-28">
+                                    <div class="jos absolute bottom-24 left-16 z-10 inline-flex items-center gap-5 rounded-3xl bg-white py-4 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10 xxl:-left-16 xxxl:-left-28">
                                         <div class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#DF4343]/5">
                                             <img src="{{ asset('assets-front/img/icons/icon-red-tomato-graduation-cap-line.svg') }}" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
                                         </div>
@@ -427,10 +427,10 @@
 
                                 <!-- Content Right Block -->
                                 <div class="jos relative z-10" data-jos_animation="fade-left">
-                                    <img src="{{ $homePageInfo && $homePageInfo->why_image ? asset($homePageInfo->why_image) : asset('assets-front/img/images/th-1/content-img-1.png') }}" alt="content-img-1" width="586" height="585" class="max-w-full pl-5 rounded-[40px]" />
+                                    <img src="{{ $homePageInfo && $homePageInfo->why_image ? asset($homePageInfo->why_image) : asset('assets-front/img/images/th-1/content-img-1.png') }}" alt="content-img-1" width="586" height="585" class="max-w-full pl-5 rounded-3xl" />
 
                                     <!-- Card -->
-                                    <div class="jos absolute bottom-[60px] left-0 z-10 inline-flex items-center gap-5 rounded-lg bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10">
+                                    <div class="jos absolute bottom-[60px] left-0 z-10 inline-flex items-center gap-5 rounded-3xl bg-white py-2 pl-4 pr-8 shadow-[17px_18px_30px_16px] shadow-[#070229]/10">
                                         <div class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#DF4343]/5">
                                             <img src="{{ asset('assets-front/img/icons/icon-red-tomato-graduation-cap-line.svg') }}" alt="icon-red-tomato-graduation-cap-line." width="28" height="28" />
                                         </div>
