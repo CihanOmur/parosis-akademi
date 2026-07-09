@@ -676,48 +676,38 @@
                             </div>
                             <!-- Section Block -->
 
-                            <!-- Blog List -->
-                            <ul class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 -mx-5 px-5 scroll-smooth no-scrollbar
-                                       md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:snap-none
-                                       md:grid md:grid-cols-2 md:gap-[30px] xl:grid-cols-3">
+                            <!-- Blog List (Desktop grid) -->
+                            <ul class="hidden md:grid md:grid-cols-2 xl:grid-cols-3 gap-[30px]">
                                 @foreach($blogs as $blog)
-                                <li class="jos flex-none w-[85%] snap-center md:w-auto md:flex-1" data-jos_animation="flip-left">
-                                    <div class="group overflow-hidden rounded-lg transition-all duration-300">
-                                        <!-- Thumbnail -->
-                                        <div class="relative block aspect-[4/3] overflow-hidden rounded-[10px]">
-                                            @if($blog->image)
-                                                <img src="{{ asset($blog->image) }}" alt="{{ $blog->getTranslation('title', app()->getLocale()) }}" width="370" height="334" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105" />
-                                            @else
-                                                <img src="{{ asset('assets-front/img/images/th-1/blog-img-1.jpg') }}" alt="blog" width="370" height="334" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105" />
-                                            @endif
-
-                                            @if($blog->categories->count())
-                                                <a href="{{ route('front.blog') }}" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">{{ $blog->categories->first()->name }}</a>
-                                            @endif
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="mt-7">
-                                            <!-- Blog Meta -->
-                                            <div class="flex gap-9">
-                                                @if($blog->published_at)
-                                                <span class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-calendar.svg') }}" alt="icon-grey-calendar" width="23" height="23" />
-                                                    <span class="flex-1">{{ $blog->published_at->format('d M, Y') }}</span>
-                                                </span>
-                                                @endif
-                                            </div>
-                                            <!-- Blog Meta -->
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.blog.details', $blog->id) }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">{{ $blog->getTranslation('title', app()->getLocale()) }}</a>
-                                            <!-- Title Link -->
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
+                                <li class="jos" data-jos_animation="flip-left">
+                                    @include('front.partials.blog-card', ['blog' => $blog])
                                 </li>
                                 @endforeach
                             </ul>
                             <!-- Blog List -->
+
+                            <!-- Blog Carousel (Mobile only) -->
+                            <div class="md:hidden relative">
+                                <div class="swiper blog-swiper !overflow-visible">
+                                    <div class="swiper-wrapper">
+                                        @foreach($blogs as $blog)
+                                        <div class="swiper-slide">
+                                            @include('front.partials.blog-card', ['blog' => $blog])
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <!-- Pagination dots -->
+                                <div class="blog-swiper-pagination flex justify-center gap-2 mt-6"></div>
+                                <!-- Prev/Next buttons -->
+                                <button type="button" class="blog-swiper-prev absolute top-1/3 -left-2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-colorPurpleBlue -translate-y-1/2">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+                                </button>
+                                <button type="button" class="blog-swiper-next absolute top-1/3 -right-2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-colorPurpleBlue -translate-y-1/2">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                                </button>
+                            </div>
+                            <!-- Blog Carousel -->
                         </div>
                         <!-- Section Container -->
                     </div>
@@ -786,6 +776,26 @@
             clickable: true,
         },
     });
+
+    // Blog carousel (sadece mobilde aktif — md+ desktop grid gösteriyor)
+    if (document.querySelector('.blog-swiper')) {
+        new Swiper('.blog-swiper', {
+            slidesPerView: 1.15,
+            spaceBetween: 16,
+            centeredSlides: false,
+            grabCursor: true,
+            navigation: {
+                nextEl: '.blog-swiper-next',
+                prevEl: '.blog-swiper-prev',
+            },
+            pagination: {
+                el: '.blog-swiper-pagination',
+                clickable: true,
+                bulletClass: 'inline-block w-2 h-2 rounded-full bg-slate-300 opacity-100 cursor-pointer',
+                bulletActiveClass: '!bg-colorPurpleBlue !w-6',
+            },
+        });
+    }
 </script>
 @endif
 @endpush
