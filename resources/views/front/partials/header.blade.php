@@ -308,38 +308,59 @@
                                     @endif
                                 </li>
                             @endforeach
-                            {{-- Mobil menu ic ek bolum: Giris Yap + Dil secenegi (sadece mobilde) --}}
-                            <li class="mobile-menu-extra lg:hidden">
-                                <div class="mt-4 mx-4 pt-4 border-t border-slate-200 space-y-4 pb-6">
-                                    {{-- Dil switcher --}}
-                                    @if(($activeLanguages ?? collect())->count() > 1)
-                                    @php
-                                        $currentPath = trim(request()->path(), '/');
-                                        $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
-                                        $queryStr = request()->getQueryString();
-                                    @endphp
-                                    <div>
-                                        <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">Dil</div>
-                                        <div class="flex flex-wrap gap-2">
-                                            @foreach($activeLanguages as $lang)
-                                                @php
-                                                    $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
-                                                    if ($queryStr) { $href .= '?' . $queryStr; }
-                                                    $isCurrent = $lang->locale === $locale;
-                                                @endphp
-                                                <a href="{{ $href }}"
-                                                   class="inline-flex h-9 items-center gap-x-1.5 rounded-full border px-3 text-sm font-medium transition
-                                                          {{ $isCurrent
-                                                              ? 'border-colorPurpleBlue bg-colorPurpleBlue text-white'
-                                                              : 'border-slate-200 bg-white text-colorBlackPearl hover:border-colorPurpleBlue' }}">
-                                                    <span class="uppercase">{{ $lang->locale }}</span>
-                                                </a>
-                                            @endforeach
-                                        </div>
+                            {{-- Mobil menu ic ek bolum: Dil dropdown + Giris Yap (sadece mobilde) --}}
+                            @if(($activeLanguages ?? collect())->count() > 1)
+                            @php
+                                $currentPath = trim(request()->path(), '/');
+                                $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
+                                $queryStr = request()->getQueryString();
+                            @endphp
+                            <li class="mobile-lang-dropdown-item lg:hidden">
+                                <details class="mobile-lang-dropdown">
+                                    <summary class="mobile-lang-summary flex items-center justify-between gap-2 cursor-pointer list-none py-3 px-6 font-title text-base font-medium text-colorBlackPearl">
+                                        <span class="flex items-center gap-2">
+                                            <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10"/>
+                                                <path stroke-linecap="round" d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/>
+                                            </svg>
+                                            <span>Dil</span>
+                                            <span class="text-xs uppercase font-semibold text-colorPurpleBlue">({{ $locale }})</span>
+                                        </span>
+                                        <svg class="mobile-lang-chevron h-4 w-4 text-slate-500 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+                                        </svg>
+                                    </summary>
+                                    <div class="mobile-lang-options bg-slate-50">
+                                        @foreach($activeLanguages as $lang)
+                                            @php
+                                                $href = '/' . $lang->locale . ($stripped !== '' ? '/' . $stripped : '');
+                                                if ($queryStr) { $href .= '?' . $queryStr; }
+                                                $isCurrent = $lang->locale === $locale;
+                                            @endphp
+                                            <a href="{{ $href }}"
+                                               class="flex items-center justify-between gap-3 py-3 px-6 pl-12 text-sm transition
+                                                      {{ $isCurrent
+                                                          ? 'font-semibold text-colorPurpleBlue bg-white'
+                                                          : 'text-colorBlackPearl hover:bg-white' }}">
+                                                <span class="flex items-center gap-2">
+                                                    <span class="uppercase text-xs font-bold w-8">{{ $lang->locale }}</span>
+                                                    <span>{{ $lang->name ?: strtoupper($lang->locale) }}</span>
+                                                </span>
+                                                @if($isCurrent)
+                                                <svg class="h-4 w-4 text-colorPurpleBlue" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                                                </svg>
+                                                @endif
+                                            </a>
+                                        @endforeach
                                     </div>
-                                    @endif
+                                </details>
+                            </li>
+                            @endif
 
-                                    {{-- Giris Yap --}}
+                            {{-- Giris Yap butonu ic ozel li --}}
+                            <li class="mobile-menu-cta lg:hidden">
+                                <div class="mt-2 px-6 pt-4 pb-6 space-y-3 border-t border-slate-200">
                                     @if($navbarInfo?->show_login_button ?? true)
                                     <button type="button" onclick="signinBtn()"
                                             class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-t from-[#D7E1D8] to-white text-sm font-semibold text-colorBlackPearl shadow-sm">
@@ -349,8 +370,6 @@
                                         {{ $navbarInfo?->getTranslation('login_button_text', $locale) ?: 'Giriş Yap' }}
                                     </button>
                                     @endif
-
-                                    {{-- Kayit Ol (opsiyonel) --}}
                                     @if($navbarInfo?->show_register_button ?? true)
                                     <button type="button" onclick="signupBtn()"
                                             class="w-full inline-flex items-center justify-center h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
@@ -359,6 +378,13 @@
                                     @endif
                                 </div>
                             </li>
+
+                            {{-- Dropdown chevron rotate style --}}
+                            <style>
+                                .mobile-lang-summary::-webkit-details-marker { display: none; }
+                                .mobile-lang-summary::marker { content: ''; }
+                                .mobile-lang-dropdown[open] .mobile-lang-chevron { transform: rotate(180deg); }
+                            </style>
                         </ul>
                     </nav>
                 </div>
