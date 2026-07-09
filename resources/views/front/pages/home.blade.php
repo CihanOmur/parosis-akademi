@@ -114,13 +114,6 @@
                                     @endforeach
                                 </div>
                             </div>
-                            {{-- Sol/Sag oklar — kenarlarda --}}
-                            <button class="hero-slider-prev absolute left-4 lg:left-8 top-1/2 z-30 -translate-y-1/2 w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 group" style="background:rgba(84,62,232,0.2);" onmouseover="this.style.background='rgba(84,62,232,0.4)'" onmouseout="this.style.background='rgba(84,62,232,0.2)'">
-                                <svg class="w-5 h-5 text-white group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
-                            </button>
-                            <button class="hero-slider-next absolute right-4 lg:right-8 top-1/2 z-30 -translate-y-1/2 w-12 h-12 rounded-full backdrop-blur-sm flex items-center justify-center transition-all duration-300 group" style="background:rgba(84,62,232,0.2);" onmouseover="this.style.background='rgba(84,62,232,0.4)'" onmouseout="this.style.background='rgba(84,62,232,0.2)'">
-                                <svg class="w-5 h-5 text-white group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-                            </button>
                             {{-- Pagination — mobilde altında, desktop'ta slider içinde --}}
                             <div class="hero-slider-pagination relative z-30 flex items-center justify-center gap-2 py-4 lg:absolute lg:bottom-6 lg:left-1/2 lg:-translate-x-1/2 lg:py-5"></div>
                         </div>
@@ -751,10 +744,6 @@
         autoplay: {
             delay: 5000,
             disableOnInteraction: false,
-        },
-        navigation: {
-            nextEl: ".hero-slider-next",
-            prevEl: ".hero-slider-prev",
         },
         pagination: {
             el: ".hero-slider-pagination",
