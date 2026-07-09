@@ -699,13 +699,6 @@
                                 </div>
                                 <!-- Pagination dots -->
                                 <div class="blog-swiper-pagination flex justify-center gap-2 mt-6"></div>
-                                <!-- Prev/Next buttons -->
-                                <button type="button" class="blog-swiper-prev absolute top-1/3 -left-2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-colorPurpleBlue -translate-y-1/2">
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
-                                </button>
-                                <button type="button" class="blog-swiper-next absolute top-1/3 -right-2 z-10 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-colorPurpleBlue -translate-y-1/2">
-                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-                                </button>
                             </div>
                             <!-- Blog Carousel -->
                         </div>
@@ -784,10 +777,6 @@
             spaceBetween: 16,
             centeredSlides: false,
             grabCursor: true,
-            navigation: {
-                nextEl: '.blog-swiper-next',
-                prevEl: '.blog-swiper-prev',
-            },
             pagination: {
                 el: '.blog-swiper-pagination',
                 clickable: true,
