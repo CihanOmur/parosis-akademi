@@ -335,7 +335,8 @@
                             <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
                                 @foreach($courses as $course)
                                 <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+                                    <a href="{{ route('front.course.details', $course->id) }}"
+                                       class="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
                                         <!-- Thumbnail -->
                                         <div class="relative block aspect-[4/3] overflow-hidden">
                                             @if($course->image)
@@ -353,47 +354,12 @@
                                             @endif
                                         </div>
                                         <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="bg-[#F5F5F5] px-5 py-8">
-                                            <!-- Course Meta -->
-                                            <div class="flex gap-9">
-                                                @if($course->lesson_count)
-                                                <span class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-book-3-line.svg') }}" alt="icon-grey-book-3-line" width="17" height="17" />
-                                                    <span class="flex-1">{{ $course->lesson_count }} Ders</span>
-                                                </span>
-                                                @endif
-                                                @if($course->instructor_name)
-                                                <span class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-user-3-line.svg') }}" alt="icon-grey-user-3-line" width="17" height="18" />
-                                                    <span class="flex-1">{{ $course->instructor_name }}</span>
-                                                </span>
-                                                @endif
-                                            </div>
-                                            <!-- Course Meta -->
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.course.details', $course->id) }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">{{ $course->getTranslation('title', app()->getLocale()) }}</a>
-                                            <!-- Title Link -->
-
-                                            <!-- Separator -->
-                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
-                                            <!-- Separator -->
-                                            <!-- Bottom Text -->
-                                            <div class="flex items-center justify-between">
-                                                @if($course->price)
-                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">{{ $course->price }}</span>
-                                                @endif
-                                                @if($course->student_count)
-                                                <div class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-graduation-cap-line.svg') }}" alt="icon-grey-graduation-cap-line" width="17" height="17" />
-                                                    <span class="flex-1">{{ $course->student_count }} Ogrenci</span>
-                                                </div>
-                                                @endif
-                                            </div>
-                                            <!-- Bottom Text -->
+                                        <!-- Content: sadece kurs adi -->
+                                        <div class="bg-[#F5F5F5] px-5 py-6 text-center">
+                                            <h3 class="font-title text-xl font-bold text-colorBlackPearl group-hover:text-colorPurpleBlue transition-colors">{{ $course->getTranslation('title', app()->getLocale()) }}</h3>
                                         </div>
                                         <!-- Content -->
-                                    </div>
+                                    </a>
                                 </li>
                                 @endforeach
                             </ul>
