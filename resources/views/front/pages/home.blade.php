@@ -512,7 +512,7 @@
                     </div>
                     <!-- Fun-fact Area -->
                     <!-- Section Space -->
-                    <div class="section-space pt-[286px]">
+                    <div class="section-space pt-24">
                         <!-- Section Container -->
                         <div class="container">
                             <div class="mx-auto mb-10 max-w-xl lg:mb-[60px]">
