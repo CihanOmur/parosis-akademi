@@ -113,13 +113,20 @@
                     <!-- Footer Widget - About -->
 
                     <!-- Footer Widget - Nav -->
-                    <div>
+                    <div class="footer-collapse">
                         <!-- Footer Title -->
-                        <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">{{ $footerInfo?->getTranslation('links_title', $locale) ?: 'Baglantilar' }}</span>
+                        <button type="button"
+                                class="footer-collapse-toggle mb-4 md:mb-8 flex w-full items-center justify-between font-title text-xl font-bold text-colorBlackPearl md:cursor-default md:pointer-events-none"
+                                aria-expanded="false">
+                            <span>{{ $footerInfo?->getTranslation('links_title', $locale) ?: 'Baglantilar' }}</span>
+                            <svg class="footer-collapse-arrow h-5 w-5 transition-transform md:hidden" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
                         <!-- Footer Title -->
 
                         <!-- Footer Nav List -->
-                        <ul class="flex flex-col gap-y-3">
+                        <ul class="footer-collapse-list hidden md:!flex flex-col gap-y-3">
                             @if($footerInfo?->nav_links && count($footerInfo->nav_links) > 0)
                                 @foreach($footerInfo->nav_links as $navLink)
                                     @php
@@ -246,3 +253,19 @@
     <!-- Footer Bottom -->
 </footer>
 <!--...::: Footer Section End :::... -->
+
+<script>
+    // Footer bağlantılar mobilde dropdown (768px altı)
+    document.querySelectorAll('.footer-collapse-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (window.innerWidth >= 768) return; // md ve üzeri: dokunma
+            var list = btn.parentElement.querySelector('.footer-collapse-list');
+            var arrow = btn.querySelector('.footer-collapse-arrow');
+            if (!list) return;
+            var isOpen = !list.classList.contains('hidden');
+            list.classList.toggle('hidden', isOpen);
+            btn.setAttribute('aria-expanded', String(!isOpen));
+            if (arrow) arrow.classList.toggle('rotate-180', !isOpen);
+        });
+    });
+</script>
