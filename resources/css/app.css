@@ -96,3 +96,7 @@ input:disabled {
 .modal-icon-pop {
     animation: modal-icon-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
 }
+
+/* Scrollbar gizle (mobil scroll-snap carousel'lerde kullanilir) */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

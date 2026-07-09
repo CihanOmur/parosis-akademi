@@ -677,9 +677,11 @@
                             <!-- Section Block -->
 
                             <!-- Blog List -->
-                            <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+                            <ul class="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-4 -mx-5 px-5 scroll-smooth no-scrollbar
+                                       md:mx-0 md:px-0 md:pb-0 md:overflow-visible md:snap-none
+                                       md:grid md:grid-cols-2 md:gap-[30px] xl:grid-cols-3">
                                 @foreach($blogs as $blog)
-                                <li class="jos" data-jos_animation="flip-left">
+                                <li class="jos flex-none w-[85%] snap-center md:w-auto md:flex-1" data-jos_animation="flip-left">
                                     <div class="group overflow-hidden rounded-lg transition-all duration-300">
                                         <!-- Thumbnail -->
                                         <div class="relative block aspect-[4/3] overflow-hidden rounded-[10px]">
