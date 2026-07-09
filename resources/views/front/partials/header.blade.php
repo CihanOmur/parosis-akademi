@@ -16,6 +16,16 @@
             position: fixed;
             width: 100%;
         }
+        /* Menu acikken swiper pagination'lari ve nav butonlari gizle */
+        body.mobile-menu-open .swiper-pagination,
+        body.mobile-menu-open .hero-slider-pagination,
+        body.mobile-menu-open .blog-swiper-pagination,
+        body.mobile-menu-open .course-swiper-pagination,
+        body.mobile-menu-open .category-swiper-pagination,
+        body.mobile-menu-open .hero-slider-prev,
+        body.mobile-menu-open .hero-slider-next {
+            display: none !important;
+        }
     }
 </style>
 <script>
