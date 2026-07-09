@@ -339,7 +339,7 @@
 
                             {{-- Giris/Kayit butonlari (mobilde) --}}
                             <li class="mobile-menu-cta lg:hidden">
-                                <div class="mt-2 px-6 pt-4 pb-6 space-y-3 border-t border-slate-200">
+                                <div class="px-6 pt-4 pb-6 space-y-3">
                                     @if($navbarInfo?->show_login_button ?? true)
                                     <button type="button" onclick="signinBtn()"
                                             class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-t from-[#D7E1D8] to-white text-sm font-semibold text-colorBlackPearl shadow-sm">
