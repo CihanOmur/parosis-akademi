@@ -218,7 +218,7 @@
                                         </div>
                                         <div class="flex-1">
                                             <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">{{ $cat->getTranslation('name', app()->getLocale()) }}</span>
-                                            <span class="text-sm">{{ str_pad($cat->courses_count, 2, '0', STR_PAD_LEFT) }} {{ __('Kurs') }}</span>
+                                            <span class="text-sm">{{ $cat->courses_count }} {{ __('Kurs') }}</span>
                                         </div>
                                     </a>
                                 </li>

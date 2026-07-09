@@ -250,7 +250,7 @@
                                     </div>
                                     <div class="flex-1">
                                         <span class="mb-1 block font-title text-xl font-bold text-colorBlackPearl">{{ $category->name }}</span>
-                                        <span class="text-sm">{{ str_pad($category->courses_count, 2, '0', STR_PAD_LEFT) }} Kurs</span>
+                                        <span class="text-sm">{{ $category->courses_count }} Kurs</span>
                                     </div>
                                 </a>
                             </li>
