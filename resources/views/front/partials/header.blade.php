@@ -298,6 +298,13 @@
                             {{ $navbarInfo?->getTranslation('login_button_text', $locale) ?: 'Giriş Yap' }}
                         </button>
                         @endif
+                        <!-- Cart Button (hamburger yaninda mobil/desktop) -->
+                        @if($navbarInfo?->show_cart_button ?? true)
+                        <button class="relative inline-flex items-center justify-center h-10 w-10" onclick="openCartSidebar()" aria-label="Sepet">
+                            <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="cart" width="22" height="22" />
+                            <span id="cart-badge" class="absolute -top-1 -right-1 inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-colorPurpleBlue px-1 text-xs font-medium leading-none text-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
+                        </button>
+                        @endif
                         <!-- Responsive Offcanvas Menu Button -->
                         <div class="site-header inline-block lg:hidden">
                             <button id="openBtn" class="hamburger-menu mobile-menu-trigger">
@@ -448,13 +455,7 @@
                         <a href="mailto:{{ $contactInfo?->email_1 ?? 'info@parosisakademi.com' }}" class="text-sm text-[#263238]">{{ $contactInfo?->email_1 ?? 'info@parosisakademi.com' }}</a>
                     </div>
                     <div class="flex items-center justify-between gap-x-5">
-                        <!-- Cart Button -->
-                        @if($navbarInfo?->show_cart_button ?? true)
-                        <button class="relative" onclick="openCartSidebar()">
-                            <img src="{{ asset('assets-front/img/icons/icon-grey-bag.svg') }}" alt="icon-grey-bag" width="21" height="21" />
-                            <span id="cart-badge" class="absolute left-2 top-full inline-flex h-[18px] min-w-[18px] -translate-y-3 items-center justify-center rounded-[50%] bg-colorPurpleBlue text-sm font-normal leading-none text-white {{ ($globalCartCount ?? 0) == 0 ? 'hidden' : '' }}">{{ $globalCartCount ?? 0 }}</span>
-                        </button>
-                        @endif
+                        <!-- Cart Button hamburger yanina tasindi (Header Top Area) -->
                         <!-- Side Info Button -->
                         @if($navbarInfo?->show_side_info_button ?? true)
                         <button onclick="sideInfoBtn()">
