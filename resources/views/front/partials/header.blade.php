@@ -319,7 +319,7 @@
     <!-- Header Top Area -->
 
     <!-- Header Bottom Area -->
-    <header class="site-header bg-white py-0 shadow-[0_4px_30px_16px] shadow-[#070229]/5 {{ ($headerStyle ?? 'inner') === 'home' ? 'z-50' : '' }}">
+    <header class="site-header bg-white py-0 lg:shadow-[0_4px_30px_16px] lg:shadow-[#070229]/5 {{ ($headerStyle ?? 'inner') === 'home' ? 'z-50' : '' }}">
         <div class="container-expand">
             <div class="flex justify-between text-sm font-medium leading-none text-[#263238]">
                 <!-- Header Navigation -->
@@ -446,8 +446,8 @@
                 </div>
                 <!-- Header Navigation -->
 
-                <!-- Right Block -->
-                <div class="flex flex-1 flex-row items-center justify-end gap-x-9 gap-y-3 py-5 lg:justify-end lg:py-0">
+                <!-- Right Block (SADECE DESKTOP - mobilde sepet/menu top area'da) -->
+                <div class="hidden lg:flex flex-1 flex-row items-center justify-end gap-x-9 gap-y-3 py-5 lg:py-0">
                     {{-- Telefon + Email SADECE DESKTOP --}}
                     <div class="hidden lg:flex flex-col gap-x-4 sm:flex-row sm:items-center">
                         @php $phone = $contactInfo?->phone_1 ?? '+532 321 33 33'; @endphp
