@@ -399,6 +399,31 @@
                                     @endif
                                 </div>
                             </li>
+
+                            {{-- Sosyal medya (mobilde) --}}
+                            @php
+                                $socials = collect($footerInfo?->social_links ?? [])->filter(fn($s) => !empty($s['url']));
+                            @endphp
+                            @if($socials->isNotEmpty())
+                            <li class="mobile-menu-social mobile-only-nav">
+                                <div class="px-6 pt-4 pb-6 border-t border-slate-200">
+                                    <div class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">Bizi Takip Edin</div>
+                                    <div class="flex items-center gap-3 flex-wrap">
+                                        @foreach($socials as $social)
+                                            <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer"
+                                               aria-label="{{ $social['name'] ?? 'social' }}"
+                                               class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 hover:bg-colorPurpleBlue hover:shadow-md transition-all group">
+                                                @if(!empty($social['icon']))
+                                                    <img src="{{ asset($social['icon']) }}" alt="{{ $social['name'] ?? 'social' }}" width="18" height="18" class="group-hover:brightness-0 group-hover:invert transition" />
+                                                @else
+                                                    <span class="text-xs font-bold text-colorBlackPearl group-hover:text-white uppercase">{{ Str::limit($social['name'] ?? '', 2, '') }}</span>
+                                                @endif
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </li>
+                            @endif
                         </ul>
                     </nav>
                 </div>
