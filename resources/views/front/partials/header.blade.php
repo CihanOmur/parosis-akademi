@@ -4,7 +4,43 @@
     @media (min-width: 992px) {
         .site-menu-main .mobile-only-nav { display: none !important; }
     }
+
+    /* Mobil menu tam ekran + arka plan scroll lock */
+    @media (max-width: 991px) {
+        .site-header .menu-block {
+            width: 100vw !important;
+            max-width: 100vw !important;
+        }
+        body.mobile-menu-open {
+            overflow: hidden !important;
+            position: fixed;
+            width: 100%;
+        }
+    }
 </style>
+<script>
+    // Menu acildiginda body'e class ekle (scroll lock icin)
+    document.addEventListener('DOMContentLoaded', function () {
+        var menuBlock = document.querySelector('.menu-block');
+        if (!menuBlock) return;
+        var savedScrollTop = 0;
+        new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) {
+                if (m.attributeName === 'class') {
+                    if (menuBlock.classList.contains('active')) {
+                        savedScrollTop = window.scrollY || document.documentElement.scrollTop;
+                        document.body.classList.add('mobile-menu-open');
+                        document.body.style.top = '-' + savedScrollTop + 'px';
+                    } else {
+                        document.body.classList.remove('mobile-menu-open');
+                        document.body.style.top = '';
+                        window.scrollTo(0, savedScrollTop);
+                    }
+                }
+            });
+        }).observe(menuBlock, { attributes: true, attributeFilter: ['class'] });
+    });
+</script>
 @php
     $navbarInfo = $navbarInfo ?? \App\Models\Pages\Navbar\NavbarPageInfo::first();
     $footerInfo = $footerInfo ?? \App\Models\Pages\Footer\FooterPageInfo::first();
