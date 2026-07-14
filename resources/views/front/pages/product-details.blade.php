@@ -282,26 +282,6 @@
                                     <!-- Divider -->
                                     <div class="my-8 h-px w-full bg-colorBlackPearl/8"></div>
 
-                                    <!-- Product Meta -->
-                                    @php $firstCategory = $product->categories->first(); @endphp
-                                    <div class="space-y-3 text-sm">
-                                        @if($product->sku)
-                                        <div class="flex items-center gap-3">
-                                            <span class="font-semibold text-colorBlackPearl/70" @if($fs('detail_sku_label')) style="{{ $fs('detail_sku_label') }}" @endif>{{ $shopInfo->detail_sku_label ?? 'SKU:' }}</span>
-                                            <span class="font-mono text-colorCarbonGrey">{{ $product->sku }}</span>
-                                        </div>
-                                        @endif
-                                        @if($firstCategory)
-                                        <div class="flex items-center gap-3">
-                                            <span class="font-semibold text-colorBlackPearl/70" @if($fs('detail_category_label')) style="{{ $fs('detail_category_label') }}" @endif>{{ $shopInfo->detail_category_label ?? 'Kategori:' }}</span>
-                                            <a href="{{ route('front.products', ['kategori' => $firstCategory->id]) }}"
-                                               class="text-colorPurpleBlue transition-colors hover:underline">
-                                                {{ $firstCategory->name }}
-                                            </a>
-                                        </div>
-                                        @endif
-                                    </div>
-
                                     <!-- Trust Badges -->
                                     <div class="mt-8 grid grid-cols-3 gap-3">
                                         <div class="flex flex-col items-center gap-2 rounded-xl bg-[#FAF9F6] p-4 text-center">
