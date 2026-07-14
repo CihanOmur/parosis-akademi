@@ -161,11 +161,12 @@
         display: inline-flex;
         align-items: center;
         overflow: hidden;
-        padding-right: 70px;
+        padding-right: 65px;
+        padding-left: 24px;
     }
     .is-icon:hover {
-        padding-left: 70px;
-        padding-right: 30px;
+        padding-left: 65px;
+        padding-right: 24px;
     }
 
     .btn-icon {
