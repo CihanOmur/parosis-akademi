@@ -180,6 +180,14 @@
                                        {{ old('manage_stock', $product->manage_stock) ? 'checked' : '' }}>
                                 <label for="manage_stock" class="text-sm font-medium text-slate-700 dark:text-slate-300">Stok Takibi Yap</label>
                             </div>
+
+                            <div class="flex items-center gap-3">
+                                <input type="hidden" name="free_shipping" value="0">
+                                <input type="checkbox" name="free_shipping" id="free_shipping" value="1"
+                                       class="w-4 h-4 rounded border-slate-300 dark:border-slate-600 text-fuchsia-500 focus:ring-fuchsia-500/60"
+                                       {{ old('free_shipping', $product->free_shipping ?? false) ? 'checked' : '' }}>
+                                <label for="free_shipping" class="text-sm font-medium text-slate-700 dark:text-slate-300">Ücretsiz Kargo</label>
+                            </div>
                         </div>
                     </div>
                 </div>
