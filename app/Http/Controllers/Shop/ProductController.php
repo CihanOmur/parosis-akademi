@@ -59,6 +59,7 @@ class ProductController extends Controller
         $product->sale_price = $request->sale_price;
         $product->stock = $request->stock ?? 0;
         $product->manage_stock = $request->has('manage_stock');
+        $product->free_shipping = $request->has('free_shipping');
         $product->sort_order = Product::max('sort_order') + 1;
         $product->is_active = true;
 
@@ -128,6 +129,7 @@ class ProductController extends Controller
         $product->sale_price = $request->sale_price;
         $product->stock = $request->stock ?? 0;
         $product->manage_stock = $request->has('manage_stock');
+        $product->free_shipping = $request->has('free_shipping');
 
         if ($request->hasFile('image')) {
             if ($product->image && file_exists(public_path($product->image))) {
