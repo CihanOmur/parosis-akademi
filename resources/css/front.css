@@ -321,3 +321,17 @@ select:disabled,
 input:disabled {
     cursor: not-allowed;
 }
+
+/* Mobile fix: .btn.is-icon iki satira dusuyor + icon yaziya biniyor */
+@media (max-width: 767px) {
+    .btn.is-icon,
+    .btn.is-icon:hover {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+        justify-content: center;
+        white-space: nowrap;
+    }
+    .btn.is-icon .btn-icon {
+        display: none !important;
+    }
+}
