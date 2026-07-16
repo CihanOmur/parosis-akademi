@@ -467,11 +467,11 @@
                             <!-- Slider main container -->
                             <div class="swiper testimonial-slider-3">
                                 <!-- Additional required wrapper -->
-                                <div class="swiper-wrapper">
+                                <div class="swiper-wrapper items-stretch">
                                     @php $bgColors = ['bg-colorJasper/10', 'bg-colorLightSeaGreen/10', 'bg-colorPurpleBlue/10', 'bg-colorHotPurple/10']; @endphp
                                     @foreach($testimonials as $testimonial)
-                                    <div class="swiper-slide">
-                                        <div class="{{ $bgColors[$loop->index % count($bgColors)] }} p-[30px]">
+                                    <div class="swiper-slide !h-auto">
+                                        <div class="{{ $bgColors[$loop->index % count($bgColors)] }} p-[30px] h-full flex flex-col rounded-lg">
                                             <!-- Review Star -->
                                             <div class="inline-flex items-center gap-x-0.5">
                                                 @for($i = 1; $i <= 5; $i++)
@@ -485,7 +485,7 @@
                                                 "{{ $testimonial->getTranslation('quote', app()->getLocale()) }}"
                                             </blockquote>
 
-                                            <div class="mt-8 flex items-center gap-x-4">
+                                            <div class="mt-auto pt-8 flex items-center gap-x-4">
                                                 <div class="h-11 w-11 overflow-hidden rounded-[50%]">
                                                     @if($testimonial->image)
                                                         <img src="{{ asset($testimonial->image) }}" alt="{{ $testimonial->name }}" width="43" height="43" class="h-full w-full object-cover" />
