@@ -214,7 +214,7 @@
                                                                 $safeUrl = e($url);
                                                                 $external = str_starts_with($url, 'http');
                                                                 $attrs = $external ? ' target="_blank" rel="noopener"' : '';
-                                                                return '<a href="' . $safeUrl . '"' . $attrs . ' class="underline underline-offset-2 hover:text-colorPurpleBlue">' . $label . '</a>';
+                                                                return '<a href="' . $safeUrl . '"' . $attrs . ' class="font-medium text-colorPurpleBlue underline underline-offset-2 hover:text-colorBlackPearl">' . $label . '</a>';
                                                             },
                                                             e($privacyRaw)
                                                         );
