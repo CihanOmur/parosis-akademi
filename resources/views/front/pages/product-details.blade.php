@@ -159,7 +159,7 @@
                                     @endif
 
                                     <!-- Product Name -->
-                                    <h1 class="mb-5 font-title text-3xl font-bold leading-tight text-colorBlackPearl lg:text-4xl">
+                                    <h1 class="mb-5 font-title text-3xl font-bold leading-tight tracking-normal text-colorBlackPearl lg:text-4xl">
                                         {{ $product->name }}
                                     </h1>
 
