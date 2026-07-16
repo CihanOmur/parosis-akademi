@@ -84,7 +84,7 @@
     <script src="{{ asset('assets-front/js/vendors/menu.js') }}"></script>
 
     <!-- Main js -->
-    <script src="{{ asset('assets-front/js/main.js') }}"></script>
+    <script src="{{ asset('assets-front/js/main.js') }}?v={{ @filemtime(public_path('assets-front/js/main.js')) ?: time() }}"></script>
 
     @stack('scripts')
 
