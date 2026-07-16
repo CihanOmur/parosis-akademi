@@ -248,15 +248,15 @@
                                             <!-- Quantity Selector -->
                                             <div class="inline-flex items-center overflow-hidden rounded-full border-2 border-colorBlackPearl/10">
                                                 <button type="button" onclick="changeQty(-1)"
-                                                        class="flex h-12 w-12 items-center justify-center text-lg font-medium text-colorBlackPearl transition-colors hover:bg-colorPurpleBlue/5 hover:text-colorPurpleBlue">
+                                                        class="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center text-lg font-medium text-colorBlackPearl transition-colors hover:bg-colorPurpleBlue/5 hover:text-colorPurpleBlue">
                                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>
                                                     </svg>
                                                 </button>
                                                 <input type="number" name="quantity" id="qty-input" value="1" min="1"
-                                                       class="qty-no-spinner h-12 w-14 border-x-2 border-colorBlackPearl/10 bg-transparent text-center text-base font-semibold text-colorBlackPearl outline-none" />
+                                                       class="qty-no-spinner h-11 w-12 sm:h-12 sm:w-14 border-x-2 border-colorBlackPearl/10 bg-transparent text-center text-base font-semibold text-colorBlackPearl outline-none" />
                                                 <button type="button" onclick="changeQty(1)"
-                                                        class="flex h-12 w-12 items-center justify-center text-lg font-medium text-colorBlackPearl transition-colors hover:bg-colorPurpleBlue/5 hover:text-colorPurpleBlue">
+                                                        class="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center text-lg font-medium text-colorBlackPearl transition-colors hover:bg-colorPurpleBlue/5 hover:text-colorPurpleBlue">
                                                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                                                     </svg>
@@ -267,7 +267,7 @@
                                             <button type="submit"
                                                     id="add-to-cart-btn"
                                                     @if($product->variants && $product->variants->count()) disabled @endif
-                                                    class="btn btn-primary is-icon group flex-shrink-0 whitespace-nowrap min-w-[240px] disabled:cursor-not-allowed disabled:opacity-50">
+                                                    class="btn btn-primary is-icon group flex-shrink-0 whitespace-nowrap sm:min-w-[240px] disabled:cursor-not-allowed disabled:opacity-50">
                                                 <b class="font-medium" @if($fs('detail_add_to_cart')) style="{{ $fs('detail_add_to_cart') }}" @endif>{{ $shopInfo->detail_add_to_cart ?? 'Sepete Ekle' }}</b>
                                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                                     <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="cart" width="20" height="20" />
