@@ -185,17 +185,16 @@
         left: -100%;
     }
 
-    /* Accordion */
+    /* Accordion — max-height JS scrollHeight ile set edilir */
     .accordion-item .accordion-body {
         max-height: 0;
         overflow: hidden;
         margin-top: 0;
         border-top: 1px solid transparent;
-        transition: max-height 250ms cubic-bezier(0.4, 0, 0.2, 1), margin-top 200ms ease, border-color 200ms ease;
+        transition: max-height 280ms cubic-bezier(0.4, 0, 0.2, 1), margin-top 200ms ease, border-color 200ms ease;
     }
     .accordion-item.active .accordion-body {
         margin-top: 1.25rem;
-        max-height: 1000px;
         border-top-color: rgb(1 28 26 / 0.05);
     }
     .accordion-icon {

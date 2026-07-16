@@ -551,7 +551,7 @@
                                         <li class="accordion-item {{ $loop->first ? 'active' : '' }} rounded-lg bg-white px-6 py-5">
                                             <!-- Accordion Header -->
                                             <div class="accordion-header flex items-center justify-between gap-6 font-title text-lg font-bold text-colorBlackPearl">
-                                                <button class="flex-1 text-left">
+                                                <button type="button" class="flex-1 text-left">
                                                     {{ $faq->getTranslation('question', app()->getLocale()) }}
                                                 </button>
                                                 <div class="accordion-icon">

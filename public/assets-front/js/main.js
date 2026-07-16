@@ -25,26 +25,28 @@ document.addEventListener("DOMContentLoaded", function() {
 // ==== Sticky Menu ====
 window.addEventListener("scroll", function () {
   let siteHeader = document.querySelector("header");
-  siteHeader.classList.toggle("scrolling", window.scrollY > 0);
+  if (siteHeader) siteHeader.classList.toggle("scrolling", window.scrollY > 0);
 });
 
 // ================================ Scroll to Top ==================================
 const scrollTopBtn = document.getElementById("scrollTopBtn");
 
-// Show the button when scrolling down 20px from the top
-window.onscroll = function () {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    scrollTopBtn.style.display = "block";
-  } else {
-    scrollTopBtn.style.display = "none";
-  }
-};
+if (scrollTopBtn) {
+  // Show the button when scrolling down 20px from the top
+  window.addEventListener("scroll", function () {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      scrollTopBtn.style.display = "block";
+    } else {
+      scrollTopBtn.style.display = "none";
+    }
+  });
 
-// Scroll to the top when the button is clicked
-scrollTopBtn.onclick = function () {
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
-};
+  // Scroll to the top when the button is clicked
+  scrollTopBtn.onclick = function () {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+  };
+}
 
 // ================================Animate Interaction on Scroll ==================================
 JOS.init({
@@ -72,13 +74,39 @@ JOS.init({
 
 // ======================================== Accordion ======================================
 let accordions = document.querySelectorAll(".accordion-item");
+const _setBody = (el, open) => {
+  const body = el.querySelector(".accordion-body");
+  if (!body) return;
+  if (open) {
+    body.style.maxHeight = body.scrollHeight + "px";
+  } else {
+    body.style.maxHeight = "0px";
+  }
+};
+// initial state — ilk yuklemede active olan acik gorunsun
+accordions.forEach((item) => {
+  _setBody(item, item.classList.contains("active"));
+});
 accordions.forEach((item) => {
   let label = item.querySelector(".accordion-header");
-  label.addEventListener("click", () => {
-    accordions.forEach((accordionItem) => {
-      accordionItem.classList.remove("active");
+  if (!label) return;
+  label.addEventListener("click", (e) => {
+    e.preventDefault();
+    const willOpen = !item.classList.contains("active");
+    accordions.forEach((a) => {
+      a.classList.remove("active");
+      _setBody(a, false);
     });
-    item.classList.toggle("active");
+    if (willOpen) {
+      item.classList.add("active");
+      _setBody(item, true);
+    }
+  });
+});
+// pencere resize'da acik olanin yuksekligini tazele (responsive icin)
+window.addEventListener("resize", () => {
+  accordions.forEach((item) => {
+    if (item.classList.contains("active")) _setBody(item, true);
   });
 });
 
