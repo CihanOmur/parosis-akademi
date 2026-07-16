@@ -9,7 +9,7 @@
     // CTA gercekten dolu VE enabled ise aktif say (shop_page_infos'ta cta_enabled kolonu yok → null → disabled say)
     $footerCtaActive = $ctaInfo && !empty($ctaInfo->cta_enabled);
 @endphp
-<footer class="section-footer {{ $footerCtaActive ? '' : '-mt-32 lg:-mt-48' }}">
+<footer class="section-footer bg-[#FAF9F6] {{ $footerCtaActive ? '' : '-mt-32 lg:-mt-48' }}">
     @if($footerCtaActive)
     <div class="-mt-48">
         <!-- Section Container -->
