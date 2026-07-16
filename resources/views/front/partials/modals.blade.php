@@ -512,3 +512,99 @@ function sidebarRemoveCoupon() {
     </div>
 </div>
 <!-- Offcanvas - Info -->
+
+
+<!-- Stok Bildirim Modal -->
+<div id="stock-notify-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="w-full max-w-md rounded-2xl bg-white shadow-2xl overflow-hidden">
+        <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+            <h3 class="text-lg font-semibold text-slate-900">Stok Haberdar Ol</h3>
+            <button type="button" onclick="closeStockNotifyModal()" class="text-slate-400 hover:text-slate-700 transition">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <form id="stock-notify-form" onsubmit="submitStockNotify(event)" class="px-6 py-5 space-y-4">
+            <p class="text-sm text-slate-600">Ürün stoklarımıza girdiğinde size e-posta ile haber verelim.</p>
+            <input type="hidden" name="product_id" id="stock-notify-product-id" />
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">E-posta Adresi <span class="text-red-500">*</span></label>
+                <input type="email" name="email" required placeholder="ornek@parosis.com"
+                       class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-colorPurpleBlue focus:border-transparent focus:bg-white transition-all">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1.5">Kısa Not <span class="text-slate-400 text-xs">(opsiyonel)</span></label>
+                <textarea name="note" rows="3" maxlength="500" placeholder="Eklemek istediğiniz not..."
+                          class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none focus:ring-2 focus:ring-colorPurpleBlue focus:border-transparent focus:bg-white transition-all resize-none"></textarea>
+            </div>
+            <div id="stock-notify-message" class="hidden rounded-lg p-3 text-sm"></div>
+            <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                <button type="button" onclick="closeStockNotifyModal()"
+                        class="px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-xl transition">İptal</button>
+                <button type="submit" id="stock-notify-submit"
+                        class="px-6 py-2.5 text-sm font-semibold text-white bg-colorPurpleBlue rounded-xl hover:brightness-110 transition">Haber Ver</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openStockNotifyModal(productId) {
+        document.getElementById('stock-notify-product-id').value = productId;
+        var msg = document.getElementById('stock-notify-message');
+        msg.classList.add('hidden');
+        msg.textContent = '';
+        document.getElementById('stock-notify-form').reset();
+        document.getElementById('stock-notify-product-id').value = productId;
+        var m = document.getElementById('stock-notify-modal');
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+    }
+    function closeStockNotifyModal() {
+        var m = document.getElementById('stock-notify-modal');
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+    }
+    async function submitStockNotify(e) {
+        e.preventDefault();
+        var form = e.target;
+        var btn = document.getElementById('stock-notify-submit');
+        var msg = document.getElementById('stock-notify-message');
+        btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+        try {
+            var fd = new FormData(form);
+            var res = await fetch("{{ route('stock.notify') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: fd,
+            });
+            var data = await res.json();
+            if (res.ok && data.success) {
+                msg.className = 'rounded-lg p-3 text-sm bg-emerald-50 text-emerald-700 border border-emerald-200';
+                msg.textContent = data.message || 'Talebiniz alındı.';
+                msg.classList.remove('hidden');
+                setTimeout(closeStockNotifyModal, 2500);
+            } else {
+                var err = (data.errors && Object.values(data.errors).flat().join(' ')) || data.message || 'Bir hata oluştu.';
+                msg.className = 'rounded-lg p-3 text-sm bg-red-50 text-red-700 border border-red-200';
+                msg.textContent = err;
+                msg.classList.remove('hidden');
+            }
+        } catch (err) {
+            msg.className = 'rounded-lg p-3 text-sm bg-red-50 text-red-700 border border-red-200';
+            msg.textContent = 'Hata: ' + err.message;
+            msg.classList.remove('hidden');
+        } finally {
+            btn.disabled = false; btn.textContent = 'Haber Ver';
+        }
+    }
+    // ESC ile kapat
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeStockNotifyModal();
+    });
+</script>

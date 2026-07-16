@@ -29,6 +29,7 @@ use App\Http\Controllers\Shop\ProductAttributeController;
 use App\Http\Controllers\Shop\ProductController;
 use App\Http\Controllers\Shop\OrderController;
 use App\Http\Controllers\Shop\ShopFrontController;
+use App\Http\Controllers\Shop\StockNotificationController;
 use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\CouponController;
@@ -537,3 +538,16 @@ Route::get('/robots.txt', function () {
 
 // ─── Dynamic sitemap.xml ─────────────────────────────────────────────────────
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+
+// Stok bildirim talebi (front) — locale disinda basit endpoint
+Route::post('/haber-ver', [\App\Http\Controllers\Shop\StockNotificationController::class, 'store'])->name('stock.notify');
+
+// Panel: stock notification talepler
+Route::middleware(['auth', \App\Http\Middleware\SharedDatas::class])->prefix('panel')->group(function () {
+    Route::prefix('stock-requests')->name('stock-requests.')->middleware('permission:shop|shop_delete')->group(function () {
+        Route::get('/',                    [\App\Http\Controllers\Shop\StockNotificationController::class, 'index'])->name('index');
+        Route::post('/{id}/notified',      [\App\Http\Controllers\Shop\StockNotificationController::class, 'markNotified'])->name('markNotified')->middleware('permission:shop');
+        Route::delete('/{id}',             [\App\Http\Controllers\Shop\StockNotificationController::class, 'destroy'])->name('destroy')->middleware('permission:shop_delete');
+    });
+});

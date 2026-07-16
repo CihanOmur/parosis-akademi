@@ -239,6 +239,37 @@
                                     </div>
 
                                     <!-- Add to Cart Form -->
+                                    @php
+                                        $isOutOfStock = ($product->manage_stock ?? false) && (int) ($product->stock ?? 0) <= 0;
+                                    @endphp
+
+                                    @if($isOutOfStock)
+                                        <!-- STOKTA YOK — Haber Ver Butonu -->
+                                        <div class="space-y-4">
+                                            <div class="flex items-center gap-3 rounded-xl bg-red-50 border border-red-200 p-4">
+                                                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-red-500 text-white flex-shrink-0">
+                                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"/>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1">
+                                                    <div class="font-semibold text-red-900">Stokta Yok</div>
+                                                    <div class="text-sm text-red-700">Bu ürün geçici olarak tükendi.</div>
+                                                </div>
+                                            </div>
+                                            <button type="button"
+                                                    onclick="openStockNotifyModal({{ $product->id }})"
+                                                    class="btn btn-primary is-icon group flex-shrink-0 whitespace-nowrap sm:min-w-[240px]">
+                                                Stok Geldiğinde Haber Ver
+                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
+                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-mail-open.svg') }}" alt="notify" width="20" height="20" />
+                                                </span>
+                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
+                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-mail-open.svg') }}" alt="notify" width="20" height="20" />
+                                                </span>
+                                            </button>
+                                        </div>
+                                    @else
                                     <form action="{{ route('front.cart.add') }}" method="POST" id="add-to-cart-form" onsubmit="return addToCartAjax(event)">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}" />
@@ -278,6 +309,8 @@
                                             </button>
                                         </div>
                                     </form>
+                                    @endif
+                                    
 
                                     <!-- Divider -->
                                     <div class="my-8 h-px w-full bg-colorBlackPearl/8"></div>
