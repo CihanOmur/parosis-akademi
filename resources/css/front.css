@@ -326,3 +326,20 @@ input:disabled {
 @media (max-width: 767px) {
     .btn.is-icon { white-space: nowrap; }
 }
+
+
+/* Add-to-cart butonu hover animasyonu kilit — icon hep sagda, text asla overlap yapmaz */
+#add-to-cart-btn,
+#add-to-cart-btn:hover {
+    padding-left: 30px !important;
+    padding-right: 70px !important;
+}
+#add-to-cart-btn .btn-icon:first-of-type,
+#add-to-cart-btn:hover .btn-icon:first-of-type {
+    right: 5px !important;
+    left: auto !important;
+    transform: none !important;
+}
+#add-to-cart-btn .btn-icon:last-of-type {
+    display: none !important;
+}
