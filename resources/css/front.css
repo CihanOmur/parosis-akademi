@@ -195,6 +195,7 @@
     }
     .accordion-item.active .accordion-body {
         margin-top: 1.25rem;
+        max-height: 2000px;
         border-top-color: rgb(1 28 26 / 0.05);
     }
     .accordion-icon {

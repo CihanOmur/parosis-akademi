@@ -548,7 +548,7 @@
                                     <!-- Accordion List -->
                                     <ul class="mt-7 grid grid-cols-1 gap-y-4">
                                         @foreach($faqs as $faq)
-                                        <li class="accordion-item {{ $loop->first ? 'active' : '' }} rounded-lg bg-white px-6 py-5">
+                                        <li class="accordion-item {{ $loop->first ? 'active' : '' }} rounded-lg bg-white px-6 py-5 border border-gray-200">
                                             <!-- Accordion Header -->
                                             <div class="accordion-header flex items-center justify-between gap-6 font-title text-lg font-bold text-colorBlackPearl">
                                                 <button type="button" class="flex-1 text-left">

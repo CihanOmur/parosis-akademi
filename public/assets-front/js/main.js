@@ -83,10 +83,6 @@ const _setBody = (el, open) => {
     body.style.maxHeight = "0px";
   }
 };
-// initial state — ilk yuklemede active olan acik gorunsun
-accordions.forEach((item) => {
-  _setBody(item, item.classList.contains("active"));
-});
 accordions.forEach((item) => {
   let label = item.querySelector(".accordion-header");
   if (!label) return;
