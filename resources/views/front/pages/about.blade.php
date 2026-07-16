@@ -522,11 +522,11 @@
                         <!-- Section Container -->
                         <div class="container">
                             <!-- Faq Area -->
-                            <div class="grid grid-cols-1 gap-y-10 lg:grid-cols-[1fr_minmax(0,0.9fr)] lg:gap-x-20 xl:gap-x-28">
+                            <div class="grid grid-cols-1 gap-y-10 lg:grid-cols-[1fr_minmax(0,0.9fr)] lg:items-center lg:gap-x-20 xl:gap-x-28">
                                 <!-- FAQ Left Block -->
                                 <div class="relative z-10 order-2 mx-auto lg:order-1">
                                     <div class="flex items-start gap-7">
-                                        <img src="{{ asset($v('faq_image1', 'assets-front/img/images/th-2/faq-img-1.png')) }}" alt="faq-img-1" width="258" height="440" class="jos max-w-full rounded-lg" />
+                                        <img src="{{ asset($v('faq_image1', 'assets-front/img/images/th-2/faq-img-1.png')) }}" alt="faq-img-1" width="258" height="440" class="jos mx-auto w-full max-w-[258px] max-h-[320px] object-cover rounded-lg md:max-h-none" />
                                         <div class="hidden md:inline-block">
                                             <img src="{{ asset($v('faq_image2', 'assets-front/img/images/th-2/faq-img-2.png')) }}" alt="faq-img-2" width="258" height="172" class="jos mb-6 max-w-full rounded-lg xl:mb-14" />
                                             <img src="{{ asset($v('faq_image3', 'assets-front/img/images/th-2/faq-img-3.png')) }}" alt="faq-img-3" width="258" height="371" class="jos max-w-full rounded-lg" />
@@ -585,7 +585,7 @@
             <!--...::: Blog Section Start :::... -->
             <section class="section-blog">
                 <!-- Section Background -->
-                <div class="relative z-10 overflow-hidden bg-white pb-44">
+                <div class="relative z-10 overflow-hidden bg-white">
                     <!-- Section Space -->
                     <div class="section-space">
                         <!-- Section Container -->
