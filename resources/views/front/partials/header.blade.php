@@ -310,7 +310,7 @@
                         </button>
                         @endif
                         @if($navbarInfo?->show_login_button ?? true)
-                        <button class="hidden lg:inline-block h-10 rounded-[50Px] bg-gradient-to-t from-[#D7E1D8] to-white px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow" onclick="signinBtn()">
+                        <button class="hidden lg:inline-block h-10 rounded-[50Px] bg-colorBrightGold px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow" onclick="signinBtn()">
                             {{ $navbarInfo?->getTranslation('login_button_text', $locale) ?: 'Giriş Yap' }}
                         </button>
                         @endif
@@ -417,7 +417,7 @@
                                 <div class="px-6 pt-4 pb-6 space-y-3">
                                     @if($navbarInfo?->show_login_button ?? true)
                                     <button type="button" onclick="signinBtn()"
-                                            class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-gradient-to-t from-[#D7E1D8] to-white text-sm font-semibold text-colorBlackPearl shadow-sm">
+                                            class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"/>
                                         </svg>
