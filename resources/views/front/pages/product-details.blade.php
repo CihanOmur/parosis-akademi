@@ -267,8 +267,8 @@
                                             <button type="submit"
                                                     id="add-to-cart-btn"
                                                     @if($product->variants && $product->variants->count()) disabled @endif
-                                                    class="btn btn-primary is-icon group flex-shrink-0 whitespace-nowrap min-w-[280px] disabled:cursor-not-allowed disabled:opacity-50">
-                                                <span @if($fs('detail_add_to_cart')) style="{{ $fs('detail_add_to_cart') }}" @endif>{{ $shopInfo->detail_add_to_cart ?? 'Sepete Ekle' }}</span>
+                                                    class="btn btn-primary is-icon group flex-shrink-0 whitespace-nowrap min-w-[240px] disabled:cursor-not-allowed disabled:opacity-50">
+                                                <b class="font-medium" @if($fs('detail_add_to_cart')) style="{{ $fs('detail_add_to_cart') }}" @endif>{{ $shopInfo->detail_add_to_cart ?? 'Sepete Ekle' }}</b>
                                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
                                                     <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="cart" width="20" height="20" />
                                                 </span>
