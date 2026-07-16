@@ -4,9 +4,13 @@
     $footerContact = $footerContact ?? \App\Models\Pages\Contact\ContactPageInfo::first();
     $locale = app()->getLocale();
 @endphp
-<footer class="section-footer @if(!($ctaInfo?->cta_enabled ?? true)) -mt-32 lg:-mt-48 @endif">
-    @php $ctaInfo = $ctaInfo ?? $footerContact; @endphp
-    @if(($ctaInfo?->cta_enabled ?? true))
+@php
+    $ctaInfo = $ctaInfo ?? $footerContact;
+    // CTA gercekten dolu VE enabled ise aktif say (shop_page_infos'ta cta_enabled kolonu yok → null → disabled say)
+    $footerCtaActive = $ctaInfo && !empty($ctaInfo->cta_enabled);
+@endphp
+<footer class="section-footer {{ $footerCtaActive ? '' : '-mt-32 lg:-mt-48' }}">
+    @if($footerCtaActive)
     <div class="-mt-48">
         <!-- Section Container -->
         <div class="container">
