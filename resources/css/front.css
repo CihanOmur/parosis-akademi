@@ -160,20 +160,23 @@
         position: relative;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         overflow: hidden;
-        padding-right: 65px;
+        padding-right: 56px;
         padding-left: 24px;
     }
     .is-icon:hover {
-        padding-left: 65px;
+        padding-left: 56px;
         padding-right: 24px;
     }
 
     .btn-icon {
         position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
         display: inline-flex;
-        height: 2.75rem;
-        width: 2.75rem;
+        height: 2.25rem;
+        width: 2.25rem;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
@@ -181,9 +184,19 @@
     }
     .btn-icon:first-of-type {
         right: 5px;
+        left: auto;
     }
     .btn-icon:last-of-type {
         left: -100%;
+    }
+    /* Hover'da Tailwind group-hover:translate-x-* kullaniliyor ama biz translateY(-50%)'yi kaybetmemek icin dikey merkezi flexbox ile hallediyoruz */
+    .is-icon .btn-icon {
+        top: auto;
+        bottom: auto;
+        transform: none;
+    }
+    .is-icon {
+        align-items: center;
     }
 
     /* Accordion */
