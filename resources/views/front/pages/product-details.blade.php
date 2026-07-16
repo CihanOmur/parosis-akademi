@@ -263,18 +263,15 @@
                                                 </button>
                                             </div>
 
-                                            <!-- Add to Cart Button -->
+                                            <!-- Add to Cart Button (sabit, animasyonsuz — is-icon overflow bug'i icin) -->
                                             <button type="submit"
                                                     id="add-to-cart-btn"
                                                     @if($product->variants && $product->variants->count()) disabled @endif
-                                                    class="btn btn-primary is-icon group whitespace-nowrap min-w-[240px] flex-1 sm:flex-none disabled:cursor-not-allowed disabled:opacity-50">
+                                                    class="btn btn-primary inline-flex items-center justify-center gap-3 whitespace-nowrap min-w-[220px] flex-1 sm:flex-none hover:opacity-90 transition-opacity disabled:cursor-not-allowed disabled:opacity-50">
+                                                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/25 flex-shrink-0">
+                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="cart" width="20" height="20" />
+                                                </span>
                                                 <span @if($fs('detail_add_to_cart')) style="{{ $fs('detail_add_to_cart') }}" @endif>{{ $shopInfo->detail_add_to_cart ?? 'Sepete Ekle' }}</span>
-                                                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
-                                                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-purple-shopping-cart-line.svg') }}" alt="icon-purple-shopping-cart-line" width="20" height="20" />
-                                                </span>
                                             </button>
                                         </div>
                                     </form>
