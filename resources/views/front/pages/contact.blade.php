@@ -200,7 +200,26 @@
                                                         <input type="checkbox" name="check-box" id="check-box" class="peer opacity-0" />
                                                         <span class="absolute left-0 top-1/2 inline-block h-4 w-4 -translate-y-1/2 rounded-[50%] border border-colorBlackPearl/75 peer-checked:bg-colorBlackPearl/75"></span>
                                                     </span>
-                                                    {{ $contactInfo?->getTranslation('form_privacy_text', app()->getLocale()) ?: 'Gizlilik Politikasini kabul ediyorum.' }}
+                                                    @php
+                                                        $privacyRaw = $contactInfo?->getTranslation('form_privacy_text', app()->getLocale()) ?: 'Gizlilik Politikasini kabul ediyorum.';
+                                                        // [metin](url) sozdizimini <a>'ya cevir; sadece http(s) / rota veya / ile baslayan URL'leri kabul et
+                                                        $privacyHtml = preg_replace_callback(
+                                                            '/\[([^\]]+)\]\(([^)\s]+)\)/u',
+                                                            function ($m) {
+                                                                $label = e($m[1]);
+                                                                $url = $m[2];
+                                                                if (!preg_match('#^(https?://|/|mailto:|tel:)#i', $url)) {
+                                                                    return $label;
+                                                                }
+                                                                $safeUrl = e($url);
+                                                                $external = str_starts_with($url, 'http');
+                                                                $attrs = $external ? ' target="_blank" rel="noopener"' : '';
+                                                                return '<a href="' . $safeUrl . '"' . $attrs . ' class="underline underline-offset-2 hover:text-colorPurpleBlue">' . $label . '</a>';
+                                                            },
+                                                            e($privacyRaw)
+                                                        );
+                                                    @endphp
+                                                    <span>{!! $privacyHtml !!}</span>
                                                 </label>
                                             </div>
                                             <!-- Single Input Item -->
