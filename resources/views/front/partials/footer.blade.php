@@ -4,7 +4,7 @@
     $footerContact = $footerContact ?? \App\Models\Pages\Contact\ContactPageInfo::first();
     $locale = app()->getLocale();
 @endphp
-<footer class="section-footer">
+<footer class="section-footer @if(!($ctaInfo?->cta_enabled ?? true)) -mt-32 lg:-mt-48 @endif">
     @php $ctaInfo = $ctaInfo ?? $footerContact; @endphp
     @if(($ctaInfo?->cta_enabled ?? true))
     <div class="-mt-48">
