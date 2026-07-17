@@ -61,9 +61,9 @@
 
             <!--...::: Course Section Start :::... -->
             <div class="section-course">
-                <div class="bg-white pb-16 lg:pb-20">
+                <div class="bg-white pb-8">
                     <!-- Section Space -->
-                    <div class="section-space">
+                    <div class="section-space-top pb-8">
                         <!-- Section Container -->
                         <div class="container">
                             <!-- Course Top -->
