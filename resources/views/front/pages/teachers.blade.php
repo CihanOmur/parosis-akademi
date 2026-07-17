@@ -62,7 +62,7 @@
 
             <!--...::: Teacher Section Start :::... -->
             <div class="section-teacher">
-                <div class="bg-white pb-44">
+                <div class="bg-white pb-16 lg:pb-20">
                     <!-- Section Space -->
                     <div class="section-space">
                         <!-- Section Container -->
