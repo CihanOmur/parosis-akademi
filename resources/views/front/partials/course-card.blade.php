@@ -13,7 +13,11 @@
         @endif
 
         @if($course->categories->count())
-            <span class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl">{{ $course->categories->first()->name }}</span>
+            <div class="absolute left-3 top-3 right-3 flex flex-wrap gap-1.5">
+                @foreach($course->categories as $cat)
+                    <span class="inline-block rounded-[40px] bg-colorBrightGold px-3 py-1.5 text-xs leading-none text-colorBlackPearl">{{ $cat->name }}</span>
+                @endforeach
+            </div>
         @endif
     </div>
     <!-- Content: baslik + kisa aciklama -->

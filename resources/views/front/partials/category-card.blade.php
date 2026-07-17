@@ -1,4 +1,4 @@
-<a href="{{ route('front.courses') }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
+<a href="{{ route('front.courses', ['category' => $category->id]) }}" class="flex items-center gap-6 rounded-[100px] bg-white p-[10px] transition-all duration-300 hover:shadow-lg">
     <div class="inline-flex h-[72px] w-[72px] items-center justify-center rounded-[50%]" style="background-color: {{ ($category->color ?? '#543EE4') . '1a' }}">
         @if($category->icon)
             <img src="{{ asset($category->icon) }}" alt="{{ $category->name }}" width="30" height="30" />

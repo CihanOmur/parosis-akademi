@@ -68,13 +68,27 @@ class FrontController extends Controller
             });
         }
 
-        $courses = $query->orderBy('sort_order')->paginate(9)->appends(['q' => $search]);
+        $categoryId = (int) request('category', 0);
+        $activeCategory = null;
+        if ($categoryId > 0) {
+            $activeCategory = CourseCategory::where('is_active', true)->find($categoryId);
+            if ($activeCategory) {
+                $query->whereHas('categories', function ($q) use ($categoryId) {
+                    $q->where('course_categories.id', $categoryId);
+                });
+            }
+        }
+
+        $courses = $query->orderBy('sort_order')->paginate(9)->appends([
+            'q' => $search,
+            'category' => $categoryId ?: null,
+        ]);
         $categories = CourseCategory::where('is_active', true)
             ->withCount(['courses' => fn($q) => $q->where('is_active', true)])
             ->orderBy('sort_order')
             ->get();
         $ctaInfo = $coursePageInfo;
-        return view('front.pages.courses', compact('coursePageInfo', 'courses', 'categories', 'ctaInfo', 'search'));
+        return view('front.pages.courses', compact('coursePageInfo', 'courses', 'categories', 'ctaInfo', 'search', 'activeCategory'));
     }
 
     public function search()
