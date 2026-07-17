@@ -18,7 +18,7 @@
             @if($blog->published_at)
             <span class="inline-flex items-center gap-1.5 text-sm">
                 <img src="{{ asset('assets-front/img/icons/icon-grey-calendar.svg') }}" alt="icon-grey-calendar" width="23" height="23" />
-                <span class="flex-1">{{ $blog->published_at->format('d M, Y') }}</span>
+                <span class="flex-1">{{ $blog->published_at->translatedFormat('d F Y') }}</span>
             </span>
             @endif
         </div>
