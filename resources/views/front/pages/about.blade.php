@@ -585,9 +585,9 @@
             <!--...::: Blog Section Start :::... -->
             <section class="section-blog">
                 <!-- Section Background -->
-                <div class="relative z-30 overflow-hidden bg-white">
+                <div class="relative z-10 overflow-hidden bg-white">
                     <!-- Section Space -->
-                    <div class="section-space">
+                    <div class="section-space-top pb-12 lg:pb-16">
                         <!-- Section Container -->
                         <div class="container">
                             <!-- Section Block -->

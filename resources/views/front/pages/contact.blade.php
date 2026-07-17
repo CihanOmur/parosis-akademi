@@ -128,7 +128,7 @@
             <!--...::: Contact Form Section Start :::... -->
             <section class="section-contact">
                 <!-- Section Background -->
-                <div class="bg-white pb-44">
+                <div class="bg-white pb-16 lg:pb-20">
                     <!-- Section Space -->
                     <div class="section-space-bottom">
                         <!-- Section Container -->
