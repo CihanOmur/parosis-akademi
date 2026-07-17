@@ -1,4 +1,4 @@
-<div class="group overflow-hidden rounded-lg transition-all duration-300">
+<a href="{{ route('front.blog.details', $blog->id) }}" class="group block overflow-hidden rounded-lg transition-all duration-300">
     <!-- Thumbnail -->
     <div class="relative block aspect-[4/3] overflow-hidden rounded-[10px]">
         @if($blog->image)
@@ -8,7 +8,7 @@
         @endif
 
         @if($blog->categories->count())
-            <a href="{{ route('front.blog') }}" class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white hover:bg-colorBlackPearl">{{ $blog->categories->first()->name }}</a>
+            <span class="absolute bottom-4 left-4 inline-block rounded-[40px] bg-colorPurpleBlue px-3.5 py-3 text-sm leading-none text-white">{{ $blog->categories->first()->name }}</span>
         @endif
     </div>
     <!-- Content -->
@@ -22,7 +22,7 @@
             </span>
             @endif
         </div>
-        <!-- Title Link -->
-        <a href="{{ route('front.blog.details', $blog->id) }}" class="my-6 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">{{ $blog->getTranslation('title', app()->getLocale()) }}</a>
+        <!-- Title -->
+        <h3 class="my-6 block font-title text-xl font-bold text-colorBlackPearl transition-colors group-hover:text-colorPurpleBlue">{{ $blog->getTranslation('title', app()->getLocale()) }}</h3>
     </div>
-</div>
+</a>
