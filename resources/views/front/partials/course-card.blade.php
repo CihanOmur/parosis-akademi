@@ -1,5 +1,5 @@
 <a href="{{ route('front.course.details', $course->id) }}"
-   class="group block overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
+   class="group block h-full overflow-hidden rounded-lg transition-all duration-300 hover:shadow-md">
     <!-- Thumbnail -->
     <div class="relative block aspect-[4/3] overflow-hidden">
         @if($course->image)
@@ -16,8 +16,11 @@
             <span class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl">{{ $course->categories->first()->name }}</span>
         @endif
     </div>
-    <!-- Content: sadece kurs adi -->
+    <!-- Content: baslik + kisa aciklama -->
     <div class="bg-[#F5F5F5] px-5 py-6 text-center">
         <h3 class="font-title text-xl font-bold text-colorBlackPearl group-hover:text-colorPurpleBlue transition-colors">{{ $course->getTranslation('title', app()->getLocale()) }}</h3>
+        @if($course->getTranslation('short_description', app()->getLocale()))
+            <p class="mt-3 text-sm text-colorBlackPearl/70 line-clamp-2">{{ $course->getTranslation('short_description', app()->getLocale()) }}</p>
+        @endif
     </div>
 </a>

@@ -95,78 +95,7 @@
                             <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">
                                 @forelse($courses as $course)
                                 <li class="jos" data-jos_animation="flip-left">
-                                    <div class="group overflow-hidden rounded-lg bg-[#f5f5f5] transition-all duration-300 hover:shadow-md">
-                                        <!-- Thumbnail -->
-                                        <div class="relative block aspect-[4/3] overflow-hidden rounded-tl-lg rounded-tr-lg">
-                                            @if($course->image)
-                                                <img src="{{ asset($course->image) }}" alt="{{ $course->getTranslation('title', app()->getLocale()) }}" width="370" height="270" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-105" />
-                                            @else
-                                                <div class="h-full w-full bg-gray-200 flex items-center justify-center">
-                                                    <svg class="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M2.25 18V6a2.25 2.25 0 0 1 2.25-2.25h15A2.25 2.25 0 0 1 21.75 6v12A2.25 2.25 0 0 1 19.5 20.25H4.5A2.25 2.25 0 0 1 2.25 18Z"/>
-                                                    </svg>
-                                                </div>
-                                            @endif
-
-                                            @if($course->categories->count())
-                                                <span class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl">{{ $course->categories->first()->name }}</span>
-                                            @endif
-                                        </div>
-                                        <!-- Thumbnail -->
-                                        <!-- Content -->
-                                        <div class="mt-7 px-4 pb-6">
-                                            <!-- Course Meta -->
-                                            <div class="flex justify-between gap-9">
-                                                @if($course->lesson_count)
-                                                <span class="inline-flex items-center gap-1.5 text-sm">
-                                                    <img src="{{ asset('assets-front/img/icons/icon-grey-book-3-line.svg') }}" alt="icon-grey-book-3-line" width="17" height="17" />
-                                                    <span class="flex-1">{{ $course->lesson_count }} Ders</span>
-                                                </span>
-                                                @endif
-                                            </div>
-                                            <!-- Course Meta -->
-
-                                            <!-- Title Link -->
-                                            <a href="{{ route('front.course.details', $course->id) }}" class="mb-3 mt-3 block font-title text-xl font-bold text-colorBlackPearl hover:text-colorPurpleBlue">{{ $course->getTranslation('title', app()->getLocale()) }}</a>
-                                            <!-- Title Link -->
-
-                                            @if($course->getTranslation('short_description', app()->getLocale()))
-                                            <p class="line-clamp-2">
-                                                {{ $course->getTranslation('short_description', app()->getLocale()) }}
-                                            </p>
-                                            @endif
-
-                                            <!-- Separator -->
-                                            <div class="my-6 h-px w-full bg-[#E9E5DA]"></div>
-                                            <!-- Separator -->
-                                            <!-- Bottom Text -->
-                                            <div class="flex items-center justify-between">
-                                                <!-- Instructor Block -->
-                                                <div class="flex items-center gap-x-3">
-                                                    @if($course->instructor_image)
-                                                    <div class="h-7 w-7 overflow-hidden rounded-[50%]">
-                                                        <img src="{{ asset($course->instructor_image) }}" alt="{{ $course->instructor_name }}" width="28" height="28" class="h-full w-full object-cover" />
-                                                    </div>
-                                                    @endif
-                                                    @if($course->instructor_name)
-                                                    <span class="text-sm">{{ $course->instructor_name }}</span>
-                                                    @endif
-                                                    @if($course->student_count)
-                                                    <div class="inline-flex items-center gap-1.5 text-sm">
-                                                        <img src="{{ asset('assets-front/img/icons/icon-grey-graduation-cap-line.svg') }}" alt="icon-grey-graduation-cap-line" width="17" height="17" />
-                                                        <span class="flex-1">{{ $course->student_count }} Öğrenci</span>
-                                                    </div>
-                                                    @endif
-                                                </div>
-                                                <!-- Instructor Block -->
-                                                @if($course->price)
-                                                <span class="font-title text-xl font-bold text-colorPurpleBlue">{{ $course->price }}</span>
-                                                @endif
-                                            </div>
-                                            <!-- Bottom Text -->
-                                        </div>
-                                        <!-- Content -->
-                                    </div>
+                                    @include('front.partials.course-card', ['course' => $course])
                                 </li>
                                 @empty
                                 <li class="col-span-3 text-center py-16 text-slate-500">
