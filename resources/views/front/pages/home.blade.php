@@ -29,7 +29,7 @@
                         @php $slide = $slides->first(); @endphp
                         <div class="relative z-10 overflow-hidden bg-cover bg-center bg-no-repeat h-[calc(100svh-70px)] md:h-[calc(100vh-140px)]"
                              style="background-image: url('{{ $slide->background_image ? asset($slide->background_image) : asset('assets-front/img/images/th-1/hero-bg.svg') }}')">
-                            <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full">
+                            <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full overflow-hidden">
                                 <div class="py-8 lg:py-16 xxl:py-24">
                                     <h1 class="mb-[30px]">
                                         {!! nl2br(e(str_replace(
@@ -58,9 +58,9 @@
                                     @endif
                                 </div>
                                 @if($slide->image)
-                                    <div class="relative flex items-end justify-center overflow-hidden h-full">
+                                    <div class="relative flex items-end justify-center overflow-hidden h-auto max-h-[40vh] md:h-full md:max-h-none">
                                         <img src="{{ asset($slide->image) }}" alt="{{ $slide->title }}" width="653" height="740" class="element-move-x relative z-10 h-full w-auto max-w-full object-contain object-bottom"/>
-                                        <div class="jos absolute bottom-0 left-1/2 -z-10 h-[300px] w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]" data-jos_animation="zoom-in-up"></div>
+                                        <div class="jos absolute bottom-0 left-1/2 -z-10 h-[180px] w-[180px] md:h-[300px] md:w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]" data-jos_animation="zoom-in-up"></div>
                                     </div>
                                 @endif
                             </div>
@@ -74,7 +74,7 @@
                                         <div class="swiper-slide !h-full">
                                             <div class="relative z-10 bg-cover bg-center bg-no-repeat h-full"
                                                  style="background-image: url('{{ $slide->background_image ? asset($slide->background_image) : asset('assets-front/img/images/th-1/hero-bg.svg') }}')">
-                                                <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full">
+                                                <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full overflow-hidden">
                                                     <div class="py-8 lg:py-16 xxl:py-24">
                                                         <h1 class="mb-[30px]">
                                                             {!! nl2br(e(str_replace(
@@ -103,9 +103,9 @@
                                                         @endif
                                                     </div>
                                                     @if($slide->image)
-                                                        <div class="relative flex items-end justify-center overflow-hidden h-full">
+                                                        <div class="relative flex items-end justify-center overflow-hidden h-auto max-h-[40vh] md:h-full md:max-h-none">
                                                             <img src="{{ asset($slide->image) }}" alt="{{ $slide->title }}" width="653" height="740" class="relative z-10 h-full w-auto max-w-full object-contain object-bottom"/>
-                                                            <div class="absolute bottom-0 left-1/2 -z-10 h-[300px] w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]"></div>
+                                                            <div class="absolute bottom-0 left-1/2 -z-10 h-[180px] w-[180px] md:h-[300px] md:w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]"></div>
                                                         </div>
                                                     @endif
                                                 </div>
