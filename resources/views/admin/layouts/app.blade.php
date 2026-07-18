@@ -82,8 +82,8 @@
         {{-- Footer --}}
         <footer class="px-4 sm:px-6 lg:px-8 py-4 border-t border-slate-200 dark:border-slate-800">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-slate-500 dark:text-slate-400">
-                <p>&copy; {{ date('Y') }} <a href="https://corwus.com" target="_blank" rel="noopener" class="font-bold hover:underline">Corwus</a> - Tüm hakları saklıdır.</p>
-                <p>Laravel v{{ app()->version() }}</p>
+                <p>&copy; {{ date('Y') }} <span class="font-bold">Parosis Akademi</span> - Tüm hakları saklıdır.</p>
+                <p>Designed and created by <a href="https://corwus.com" target="_blank" rel="noopener" class="font-bold hover:underline">Corwus</a></p>
             </div>
         </footer>
     </div>
