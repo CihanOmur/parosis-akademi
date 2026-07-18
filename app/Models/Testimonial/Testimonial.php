@@ -14,6 +14,7 @@ class Testimonial extends Model
         'role',
         'quote',
         'image',
+        'gender',
         'rating',
         'sort_order',
         'is_active',

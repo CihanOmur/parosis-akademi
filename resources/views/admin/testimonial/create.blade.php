@@ -58,6 +58,16 @@
                             Fotoğraf
                         </label>
                         <x-image-upload name="image" />
+                        <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Fotoğraf yoksa cinsiyet seçimine göre varsayılan avatar gösterilir.</p>
+                    </div>
+
+                    <div>
+                        <label for="gender" class="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Cinsiyet</label>
+                        <select name="gender" id="gender" class="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm outline-none focus:border-fuchsia-500">
+                            <option value="">-- Seçiniz --</option>
+                            <option value="male" @selected(old('gender') === 'male')>Erkek</option>
+                            <option value="female" @selected(old('gender') === 'female')>Kadın</option>
+                        </select>
                     </div>
 
                     <div class="border-t border-dashed border-slate-200 dark:border-slate-700/60"></div>

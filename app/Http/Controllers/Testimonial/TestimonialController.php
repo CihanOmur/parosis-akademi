@@ -29,6 +29,7 @@ class TestimonialController extends Controller
             'quote'  => 'required|string|max:2000',
             'image'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
             'rating' => 'required|integer|min:1|max:5',
+            'gender' => 'nullable|in:male,female',
         ], ValidationMessageService::getMessages('testimonial_store'));
 
         $locale = app()->getLocale();
@@ -47,6 +48,7 @@ class TestimonialController extends Controller
         $testimonial->setTranslation('quote', $locale, $request->quote);
         $testimonial->image = $imagePath;
         $testimonial->rating = $request->rating;
+        $testimonial->gender = $request->gender;
         $testimonial->sort_order = Testimonial::max('sort_order') + 1;
         $testimonial->is_active = true;
         $testimonial->save();
@@ -69,6 +71,7 @@ class TestimonialController extends Controller
             'quote'  => 'required|string|max:2000',
             'image'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
             'rating' => 'required|integer|min:1|max:5',
+            'gender' => 'nullable|in:male,female',
         ], ValidationMessageService::getMessages('testimonial_update'));
 
         $testimonial = Testimonial::findOrFail($id);
@@ -78,6 +81,7 @@ class TestimonialController extends Controller
         $testimonial->setTranslation('role', $locale, $request->role ?? '');
         $testimonial->setTranslation('quote', $locale, $request->quote);
         $testimonial->rating = $request->rating;
+        $testimonial->gender = $request->gender;
 
         if ($request->hasFile('image')) {
             if ($testimonial->image && file_exists(public_path($testimonial->image))) {

@@ -592,8 +592,12 @@
                                                     <div class="h-[43px] w-[43px] overflow-hidden rounded-[50%]">
                                                         @if($testimonial->image)
                                                             <img src="{{ asset($testimonial->image) }}" alt="{{ $testimonial->name }}" width="43" height="43" class="h-full w-full object-cover" />
+                                                        @elseif(($testimonial->gender ?? '') === 'female')
+                                                            <div class="flex h-full w-full items-center justify-center bg-pink-100 text-pink-500"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 0v3m-3 0h6m-3 0v6"/></svg></div>
+                                                        @elseif(($testimonial->gender ?? '') === 'male')
+                                                            <div class="flex h-full w-full items-center justify-center bg-blue-100 text-blue-600"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><circle cx="10" cy="14" r="6"/><path stroke-linecap="round" stroke-linejoin="round" d="M14 10l6-6m0 0h-5m5 0v5"/></svg></div>
                                                         @else
-                                                            <img src="{{ asset('assets-front/img/images/th-1/testimonial-avater-1.png') }}" alt="{{ $testimonial->name }}" width="43" height="43" class="h-full w-full object-cover" />
+                                                            <div class="flex h-full w-full items-center justify-center bg-slate-100 text-slate-500"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg></div>
                                                         @endif
                                                     </div>
                                                     <div class="flex flex-col">
