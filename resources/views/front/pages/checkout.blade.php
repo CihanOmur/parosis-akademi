@@ -26,33 +26,6 @@
                 $bcStyle = 'background-color: ' . e($bcColor) . ';';
                 if ($bcImage) $bcStyle .= ' background-image: url(' . e(asset($bcImage)) . '); background-size: cover; background-position: center; background-repeat: no-repeat;';
             @endphp
-            <section class="section-breadcrum">
-                <div class="relative z-10 overflow-hidden" style="{{ $bcStyle }}">
-                    <div class="py-[60px] lg:py-[90px]">
-                        <div class="container">
-                            <div class="text-center">
-                                <h1 class="mb-5 text-4xl capitalize tracking-normal" @if($fs('checkout_title')) style="{{ $fs('checkout_title') }}" @endif>{{ $shopInfo->checkout_title ?? 'Ödeme' }}</h1>
-                                <nav class="text-base font-medium uppercase">
-                                    <ul class="flex justify-center">
-                                        <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.home') }}">{{ $shopInfo->products_breadcrumb_home ?? 'ANA SAYFA' }}</a>
-                                        </li>
-                                        <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                            <a href="{{ route('front.cart') }}" @if($fs('checkout_breadcrumb_cart')) style="{{ $fs('checkout_breadcrumb_cart') }}" @endif>{{ $shopInfo->checkout_breadcrumb_cart ?? 'SEPETİM' }}</a>
-                                        </li>
-                                        <li @if($fs('checkout_breadcrumb_current')) style="{{ $fs('checkout_breadcrumb_current') }}" @endif>{{ $shopInfo->checkout_breadcrumb_current ?? 'ÖDEME' }}</li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute -left-48 top-0 -z-10 h-[327px] w-[371px] bg-[#BFC06F] blur-[250px]"></div>
-                    <div class="absolute -right-36 bottom-20 -z-10 h-[327px] w-[371px] bg-[#AAC3E9] blur-[200px]"></div>
-                    <img src="{{ asset('assets-front/img/abstracts/abstract-purple-dash-1.svg') }}" alt="" class="absolute left-56 top-1/2 -z-10 hidden -translate-y-1/2 sm:inline-block" />
-                    <img src="{{ asset('assets-front/img/abstracts/abstract-element-regular.svg') }}" alt="" class="absolute -bottom-14 right-[100px] -z-10 hidden sm:inline-block" />
-                </div>
-            </section>
-            <!--...::: Breadcrumb Section End :::... -->
 
             <!--...::: Checkout Section Start :::... -->
             <section class="section-checkout">
@@ -107,7 +80,10 @@
                             </div>
                         </div>
 
-                        @include('front.partials.checkout-stepper', ['currentStep' => 2])
+                        <div class="pt-16 pb-4">
+                            <h1 class="text-center text-3xl md:text-4xl font-bold text-colorBlackPearl mb-8">{{ $shopInfo->checkout_title ?? 'Ödeme' }}</h1>
+                            @include('front.partials.checkout-stepper', ['currentStep' => 2])
+                        </div>
 
                         <form action="{{ route('front.checkout.save-shipping') }}" method="POST" id="checkoutForm">
                             @csrf
