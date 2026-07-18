@@ -346,6 +346,13 @@
                             <div class="go-back">
                                 <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="icon-small-dark-chevron-arrow-down" width="9" height="5" />
                             </div>
+                            <div class="mobile-menu-logo">
+                                @if(!empty($globalSettings['logos']['header_logo']))
+                                    <img src="{{ asset($globalSettings['logos']['header_logo']) }}" alt="logo" height="30" />
+                                @else
+                                    <img src="{{ asset('assets-front/img/logo-parosis-akademi.svg') }}" alt="logo" height="30" />
+                                @endif
+                            </div>
                             <div class="current-menu-title"></div>
                             <div class="mobile-menu-close">&times;</div>
                         </div>
@@ -390,7 +397,7 @@
                                 $stripped = preg_replace('#^[a-z]{2}(-[a-z]{2,4})?(/|$)#', '', $currentPath);
                                 $queryStr = request()->getQueryString();
                             @endphp
-                            <li class="nav-item nav-item-has-children mobile-only-nav">
+                            <li class="nav-item nav-item-has-children mobile-only-nav mobile-lang-nav">
                                 <a href="#" class="nav-link-item drop-trigger rounded-none border border-transparent text-colorBlackPearl">
                                     Dil ({{ strtoupper($locale) }})
                                     <img src="{{ asset('assets-front/img/icons/icon-small-dark-chevron-arrow-down.svg') }}" alt="chevron" width="9" height="5" class="-rotate-90 lg:rotate-0" />

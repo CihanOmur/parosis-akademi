@@ -359,3 +359,49 @@ input:disabled {
 .hero-slider .swiper-slide > div {
     height: 100% !important;
 }
+
+/* Mobile menu head — logo default, alt menuye girince title */
+.mobile-menu-head .mobile-menu-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+.mobile-menu-head .mobile-menu-logo img {
+    height: 30px;
+    width: auto;
+}
+.mobile-menu-head.active .mobile-menu-logo {
+    display: none;
+}
+.mobile-menu-head .current-menu-title {
+    display: none;
+}
+.mobile-menu-head.active .current-menu-title {
+    display: block;
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+    color: #011c1a;
+}
+
+/* Mobile menu — dil bolumu ayrik + buton gorunumu */
+@media (max-width: 991px) {
+    .site-menu-main .mobile-lang-nav {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid rgb(226 232 240);
+    }
+    .site-menu-main .mobile-lang-nav > .nav-link-item {
+        margin: 0 20px;
+        background-color: rgb(241 245 249);
+        border-radius: 12px;
+        padding: 14px 18px !important;
+        font-weight: 500;
+        border: 1px solid rgb(226 232 240) !important;
+        transition: background-color 200ms ease;
+    }
+    .site-menu-main .mobile-lang-nav > .nav-link-item:hover {
+        background-color: rgb(226 232 240);
+    }
+}
