@@ -57,6 +57,41 @@
                                             </div>
 
                                             <div class="p-6 sm:p-8 space-y-5">
+                                                {{-- 3D Kart Onizleme --}}
+                                                <div class="group relative mx-auto mb-6 max-w-md">
+                                                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-6 py-7 text-white shadow-2xl sm:px-8 sm:py-8">
+                                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.06] to-transparent"></div>
+                                                        <div class="relative flex items-start justify-between">
+                                                            <div class="flex h-9 w-12 items-center justify-center rounded-md bg-gradient-to-br from-[#ffd700] to-[#b8860b] shadow-inner">
+                                                                <div class="grid grid-cols-3 gap-px">
+                                                                    <div class="h-1.5 w-1.5 rounded-[1px] bg-[#daa520]/50"></div>
+                                                                    <div class="h-1.5 w-1.5 rounded-[1px] bg-[#daa520]/30"></div>
+                                                                    <div class="h-1.5 w-1.5 rounded-[1px] bg-[#daa520]/50"></div>
+                                                                    <div class="h-1.5 w-1.5 rounded-[1px] bg-[#daa520]/30"></div>
+                                                                    <div class="h-1.5 w-1.5 rounded-[1px] bg-[#daa520]/50"></div>
+                                                                    <div class="h-1.5 w-1.5 rounded-[1px] bg-[#daa520]/30"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="cardBrand" class="text-xl font-bold tracking-widest opacity-80">VISA</div>
+                                                        </div>
+                                                        <p id="cardPreviewNumber" class="relative mt-6 whitespace-nowrap font-mono text-[18px] tracking-[0.16em] sm:text-[22px]">
+                                                            <span class="opacity-90">•••• •••• •••• ••••</span>
+                                                        </p>
+                                                        <div class="relative mt-6 flex items-end justify-between">
+                                                            <div>
+                                                                <p class="text-[9px] font-medium uppercase tracking-[0.2em] text-white/40">Kart Sahibi</p>
+                                                                <p id="cardPreviewName" class="mt-0.5 text-xs font-semibold uppercase tracking-wider sm:text-sm">AD SOYAD</p>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <p class="text-[9px] font-medium uppercase tracking-[0.2em] text-white/40">Son Kullanma</p>
+                                                                <p id="cardPreviewExpiry" class="mt-0.5 text-xs font-semibold tracking-wider sm:text-sm">••/••</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-white/[0.04]"></div>
+                                                        <div class="pointer-events-none absolute -bottom-20 -left-10 h-44 w-44 rounded-full bg-white/[0.03]"></div>
+                                                    </div>
+                                                </div>
+
                                                 {{-- Kart Numarasi --}}
                                                 <div>
                                                     <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl">
@@ -210,10 +245,33 @@
             </section>
 
     <script>
-        // Kart numarasi format: 4'lu gruplar
+        // Kart numarasi format: 4'lu gruplar + preview
         document.getElementById('cardNumber')?.addEventListener('input', function(e) {
             let v = e.target.value.replace(/\D/g, '').substring(0, 16);
             e.target.value = v.replace(/(\d{4})/g, '$1 ').trim();
+
+            const preview = document.getElementById('cardPreviewNumber');
+            const brand = document.getElementById('cardBrand');
+            if (preview) {
+                let padded = (v + '••••••••••••••••').substring(0, 16);
+                let display = padded.replace(/(.{4})/g, '$1 ').trim();
+                preview.innerHTML = '<span class="opacity-90">' + display + '</span>';
+            }
+            if (brand) {
+                if (v.startsWith('4')) brand.textContent = 'VISA';
+                else if (/^5[1-5]/.test(v) || /^2[2-7]/.test(v)) brand.textContent = 'MasterCard';
+                else if (/^3[47]/.test(v)) brand.textContent = 'AMEX';
+                else if (/^9792/.test(v)) brand.textContent = 'TROY';
+                else brand.textContent = 'CARD';
+            }
+        });
+        document.getElementById('cardName')?.addEventListener('input', function(e) {
+            const preview = document.getElementById('cardPreviewName');
+            if (preview) preview.textContent = (e.target.value || 'AD SOYAD').toUpperCase();
+        });
+        document.getElementById('cardExpiry')?.addEventListener('input', function(e) {
+            const preview = document.getElementById('cardPreviewExpiry');
+            if (preview) preview.textContent = e.target.value || '••/••';
         });
         // Son kullanma: AA/YY
         document.getElementById('cardExpiry')?.addEventListener('input', function(e) {
