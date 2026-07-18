@@ -327,3 +327,25 @@ input:disabled {
 @media (max-width: 767px) {
     .btn.is-icon { white-space: nowrap; }
 }
+
+/* Hero slider — full viewport height (Swiper JS inline stillerini ezmek icin !important) */
+.hero-slider {
+    height: 100svh !important;
+    max-height: 100svh !important;
+}
+@media (min-width: 768px) {
+    .hero-slider {
+        height: 100vh !important;
+        max-height: 100vh !important;
+    }
+}
+.hero-slider .swiper-wrapper {
+    height: 100% !important;
+}
+.hero-slider .swiper-slide {
+    height: 100% !important;
+    max-height: 100% !important;
+}
+.hero-slider .swiper-slide > div {
+    height: 100% !important;
+}
