@@ -65,6 +65,13 @@ class ClientLogoController extends Controller
 
         $logo = ClientLogo::findOrFail($id);
 
+        if ($request->boolean('remove_image')) {
+            if ($logo->image && file_exists(public_path($logo->image))) {
+                unlink(public_path($logo->image));
+            }
+            $logo->image = null;
+        }
+
         if ($request->hasFile('image')) {
             if ($logo->image && file_exists(public_path($logo->image))) {
                 unlink(public_path($logo->image));

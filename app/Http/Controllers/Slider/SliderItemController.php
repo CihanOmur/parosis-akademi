@@ -100,6 +100,13 @@ class SliderItemController extends Controller
         $item->setTranslation('button_text', $locale, $request->button_text ?? '');
         $item->button_url = $request->button_url;
 
+        if ($request->boolean('remove_image')) {
+            if ($item->image && file_exists(public_path($item->image))) {
+                unlink(public_path($item->image));
+            }
+            $item->image = null;
+        }
+
         if ($request->hasFile('image')) {
             if ($item->image && file_exists(public_path($item->image))) {
                 unlink(public_path($item->image));
@@ -108,6 +115,13 @@ class SliderItemController extends Controller
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/sliders'), $filename);
             $item->image = 'uploads/sliders/' . $filename;
+        }
+
+        if ($request->boolean('remove_background_image')) {
+            if ($item->background_image && file_exists(public_path($item->background_image))) {
+                unlink(public_path($item->background_image));
+            }
+            $item->background_image = null;
         }
 
         if ($request->hasFile('background_image')) {

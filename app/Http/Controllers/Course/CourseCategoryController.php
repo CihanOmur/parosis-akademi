@@ -78,6 +78,13 @@ class CourseCategoryController extends Controller
         }
         $category->color = $request->color;
 
+        if ($request->boolean('remove_icon')) {
+            if ($category->icon && file_exists(public_path($category->icon))) {
+                unlink(public_path($category->icon));
+            }
+            $category->icon = null;
+        }
+
         if ($request->hasFile('icon')) {
             if ($category->icon && file_exists(public_path($category->icon))) {
                 unlink(public_path($category->icon));

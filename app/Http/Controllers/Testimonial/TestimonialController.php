@@ -83,6 +83,13 @@ class TestimonialController extends Controller
         $testimonial->rating = $request->rating;
         $testimonial->gender = $request->gender;
 
+        if ($request->boolean('remove_image')) {
+            if ($testimonial->image && file_exists(public_path($testimonial->image))) {
+                unlink(public_path($testimonial->image));
+            }
+            $testimonial->image = null;
+        }
+
         if ($request->hasFile('image')) {
             if ($testimonial->image && file_exists(public_path($testimonial->image))) {
                 unlink(public_path($testimonial->image));
