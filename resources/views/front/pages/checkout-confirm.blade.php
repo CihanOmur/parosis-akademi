@@ -7,9 +7,6 @@
 @endphp
 
 @section('content')
-    <div class="page-wrapper">
-        <div class="main-wrapper overflow-hidden">
-
             {{-- Breadcrumb --}}
             <section class="section-breadcrum">
                 <div class="relative z-10 overflow-hidden bg-[#FAF9F6]">
@@ -211,9 +208,6 @@
                     </div>
                 </div>
             </section>
-
-        </div>
-    </div>
 
     <script>
         // Kart numarasi format: 4'lu gruplar
