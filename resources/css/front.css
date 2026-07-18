@@ -328,15 +328,16 @@ input:disabled {
     .btn.is-icon { white-space: nowrap; }
 }
 
-/* Hero slider — full viewport height (Swiper JS inline stillerini ezmek icin !important) */
+/* Hero slider — viewport - header (Swiper JS inline stillerini ezmek icin !important)
+   --header-h JS ile site-header offsetHeight'tan set edilir. Fallback 120px. */
 .hero-slider {
-    height: 100svh !important;
-    max-height: 100svh !important;
+    height: calc(100svh - var(--header-h, 120px)) !important;
+    max-height: calc(100svh - var(--header-h, 120px)) !important;
 }
 @media (min-width: 768px) {
     .hero-slider {
-        height: 100vh !important;
-        max-height: 100vh !important;
+        height: calc(100vh - var(--header-h, 140px)) !important;
+        max-height: calc(100vh - var(--header-h, 140px)) !important;
     }
 }
 .hero-slider .swiper-wrapper {

@@ -73,7 +73,7 @@
     $contactInfo = $contactInfo ?? \App\Models\Pages\Contact\ContactPageInfo::first();
     $locale = app()->getLocale();
 @endphp
-<div class="{{ ($headerStyle ?? 'inner') === 'home' ? 'absolute left-0 top-0 z-20 w-full' : 'relative z-20' }} header-wrap">
+<div id="site-header" class="{{ ($headerStyle ?? 'inner') === 'home' ? 'absolute left-0 top-0 z-20 w-full' : 'relative z-20' }} header-wrap">
     <!-- Header Top Area -->
     <div class="{{ ($headerStyle ?? 'inner') === 'home' ? 'bg-transparent' : 'bg-[#fbfbfb]' }} py-4">
         <div class="container-expand">

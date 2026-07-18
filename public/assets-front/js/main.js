@@ -455,3 +455,19 @@ const categorySlider = new Swiper(".category-slider", {
     },
   },
 });
+
+// ======================================== Header height CSS var ========================================
+(function () {
+  const setHeaderH = () => {
+    const h = document.getElementById("site-header");
+    if (!h) return;
+    document.documentElement.style.setProperty("--header-h", h.offsetHeight + "px");
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setHeaderH);
+  } else {
+    setHeaderH();
+  }
+  window.addEventListener("load", setHeaderH);
+  window.addEventListener("resize", setHeaderH);
+})();

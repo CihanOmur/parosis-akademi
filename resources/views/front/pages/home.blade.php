@@ -27,7 +27,7 @@
                     @if($slides->count() === 1)
                         {{-- Tek slayt — statik hero --}}
                         @php $slide = $slides->first(); @endphp
-                        <div class="relative z-10 overflow-hidden bg-cover bg-center bg-no-repeat h-[100svh] md:h-screen"
+                        <div class="relative z-10 overflow-hidden bg-cover bg-center bg-no-repeat h-[calc(100svh-var(--header-h,120px))] md:h-[calc(100vh-var(--header-h,140px))]"
                              style="background-image: url('{{ $slide->background_image ? asset($slide->background_image) : asset('assets-front/img/images/th-1/hero-bg.svg') }}')">
                             <div class="grid grid-cols-1 items-end gap-6 px-5 pb-0 pt-8 md:py-16 lg:grid-cols-2 lg:gap-0 lg:px-0 lg:py-0 lg:pl-20 xxxl:pl-32 xxxxl:pl-[250px] h-full">
                                 <div class="py-8 lg:py-16 xxl:py-24">
@@ -68,7 +68,7 @@
                     @else
                         {{-- Birden fazla slayt — Swiper carousel --}}
                         <div class="relative">
-                            <div class="swiper hero-slider relative z-10 overflow-hidden h-[100svh] md:h-screen">
+                            <div class="swiper hero-slider relative z-10 overflow-hidden h-[calc(100svh-var(--header-h,120px))] md:h-[calc(100vh-var(--header-h,140px))]">
                                 <div class="swiper-wrapper">
                                     @foreach($slides as $slide)
                                         <div class="swiper-slide !h-full">
