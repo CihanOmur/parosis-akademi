@@ -34,8 +34,8 @@ class SliderItemController extends Controller
             'description'      => 'nullable|string|max:2000',
             'button_text'      => 'nullable|string|max:255',
             'button_url'       => 'nullable|string|max:500',
-            'image'            => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
-            'background_image' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:5120',
+            'background_image' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:5120',
         ], ValidationMessageService::getMessages('slider_item_store'));
 
         $locale = app()->getLocale();
@@ -88,8 +88,8 @@ class SliderItemController extends Controller
             'description'      => 'nullable|string|max:2000',
             'button_text'      => 'nullable|string|max:255',
             'button_url'       => 'nullable|string|max:500',
-            'image'            => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
-            'background_image' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:5120',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:5120',
+            'background_image' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:5120',
         ], ValidationMessageService::getMessages('slider_item_update'));
 
         $locale = app()->getLocale();

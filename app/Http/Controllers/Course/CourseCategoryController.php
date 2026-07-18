@@ -26,7 +26,7 @@ class CourseCategoryController extends Controller
         $request->validate([
             'name'        => 'required|string|max:200',
             'description' => 'nullable|string|max:5000',
-            'icon'        => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
+            'icon' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:1024',
             'color'       => 'nullable|string|max:20',
         ], ValidationMessageService::getMessages('course_cat_store'));
 
@@ -65,7 +65,7 @@ class CourseCategoryController extends Controller
         $request->validate([
             'name'        => 'required|string|max:200',
             'description' => 'nullable|string|max:5000',
-            'icon'        => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:1024',
+            'icon' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:1024',
             'color'       => 'nullable|string|max:20',
         ], ValidationMessageService::getMessages('course_cat_update'));
 

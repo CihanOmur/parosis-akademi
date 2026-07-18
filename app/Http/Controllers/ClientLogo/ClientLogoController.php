@@ -25,7 +25,7 @@ class ClientLogoController extends Controller
     {
         $request->validate([
             'name'  => 'nullable|string|max:255',
-            'image' => 'required|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
+            'image' => 'required|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:2048',
             'url'   => 'nullable|url|max:500',
         ], ValidationMessageService::getMessages('client_logo_store'));
 
@@ -59,7 +59,7 @@ class ClientLogoController extends Controller
     {
         $request->validate([
             'name'  => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml|max:2048',
             'url'   => 'nullable|url|max:500',
         ], ValidationMessageService::getMessages('client_logo_update'));
 
