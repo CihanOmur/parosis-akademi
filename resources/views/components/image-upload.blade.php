@@ -1,6 +1,6 @@
 @props([
     'name',
-    'accept'          => 'image/*',
+    'accept'          => 'image/*,image/svg+xml,.svg',
     'required'        => false,
     'existing'        => null,
     'multiple'        => false,

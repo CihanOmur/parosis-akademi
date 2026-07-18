@@ -27,7 +27,7 @@ class TestimonialController extends Controller
             'name'   => 'required|string|max:255',
             'role'   => 'nullable|string|max:255',
             'quote'  => 'required|string|max:2000',
-            'image'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
+            'image'  => 'nullable|mimes:png,jpg,jpeg,svg,webp|max:2048|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml',
             'rating' => 'required|integer|min:1|max:5',
             'gender' => 'nullable|in:male,female',
         ], ValidationMessageService::getMessages('testimonial_store'));
@@ -69,7 +69,7 @@ class TestimonialController extends Controller
             'name'   => 'required|string|max:255',
             'role'   => 'nullable|string|max:255',
             'quote'  => 'required|string|max:2000',
-            'image'  => 'nullable|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
+            'image'  => 'nullable|mimes:png,jpg,jpeg,svg,webp|max:2048|mimetypes:image/png,image/jpeg,image/webp,image/svg+xml',
             'rating' => 'required|integer|min:1|max:5',
             'gender' => 'nullable|in:male,female',
         ], ValidationMessageService::getMessages('testimonial_update'));
