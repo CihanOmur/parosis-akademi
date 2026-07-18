@@ -9,7 +9,7 @@
            'lg:w-72': !sidebarCollapsed,
            'sidebar-collapsed': sidebarCollapsed
        }"
-       x-data="{ openMenu: '{{ (Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('consultingInstitutions.*')) ? 'kurs' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*') ? 'magaza' : (Route::is('users.*') || Route::is('roles.*') ? 'users' : ''))) }}' }">
+       x-data="{ openMenu: '{{ (Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('course-applications.*') || Route::is('consultingInstitutions.*')) ? 'kurs' : (Route::is('blogs.*') || Route::is('blogCategories.*') || Route::is('blogTags.*') ? 'blog' : (Route::is('products.*') || Route::is('productCategories.*') || Route::is('productAttributes.*') || Route::is('orders.*') || Route::is('coupons.*') ? 'magaza' : (Route::is('users.*') || Route::is('roles.*') ? 'users' : ''))) }}' }">
 
     {{-- Logo --}}
     <div class="sidebar-logo h-16 flex items-center gap-3 px-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0">
@@ -80,7 +80,7 @@
 
         {{-- Kurslar Dropdown (Sınıflar, Kayıtlar, Kurs, Kategoriler) --}}
         @canany(['class', 'class_delete', 'student', 'student_delete', 'accounting', 'course', 'course_delete', 'consulting_institution'])
-        @php $isKursActive = Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('consultingInstitutions.*'); @endphp
+        @php $isKursActive = Route::is('class.*') || Route::is('students.*') || Route::is('courses.*') || Route::is('courseCategories.*') || Route::is('course-applications.*') || Route::is('consultingInstitutions.*'); @endphp
         <div class="group/kurs relative">
             <button @click="openMenu = openMenu === 'kurs' ? '' : 'kurs'"
                     class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
@@ -145,6 +145,13 @@
                                   ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
                                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
                         Kategoriler
+                    </a>
+                    <a href="{{ route('course-applications.index') }}"
+                       class="block px-3 py-2 rounded-lg text-sm transition-colors
+                              {{ Route::is('course-applications.*')
+                                  ? 'text-fuchsia-600 dark:text-fuchsia-400 font-medium bg-fuchsia-50 dark:bg-fuchsia-500/10'
+                                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50' }}">
+                        Başvurular
                     </a>
                 @endcanany
                 @canany(['consulting_institution'])

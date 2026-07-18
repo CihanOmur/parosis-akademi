@@ -501,6 +501,7 @@ Route::prefix('{locale}')
         Route::get('/blog-detay/{id}',  [FrontController::class, 'blogDetails'])->name('blog.details');
         Route::get('/iletisim',        [FrontController::class, 'contact'])->name('contact');
         Route::post('/iletisim',       [ContactController::class, 'send'])->middleware('throttle:5,1')->name('contact.send');
+        Route::post('/kurs-basvuru', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'store'])->middleware('throttle:5,1')->name('course.application.store');
         Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
         Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
         Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
@@ -549,5 +550,11 @@ Route::middleware(['auth', \App\Http\Middleware\SharedDatas::class])->prefix('pa
         Route::get('/',                    [\App\Http\Controllers\Shop\StockNotificationController::class, 'index'])->name('index');
         Route::post('/{id}/notified',      [\App\Http\Controllers\Shop\StockNotificationController::class, 'markNotified'])->name('markNotified')->middleware('permission:shop');
         Route::delete('/{id}',             [\App\Http\Controllers\Shop\StockNotificationController::class, 'destroy'])->name('destroy')->middleware('permission:shop_delete');
+    });
+
+    Route::prefix('course-applications')->middleware(['permission:course|course_delete'])->group(function () {
+        Route::get('/', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'index'])->name('course-applications.index');
+        Route::post('/{id}/contacted', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'markContacted'])->name('course-applications.contacted');
+        Route::delete('/{id}', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'destroy'])->name('course-applications.destroy');
     });
 });

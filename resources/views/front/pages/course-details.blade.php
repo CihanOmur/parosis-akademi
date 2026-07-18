@@ -123,7 +123,7 @@
                                 <!-- Course Details Content -->
 
                                 <!-- Aside Bar -->
-                                <aside class="jos">
+                                <aside class="jos lg:sticky lg:top-6 lg:self-start">
                                     <ul class="grid grid-cols-1 gap-y-9">
                                         <!-- Course Information -->
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
@@ -202,6 +202,17 @@
                                             </ul>
                                         </li>
                                         <!-- Contact Us -->
+
+                                        <!-- Online Basvuru Butonu -->
+                                        <li>
+                                            <button type="button" onclick="openCourseApplyModal({{ $course->id }})"
+                                                    class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-colorBrightGold py-4 px-6 text-base font-semibold text-colorBlackPearl shadow-sm hover:shadow-md transition-shadow">
+                                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                                </svg>
+                                                Online Başvuru
+                                            </button>
+                                        </li>
                                     </ul>
                                 </aside>
                                 <!-- Aside Bar -->

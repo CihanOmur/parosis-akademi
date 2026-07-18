@@ -608,3 +608,122 @@ function sidebarRemoveCoupon() {
         if (e.key === 'Escape') closeStockNotifyModal();
     });
 </script>
+
+{{-- Course Online Basvuru Modal --}}
+<div id="courseApplyModal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div class="absolute inset-0 bg-black/50" onclick="closeCourseApplyModal()"></div>
+    <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <div class="mb-5 flex items-start justify-between gap-4">
+            <div>
+                <h3 class="text-xl font-bold text-colorBlackPearl">Online Başvuru</h3>
+                <p class="mt-1 text-sm text-slate-500">Bilgilerinizi bırakın, en kısa sürede sizinle iletişime geçelim.</p>
+            </div>
+            <button type="button" onclick="closeCourseApplyModal()" class="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700" aria-label="Kapat">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        <form id="courseApplyForm" onsubmit="submitCourseApply(event)" class="space-y-4">
+            @csrf
+            <input type="hidden" name="course_id" id="ca_course_id" value="" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Öğrenci Adı Soyadı <span class="text-red-500">*</span></label>
+                    <input type="text" name="student_name" required maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Öğrenci Yaşı <span class="text-red-500">*</span></label>
+                    <input type="number" name="student_age" required min="3" max="99" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Okuduğu Okul <span class="text-red-500">*</span></label>
+                    <input type="text" name="school" required maxlength="200" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Sınıfı <span class="text-red-500">*</span></label>
+                    <input type="text" name="grade" required maxlength="50" placeholder="Örn: 5. Sınıf" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Veli Adı Soyadı <span class="text-red-500">*</span></label>
+                    <input type="text" name="parent_name" required maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Telefon Numarası <span class="text-red-500">*</span></label>
+                    <input type="tel" name="phone" required maxlength="30" placeholder="+90 5xx xxx xx xx" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Mail Adresi <span class="text-slate-400">(opsiyonel)</span></label>
+                    <input type="email" name="email" maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                </div>
+            </div>
+
+            <div id="courseApplyMsg" class="hidden rounded-lg p-3 text-sm"></div>
+
+            <div class="flex items-center gap-3 pt-2">
+                <button type="button" onclick="closeCourseApplyModal()" class="flex-1 rounded-full border border-slate-300 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50">İptal</button>
+                <button type="submit" id="courseApplySubmit" class="flex-1 rounded-full bg-colorBrightGold py-3 text-sm font-semibold text-colorBlackPearl hover:shadow-md">Başvuruyu Gönder</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openCourseApplyModal(courseId) {
+        var modal = document.getElementById('courseApplyModal');
+        if (courseId) document.getElementById('ca_course_id').value = courseId;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeCourseApplyModal() {
+        var modal = document.getElementById('courseApplyModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        var msg = document.getElementById('courseApplyMsg');
+        msg.classList.add('hidden');
+        msg.className = 'hidden rounded-lg p-3 text-sm';
+        document.getElementById('courseApplyForm').reset();
+    }
+    async function submitCourseApply(e) {
+        e.preventDefault();
+        var form = e.target;
+        var btn = document.getElementById('courseApplySubmit');
+        var msg = document.getElementById('courseApplyMsg');
+        btn.disabled = true; btn.textContent = 'Gönderiliyor…';
+        msg.classList.add('hidden');
+        try {
+            var fd = new FormData(form);
+            var res = await fetch("{{ route('front.course.application.store', ['locale' => app()->getLocale()]) }}", {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: fd,
+            });
+            var data = await res.json();
+            if (res.ok && data.success) {
+                msg.className = 'rounded-lg p-3 text-sm bg-emerald-50 text-emerald-700 border border-emerald-200';
+                msg.textContent = data.message || 'Başvurunuz alındı.';
+                msg.classList.remove('hidden');
+                form.reset();
+                setTimeout(closeCourseApplyModal, 2500);
+            } else {
+                var err = (data.errors && Object.values(data.errors).flat().join(' ')) || data.message || 'Bir hata oluştu.';
+                msg.className = 'rounded-lg p-3 text-sm bg-red-50 text-red-700 border border-red-200';
+                msg.textContent = err;
+                msg.classList.remove('hidden');
+            }
+        } catch (err) {
+            msg.className = 'rounded-lg p-3 text-sm bg-red-50 text-red-700 border border-red-200';
+            msg.textContent = 'Hata: ' + err.message;
+            msg.classList.remove('hidden');
+        } finally {
+            btn.disabled = false; btn.textContent = 'Başvuruyu Gönder';
+        }
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeCourseApplyModal();
+    });
+</script>
