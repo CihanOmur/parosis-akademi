@@ -29,7 +29,7 @@
 
             <!--...::: Checkout Section Start :::... -->
             <section class="section-checkout">
-                <div class="relative bg-gradient-to-b from-white via-white to-[#FAF9F6] pb-16 pt-4">
+                <div class="relative bg-gradient-to-b from-white via-white to-[#FAF9F6] pb-16 pt-10">
                     <div class="container">
 
                         @if($errors->any())
