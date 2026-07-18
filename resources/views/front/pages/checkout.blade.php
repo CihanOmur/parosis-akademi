@@ -51,35 +51,6 @@
                         </div>
                         @endif
 
-                        <!-- Steps indicator -->
-                        <div class="mb-14 flex items-center justify-center">
-                            <div class="flex items-center">
-                                <!-- Step 1 -->
-                                <div class="flex flex-col items-center">
-                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-colorPurpleBlue shadow-lg shadow-colorPurpleBlue/30">
-                                        <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
-                                    </div>
-                                    <span class="mt-2.5 text-xs font-bold uppercase tracking-wider text-colorPurpleBlue" @if($fs('checkout_step_1')) style="{{ $fs('checkout_step_1') }}" @endif>{{ $shopInfo->checkout_step_1 ?? 'Sepet' }}</span>
-                                </div>
-                                <div class="mx-2 h-0.5 w-14 rounded-full bg-colorPurpleBlue sm:mx-4 sm:w-24"></div>
-                                <!-- Step 2 -->
-                                <div class="flex flex-col items-center">
-                                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-colorPurpleBlue shadow-lg shadow-colorPurpleBlue/30">
-                                        <span class="text-sm font-bold text-white">2</span>
-                                    </div>
-                                    <span class="mt-2.5 text-xs font-bold uppercase tracking-wider text-colorPurpleBlue" @if($fs('checkout_step_2')) style="{{ $fs('checkout_step_2') }}" @endif>{{ $shopInfo->checkout_step_2 ?? 'Ödeme' }}</span>
-                                </div>
-                                <div class="mx-2 h-0.5 w-14 rounded-full bg-gray-200 sm:mx-4 sm:w-24"></div>
-                                <!-- Step 3 -->
-                                <div class="flex flex-col items-center">
-                                    <div class="flex h-11 w-11 items-center justify-center rounded-full border-2 border-gray-200 bg-white">
-                                        <span class="text-sm font-bold text-gray-300">3</span>
-                                    </div>
-                                    <span class="mt-2.5 text-xs font-medium uppercase tracking-wider text-gray-400" @if($fs('checkout_step_3')) style="{{ $fs('checkout_step_3') }}" @endif>{{ $shopInfo->checkout_step_3 ?? 'Onay' }}</span>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="pt-16 pb-4">
                             <h1 class="text-center text-3xl md:text-4xl font-bold text-colorBlackPearl mb-8">{{ $shopInfo->checkout_title ?? 'Ödeme' }}</h1>
                             @include('front.partials.checkout-stepper', ['currentStep' => 2])

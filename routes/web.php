@@ -560,3 +560,4 @@ Route::middleware(['auth', \App\Http\Middleware\SharedDatas::class])->prefix('pa
         Route::delete('/{id}', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'destroy'])->name('course-applications.destroy');
     });
 });
+
