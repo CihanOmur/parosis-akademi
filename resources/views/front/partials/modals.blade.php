@@ -632,7 +632,7 @@ function sidebarRemoveCoupon() {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Öğrenci Adı Soyadı <span class="text-red-500">*</span></label>
-                    <input type="text" name="student_name" required maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                    <input type="text" name="student_name" required maxlength="150" pattern="[A-Za-zÇĞİÖŞÜçğıöşü ]+" oninput="this.value=this.value.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü ]/g,'')" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Öğrenci Yaşı <span class="text-red-500">*</span></label>
@@ -648,11 +648,11 @@ function sidebarRemoveCoupon() {
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Veli Adı Soyadı <span class="text-red-500">*</span></label>
-                    <input type="text" name="parent_name" required maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                    <input type="text" name="parent_name" required maxlength="150" pattern="[A-Za-zÇĞİÖŞÜçğıöşü ]+" oninput="this.value=this.value.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü ]/g,'')" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Telefon Numarası <span class="text-red-500">*</span></label>
-                    <input type="tel" name="phone" required maxlength="30" placeholder="+90 5xx xxx xx xx" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                    <input type="tel" name="phone" required maxlength="30" inputmode="tel" pattern="[0-9+\- ]+" oninput="this.value=this.value.replace(/[^0-9+\- ]/g,'')" placeholder="+90 5xx xxx xx xx" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Mail Adresi <span class="text-slate-400">(opsiyonel)</span></label>
