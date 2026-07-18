@@ -29,7 +29,7 @@
 
             <!--...::: Checkout Section Start :::... -->
             <section class="section-checkout">
-                <div class="relative bg-gradient-to-b from-white via-white to-[#FAF9F6] pb-64 pt-12 lg:pt-20">
+                <div class="relative bg-gradient-to-b from-white via-white to-[#FAF9F6] pb-16 pt-4">
                     <div class="container">
 
                         @if($errors->any())
@@ -51,8 +51,7 @@
                         </div>
                         @endif
 
-                        <div class="pt-16 pb-4">
-                            <h1 class="text-center text-3xl md:text-4xl font-bold text-colorBlackPearl mb-8">{{ $shopInfo->checkout_title ?? 'Ödeme' }}</h1>
+                        <div class="pt-6 pb-2">
                             @include('front.partials.checkout-stepper', ['currentStep' => 2])
                         </div>
 
