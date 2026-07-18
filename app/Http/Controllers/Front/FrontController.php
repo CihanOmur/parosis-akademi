@@ -228,9 +228,22 @@ class FrontController extends Controller
     public function blog()
     {
         $blogPageInfo = BlogPageInfo::first();
-        $blogs = Blog::with(['categories', 'blogTags'])->where('is_active', true)->orderBy('sort_order')->get();
+        $query = Blog::with(['categories', 'blogTags'])->where('is_active', true);
+
+        $categoryId = (int) request('category', 0);
+        $activeCategory = null;
+        if ($categoryId > 0) {
+            $activeCategory = BlogCategory::where('is_active', true)->find($categoryId);
+            if ($activeCategory) {
+                $query->whereHas('categories', function ($q) use ($categoryId) {
+                    $q->where('blog_categories.id', $categoryId);
+                });
+            }
+        }
+
+        $blogs = $query->orderBy('sort_order')->get();
         $ctaInfo = $blogPageInfo;
-        return view('front.pages.blog', compact('blogPageInfo', 'blogs', 'ctaInfo'));
+        return view('front.pages.blog', compact('blogPageInfo', 'blogs', 'ctaInfo', 'activeCategory'));
     }
 
     public function blogDetails($locale, $id)

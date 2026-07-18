@@ -67,6 +67,17 @@
                     <div class="section-space">
                         <!-- Section Container -->
                         <div class="container">
+                            @if(!empty($activeCategory))
+                            <div class="mb-8 flex flex-wrap items-center gap-3">
+                                <span>{{ $activeCategory->name }} kategorisindeki yazilar:</span>
+                                <a href="{{ route('front.blog') }}" class="inline-flex items-center gap-2 rounded-full bg-colorPurpleBlue/10 px-3 py-1 text-sm text-colorPurpleBlue hover:bg-colorPurpleBlue/20" title="Filtreyi temizle">
+                                    <span class="font-medium">{{ $activeCategory->name }}</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            @endif
                             @if($blogs->count() > 0)
                             <!-- Blog List -->
                             <ul class="grid grid-cols-1 gap-[30px] md:grid-cols-2 xl:grid-cols-3">

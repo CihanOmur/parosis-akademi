@@ -59,9 +59,9 @@
 
             <!--...::: Blog Details Section Start :::... -->
             <section class="section-course">
-                <div class="bg-white pb-16 lg:pb-20">
+                <div class="bg-white pb-8">
                     <!-- Section Space -->
-                    <div class="section-space">
+                    <div class="section-space-top pb-8">
                         <!-- Section Container -->
                         <div class="container">
                             <!-- Blog Details Area -->
@@ -102,23 +102,17 @@
                                 <!-- Aside Bar -->
                                 <aside class="jos">
                                     <ul class="grid grid-cols-1 gap-y-9">
-                                        <!-- Search -->
-                                        <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7" @if($fs('sidebar_search_title')) style="{{ $fs('sidebar_search_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_search_title', app()->getLocale()) ?: 'Ara' }}</h5>
-                                            <form action="#" method="get">
-                                                <input type="search" class="w-full rounded border border-[#D7D7D7] px-5 py-3.5 text-sm leading-none text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" placeholder="{{ $blogPageInfo?->getTranslation('sidebar_search_placeholder', app()->getLocale()) ?: 'Ara...' }}" />
-                                            </form>
-                                        </li>
-
                                         <!-- Categories -->
                                         @if($categories->count() > 0)
                                         <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
                                             <h5 class="mb-7" @if($fs('sidebar_categories_title')) style="{{ $fs('sidebar_categories_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_categories_title', app()->getLocale()) ?: 'Kategoriler' }}</h5>
                                             <ul class="divide-y divide-[#E9E5DA]">
                                                 @foreach($categories as $cat)
-                                                <li class="flex items-center justify-between gap-x-5 py-2 first-of-type:pt-0 last-of-type:pb-0">
-                                                    <span class="font-semibold text-[#4E5450]">{{ $cat->name }}</span>
-                                                    <span class="font-normal">{{ $cat->blogs_count }}</span>
+                                                <li class="first-of-type:pt-0 last-of-type:pb-0">
+                                                    <a href="{{ route('front.blog', ['category' => $cat->id]) }}" class="group flex items-center justify-between gap-x-5 py-2 transition-colors hover:text-colorPurpleBlue">
+                                                        <span class="font-semibold text-[#4E5450] group-hover:text-colorPurpleBlue">{{ $cat->name }}</span>
+                                                        <span class="font-normal">{{ $cat->blogs_count }}</span>
+                                                    </a>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -197,19 +191,6 @@
                                             </ul>
                                         </li>
 
-                                        <!-- Tags -->
-                                        @if($tags->count() > 0)
-                                        <li class="rounded-lg bg-[#f5f5f5] px-[30px] py-6">
-                                            <h5 class="mb-7" @if($fs('sidebar_tags_title')) style="{{ $fs('sidebar_tags_title') }}" @endif>{{ $blogPageInfo?->getTranslation('sidebar_tags_title', app()->getLocale()) ?: 'Etiketler' }}</h5>
-                                            <ul class="flex flex-wrap gap-2">
-                                                @foreach($tags as $tag)
-                                                <li>
-                                                    <span class="inline-block rounded-[50px] bg-colorPurpleBlue/[7%] px-[18px] py-2 text-[15px] leading-none text-colorPurpleBlue">{{ $tag->name }}</span>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-                                        </li>
-                                        @endif
                                     </ul>
                                 </aside>
                                 <!-- Aside Bar -->
