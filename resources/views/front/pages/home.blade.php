@@ -58,8 +58,8 @@
                                     @endif
                                 </div>
                                 @if($slide->image)
-                                    <div class="relative flex items-end justify-center overflow-hidden h-auto max-h-[32vh] md:h-full md:max-h-none">
-                                        <img src="{{ asset($slide->image) }}" alt="{{ $slide->title }}" width="653" height="740" class="element-move-x relative z-10 h-full w-auto max-w-full object-contain object-bottom"/>
+                                    <div class="relative flex items-end justify-center overflow-hidden h-auto md:h-full">
+                                        <img src="{{ asset($slide->image) }}" alt="{{ $slide->title }}" width="653" height="740" class="element-move-x relative z-10 h-auto max-h-[32vh] w-auto max-w-full object-contain object-bottom md:h-full md:max-h-none"/>
                                         <div class="jos absolute bottom-0 left-1/2 -z-10 h-[140px] w-[140px] md:h-[300px] md:w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]" data-jos_animation="zoom-in-up"></div>
                                     </div>
                                 @endif
@@ -103,8 +103,8 @@
                                                         @endif
                                                     </div>
                                                     @if($slide->image)
-                                                        <div class="relative flex items-end justify-center overflow-hidden h-auto max-h-[32vh] md:h-full md:max-h-none">
-                                                            <img src="{{ asset($slide->image) }}" alt="{{ $slide->title }}" width="653" height="740" class="relative z-10 h-full w-auto max-w-full object-contain object-bottom"/>
+                                                        <div class="relative flex items-end justify-center overflow-hidden h-auto md:h-full">
+                                                            <img src="{{ asset($slide->image) }}" alt="{{ $slide->title }}" width="653" height="740" class="relative z-10 h-auto max-h-[32vh] w-auto max-w-full object-contain object-bottom md:h-full md:max-h-none"/>
                                                             <div class="absolute bottom-0 left-1/2 -z-10 h-[140px] w-[140px] md:h-[300px] md:w-[300px] -translate-x-1/2 rounded-[50%] bg-gradient-to-t from-[#D7E1D8] to-white lg:-bottom-28 xl:h-[400px] xl:w-[400px] xxl:h-[550px] xxl:w-[550px]"></div>
                                                         </div>
                                                     @endif
