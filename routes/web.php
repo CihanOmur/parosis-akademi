@@ -510,6 +510,8 @@ Route::prefix('{locale}')
         Route::post('/sepet/ekle',      [CartController::class, 'add'])->name('cart.add');
         Route::post('/sepet/guncelle',  [CartController::class, 'update'])->name('cart.update');
         Route::post('/sepet/sil',       [CartController::class, 'remove'])->name('cart.remove');
+        Route::post('/odeme',           [CheckoutController::class, 'saveShipping'])->name('checkout.save-shipping');
+        Route::get('/odeme/onay',        [CheckoutController::class, 'confirm'])->name('checkout.confirm');
         Route::post('/odeme/tamamla',   [CheckoutController::class, 'process'])->name('checkout.process');
         Route::post('/kupon-uygula',    [CheckoutController::class, 'applyCoupon'])->middleware('throttle:20,1')->name('coupon.apply');
         Route::post('/kupon-kaldir',    [CheckoutController::class, 'removeCoupon'])->name('coupon.remove');

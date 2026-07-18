@@ -55,6 +55,8 @@
                 <div class="relative bg-gradient-to-b from-white via-white to-[#FAF9F6] pb-64 pt-12 lg:pt-20">
                     <div class="container">
 
+                        @include('front.partials.checkout-stepper', ['currentStep' => 1])
+
                         @if(session('success'))
                         <div class="mb-8 flex items-center gap-3 rounded-2xl border border-green-100 bg-gradient-to-r from-green-50 to-white px-6 py-4 shadow-sm">
                             <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-green-100">

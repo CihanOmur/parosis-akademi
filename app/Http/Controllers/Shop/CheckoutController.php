@@ -102,19 +102,85 @@ class CheckoutController extends Controller
         $total = max(0, $subtotal - $discount);
         $cart = $verifiedCart;
 
-        return view('front.pages.checkout', compact('cart', 'subtotal', 'discount', 'coupon', 'total'));
+        // Session'da saklanmis teslimat bilgilerini yukle (ileri-geri navigation icin)
+        $shipping = session('checkout_shipping', []);
+
+        return view('front.pages.checkout', compact('cart', 'subtotal', 'discount', 'coupon', 'total', 'shipping'));
+    }
+
+    // Adim 2 -> Adim 3: teslimat bilgilerini session'a kaydet, onay sayfasina yonlendir
+    public function saveShipping(Request $request)
+    {
+        $data = $request->validate([
+            'customer_name'         => 'required|string|max:255',
+            'customer_email'        => 'required|email|max:255',
+            'customer_phone'        => 'required|string|max:30',
+            'shipping_country'      => 'required|string|max:100',
+            'shipping_city'         => 'required|string|max:100',
+            'shipping_district'     => 'required|string|max:100',
+            'shipping_zip'          => 'nullable|string|max:20',
+            'shipping_address'      => 'required|string|max:500',
+            'customer_note'         => 'nullable|string|max:1000',
+        ], ValidationMessageService::getMessages('checkout_process'));
+
+        if (empty(session('cart', []))) {
+            return redirect()->route('front.cart')->with('error', 'Sepetiniz boş.');
+        }
+
+        session(['checkout_shipping' => $data]);
+        return redirect()->route('front.checkout.confirm');
+    }
+
+    // Adim 3: Onay sayfasi - odeme yontemi + sade ozet
+    public function confirm()
+    {
+        $cart = session('cart', []);
+        $shipping = session('checkout_shipping');
+
+        if (empty($cart)) {
+            return redirect()->route('front.cart')->with('error', 'Sepetiniz boş.');
+        }
+        if (empty($shipping)) {
+            return redirect()->route('front.checkout')->with('error', 'Lütfen önce teslimat bilgilerini doldurun.');
+        }
+
+        [$verifiedCart, $subtotal] = $this->verifyCart($cart);
+        if (empty($verifiedCart)) {
+            session()->forget(['cart', 'coupon', 'checkout_shipping']);
+            return redirect()->route('front.cart')->with('error', 'Sepetinizdeki ürünler artık mevcut değil.');
+        }
+
+        $discount = 0;
+        $coupon = session('coupon');
+        if ($coupon) {
+            $couponModel = Coupon::find($coupon['id']);
+            if ($couponModel && $couponModel->isValid($subtotal)) {
+                $discount = $couponModel->calculateDiscount($subtotal);
+            } else {
+                session()->forget('coupon');
+                $coupon = null;
+            }
+        }
+
+        $total = max(0, $subtotal - $discount);
+        $cart = $verifiedCart;
+
+        return view('front.pages.checkout-confirm', compact('cart', 'subtotal', 'discount', 'coupon', 'total', 'shipping'));
     }
 
     public function process(Request $request)
     {
+        // Sipariş tamamlandiginda session teslimat verilerini de temizle
         $request->validate([
-            'customer_name'     => 'required|string|max:255',
-            'customer_email'    => 'required|email|max:255',
-            'customer_phone'    => 'nullable|string|max:30',
-            'shipping_address'  => 'required|string|max:500',
-            'shipping_city'     => 'required|string|max:100',
-            'shipping_district' => 'nullable|string|max:100',
-            'customer_note'     => 'nullable|string|max:1000',
+            'customer_name'      => 'required|string|max:255',
+            'customer_email'     => 'required|email|max:255',
+            'customer_phone'     => 'required|string|max:30',
+            'shipping_country'   => 'required|string|max:100',
+            'shipping_city'      => 'required|string|max:100',
+            'shipping_district'  => 'required|string|max:100',
+            'shipping_zip'       => 'nullable|string|max:20',
+            'shipping_address'   => 'required|string|max:500',
+            'customer_note'      => 'nullable|string|max:1000',
         ], ValidationMessageService::getMessages('checkout_process'));
 
         $cart = session('cart', []);
@@ -192,8 +258,10 @@ class CheckoutController extends Controller
                 'customer_email'   => $request->customer_email,
                 'customer_phone'   => $request->customer_phone,
                 'shipping_address' => $request->shipping_address,
+                'shipping_country' => $request->shipping_country,
                 'shipping_city'    => $request->shipping_city,
                 'shipping_district'=> $request->shipping_district,
+                'shipping_zip'     => $request->shipping_zip,
                 'customer_note'    => $request->customer_note,
                 'subtotal'         => $subtotal,
                 'shipping_cost'    => 0,
@@ -219,6 +287,9 @@ class CheckoutController extends Controller
 
             return $order;
         });
+
+        // Sipariş oluştu - session'daki teslimat verilerini temizle
+        session()->forget('checkout_shipping');
         } catch (\RuntimeException $e) {
             return redirect()->route('front.checkout')
                 ->with('error', $e->getMessage());

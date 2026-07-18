@@ -107,137 +107,15 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('front.checkout.process') }}" method="POST" id="checkoutForm">
+                        @include('front.partials.checkout-stepper', ['currentStep' => 2])
+
+                        <form action="{{ route('front.checkout.save-shipping') }}" method="POST" id="checkoutForm">
                             @csrf
 
                             <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
 
                                 <!-- Left Column: Forms -->
                                 <div class="space-y-6 lg:col-span-7 xl:col-span-8">
-
-                                    <!-- Ödeme Yöntemi Card -->
-                                    <div class="overflow-hidden rounded-3xl border border-colorPurpleBlue/15 bg-white shadow-xl shadow-colorPurpleBlue/5">
-                                        <!-- Card Header -->
-                                        <div class="border-b border-colorPurpleBlue/10 bg-gradient-to-r from-colorPurpleBlue/[0.04] to-transparent px-6 py-5 sm:px-8">
-                                            <div class="flex items-center gap-3.5">
-                                                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-colorPurpleBlue to-colorPurpleBlue/80 shadow-lg shadow-colorPurpleBlue/25">
-                                                    <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25h-15a2.25 2.25 0 0 0-2.25 2.25v10.5a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-                                                </div>
-                                                <div>
-                                                    <h4 class="font-title text-lg font-bold text-colorBlackPearl" @if($fs('checkout_payment_title')) style="{{ $fs('checkout_payment_title') }}" @endif>{{ $shopInfo->checkout_payment_title ?? 'Ödeme Yöntemi' }}</h4>
-                                                    <p class="text-xs text-colorCarbonGrey/70" @if($fs('checkout_payment_subtitle')) style="{{ $fs('checkout_payment_subtitle') }}" @endif>{{ $shopInfo->checkout_payment_subtitle ?? '256-bit SSL ile korunmaktadır' }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-6 sm:p-8">
-                                            <input type="hidden" name="payment_method" value="card" />
-
-                                            <!-- Card Form -->
-                                                <!-- 3D Card Preview -->
-                                                <div class="group relative mx-auto mb-10 max-w-lg cursor-default" style="perspective: 1000px;">
-                                                    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0f0c29] via-[#302b63] to-[#24243e] px-8 py-9 text-white shadow-2xl transition-transform duration-500 sm:px-10 sm:py-10" style="transform-style: preserve-3d;">
-                                                        <!-- Shiny overlay -->
-                                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.06] to-transparent"></div>
-                                                        <!-- Chip + Brand -->
-                                                        <div class="relative flex items-start justify-between">
-                                                            <div class="flex h-10 w-14 items-center justify-center overflow-hidden rounded-md bg-gradient-to-br from-[#ffd700] to-[#b8860b] shadow-inner">
-                                                                <div class="grid grid-cols-3 gap-px">
-                                                                    <div class="h-2 w-2 rounded-[1px] bg-[#daa520]/50"></div>
-                                                                    <div class="h-2 w-2 rounded-[1px] bg-[#daa520]/30"></div>
-                                                                    <div class="h-2 w-2 rounded-[1px] bg-[#daa520]/50"></div>
-                                                                    <div class="h-2 w-2 rounded-[1px] bg-[#daa520]/30"></div>
-                                                                    <div class="h-2 w-2 rounded-[1px] bg-[#daa520]/50"></div>
-                                                                    <div class="h-2 w-2 rounded-[1px] bg-[#daa520]/30"></div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Contactless icon -->
-                                                            <div class="flex items-center gap-3">
-                                                                <svg class="h-6 w-6 rotate-90 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0"/></svg>
-                                                                <div id="cardBrand" class="text-2xl font-bold tracking-widest opacity-80">VISA</div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Number -->
-                                                        <p id="cardPreviewNumber" class="relative mt-8 whitespace-nowrap font-mono text-[22px] tracking-[0.16em] sm:text-[26px]">
-                                                            <span class="opacity-90">•••• •••• •••• ••••</span>
-                                                        </p>
-                                                        <!-- Bottom row -->
-                                                        <div class="relative mt-7 flex items-end justify-between">
-                                                            <div>
-                                                                <p class="text-[9px] font-medium uppercase tracking-[0.2em] text-white/40" @if($fs('checkout_card_holder_label')) style="{{ $fs('checkout_card_holder_label') }}" @endif>{{ $shopInfo->checkout_card_holder_label ?? 'Kart Sahibi' }}</p>
-                                                                <p id="cardPreviewName" class="mt-1 text-[13px] font-semibold uppercase tracking-wider sm:text-sm" @if($fs('checkout_card_preview_name')) style="{{ $fs('checkout_card_preview_name') }}" @endif>{{ $shopInfo->checkout_card_preview_name ?? 'AD SOYAD' }}</p>
-                                                            </div>
-                                                            <div class="text-right">
-                                                                <p class="text-[9px] font-medium uppercase tracking-[0.2em] text-white/40" @if($fs('checkout_card_expiry_preview')) style="{{ $fs('checkout_card_expiry_preview') }}" @endif>{{ $shopInfo->checkout_card_expiry_preview ?? 'Son Kullanma' }}</p>
-                                                                <p id="cardPreviewExpiry" class="mt-1 text-[13px] font-semibold tracking-wider sm:text-sm">••/••</p>
-                                                            </div>
-                                                        </div>
-                                                        <!-- Decorative -->
-                                                        <div class="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/[0.04]"></div>
-                                                        <div class="pointer-events-none absolute -bottom-20 -left-10 h-52 w-52 rounded-full bg-white/[0.03]"></div>
-                                                        <div class="pointer-events-none absolute right-10 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full bg-white/[0.02]"></div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Card Inputs -->
-                                                <div class="space-y-5">
-                                                    <div>
-                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" @if($fs('checkout_card_number_label')) style="{{ $fs('checkout_card_number_label') }}" @endif>
-                                                            <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25h-15a2.25 2.25 0 0 0-2.25 2.25v10.5a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-                                                            {{ $shopInfo->checkout_card_number_label ?? 'Kart Numarası' }}
-                                                        </label>
-                                                        <div class="relative">
-                                                            <input type="text" name="card_number" id="cardNumber" maxlength="19" placeholder="{{ $shopInfo->checkout_card_number_ph ?? '0000 0000 0000 0000' }}" autocomplete="cc-number"
-                                                                   class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] py-4 pl-5 pr-14 font-mono text-base tracking-widest text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5" />
-                                                            <div class="pointer-events-none absolute right-4 top-1/2 flex -translate-y-1/2 items-center gap-1 opacity-30">
-                                                                <svg class="h-6 w-9" viewBox="0 0 36 24" fill="currentColor"><rect width="36" height="24" rx="4"/><rect x="4" y="8" width="8" height="8" rx="1.5" fill="white" opacity="0.4"/></svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div>
-                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" @if($fs('checkout_card_name_label')) style="{{ $fs('checkout_card_name_label') }}" @endif>
-                                                            <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
-                                                            {{ $shopInfo->checkout_card_name_label ?? 'Kart Üzerindeki İsim' }}
-                                                        </label>
-                                                        <input type="text" name="card_name" id="cardName" placeholder="{{ $shopInfo->checkout_card_name_ph ?? 'AD SOYAD' }}" autocomplete="cc-name"
-                                                               class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-4 text-base uppercase text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 placeholder:normal-case focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5" />
-                                                    </div>
-
-                                                    <div class="grid grid-cols-2 gap-4">
-                                                        <div>
-                                                            <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" @if($fs('checkout_card_expiry_label')) style="{{ $fs('checkout_card_expiry_label') }}" @endif>
-                                                                <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
-                                                                {{ $shopInfo->checkout_card_expiry_label ?? 'Son Kullanma' }}
-                                                            </label>
-                                                            <input type="text" name="card_expiry" id="cardExpiry" maxlength="5" placeholder="{{ $shopInfo->checkout_card_expiry_ph ?? 'AA/YY' }}" autocomplete="cc-exp"
-                                                                   class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-4 font-mono text-base tracking-widest text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5" />
-                                                        </div>
-                                                        <div>
-                                                            <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" @if($fs('checkout_card_cvv_label')) style="{{ $fs('checkout_card_cvv_label') }}" @endif>
-                                                                <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-                                                                {{ $shopInfo->checkout_card_cvv_label ?? 'CVV' }}
-                                                            </label>
-                                                            <div class="relative">
-                                                                <input type="password" name="card_cvv" id="cardCvv" maxlength="4" placeholder="{{ $shopInfo->checkout_card_cvv_ph ?? '•••' }}" autocomplete="cc-csc"
-                                                                       class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] py-4 pl-5 pr-12 font-mono text-base tracking-widest text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5" />
-                                                                <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 opacity-30">
-                                                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Security info -->
-                                                <div class="mt-7 flex items-center gap-3 rounded-2xl border border-green-100 bg-gradient-to-r from-green-50/80 to-emerald-50/50 p-4">
-                                                    <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-green-100">
-                                                        <svg class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
-                                                    </div>
-                                                    <p class="text-xs leading-relaxed text-green-700" @if($fs('checkout_ssl_info')) style="{{ $fs('checkout_ssl_info') }}" @endif>{{ $shopInfo->checkout_ssl_info ?? 'Kart bilgileriniz 256-bit SSL şifreleme ile korunmaktadır. Bilgileriniz sunucularımızda saklanmaz.' }}</p>
-                                                </div>
-                                        </div>
-                                    </div>
 
                                     <!-- Teslimat Bilgileri Card -->
                                     <div class="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-lg shadow-black/[0.03]">
@@ -261,7 +139,7 @@
                                                         <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
                                                         {{ $shopInfo->checkout_name_label ?? 'Ad Soyad' }} <span class="text-red-400">*</span>
                                                     </label>
-                                                    <input type="text" id="customer_name" name="customer_name" value="{{ old('customer_name') }}" required placeholder="{{ $shopInfo->checkout_name_ph ?? 'Adınızı ve soyadınızı girin' }}"
+                                                    <input type="text" id="customer_name" name="customer_name" value="{{ old('customer_name', $shipping['customer_name'] ?? '') }}" required placeholder="{{ $shopInfo->checkout_name_ph ?? 'Adınızı ve soyadınızı girin' }}"
                                                            class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('customer_name') border-red-200 bg-red-50/50 @enderror" />
                                                     @error('customer_name')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                                                 </div>
@@ -273,7 +151,7 @@
                                                             <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
                                                             {{ $shopInfo->checkout_email_label ?? 'E-posta' }} <span class="text-red-400">*</span>
                                                         </label>
-                                                        <input type="email" id="customer_email" name="customer_email" value="{{ old('customer_email') }}" required placeholder="{{ $shopInfo->checkout_email_ph ?? 'ornek@mail.com' }}"
+                                                        <input type="email" id="customer_email" name="customer_email" value="{{ old('customer_email', $shipping['customer_email'] ?? '') }}" required placeholder="{{ $shopInfo->checkout_email_ph ?? 'ornek@mail.com' }}"
                                                                class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('customer_email') border-red-200 bg-red-50/50 @enderror" />
                                                         @error('customer_email')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                                                     </div>
@@ -282,7 +160,7 @@
                                                             <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/></svg>
                                                             {{ $shopInfo->checkout_phone_label ?? 'Telefon' }}
                                                         </label>
-                                                        <input type="tel" id="customer_phone" name="customer_phone" value="{{ old('customer_phone') }}" placeholder="{{ $shopInfo->checkout_phone_ph ?? '05XX XXX XX XX' }}"
+                                                        <input type="tel" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $shipping['customer_phone'] ?? '') }}" placeholder="{{ $shopInfo->checkout_phone_ph ?? '05XX XXX XX XX' }}"
                                                                class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('customer_phone') border-red-200 bg-red-50/50 @enderror" />
                                                         @error('customer_phone')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                                                     </div>
@@ -295,31 +173,91 @@
                                                         {{ $shopInfo->checkout_address_label ?? 'Teslimat Adresi' }} <span class="text-red-400">*</span>
                                                     </label>
                                                     <textarea id="shipping_address" name="shipping_address" rows="3" required placeholder="{{ $shopInfo->checkout_address_ph ?? 'Mahalle, cadde, sokak, bina no, daire no' }}"
-                                                              class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('shipping_address') border-red-200 bg-red-50/50 @enderror">{{ old('shipping_address') }}</textarea>
+                                                              class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('shipping_address') border-red-200 bg-red-50/50 @enderror">{{ old('shipping_address', $shipping['shipping_address'] ?? '') }}</textarea>
                                                     @error('shipping_address')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                                                 </div>
 
-                                                <!-- City + District -->
+                                                <!-- Ulke / Il / Ilce / Posta Kodu -->
+                                                @php
+                                                    $iller = config('turkiye_iller', []);
+                                                    $selectedCountry = old('shipping_country', $shipping['shipping_country'] ?? 'Türkiye');
+                                                    $selectedCity = old('shipping_city', $shipping['shipping_city'] ?? '');
+                                                    $selectedDistrict = old('shipping_district', $shipping['shipping_district'] ?? '');
+                                                    $selectedZip = old('shipping_zip', $shipping['shipping_zip'] ?? '');
+                                                @endphp
                                                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                                     <div>
-                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" for="shipping_city" @if($fs('checkout_city_label')) style="{{ $fs('checkout_city_label') }}" @endif>
-                                                            <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"/></svg>
-                                                            {{ $shopInfo->checkout_city_label ?? 'Şehir' }} <span class="text-red-400">*</span>
+                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" for="shipping_country">
+                                                            Ülke <span class="text-red-400">*</span>
                                                         </label>
-                                                        <input type="text" id="shipping_city" name="shipping_city" value="{{ old('shipping_city') }}" required placeholder="{{ $shopInfo->checkout_city_ph ?? 'İstanbul' }}"
-                                                               class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('shipping_city') border-red-200 bg-red-50/50 @enderror" />
+                                                        <select id="shipping_country" name="shipping_country" required
+                                                                class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all focus:border-colorPurpleBlue/40 focus:bg-white @error('shipping_country') border-red-200 bg-red-50/50 @enderror">
+                                                            <option value="Türkiye" @selected($selectedCountry === 'Türkiye')>Türkiye</option>
+                                                        </select>
+                                                        @error('shipping_country')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                                                    </div>
+                                                    <div>
+                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" for="shipping_zip">
+                                                            Posta Kodu
+                                                        </label>
+                                                        <input type="text" id="shipping_zip" name="shipping_zip" value="{{ $selectedZip }}" maxlength="10" inputmode="numeric" placeholder="34000"
+                                                               class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white @error('shipping_zip') border-red-200 bg-red-50/50 @enderror" />
+                                                        @error('shipping_zip')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
+                                                    </div>
+                                                    <div>
+                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" for="shipping_city">
+                                                            İl <span class="text-red-400">*</span>
+                                                        </label>
+                                                        <select id="shipping_city" name="shipping_city" required
+                                                                class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all focus:border-colorPurpleBlue/40 focus:bg-white @error('shipping_city') border-red-200 bg-red-50/50 @enderror">
+                                                            <option value="">-- Seçiniz --</option>
+                                                            @foreach($iller as $ilAdi => $ilceler)
+                                                                <option value="{{ $ilAdi }}" @selected($selectedCity === $ilAdi)>{{ $ilAdi }}</option>
+                                                            @endforeach
+                                                        </select>
                                                         @error('shipping_city')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                                                     </div>
                                                     <div>
-                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" for="shipping_district" @if($fs('checkout_district_label')) style="{{ $fs('checkout_district_label') }}" @endif>
-                                                            <svg class="h-4 w-4 text-colorCarbonGrey/50" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/></svg>
-                                                            {{ $shopInfo->checkout_district_label ?? 'İlçe' }}
+                                                        <label class="mb-2 flex items-center gap-1.5 text-sm font-semibold text-colorBlackPearl" for="shipping_district">
+                                                            İlçe <span class="text-red-400">*</span>
                                                         </label>
-                                                        <input type="text" id="shipping_district" name="shipping_district" value="{{ old('shipping_district') }}" placeholder="{{ $shopInfo->checkout_district_ph ?? 'Kadıköy' }}"
-                                                               class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-gray-300 focus:border-colorPurpleBlue/40 focus:bg-white focus:shadow-lg focus:shadow-colorPurpleBlue/5 @error('shipping_district') border-red-200 bg-red-50/50 @enderror" />
+                                                        <select id="shipping_district" name="shipping_district" required data-preselect="{{ $selectedDistrict }}"
+                                                                class="w-full rounded-2xl border-2 border-gray-100 bg-[#FAFAFA] px-5 py-3.5 text-sm text-colorBlackPearl outline-none transition-all focus:border-colorPurpleBlue/40 focus:bg-white @error('shipping_district') border-red-200 bg-red-50/50 @enderror">
+                                                            <option value="">-- Önce il seçin --</option>
+                                                        </select>
                                                         @error('shipping_district')<p class="mt-1.5 text-xs text-red-500">{{ $message }}</p>@enderror
                                                     </div>
                                                 </div>
+
+                                                <script>
+                                                    (function() {
+                                                        const iller = @json($iller);
+                                                        const citySel = document.getElementById('shipping_city');
+                                                        const distSel = document.getElementById('shipping_district');
+                                                        if (!citySel || !distSel) return;
+
+                                                        function fillDistricts(city, preselect) {
+                                                            distSel.innerHTML = '<option value="">-- Seçiniz --</option>';
+                                                            const list = iller[city] || [];
+                                                            list.forEach(function(ilce) {
+                                                                const opt = document.createElement('option');
+                                                                opt.value = ilce;
+                                                                opt.textContent = ilce;
+                                                                if (preselect && preselect === ilce) opt.selected = true;
+                                                                distSel.appendChild(opt);
+                                                            });
+                                                        }
+
+                                                        // Ilk yukleme: eger sehir onceden secili ise ilceleri doldur
+                                                        if (citySel.value) {
+                                                            fillDistricts(citySel.value, distSel.getAttribute('data-preselect') || '');
+                                                        }
+
+                                                        citySel.addEventListener('change', function() {
+                                                            fillDistricts(this.value, '');
+                                                        });
+                                                    })();
+                                                </script>
 
                                                 <!-- Note -->
                                                 <div>
@@ -450,10 +388,10 @@
                                             </div>
 
                                             <!-- Submit -->
-                                            <button type="submit" id="submitBtn" @if($fs('checkout_submit_button')) style="{{ $fs('checkout_submit_button') }}" @endif
+                                            <button type="submit" id="submitBtn"
                                                     class="group mt-6 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-colorPurpleBlue to-colorPurpleBlue/90 px-6 py-4.5 text-base font-bold text-white shadow-xl shadow-colorPurpleBlue/25 transition-all hover:shadow-2xl hover:shadow-colorPurpleBlue/30 active:scale-[0.98]">
-                                                <svg class="h-5 w-5 transition-transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-                                                {{ $shopInfo->checkout_submit_button ?? 'Siparişi Tamamla' }}
+                                                Devam Et
+                                                <svg class="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
                                             </button>
 
                                             <!-- Trust badges -->
