@@ -364,8 +364,9 @@ input:disabled {
 .mobile-menu-head .mobile-menu-logo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex: 1;
+    padding-left: 4px;
 }
 .mobile-menu-head .mobile-menu-logo img {
     height: 30px;
