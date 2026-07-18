@@ -328,16 +328,25 @@ input:disabled {
     .btn.is-icon { white-space: nowrap; }
 }
 
-/* Hero slider — viewport - header (Swiper JS inline stillerini ezmek icin !important)
-   --header-h JS ile site-header offsetHeight'tan set edilir. Fallback 120px. */
+/* Hero slider — sabit calc(100vh - header). Header min-height ile sabit,
+   dolayisiyla JS olcumu gereksiz, layout shift olmaz.
+   Header degeri: mobil ~70px, desktop ~140px (top bar + nav) */
+.header-wrap {
+    min-height: 70px;
+}
+@media (min-width: 768px) {
+    .header-wrap {
+        min-height: 140px;
+    }
+}
 .hero-slider {
-    height: calc(100svh - var(--header-h, 120px)) !important;
-    max-height: calc(100svh - var(--header-h, 120px)) !important;
+    height: calc(100svh - 70px) !important;
+    max-height: calc(100svh - 70px) !important;
 }
 @media (min-width: 768px) {
     .hero-slider {
-        height: calc(100vh - var(--header-h, 140px)) !important;
-        max-height: calc(100vh - var(--header-h, 140px)) !important;
+        height: calc(100vh - 140px) !important;
+        max-height: calc(100vh - 140px) !important;
     }
 }
 .hero-slider .swiper-wrapper {
