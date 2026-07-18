@@ -366,7 +366,7 @@ input:disabled {
     align-items: center;
     justify-content: flex-start;
     flex: 1;
-    padding-left: 4px;
+    padding-left: 16px;
 }
 .mobile-menu-head .mobile-menu-logo img {
     height: 30px;
