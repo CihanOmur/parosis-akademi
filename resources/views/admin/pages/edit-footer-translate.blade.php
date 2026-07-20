@@ -1,23 +1,17 @@
 @extends('admin.layouts.app')
 
 @section('page-banner')
-    <div>
+    <div class="w-full">
+        <a href="{{ route('pages.index') }}"
+           class="inline-flex items-center gap-1.5 mb-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 transition-colors">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+            </svg>
+            Geri Dön
+        </a>
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Footer Çeviri</h1>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            {{ isset($selectedLanguage) && $selectedLanguage ? $selectedLanguage . ' dilinde' : '' }} içerik çevirisi
-        </p>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ isset($selectedLanguage) && $selectedLanguage ? $selectedLanguage . ' dilinde' : '' }} içerik çevirisi</p>
     </div>
-    <a href="{{ route('pages.index') }}"
-       class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium
-              text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800
-              border border-slate-200 dark:border-slate-700
-              hover:bg-slate-50 dark:hover:bg-slate-700
-              rounded-xl transition-all duration-200">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
-        </svg>
-        Geri Dön
-    </a>
 @endsection
 
 @section('content')
