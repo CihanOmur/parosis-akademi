@@ -38,33 +38,3 @@
     </div>
 </div>
 
-@once
-@push('styles')
-<style>
-    .am-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        width: 100%;
-        padding: 0.5rem 0.875rem;
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-        color: rgb(51 65 85);
-        text-align: left;
-        transition: background-color .15s;
-        cursor: pointer;
-    }
-    .dark .am-item { color: rgb(203 213 225); }
-    .am-item:hover { background-color: rgb(241 245 249); }
-    .dark .am-item:hover { background-color: rgb(51 65 85); }
-    .am-item svg { width: 1rem; height: 1rem; flex-shrink: 0; }
-    .am-danger { color: rgb(220 38 38); }
-    .dark .am-danger { color: rgb(248 113 113); }
-    .am-danger:hover { background-color: rgb(254 242 242); color: rgb(185 28 28); }
-    .dark .am-danger:hover { background-color: rgb(127 29 29 / 0.2); }
-    .am-form { margin: 0; }
-    .am-divider { height: 1px; background: rgb(226 232 240); margin: 0.25rem 0; }
-    .dark .am-divider { background: rgb(51 65 85); }
-</style>
-@endpush
-@endonce
