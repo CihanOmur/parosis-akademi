@@ -136,3 +136,15 @@ input:disabled {
     margin: 0.25rem 0;
 }
 .dark .am-divider { background: rgb(51 65 85); }
+
+/* Sortable satırlarında text seçimini engelle (mobilde basılı tutunca metin seçilmesin) */
+#sortable-body,
+#sortable-body tr,
+.sortable-handle {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
