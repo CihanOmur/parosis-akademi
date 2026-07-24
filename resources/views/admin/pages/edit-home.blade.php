@@ -2,15 +2,13 @@
 
 @section('page-banner')
     <div class="w-full">
-        <a href="{{ route('pages.index') }}"
-           class="inline-flex h-9 w-9 items-center justify-center mb-3 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-fuchsia-600 dark:hover:text-fuchsia-400 hover:border-fuchsia-300 dark:hover:border-fuchsia-500 transition-colors"
-           title="Geri Dön" aria-label="Geri Dön">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
-            </svg>
-        </a>
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Ana Sayfa</h1>
-        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Bolum sekmelerinden duzenleyin</p>
+        <div class="flex items-center gap-3">
+            <x-back-button :href="route('pages.index')" />
+            <div class="min-w-0">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Ana Sayfa</h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Bolum sekmelerinden duzenleyin</p>
+            </div>
+        </div>
     </div>
 @endsection
 
