@@ -602,6 +602,9 @@
     const galleryGrid = document.getElementById('gallery-grid');
     if (galleryGrid) {
         Sortable.create(galleryGrid, {
+            delay: 600,
+            delayOnTouchOnly: true,
+            touchStartThreshold: 5,
             handle: '.sortable-gallery-handle',
             animation: 150,
             ghostClass: 'opacity-40',

@@ -141,6 +141,9 @@
         if (root && root.querySelectorAll('.menu-group').length > 0) {
             sortableInstances.push(
                 Sortable.create(root, {
+                    delay: 600,
+                    delayOnTouchOnly: true,
+                    touchStartThreshold: 5,
                     handle: '.drag-handle-root',
                     draggable: '.menu-group',
                     animation: 200,
@@ -178,6 +181,9 @@
 
             sortableInstances.push(
                 Sortable.create(container, {
+                    delay: 600,
+                    delayOnTouchOnly: true,
+                    touchStartThreshold: 5,
                     handle: handleCls,
                     draggable: dragCls,
                     animation: 200,

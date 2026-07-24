@@ -190,6 +190,9 @@
     const sortableBody = document.getElementById('sortable-body');
     if (sortableBody) {
         Sortable.create(sortableBody, {
+            delay: 600,
+            delayOnTouchOnly: true,
+            touchStartThreshold: 5,
             handle: '.sortable-handle',
             animation: 150,
             ghostClass: 'bg-fuchsia-50',

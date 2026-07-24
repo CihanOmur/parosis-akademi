@@ -190,6 +190,9 @@
     const grid = document.getElementById('cards-grid');
     if (grid) {
         Sortable.create(grid, {
+            delay: 600,
+            delayOnTouchOnly: true,
+            touchStartThreshold: 5,
             handle: '.sortable-handle',
             animation: 150,
             chosenClass: 'shadow-2xl',
