@@ -5,58 +5,53 @@
 @endsection
 
 @section('page-banner')
-    <div class="flex items-center gap-4">
-        <a href="{{ route('students.index') }}"
-           class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300
-                  rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-            </svg>
-        </a>
-        <div>
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ $student->full_name }}</h1>
-            <div class="flex items-center gap-3 mt-1">
-                <p class="text-sm text-slate-500 dark:text-slate-400">
-                    İlk kayıt: <span class="font-medium">{{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</span>
-                </p>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
-                    {{ $student->is_active == '1' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400' }}">
-                    <span class="w-1.5 h-1.5 rounded-full {{ $student->is_active == '1' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
-                    {{ $student->is_active == '1' ? 'Aktif' : 'Pasif' }}
-                </span>
+    <div class="w-full">
+        <div class="flex items-center gap-3">
+            <x-back-button :href="route('students.index')" />
+            <div class="min-w-0 flex-1">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">{{ $student->full_name }}</h1>
+                <div class="flex items-center gap-3 mt-1">
+                    <p class="text-sm text-slate-500 dark:text-slate-400">
+                        İlk kayıt: <span class="font-medium">{{ \Carbon\Carbon::parse($student->created_at)->format('d.m.Y') }}</span>
+                    </p>
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
+                        {{ $student->is_active == '1' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400' }}">
+                        <span class="w-1.5 h-1.5 rounded-full {{ $student->is_active == '1' ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                        {{ $student->is_active == '1' ? 'Aktif' : 'Pasif' }}
+                    </span>
+                </div>
             </div>
+            @can('student')
+                <div class="flex items-center gap-2 shrink-0">
+                    <button form="changeActivityForm"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer
+                            {{ $student->is_active == '1'
+                                ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/30 hover:bg-emerald-100'
+                                : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200/60 dark:border-red-800/30 hover:bg-red-100' }}"
+                        type="submit">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9"/>
+                        </svg>
+                        {{ $student->is_active == '1' ? 'Dondur' : 'Aktif et' }}
+                    </button>
+                    <button data-modal-target="select-modal" data-modal-toggle="select-modal"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
+                               bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700
+                               text-white shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer"
+                        type="button">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
+                        </svg>
+                        Yeni Ekle
+                    </button>
+                    @include('admin.components.student-new-add-modal', [
+                        'normalCount' => $normalCount,
+                        'preCount' => $preCount,
+                    ])
+                </div>
+            @endcan
         </div>
     </div>
-
-    @can('student')
-        <div class="flex gap-3">
-            <button form="changeActivityForm"
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer
-                    {{ $student->is_active == '1'
-                        ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/30 hover:bg-emerald-100'
-                        : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200/60 dark:border-red-800/30 hover:bg-red-100' }}"
-                type="submit">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9"/>
-                </svg>
-                {{ $student->is_active == '1' ? 'Dondur' : 'Aktif et' }}
-            </button>
-            <button data-modal-target="select-modal" data-modal-toggle="select-modal"
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium
-                       bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-600 hover:to-purple-700
-                       text-white shadow-lg shadow-fuchsia-500/25 transition-all duration-200 cursor-pointer"
-                type="button">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-                Yeni Ekle
-            </button>
-            @include('admin.components.student-new-add-modal', [
-                'normalCount' => $normalCount,
-                'preCount' => $preCount,
-            ])
-        </div>
-    @endcan
 @endsection
 
 @section('content')

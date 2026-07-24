@@ -1,17 +1,13 @@
 @extends('admin.layouts.app')
 
 @section('page-banner')
-    <div class="flex items-center gap-4">
-        <a href="{{ route('roles.index') }}"
-           class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300
-                  rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-            </svg>
-        </a>
-        <div>
-            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Yeni Rol Ekle</h1>
-            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Yeni bir rol oluşturun ve izinleri belirleyin</p>
+    <div class="w-full">
+        <div class="flex items-center gap-3">
+            <x-back-button :href="route('roles.index')" />
+            <div class="min-w-0">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Yeni Rol Ekle</h1>
+                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Yeni bir rol oluşturun ve izinleri belirleyin</p>
+            </div>
         </div>
     </div>
 @endsection
