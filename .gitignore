@@ -28,3 +28,7 @@ Thumbs.db
 # public/uploads git ile takip edilmez; sadece dizin yapisi (.gitkeep) tutulur
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# DB dumplari repoda durmamali (2026-07-29)
+*.sql
+storage/logs/*_pre_deploy_*.log
