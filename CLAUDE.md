@@ -1,6 +1,18 @@
 # Parosis Akademi — Claude Rehber Dosyası
 
-> ## ✅ BU TURDA YAPILANLAR — 2026-07-29
+> ## ✅ PROJE DURUMU — 2026-07-29 itibarıyla KAPATILDI
+>
+> Kullanıcı bu projeyi **bitmiş** olarak işaretledi. **§15'te açık kalan maddeleri yeni
+> oturumda "şunlar hâlâ açık" diye listeleme** — bilinçli ele alınmadılar, hata değil
+> öncelik kararı. Kullanıcı özellikle istemedikçe dokunma.
+>
+> Açık kalanlar: branch `fix/about-faq-spacing` hâlâ `main`'e merge edilmedi (adı da
+> içerikle alakasız), kullanılmayan modeller, zamanlanmış görev/queue worker yok,
+> `developer` izninin kapsamı netleşmedi.
+>
+> ---
+>
+> ## Bu turda yapılanlar — 2026-07-29
 >
 > **1. 56 commit GitHub'a push edildi.** `fix/about-faq-spacing` branch'i sunucu dışında
 > hiçbir yerde yoktu. Kimlik doğrulama da yoktu; token başka bir sunucudan
