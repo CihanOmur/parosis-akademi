@@ -1,5 +1,31 @@
 # Parosis Akademi — Claude Rehber Dosyası
 
+> ## ✅ BU TURDA YAPILANLAR — 2026-07-29
+>
+> **1. 56 commit GitHub'a push edildi.** `fix/about-faq-spacing` branch'i sunucu dışında
+> hiçbir yerde yoktu. Kimlik doğrulama da yoktu; token başka bir sunucudan
+> (`parosis-vnc`, aynı GitHub hesabı) `~/.git-credentials`'e taşındı, `credential.helper store`
+> ayarlandı. Git kimliği `Your Name <you@example.com>` → `CihanOmur <furkansoydas2000@gmail.com>`.
+>
+> **2. Production yapılandırması düzeltildi.**
+> `APP_ENV=local` → `production`, `APP_DEBUG=true` → **`false`**,
+> `APP_URL=http://localhost` → `https://parosisakademi.com`.
+> `.env` yedeği: `~/env-yedek-20260729`. Doğrulama: `/tr`, `/tr/hakkimizda`, `/tr/kurslar`,
+> `/tr/iletisim`, `/en`, `/robots.txt`, `/sitemap.xml` hepsi **200**; hata sayfasında
+> stack trace / APP_KEY sızıntısı **yok**.
+>
+> **3. Repoda durmaması gereken dosyalar silindi** (commit `c0f0b13`):
+> `parosis-akademi.sql` (212 KB DB dump'ı), `siteconfig.sh` (Apache kuruyordu, sunucu nginx),
+> `claude-setup.sh` (container içindi), `docker-compose.yml` (docker kurulu değil),
+> `storage/logs/laravel_pre_deploy_20260622.log` (1,6 MB).
+> `.gitignore`'a `*.sql` ve `*_pre_deploy_*.log` eklendi.
+> ⚠️ Silinen `.sql` git **geçmişinde** duruyor — tam temizlik history rewrite ister, yapılmadı.
+>
+> **Ele alınmayanlar** (kullanıcı bu turda istemedi): branch adının içerikle alakasız olması
+> ve main'e merge edilmemesi, kullanılmayan modeller, zamanlanmış görev/queue worker olmaması,
+> `developer` izninin kapsamının netleşmemiş olması.
+
+
 > Bu dosya her konuşmanın başında okunmalı. Uzun konuşmalarda tekrar okunmalı.
 > Son güncelleme: 2026-07-28 (canlı sunucu üzerinde kod + veritabanı incelenerek üretildi)
 >
@@ -1517,6 +1543,8 @@ Commit author'ı `Your Name` olarak görünüyor — sunucudaki git kimliği aya
 
 ### 15.1 KRİTİK — Production yapılandırması
 
+> ✅ **ÇÖZÜLDÜ (2026-07-29)** — APP_ENV=production, APP_DEBUG=false, APP_URL düzeltildi. Aşağısı eski durumu anlatır.
+
 | # | Sorun | Detay |
 |---|---|---|
 | **1** | **`APP_DEBUG=true`** | Canlı sitede debug açık. Hata sayfalarında **stack trace, dosya yolları, .env değişkenleri ve DB bilgileri** sızabilir. → `false` yapılmalı. |
@@ -1527,6 +1555,8 @@ Commit author'ı `Your Name` olarak görünüyor — sunucudaki git kimliği aya
 > Bunların düzeltilmesi **kullanıcı onayı gerektiren yazma işlemidir** — kendiliğinden yapma.
 
 ### 15.2 Git / sürüm yönetimi
+
+> ✅ **KISMEN ÇÖZÜLDÜ (2026-07-29)** — 56 commit push edildi, git kimliği düzeltildi. Branch hâlâ main'e merge edilmedi.
 
 5. `origin/main` canlıdan **76 commit geride**. Sunucu dışında hiçbir yerde bu kodun
    yedeği yok (sadece `.git` içinde). Repo'ya push edilmeli.
@@ -1552,6 +1582,8 @@ Aday kapsam genişletmeleri (kullanıcı ile konuşulacak, henüz karar yok):
 yoksa SuperAdmin'in alt kümesi mi? Şu an sadece SuperAdmin'de var (Admin'de yok).
 
 ### 15.4 Kod hijyeni / ölü kod
+
+> ✅ **KISMEN ÇÖZÜLDÜ (2026-07-29)** — .sql dump, siteconfig.sh, claude-setup.sh, docker-compose.yml ve eski deploy logu silindi (commit c0f0b13). Kullanılmayan modeller duruyor.
 
 8. **Kullanılmayan modeller** — migration'ı ve tablosu olmayan, eski şablondan kalma:
    `Teams\Teams`, `Teams\TeamComment`, `Teams\TeamsUserPersonelInfo`,
