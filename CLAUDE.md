@@ -10,7 +10,59 @@
 > içerikle alakasız), kullanılmayan modeller, zamanlanmış görev/queue worker yok,
 > `developer` izninin kapsamı netleşmedi.
 >
-> **2026-10-14: kullanıcı isteğiyle tek bir iş için yeniden açıldı** (gizlilik sayfası, aşağıda).
+> **2026-10-14: kullanıcı isteğiyle yeniden açıldı** (gizlilik sayfası + site üyeliği, aşağıda).
+>
+> ---
+>
+> ## Bu turda yapılanlar — 2026-10-14 (2) Site üyeliği — Faz 1
+>
+> **Sorun (müşteri revizesi):** "Kayıt ol > bilgileri doldurduktan sonra 405". Başlıktaki Giriş Yap düğmesinin
+> açtığı Giriş/Kayıt pencereleri satın alınan şablondan kalmaydı (`<form action="#">`) → bilgiler o anki sayfaya
+> POST ediliyor, GET-only rota **405** dönüyordu (iki form da). Pencerede **CORWUS logosu** vardı, Google/Facebook/
+> LinkedIn düğmeleri hiçbir şey yapmıyordu. Sitede ziyaretçi üyeliği hiç yoktu. Kullanıcı seçenekler arasından
+> **gerçek üyelik sistemini** seçti; plan 3 faz, onaylı: Faz 1 (bu iş) → Faz 2 (sipariş/kurs başvurusunu hesaba bağlama,
+> formları önceden doldurma) → Faz 3 (mail çalışınca e-posta doğrulama + şifremi unuttum).
+> Üye = tek tip hesap (veli / öğrenci / müşteri); **akademinin öğrenci kayıtlarıyla eşleşme YOK** (bilinçli; ayrı ve hassas iş).
+>
+> **EKLENDİ** (branch `feature/uyelik`, 3 commit: `f113910` site, `64686b4` panel, `93c0140` JS düzeltmesi):
+> - Tablo `members` (migration `2026_10_14_150000_create_members_table`): name, email (unique, küçük harfe çevrilir),
+>   phone, password (hashed), is_active, privacy_accepted_at, last_login_at, email_verified_at (Faz 3 için, boş), remember_token.
+>   Model `App\Models\Member\Member` (Authenticatable).
+> - **Ayrı guard `member`** (`config/auth.php`, provider `members`). Panel `web` guard'ı + `users` tablosu DEĞİŞMEDİ;
+>   üye panele giremez (doğrulandı), panel kullanıcısı da otomatik üye olmaz.
+> - Site rotaları (`{locale}` grubu): `uye/giris` (`front.member.login`), `uye/kayit`, `uye/cikis`; `auth:member` ile
+>   `hesabim`, `hesabim/bilgiler`, `hesabim/sifre`. Denetleyiciler `Front\MemberAuthController`, `Front\AccountController`.
+> - Başlıktaki pencereler gerçek formlara bağlandı (`front/partials/member-login-form` / `member-register-form` — aynı parçalar
+>   `/uye/giris`, `/uye/kayit` sayfalarında da). Hata bag'leri `memberLogin` / `memberRegister`: hata dönünce ilgili pencere
+>   sayfa yüklenince kendiliğinden açılır. Pencereden giriş → aynı sayfada kalınır; `/hesabim`'e yönlendirilmişse oraya döner.
+> - Kayıt: ad soyad, e-posta, telefon (zorunlu), şifre ≥ 8 + tekrar, Gizlilik Politikası onayı (zorunlu, `privacy_accepted_at`),
+>   görünmez bot tuzağı alanı `website`. Giriş: e-posta + şifre + "beni hatırla"; pasif üye giremez.
+> - Başlık: girişli üye "Giriş Yap / Kayıt Ol" yerine **Hesabım** görür (mobil menüde + Çıkış Yap).
+> - Panel: **Üyeler** (`/panel/members`, `Member\MemberController`): arama + durum filtresi, detay, pasifleştir/aktifleştir,
+>   şifre sıfırla (`permission:member`), sil (`permission:member_delete`). Kenar menüsünde Kullanıcılar'ın üstünde.
+>   İzinler migration `2026_10_14_150100_add_member_permissions` ile SuperAdmin + Admin'e; rol ekranında "Site Üyeleri".
+> - `EnsureMemberIsActive` (site rota grubunda): pasifleştirilen üyenin açık oturumu ilk istekte kapanır.
+> - `RateLimiter::for('member-auth')` (AppServiceProvider): giriş/kayıt POST'ları IP başına 10/dk. Ek olarak giriş denemesi
+>   e-posta+IP başına 5 → "Çok fazla deneme yaptınız. Lütfen N saniye sonra…".
+> - `bootstrap/app.php` → `redirectGuestsTo`: `front.account*` → üye girişi, **diğer her şey eskisi gibi `/panel/login`**.
+> - ValidationMessageService: yeni modül "Üyelik" (5 form) + `current_password`, `different` kural mesajları.
+>
+> **DÜZELTİLDİ:** `main.js` `hideElement()` sayfada olmayan `.menu-add-to-cart`'a erişip her pencere kapanışında konsola
+> `Cannot read properties of null (reading 'style')` düşürüyordu (canlıda da vardı; pencere yine kapanıyordu).
+>
+> **Silinen:** pencerelerdeki sahte sosyal giriş düğmeleri + "kullanıcı adı" alanı (OAuth kurulumu gerekir; istenirse sonra).
+>
+> **Test (worktree, 127.0.0.1:8100 + tünel):** 37 kontrol — kayıt (hatalı tekrar / onaysız / başarılı / aynı e-posta),
+> giriş (yanlış şifre, pencere, sayfa, istenen sayfaya dönüş), Hesabım (bilgi + şifre), panel ayrımı (üye panele giremez,
+> üye çıkışı panel oturumunu bozmaz, misafir panel hâlâ `/panel/login`), panel Üyeler (ara, detay, şifre sıfırla, pasifleştir →
+> açık oturum düştü + giriş engellendi, aktifleştir, sil → oturum geçersiz), rol ekranı, telefon (pencere ekrana sığıyor),
+> deneme sınırı. JS hatası düzeltmeden sonra 0. Test üyeleri ve 127.0.0.1 oturumları silindi (`members` boş).
+>
+> **Bilinen / bilinçli:**
+> - Üyelik sayfaları sabit Türkçe (sitenin ön yüzü çeviri dosyası kullanmıyor; EN sayfalarda da Türkçe görünür).
+> - Mail `log` olduğu için e-posta doğrulama / şifremi unuttum yok (Faz 3) → şifresini unutan üyeye panelden yeni şifre verilir.
+> - Panel çıkışı (`UserController@logout`) `session()->invalidate()` yapar → aynı tarayıcıdaki üye oturumu da kapanır (eski davranış, dokunulmadı).
+> - Test sırasında canlı DB'ye migration'lar uygulandı (yeni tablo + 2 izin satırı) — canlı kod bunları okumuyordu.
 >
 > ---
 >
@@ -292,7 +344,7 @@ Güvenlik header'ları mevcut: `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Op
 | Veritabanı adı | **`parosis-akademi`** (tire içerir → SQL'de backtick şart) |
 | Kullanıcı | `parosis-akademi` |
 | Şifre | `.env` içinde `DB_PASSWORD` (dokümana yazılmaz) |
-| Tablo sayısı | **69** (2026-10-14: +`privacy_page_infos`) |
+| Tablo sayısı | **70** (2026-10-14: +`privacy_page_infos`, +`members`) |
 | Toplam boyut | ~2.17 MB |
 
 Sorgu örneği (backtick zorunlu):
@@ -374,7 +426,7 @@ parosis-akademi/
 ├── config/                   # app, auth, cache, database, filesystems, logging, mail,
 │                             # permission, queue, services, session, turkiye_iller
 ├── database/
-│   ├── migrations/           # 120 migration (DB'de kayıtlı; 2026-10-14 +1)
+│   ├── migrations/           # 122 migration (DB'de kayıtlı; 2026-10-14 +3)
 │   ├── seeders/              # 11 seeder
 │   └── factories/
 ├── lang/
@@ -440,14 +492,14 @@ resources/views/
 
 ## 5. Veri Modeli — Tablolar ve Kolonlar
 
-69 tablo (2026-10-14: +`privacy_page_infos`). Aşağıdaki kolon listeleri **canlı `information_schema`'dan** çekilmiştir.
+70 tablo (2026-10-14: +`privacy_page_infos`, +`members`). Aşağıdaki kolon listeleri **canlı `information_schema`'dan** çekilmiştir.
 Satır sayıları 2026-07-28 itibarıyladır.
 
 ### 5.1 Laravel çekirdek
 
 | Tablo | Satır | Kolonlar |
 |---|---|---|
-| `migrations` | 120 | id, migration, batch |
+| `migrations` | 122 | id, migration, batch |
 | `cache` | 117 | key (PK), value, expiration |
 | `cache_locks` | 0 | key (PK), owner, expiration |
 | `jobs` | 0 | id, queue, payload, attempts, reserved_at, available_at, created_at |
@@ -464,8 +516,12 @@ created_at, updated_at, is_visible(tinyint, def 1), phone`
 
 `is_visible=0` → kullanıcı listelerinde gizlenir (SuperAdmin gizli hesap için).
 
+**`members`** (2026-10-14, site ziyaretçi üyeleri — `users`'tan AYRI, guard `member`)
+`id, name, email(UNI, küçük harf), phone, password, is_active(def 1), privacy_accepted_at, last_login_at,
+email_verified_at (Faz 3, şimdilik boş), remember_token, created_at, updated_at`. Panelde Üyeler ekranı.
+
 **`roles`** (6) — `id, name(UNI), guard_name, is_visible(def 1), created_at, updated_at`
-**`permissions`** (37) — `id, name(UNI), guard_name, created_at, updated_at`
+**`permissions`** (39; 2026-10-14 +`member`, +`member_delete`) — `id, name(UNI), guard_name, created_at, updated_at`
 **`model_has_roles`** (15) — `role_id, model_type, model_id` (bileşik PK)
 **`model_has_permissions`** (0) — `permission_id, model_type, model_id`
 **`role_has_permissions`** (87) — `permission_id, role_id`
@@ -976,6 +1032,11 @@ Route::prefix('{locale}')
 | GET | `/{locale}/blog-detay/{id}` | `front.blog.details` | `FrontController@blogDetails` |
 | GET | `/{locale}/sss` | `front.faq` | `FrontController@faq` |
 | GET | `/{locale}/gizlilik-politikasi` | `front.privacy` | `FrontController@privacy` (2026-10-14) |
+| GET/POST | `/{locale}/uye/giris` | `front.member.login` / `.login.post` | `MemberAuthController` · POST **throttle:member-auth** (2026-10-14) |
+| GET/POST | `/{locale}/uye/kayit` | `front.member.register` / `.register.post` | `MemberAuthController` · POST **throttle:member-auth** |
+| POST | `/{locale}/uye/cikis` | `front.member.logout` | `MemberAuthController@logout` |
+| GET | `/{locale}/hesabim` | `front.account` | `AccountController@show` · **auth:member** |
+| POST | `/{locale}/hesabim/bilgiler` · `/hesabim/sifre` | `front.account.update` · `.password` | `AccountController` · **auth:member** |
 | GET | `/{locale}/iletisim` | `front.contact` | `FrontController@contact` |
 | POST | `/{locale}/iletisim` | `front.contact.send` | `ContactController@send` · **throttle:5,1** |
 | POST | `/{locale}/kurs-basvuru` | `front.course.application.store` | `CourseApplicationController@store` · **throttle:5,1** |
@@ -1022,6 +1083,9 @@ Courses\CourseApplicationController        store index markContacted destroy
 DashboardController                        index          (sadece view döner, veri yok)
 Faq\FaqController                          (standart CRUD + translate)
 Front\ContactController                    send
+Front\MemberAuthController                 showLogin showRegister login register logout   (2026-10-14)
+Front\AccountController                    show update password                         (2026-10-14)
+Member\MemberController                    index show toggleActive updatePassword destroy (panel /panel/members, 2026-10-14)
 Front\FrontController                      home about courses search searchSuggest courseDetails teachers teacherDetails blog blogDetails contact faq privacy
 Languages\LanguagesController              index toggleVisibility toggleActive create store edit update setDefault updateOrder delete
 MenuItem\MenuItemController                index create store edit update delete updateOrder indent outdent toggleActive editTranslate updateTranslate
@@ -1275,7 +1339,7 @@ Panel ekranı: `/panel/settings/validation-messages` → **`permission:developer
 Spatie Permission v6.25, guard: `web`, teams: kapalı, wildcard: kapalı,
 cache: 24 saat (`spatie.permission.cache`).
 
-### 9.1 İzinler (37 adet, canlı DB)
+### 9.1 İzinler (39 adet, canlı DB — 2026-10-14: +`member` / `member_delete` → Site Üyeleri, SuperAdmin + Admin)
 
 **"Modüler izinler v3"** (migration `2026_06_17_063335_modular_permissions_v3`).
 Her modül için `<modül>` (görüntüle+düzenle) ve `<modül>_delete` (silme) ikilisi:
@@ -1874,6 +1938,24 @@ Yerleşik sunucu yalnız dosya birebir varsa onu çalıştırır. Worktree test 
 **25. Onay metni bağlantısı her dilde o dilin adresini içermeli.**
 `[Privacy Policy](/en/gizlilik-politikasi)` — öneksiz `/gizlilik-politikasi` de çalışır
 (çereze göre yönlenir) ama bir yönlendirme fazladan.
+
+**26. İki giriş türü aynı oturumu paylaşır (2026-10-14).** Panel `web` ve üye `member` guard'ı aynı session'da
+ayrı anahtarlarla durur. Üye çıkışı yalnız `Auth::guard('member')->logout()` yapar (session'ı silmez → sepet ve panel
+oturumu kalır). Panel çıkışı ise `session()->invalidate()` yaptığı için aynı tarayıcıdaki üyeyi de çıkarır.
+
+**27. `throttle:5,1` uçları aynı kovayı paylaşır.** Laravel misafir için anahtarı `domain|ip` yapar → İletişim formu,
+kurs başvurusu ve panel girişi IP başına **toplam** 5/dk. Üyelik bu yüzden ayrı `throttle:member-auth` kullanıyor.
+
+**28. `SessionGuard` oturumdaki üyeyi yalnız id ile yükler, `is_active`'e bakmaz.** Pasifleştirme etkisini
+`EnsureMemberIsActive` sağlar. Middleware önceliği yüzünden `auth:member` ondan önce çalışabildiği için katman
+`front.account*`'ta ayrıca giriş sayfasına yönlendirir.
+
+**29. `main.js` pencere fonksiyonları `.signin-block` / `.signup-block`'u yükleme anında seçer.** Pencereleri koşullu
+basma (ör. yalnız misafire) — `hideElement()` karartma katmanını kapatamaz hale gelir. Pencereler her sayfada basılır;
+girişli üyede onları açan düğme gösterilmez.
+
+**30. Formu hem pencerede hem sayfada olan sayfada (`/uye/giris`) test seçicisini `section form` ile daralt.** Aynı
+`name`'li alanlar birden çok kez var (pencere + sayfa + stok/kurs başvuru pencereleri).
 
 ---
 
