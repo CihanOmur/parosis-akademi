@@ -10,6 +10,71 @@
 > içerikle alakasız), kullanılmayan modeller, zamanlanmış görev/queue worker yok,
 > `developer` izninin kapsamı netleşmedi.
 >
+> **2026-10-14: kullanıcı isteğiyle tek bir iş için yeniden açıldı** (gizlilik sayfası, aşağıda).
+>
+> ---
+>
+> ## Bu turda yapılanlar — 2026-10-14 (Gizlilik Politikası sayfası)
+>
+> **Sorun (kullanıcı bildirdi):** İletişim formunun altındaki "Gizlilik Politikasını" bağlantısı
+> **404** veriyordu. Bağlantı panelden girilen onay metninden geliyordu
+> (`contact_page_infos.form_privacy_text` = `[Gizlilik Politikasını](/gizlilik-politikasi) …`) ama
+> sitede böyle bir sayfa **hiç yoktu**; adres ayrıca dil öneksizdi (tüm sayfalar `/{locale}/…`).
+>
+> **EKLENDİ** (branch `fix/gizlilik-sayfasi`, 3 commit: `096e8f6` `c93c541` `9ca061f`):
+> - Tablo `privacy_page_infos` (migration `2026_10_14_120000_create_privacy_page_infos_table`, batch 13):
+>   `title`, `breadcrumb_home`, `breadcrumb_current`, `content` (hepsi çevrilebilir JSON). Model
+>   `App\Models\Pages\Privacy\PrivacyPageInfo`. Tek satır (singleton), ilk açılışta `create([])`.
+> - Site: `GET /{locale}/gizlilik-politikasi` → `front.privacy` (`FrontController@privacy`,
+>   `front/pages/privacy.blade.php`; başlık şeridi SSS ile aynı, metin `.privacy-content` — madde
+>   işaretleri için sayfaya özel `<style>`, global `.rich-text-area` DEĞİŞMEDİ).
+>   Dil öneksiz `GET /gizlilik-politikasi` → `privacy.redirect`: `app_locale` çerezindeki ya da varsayılan
+>   dile 302 (kök `/` ile aynı mantık). `sitemap.xml`'e eklendi (0.3 / yearly).
+> - Panel: Sayfalar → **Gizlilik Politikası** kartı, sayfa anahtarı `privacy`
+>   (`admin/pages/edit-privacy.blade.php`). **Klasik form** (görsel düzenleyici değil): dil sekmeleri
+>   (`?lang=`), başlık, breadcrumb, TinyMCE metin. Çeviri rotası aynı ekrana `?lang=` ile yönlenir.
+>   TinyMCE'ye resim yükleme ucu **bağlanmadı** (`pages.uploadImage` `location` değil `url` döndürüyor).
+> - `markdownLinksToHtml(?string $text, string $linkClass)` (`app/Helpers.php`): metni kaçırır,
+>   `[metin](url)` → `<a>` (yalnız `http(s)://`, `/`, `mailto:`, `tel:`; dış linkler yeni sekme).
+> - `ValidationMessageService`: `accepted` kuralının mesajı, `contact_send.check-box`,
+>   yeni form `page_privacy_update`.
+>
+> **DEĞİŞTİ:**
+> - İletişim + SSS formlarında onay kutusu **zorunlu**: tarayıcıda `required`, sunucuda
+>   `check-box => accepted` (mesaj "Gizlilik Politikası kabul edilmelidir."). İki form da
+>   `front.contact.send`'e gidiyor; başka bu uca giden form yok.
+> - SSS formunun onay metni artık bağlantı gösterebiliyor (önce `{{ }}` ile düz basılıyordu).
+>   İletişim sayfasındaki satır içi dönüşüm kodu yardımcıya taşındı.
+> - Varsayılan onay metni (DB boşsa) sayfaya bağlantı veriyor.
+>
+> **DÜZELTİLDİ:** eski dönüşüm kodu bağlantı yazısını ve adresini **iki kez** kaçırıyordu → `'` ve `&`
+> içeren bağlantı yazıları `&#039;` / `&amp;` olarak görünürdü (mevcut metinde görünür etkisi yoktu).
+>
+> **Veri (canlı DB):** yedek `~/gelistirme/yedek-20261014/` (iki tablonun eski `form_privacy_text`'i).
+> - `contact_page_infos.form_privacy_text` → tr `[Gizlilik Politikasını](/tr/gizlilik-politikasi) kabul ediyorum.`,
+>   en `I agree to the [Privacy Policy](/en/gizlilik-politikasi).` (önceden yalnız `tr` vardı → EN sayfa Türkçe gösteriyordu)
+> - `faq_page_infos.form_privacy_text` → aynı biçimde tr/en bağlantılı metin (canlıya alınırken; eski SSS kodu
+>   köşeli parantezi ham basardığı için kodla birlikte değişmeli)
+> - `privacy_page_infos` 1 satır: TR + EN **taslak** KVKK metni (Claude yazdı; sitenin gerçekten topladığı veriler
+>   ve çerezlerden çıkarıldı). **Hukuki metin — kullanıcı / avukat onayı gerekir**, panelden değiştirilebilir.
+>
+> **Yöntem:** canlı klasöre dokunmadan sunucuda git worktree `~/gelistirme/parosis-akademi` (vendor KOPYA,
+> node_modules bağlantı, `.env` kopya + `APP_URL=http://127.0.0.1:8100`, uploads kopya) + `php artisan serve
+> --host=127.0.0.1 --port=8100` (yalnız sunucu içi) + corwus'tan SSH tüneli (18100) ile Playwright. Panel testi
+> için worktree'de geçici, yalnız 127.0.0.1'e açık `public/_test_login.php` (commit edilmedi, test sonunda silindi).
+> Tarayıcı testi 34/34 (panel TR/EN kayıt, sayfa 1440/390, yönlendirme, İletişim/SSS bağlantı + onay kutusu
+> tarayıcı ve sunucu, sitemap, JS hatası yok).
+>
+> **Bu işte görülen ama dokunulmayanlar (kullanıcıya söylendi):**
+> - **Mail gitmiyor:** `settings` mail grubu `mail_mailer=log`, SMTP boş → iletişim formu mesajları yalnız
+>   `storage/logs/laravel.log`'a yazılıyor (2026-09-07 … 10-12 arası 16 mesaj); mesajlar DB'ye kaydedilmiyor.
+> - Ödeme onay sayfası kart alanlarını (`card_number`, `card_cvv`…) sunucuya gönderiyor; `process()` okumuyor ve
+>   DB'ye yazmıyor, ama doğrulama hatasında Laravel girdiyi **session'a flash'lar** (`dontFlash`'ta yoklar) →
+>   kart bilgisi geçici olarak `sessions` tablosuna düşebilir.
+> - Kurs başvuru formunda (öğrenci + veli verisi) gizlilik bağlantısı / onay kutusu yok.
+> - `modals.blade.php`'deki "Kayıt Ol" penceresi şablon kalıntısı (`action="#"`); oradaki "Gizlilik Politikası" yazısı bağlantısız bırakıldı.
+> - EN sayfalarda footer başlıkları Türkçe (çeviri eksik); SSS görsel düzenleyicisi 390 px'te yatay taşıyor.
+>
 > ---
 >
 > ## Bu turda yapılanlar — 2026-07-29
@@ -214,7 +279,7 @@ Güvenlik header'ları mevcut: `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Op
 | Veritabanı adı | **`parosis-akademi`** (tire içerir → SQL'de backtick şart) |
 | Kullanıcı | `parosis-akademi` |
 | Şifre | `.env` içinde `DB_PASSWORD` (dokümana yazılmaz) |
-| Tablo sayısı | **68** |
+| Tablo sayısı | **69** (2026-10-14: +`privacy_page_infos`) |
 | Toplam boyut | ~2.17 MB |
 
 Sorgu örneği (backtick zorunlu):
@@ -296,7 +361,7 @@ parosis-akademi/
 ├── config/                   # app, auth, cache, database, filesystems, logging, mail,
 │                             # permission, queue, services, session, turkiye_iller
 ├── database/
-│   ├── migrations/           # 119 migration (DB'de kayıtlı)
+│   ├── migrations/           # 120 migration (DB'de kayıtlı; 2026-10-14 +1)
 │   ├── seeders/              # 11 seeder
 │   └── factories/
 ├── lang/
@@ -362,14 +427,14 @@ resources/views/
 
 ## 5. Veri Modeli — Tablolar ve Kolonlar
 
-68 tablo. Aşağıdaki kolon listeleri **canlı `information_schema`'dan** çekilmiştir.
+69 tablo (2026-10-14: +`privacy_page_infos`). Aşağıdaki kolon listeleri **canlı `information_schema`'dan** çekilmiştir.
 Satır sayıları 2026-07-28 itibarıyladır.
 
 ### 5.1 Laravel çekirdek
 
 | Tablo | Satır | Kolonlar |
 |---|---|---|
-| `migrations` | 119 | id, migration, batch |
+| `migrations` | 120 | id, migration, batch |
 | `cache` | 117 | key (PK), value, expiration |
 | `cache_locks` | 0 | key (PK), owner, expiration |
 | `jobs` | 0 | id, queue, payload, attempts, reserved_at, available_at, created_at |
@@ -512,6 +577,7 @@ Ortak desen: her tablo `breadcrumb_bg_color`, `breadcrumb_bg_image`, `cta_enable
 | `shop_page_infos` | 1 | **~90 kolon** — products_*, detail_*, cart_*, checkout_* (3 adım, kart önizleme etiketleri, tüm placeholder'lar) |
 | `navbar_page_infos` | 1 | nav_items(JSON), search_placeholder/button, register/login_button_text, show_search / show_register_button / show_login_button / show_social_links / show_cart_button / show_side_info_button (görünürlük anahtarları) |
 | `footer_page_infos` | 1 | logo, about_text, links_title, contact_title, newsletter_* , copyright_text, support/email/address_label, social_links(JSON), nav_links(JSON) |
+| `privacy_page_infos` | 1 | **2026-10-14 eklendi.** title, breadcrumb_home, breadcrumb_current, content (hepsi translatable). Ortak desenin `breadcrumb_bg_*`, `cta_enabled`, `field_styles` alanları **yok** |
 
 **`menu_items`** (7) — hiyerarşik navigasyon
 `id, parent_id(self FK), label(longtext translatable), url(def '#'), target(def '_self'),
@@ -896,6 +962,7 @@ Route::prefix('{locale}')
 | GET | `/{locale}/blog` | `front.blog` | `FrontController@blog` |
 | GET | `/{locale}/blog-detay/{id}` | `front.blog.details` | `FrontController@blogDetails` |
 | GET | `/{locale}/sss` | `front.faq` | `FrontController@faq` |
+| GET | `/{locale}/gizlilik-politikasi` | `front.privacy` | `FrontController@privacy` (2026-10-14) |
 | GET | `/{locale}/iletisim` | `front.contact` | `FrontController@contact` |
 | POST | `/{locale}/iletisim` | `front.contact.send` | `ContactController@send` · **throttle:5,1** |
 | POST | `/{locale}/kurs-basvuru` | `front.course.application.store` | `CourseApplicationController@store` · **throttle:5,1** |
@@ -917,6 +984,7 @@ Route::prefix('{locale}')
 ```
 GET  /              → root      closure: cookie(app_locale) geçerliyse ona, değilse
                                  is_default dile redirect (fallback config('app.locale'))
+GET  /gizlilik-politikasi → privacy.redirect   aynı mantıkla /{locale}/gizlilik-politikasi'ya 302 (2026-10-14)
 POST /haber-ver     → stock.notify   Shop\StockNotificationController@store
 GET  /robots.txt    → robots     closure — settings.seo.robots_txt + sitemap_url
 GET  /sitemap.xml   → sitemap    SitemapController@index
@@ -941,7 +1009,7 @@ Courses\CourseApplicationController        store index markContacted destroy
 DashboardController                        index          (sadece view döner, veri yok)
 Faq\FaqController                          (standart CRUD + translate)
 Front\ContactController                    send
-Front\FrontController                      home about courses search searchSuggest courseDetails teachers teacherDetails blog blogDetails contact faq
+Front\FrontController                      home about courses search searchSuggest courseDetails teachers teacherDetails blog blogDetails contact faq privacy
 Languages\LanguagesController              index toggleVisibility toggleActive create store edit update setDefault updateOrder delete
 MenuItem\MenuItemController                index create store edit update delete updateOrder indent outdent toggleActive editTranslate updateTranslate
 Pages\PagesController                      index edit update editTranslate updateTranslate uploadImage
@@ -1020,11 +1088,20 @@ parametresi verilmeden çalışır.
 `PagesController` bir **dispatcher**'dır: `edit/{id}` ve `update/{id}` içindeki `$id`
 sayfa anahtarıdır ve `match()` ile ilgili özel metoda yönlenir.
 
-Geçerli sayfa anahtarları (10):
+Geçerli sayfa anahtarları (11):
 ```
-home · about · contact · faq · teachers · blog · courses · footer · navbar · shop
+home · about · contact · faq · teachers · blog · courses · footer · navbar · shop · privacy
 ```
 Bilinmeyen anahtar → `abort(404)`.
+
+`privacy` (2026-10-14) diğerlerinden farklı: önizlemeli görsel düzenleyici değil, **klasik form**
+(`edit-privacy.blade.php`: dil sekmeleri, başlık, breadcrumb, TinyMCE). Ayrı `-translate` view'i yok;
+`editPrivacyTranslate` aynı ekrana `?lang=` ile yönlenir, `updatePrivacyTranslate` = `updatePrivacy`.
+`updatePrivacy` yalnız istekte gelen alanları yazar (`$request->has`), dil `getLocaleInfo()` ile doğrulanır.
+
+**Form onay metinlerinde bağlantı:** İletişim ve SSS `form_privacy_text` alanları `[metin](/tr/adres)`
+sözdizimini destekler (`markdownLinksToHtml()`); her dilin metninde o dilin adresi yazılmalı
+(`/en/gizlilik-politikasi` gibi). Panel önizlemesi (görsel düzenleyici) sözdizimini ham gösterir — beklenen.
 
 Her anahtar için 4 metod çifti vardır:
 `editX()` / `updateX()` / `editXTranslate($lang)` / `updateXTranslate()`.
@@ -1111,8 +1188,9 @@ Yarışmalar (katalog)  → /panel/competitions
 - `GET /robots.txt` → `settings.seo.robots_txt` (varsayılan `User-agent: *\nAllow: /`)
   + `settings.seo.sitemap_url` doluysa sonuna `Sitemap: <url>` eklenir.
 - `GET /sitemap.xml` → `SitemapController@index`, dinamik olarak üretir:
-  - 8 statik sayfa (home 1.0/daily, about 0.8/monthly, courses 0.9/weekly,
-    teachers 0.8/weekly, blog 0.9/daily, products 0.9/daily, contact 0.7/monthly, faq 0.6/monthly)
+  - 9 statik sayfa (home 1.0/daily, about 0.8/monthly, courses 0.9/weekly,
+    teachers 0.8/weekly, blog 0.9/daily, products 0.9/daily, contact 0.7/monthly, faq 0.6/monthly,
+    privacy 0.3/yearly — 2026-10-14)
   - Aktif kurslar (0.8/weekly), eğitmenler (0.7/monthly), blog yazıları, ürünler
   - + `sitemap_entries` tablosundaki manuel kayıtlar (şu an 0 satır)
 - Front layout: `meta_title`/`meta_description`/`meta_keywords`, favicon,
@@ -1137,6 +1215,13 @@ ezer. Yani `.env`'deki `MAIL_MAILER=log` panelde SMTP ayarlıysa geçersizdir.
 `ContactController@send`: alıcı = `Setting::get('site_email', null, 'general')`.
 Gönderim `try/catch` içinde; hata `Log::error` ile yazılır ama kullanıcıya **her zaman
 başarı mesajı** gösterilir (sessiz hata — bkz. §15).
+2026-10-14'ten itibaren `check-box => accepted` doğrulaması da var (İletişim + SSS formu).
+
+> **⚠️ 2026-10-14 tespiti (düzeltilmedi, kullanıcı kararı bekliyor):** DB'deki mail ayarı
+> `mail_mailer=log`, `mail_host`/`mail_username`/`mail_from_address` **boş**. Yani hiçbir mail
+> gönderilmiyor; `laravel.log`'a `production.DEBUG: From: Parosis Akademi <hello@example.com>`
+> satırlarıyla yazılıyor. İletişim formu mesajları DB'ye kaydedilmediği için **tek kopyaları log'da**
+> (2026-09-07 … 10-12 arası 16 mesaj). Çözüm: Panel → Ayarlar → Mail'e SMTP bilgisi girilmesi.
 
 ### 8.9 Doğrulama mesajları sistemi (`developer` izni)
 
@@ -1159,6 +1244,10 @@ ValidationMessageService::getMessages('blog_store')
 ```
 Controller'lar `$request->validate($rules, ValidationMessageService::getMessages('<formKey>'))`
 şeklinde çağırır.
+
+`ruleMessage()` yalnız listelediği kurallar için mesaj üretir; listede olmayan kural boş mesaj
+döner ve Laravel'in genel çevirisine düşer. `accepted` 2026-10-14'te eklendi
+(`contact_send.check-box`). Yeni form: `page_privacy_update` (content modülü).
 
 Ek olarak `AppServiceProvider::overrideValidationMessages()` boot'ta
 `Setting::getGroup('validation_messages')` ve `validation_attributes` gruplarını okuyup
@@ -1477,6 +1566,10 @@ Muhtemel gelecek ihtiyaç (henüz kurulmadı):
 
 ## 14. Git Durumu
 
+> **2026-10-14:** `fix/gizlilik-sayfasi` branch'i `fix/about-faq-spacing`'in (`50ad604`) üstünde, sunucudaki
+> worktree'de (`~/gelistirme/parosis-akademi`) geliştirildi. Canlıya alma = canlı klasörde **branch değiştirmeden**
+> `git merge --ff-only fix/gizlilik-sayfasi` (canlı hâlâ `fix/about-faq-spacing`'de). Aşağıdaki topoloji 2026-07-28 halidir.
+
 ```
 Repo:    https://github.com/CihanOmur/parosis-akademi.git  (remote: origin)
 Branch:  fix/about-faq-spacing          ← AKTİF (checked out)
@@ -1630,6 +1723,16 @@ yoksa SuperAdmin'in alt kümesi mi? Şu an sadece SuperAdmin'de var (Admin'de yo
 21. `sitemap_entries` tablosu boş — manuel sitemap girişi özelliği kullanılmıyor.
 22. `stock_notification_requests` boş — özellik canlıya çıktı, henüz kullanım yok.
 23. `model_has_permissions` boş — doğrudan kullanıcıya izin verilmiyor, hep rol üzerinden.
+23a. **(2026-10-14) Mail hiç gönderilmiyor** — DB mail ayarı `log`, SMTP boş (§8.8). İletişim formu
+     mesajları yalnız `laravel.log`'da. Kullanıcı kararı bekliyor.
+23b. **(2026-10-14) Kart alanları session'a düşebilir** — `checkout-confirm` formu `card_number`,
+     `card_expiry`, `card_cvv`'yi sunucuya gönderiyor; `CheckoutController@process` bunları okumuyor/yazmıyor
+     ama `validate()` başarısız olursa Laravel tüm girdiyi session'a flash'lar (yalnız `password*` alanları
+     hariç) → `sessions` tablosunda geçici kart bilgisi. Çözüm adayı: alanlara `name` vermemek (önizleme
+     zaten JS ile) veya `dontFlash`'a eklemek. Dokunulmadı.
+23c. **(2026-10-14) Kurs başvuru formunda gizlilik onayı yok** — öğrenci (çocuk) + veli verisi topluyor,
+     bağlantı / onay kutusu yok. Dokunulmadı, kullanıcıya soruldu.
+~~ÇÖZÜLDÜ (2026-10-14)~~: İletişim formundaki gizlilik bağlantısı 404 veriyordu → §başlık "2026-10-14".
 
 ### 15.6 Şema kalitesi
 
@@ -1739,6 +1842,24 @@ Blade değişikliği için build gerekmez ama view cache'i CACHED durumda — ş
 
 **21. Spatie permission cache'i 24 saat.**
 İzin/rol değişikliği sonrası `php artisan permission:cache-reset` gerekebilir.
+
+**22. `front.css` yalnız `resources/views/front/**/*.blade.php`'yi tarar (2026-10-14).**
+Front'ta kullanılacak Tailwind sınıflarını PHP sınıflarına / helper'lara yazma — derlenmez.
+`markdownLinksToHtml()` bu yüzden bağlantı sınıfını parametre olarak Blade'den alıyor.
+(Panel `app.css` ise `app/Http/Controllers/**` dahil daha geniş tarar.)
+
+**23. `jos` sınıflı bloklar ekran görüntüsünde boş çıkar.**
+JOS kaydırma animasyonu öğeyi görünür alana girene kadar saydam tutar; Playwright `fullPage`
+görüntüsü kaydırmadığı için içerik görünmez. Önce sayfayı yavaşça sona kadar kaydır, sonra çek.
+Gerçek ziyaretçide sorun yok (uzun blokta da ilk açılışta beliriyor — 2026-10-14 ölçüldü).
+
+**24. `php artisan serve`'de `/dosya.php/alt-yol` `index.php`'ye düşer.**
+Yerleşik sunucu yalnız dosya birebir varsa onu çalıştırır. Worktree test girişi bu yüzden
+`REQUEST_URI`'yi betik içinde ayarlıyor (2026-10-14 yöntemi, §başlık).
+
+**25. Onay metni bağlantısı her dilde o dilin adresini içermeli.**
+`[Privacy Policy](/en/gizlilik-politikasi)` — öneksiz `/gizlilik-politikasi` de çalışır
+(çereze göre yönlenir) ama bir yönlendirme fazladan.
 
 ---
 

@@ -3,6 +3,7 @@
 ## Bekleyen
 
 ## Devam Eden
+- 2026-10-14 — Gizlilik Politikası sayfası (iletişim formundaki bağlantı 404 veriyordu). Kod + test bitti (branch `fix/gizlilik-sayfasi`, 34/34). Bekleyen: kullanıcının taslak KVKK metnini onaylaması → canlıya alma (ff-merge, `npm run build`, SSS onay metni, canlı kontrol, push). Ayrıntı CLAUDE.md başı.
 
 ## Tamamlanan
 - 2026-06-21 — Production deployment (parosisakademi.com). Local main (a532333+c2be13c) GitHub'a push, sunucuda git pull (111 commit), composer install, npm build, 96 migration (96/96 başarılı + 2 manuel düzeltme: shop_page_infos CREATE migration tarih sırası, modular_permissions_v3 'content' yokken patlıyordu), 7 eksik izin (developer/language/menu/page/settings/shop/shop_delete) manuel eklendi, SuperAdmin/Admin'e tüm izinler sync, 21 dil local'den sunucuya import. Mevcut canlı veriler korundu (11 user, 85 öğrenci, 86 veli, 85 ödeme, 626 taksit, 17 sınıf). Smoke test: tüm front sayfalar 200, panel 302/200.
