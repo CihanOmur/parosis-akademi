@@ -1057,6 +1057,17 @@ class ValidationMessageService
                     ],
                 ],
 
+                // Gizlilik Politikası Sayfası
+                'page_privacy_update' => [
+                    'label' => 'Sayfa - Gizlilik Politikası',
+                    'fields' => [
+                        'title' => ['label' => 'Sayfa başlığı', 'type' => 'string', 'rules' => ['string', 'max']],
+                        'breadcrumb_home' => ['label' => 'Breadcrumb ana sayfa yazısı', 'type' => 'string', 'rules' => ['string', 'max']],
+                        'breadcrumb_current' => ['label' => 'Breadcrumb sayfa yazısı', 'type' => 'string', 'rules' => ['string', 'max']],
+                        'content' => ['label' => 'Sayfa içeriği', 'type' => 'string', 'rules' => ['string', 'max']],
+                    ],
+                ],
+
                 // Sayfa Görsel Yükleme
                 'page_upload_image' => [
                     'label' => 'Sayfa - Görsel Yükle',

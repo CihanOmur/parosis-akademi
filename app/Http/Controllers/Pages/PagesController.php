@@ -20,6 +20,7 @@ use App\Models\Pages\Home\HomePageInfo;
 use App\Models\MenuItem;
 use App\Models\Pages\Navbar\NavbarPageInfo;
 use App\Models\Pages\Shop\ShopPageInfo;
+use App\Models\Pages\Privacy\PrivacyPageInfo;
 use App\Models\Shop\Product;
 use App\Models\Shop\ProductCategory;
 use App\Models\Teacher\Teacher;
@@ -49,6 +50,7 @@ class PagesController extends Controller
             'footer'   => $this->editFooter($request),
             'navbar'   => $this->editNavbar($request),
             'shop'     => $this->editShop($request),
+            'privacy'  => $this->editPrivacy($request),
             default    => abort(404),
         };
     }
@@ -66,6 +68,7 @@ class PagesController extends Controller
             'footer'   => $this->updateFooter($request),
             'navbar'   => $this->updateNavbar($request),
             'shop'     => $this->updateShop($request),
+            'privacy'  => $this->updatePrivacy($request),
             default    => abort(404),
         };
     }
@@ -83,6 +86,7 @@ class PagesController extends Controller
             'footer'   => $this->editFooterTranslate($request, $lang),
             'navbar'   => $this->editNavbarTranslate($request, $lang),
             'shop'     => $this->editShopTranslate($request, $lang),
+            'privacy'  => $this->editPrivacyTranslate($request, $lang),
             default    => abort(404),
         };
     }
@@ -100,6 +104,7 @@ class PagesController extends Controller
             'footer'   => $this->updateFooterTranslate($request),
             'navbar'   => $this->updateNavbarTranslate($request),
             'shop'     => $this->updateShopTranslate($request),
+            'privacy'  => $this->updatePrivacyTranslate($request),
             default    => abort(404),
         };
     }
@@ -1484,5 +1489,60 @@ class PagesController extends Controller
     private function updateShopTranslate(Request $request)
     {
         return $this->updateShop($request);
+    }
+
+    // ─── Privacy Policy Page ─────────────────────────────────────────────────
+
+    private function editPrivacy(Request $request)
+    {
+        $privacyPageInfo = PrivacyPageInfo::first();
+        if (!$privacyPageInfo) {
+            $privacyPageInfo = PrivacyPageInfo::create([]);
+        }
+
+        $selectedLang = getLocaleInfo($request->get('lang'))['translateLang'];
+
+        return view('admin.pages.edit-privacy', compact('privacyPageInfo', 'selectedLang'));
+    }
+
+    private function updatePrivacy(Request $request)
+    {
+        $request->validate([
+            'title'              => 'nullable|string|max:255',
+            'breadcrumb_home'    => 'nullable|string|max:100',
+            'breadcrumb_current' => 'nullable|string|max:100',
+            'content'            => 'nullable|string|max:100000',
+        ], ValidationMessageService::getMessages('page_privacy_update'));
+
+        $privacyPageInfo = PrivacyPageInfo::first();
+        if (!$privacyPageInfo) {
+            $privacyPageInfo = PrivacyPageInfo::create([]);
+        }
+
+        $locale = getLocaleInfo($request->lang)['translateLang'];
+
+        foreach (['title', 'breadcrumb_home', 'breadcrumb_current', 'content'] as $field) {
+            if ($request->has($field)) {
+                $privacyPageInfo->setTranslation($field, $locale, (string) $request->input($field));
+            }
+        }
+
+        $privacyPageInfo->save();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Kaydedildi.']);
+        }
+
+        return redirect()->back()->with('success', 'Gizlilik Politikası sayfası başarıyla güncellendi.');
+    }
+
+    private function editPrivacyTranslate(Request $request, $lang)
+    {
+        return redirect()->route('pages.edit', ['id' => 'privacy', 'lang' => $lang]);
+    }
+
+    private function updatePrivacyTranslate(Request $request)
+    {
+        return $this->updatePrivacy($request);
     }
 }
