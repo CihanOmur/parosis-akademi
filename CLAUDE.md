@@ -21,6 +21,19 @@
 > (`contact_page_infos.form_privacy_text` = `[Gizlilik Politikasını](/gizlilik-politikasi) …`) ama
 > sitede böyle bir sayfa **hiç yoktu**; adres ayrıca dil öneksizdi (tüm sayfalar `/{locale}/…`).
 >
+> **✅ CANLIDA (2026-10-14, kullanıcı onayıyla — taslak metin olduğu gibi yayında).** Canlı klasörde branch
+> değiştirmeden `git merge --ff-only fix/gizlilik-sayfasi` (`50ad604` → `8b3a677`) + `npm run build` (CSS
+> değişti, şarttı) + `php artisan optimize:clear` + SSS onay metni. Kontroller: 16 adresin önce/sonra
+> karşılaştırması → yalnız beklenen 6'sı değişti (İletişim tr/en ve SSS'de `required`, SSS'de bağlantı,
+> sitemap'te yeni `<url>`, gizlilik 404 → 200 / 302), diğer 10 sayfa normalleştirilmiş içerikte birebir aynı;
+> canlı tarayıcı testi 23/23; `laravel.log`'a yeni satır yok. GitHub: `fix/about-faq-spacing` + `fix/gizlilik-sayfasi`
+> push edildi. Worktree kaldırıldı; yedek `~/gelistirme/yedek-20261014/` (eski `public/build` + iki tablonun eski onay metni).
+> **Geri dönüş:** `git reset --hard 50ad604` + `cp -a ~/gelistirme/yedek-20261014/build-once/. public/build/` +
+> `optimize:clear` + onay metinlerini yedekten geri yaz + gerekirse
+> `migrate:rollback --path=database/migrations/2026_10_14_120000_create_privacy_page_infos_table.php` (metin silinir).
+> **Karşılaştırma tuzağı:** Cloudflare e-posta gizlemesi (`/cdn-cgi/l/email-protection#…`, `data-cfemail`) her istekte
+> farklı kod üretir → sayfa özetlerini karşılaştırırken bu kodları da çıkar (CSRF + `/build/assets/*` hash'iyle birlikte).
+>
 > **EKLENDİ** (branch `fix/gizlilik-sayfasi`, 3 commit: `096e8f6` `c93c541` `9ca061f`):
 > - Tablo `privacy_page_infos` (migration `2026_10_14_120000_create_privacy_page_infos_table`, batch 13):
 >   `title`, `breadcrumb_home`, `breadcrumb_current`, `content` (hepsi çevrilebilir JSON). Model
@@ -53,8 +66,8 @@
 > **Veri (canlı DB):** yedek `~/gelistirme/yedek-20261014/` (iki tablonun eski `form_privacy_text`'i).
 > - `contact_page_infos.form_privacy_text` → tr `[Gizlilik Politikasını](/tr/gizlilik-politikasi) kabul ediyorum.`,
 >   en `I agree to the [Privacy Policy](/en/gizlilik-politikasi).` (önceden yalnız `tr` vardı → EN sayfa Türkçe gösteriyordu)
-> - `faq_page_infos.form_privacy_text` → aynı biçimde tr/en bağlantılı metin (canlıya alınırken; eski SSS kodu
->   köşeli parantezi ham basardığı için kodla birlikte değişmeli)
+> - `faq_page_infos.form_privacy_text` → aynı biçimde tr/en bağlantılı metin (canlıya alınırken, kodla aynı anda;
+>   eski SSS kodu köşeli parantezi ham basardı)
 > - `privacy_page_infos` 1 satır: TR + EN **taslak** KVKK metni (Claude yazdı; sitenin gerçekten topladığı veriler
 >   ve çerezlerden çıkarıldı). **Hukuki metin — kullanıcı / avukat onayı gerekir**, panelden değiştirilebilir.
 >
@@ -1567,8 +1580,9 @@ Muhtemel gelecek ihtiyaç (henüz kurulmadı):
 ## 14. Git Durumu
 
 > **2026-10-14:** `fix/gizlilik-sayfasi` branch'i `fix/about-faq-spacing`'in (`50ad604`) üstünde, sunucudaki
-> worktree'de (`~/gelistirme/parosis-akademi`) geliştirildi. Canlıya alma = canlı klasörde **branch değiştirmeden**
-> `git merge --ff-only fix/gizlilik-sayfasi` (canlı hâlâ `fix/about-faq-spacing`'de). Aşağıdaki topoloji 2026-07-28 halidir.
+> worktree'de (`~/gelistirme/parosis-akademi`, iş bitince kaldırıldı) geliştirildi ve canlı klasörde **branch
+> değiştirmeden** `git merge --ff-only` ile alındı. Canlı hâlâ `fix/about-faq-spacing`'de; iki branch de GitHub'da.
+> Yeni iş için aynı yöntem önerilir. Aşağıdaki topoloji 2026-07-28 halidir.
 
 ```
 Repo:    https://github.com/CihanOmur/parosis-akademi.git  (remote: origin)
