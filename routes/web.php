@@ -36,6 +36,7 @@ use App\Http\Controllers\Shop\CouponController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\MemberAuthController;
 use App\Http\Controllers\Front\AccountController;
+use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\ValidationMessageController;
 use App\Http\Controllers\SitemapController;
@@ -589,6 +590,15 @@ Route::middleware(['auth', \App\Http\Middleware\SharedDatas::class])->prefix('pa
         Route::get('/', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'index'])->name('course-applications.index');
         Route::post('/{id}/contacted', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'markContacted'])->name('course-applications.contacted');
         Route::delete('/{id}', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'destroy'])->name('course-applications.destroy');
+    });
+
+    // ─── Site Üyeleri ('member' guard hesapları) ─────────────────────────────
+    Route::prefix('members')->name('members.')->group(function () {
+        Route::get('/',              [MemberController::class, 'index'])->name('index')->middleware('permission:member');
+        Route::get('/{id}',          [MemberController::class, 'show'])->name('show')->middleware('permission:member');
+        Route::post('/{id}/toggle',  [MemberController::class, 'toggleActive'])->name('toggle')->middleware('permission:member');
+        Route::post('/{id}/password',[MemberController::class, 'updatePassword'])->name('password')->middleware('permission:member');
+        Route::delete('/{id}',       [MemberController::class, 'destroy'])->name('destroy')->middleware('permission:member_delete');
     });
 });
 

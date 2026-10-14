@@ -619,7 +619,7 @@
         {{-- ============================== --}}
         {{-- Bölüm: (Başlıksız divider)     --}}
         {{-- ============================== --}}
-        @canany(['testimonial', 'testimonial_delete', 'developer', 'user', 'user_delete', 'role', 'role_delete', 'settings', 'theme'])
+        @canany(['testimonial', 'testimonial_delete', 'developer', 'member', 'member_delete', 'user', 'user_delete', 'role', 'role_delete', 'settings', 'theme'])
             <div class="pt-4">
                 <div class="mx-3 border-t border-slate-200 dark:border-slate-700 mb-2"></div>
             </div>
@@ -666,6 +666,27 @@
             <span class="lg:hidden">Doğrulama Mesajları</span>
         </a>
         @endcan
+
+        {{-- Üyeler (site ziyaretçi hesapları) --}}
+        @canany(['member', 'member_delete'])
+        @php $isMembers = Route::is('members.*'); @endphp
+        <a href="{{ route('members.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isMembers
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isMembers
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Üyeler</span>
+            <span class="lg:hidden">Üyeler</span>
+        </a>
+        @endcanany
 
         {{-- Kullanıcılar Dropdown (Tümü, Roller) --}}
         @canany(['user', 'user_delete', 'role', 'role_delete'])
