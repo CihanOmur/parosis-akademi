@@ -21,6 +21,7 @@ use App\Models\Testimonial\Testimonial;
 use App\Models\Teacher\Teacher;
 use App\Models\Slider\Slider;
 use App\Models\Pages\Home\HomePageInfo;
+use App\Models\Pages\Privacy\PrivacyPageInfo;
 
 class FrontController extends Controller
 {
@@ -284,6 +285,12 @@ class FrontController extends Controller
         $faqs = Faq::where('is_active', true)->orderBy('sort_order')->get();
         $ctaInfo = $faqPageInfo;
         return view('front.pages.faq', compact('faqPageInfo', 'faqs', 'ctaInfo'));
+    }
+
+    public function privacy()
+    {
+        $privacyPageInfo = PrivacyPageInfo::first();
+        return view('front.pages.privacy', compact('privacyPageInfo'));
     }
 
 }

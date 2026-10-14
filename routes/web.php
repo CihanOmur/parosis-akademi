@@ -483,6 +483,22 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
     return redirect('/' . $defaultLocale);
 })->name('root');
 
+// ─── Dil öneksiz gizlilik adresi: cookie veya default locale'deki sayfaya redirect ─
+Route::get('/gizlilik-politikasi', function (\Illuminate\Http\Request $request) {
+    $cookieLocale = $request->cookie('app_locale');
+
+    $isValidLocale = $cookieLocale
+        && \App\Models\Languages\Languages::where('locale', $cookieLocale)
+            ->where('status', 1)->where('is_active', 1)->exists();
+
+    $locale = $isValidLocale ? $cookieLocale : (optional(
+        \App\Models\Languages\Languages::where('is_default', 1)
+            ->where('status', 1)->where('is_active', 1)->first()
+    )->locale ?? config('app.locale', 'tr'));
+
+    return redirect('/' . $locale . '/gizlilik-politikasi');
+})->name('privacy.redirect');
+
 // ─── Frontend Sayfaları (locale prefix) ──────────────────────────────────────
 Route::prefix('{locale}')
     ->where(['locale' => '[a-z]{2}(-[a-z]{2,4})?'])
@@ -503,6 +519,7 @@ Route::prefix('{locale}')
         Route::post('/iletisim',       [ContactController::class, 'send'])->middleware('throttle:5,1')->name('contact.send');
         Route::post('/kurs-basvuru', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'store'])->middleware('throttle:5,1')->name('course.application.store');
         Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
+        Route::get('/gizlilik-politikasi', [FrontController::class, 'privacy'])->name('privacy');
         Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
         Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
         Route::get('/sepet',            [CartController::class, 'show'])->name('cart');

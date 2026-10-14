@@ -25,6 +25,7 @@ class SitemapController extends Controller
             ['loc' => route('front.products'), 'priority' => '0.9',  'changefreq' => 'daily'],
             ['loc' => route('front.contact'),  'priority' => '0.7',  'changefreq' => 'monthly'],
             ['loc' => route('front.faq'),      'priority' => '0.6',  'changefreq' => 'monthly'],
+            ['loc' => route('front.privacy'),  'priority' => '0.3',  'changefreq' => 'yearly'],
         ];
 
         foreach ($statics as $s) {
