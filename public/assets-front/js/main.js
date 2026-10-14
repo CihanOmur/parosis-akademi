@@ -273,11 +273,12 @@ const sideInfoBtn = () => {
 
 // Hide Element - Overlay
 const hideElement = () => {
-  signupBlock.classList.add("hidden");
-  signinBlock.classList.add("hidden");
+  if (signupBlock) signupBlock.classList.add("hidden");
+  if (signinBlock) signinBlock.classList.add("hidden");
   overlayBackground.classList.add("hidden");
-  menuCart.style.transform = "translateX(100%)";
-  menuInfo.style.transform = "translateX(100%)";
+  // .menu-add-to-cart sayfada yok (sepet cartSidebar ile açılıyor) — eksik öğede hata vermesin
+  if (menuCart) menuCart.style.transform = "translateX(100%)";
+  if (menuInfo) menuInfo.style.transform = "translateX(100%)";
 };
 /* ::::::::::::::::::::::
 :: Template Javascript ::
