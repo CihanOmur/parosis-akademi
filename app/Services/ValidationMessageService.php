@@ -99,6 +99,8 @@ class ValidationMessageService
             'regex'         => "{$label} geçersiz formatta.",
             'confirmed'     => "{$label} tekrarı eşleşmiyor.",
             'accepted'      => "{$label} kabul edilmelidir.",
+            'current_password' => "{$label} hatalı.",
+            'different'     => "{$label} mevcut değerden farklı olmalıdır.",
             'max' => match ($type) {
                 'file'    => "{$label} en fazla :max kilobayt olabilir.",
                 'array'   => "{$label} en fazla :max öğe içerebilir.",
@@ -1075,6 +1077,53 @@ class ValidationMessageService
                     'label' => 'Sayfa - Görsel Yükle',
                     'fields' => [
                         'image' => ['label' => 'Görsel', 'type' => 'file', 'rules' => ['required', 'file', 'mimes', 'max']],
+                    ],
+                ],
+            ],
+        ],
+
+        // ═══════════════════════════════════════════════════════════════
+        // ÜYELİK (site ziyaretçi hesabı)
+        // ═══════════════════════════════════════════════════════════════
+        'member' => [
+            'label' => 'Üyelik',
+            'forms' => [
+                'member_register' => [
+                    'label' => 'Üye - Kayıt Ol',
+                    'fields' => [
+                        'name' => ['label' => 'Ad soyad', 'type' => 'string', 'rules' => ['required', 'string', 'max']],
+                        'email' => ['label' => 'E-posta adresi', 'type' => 'string', 'rules' => ['required', 'email', 'max', 'unique']],
+                        'phone' => ['label' => 'Telefon', 'type' => 'string', 'rules' => ['required', 'string', 'max', 'regex']],
+                        'password' => ['label' => 'Şifre', 'type' => 'string', 'rules' => ['required', 'string', 'min', 'max', 'confirmed']],
+                        'privacy' => ['label' => 'Gizlilik Politikası', 'type' => 'boolean', 'rules' => ['accepted']],
+                    ],
+                ],
+                'member_login' => [
+                    'label' => 'Üye - Giriş Yap',
+                    'fields' => [
+                        'email' => ['label' => 'E-posta adresi', 'type' => 'string', 'rules' => ['required', 'email', 'max']],
+                        'password' => ['label' => 'Şifre', 'type' => 'string', 'rules' => ['required', 'string', 'max']],
+                    ],
+                ],
+                'member_account_update' => [
+                    'label' => 'Üye - Bilgilerim',
+                    'fields' => [
+                        'name' => ['label' => 'Ad soyad', 'type' => 'string', 'rules' => ['required', 'string', 'max']],
+                        'email' => ['label' => 'E-posta adresi', 'type' => 'string', 'rules' => ['required', 'email', 'max', 'unique']],
+                        'phone' => ['label' => 'Telefon', 'type' => 'string', 'rules' => ['required', 'string', 'max', 'regex']],
+                    ],
+                ],
+                'member_account_password' => [
+                    'label' => 'Üye - Şifre Değiştir',
+                    'fields' => [
+                        'current_password' => ['label' => 'Mevcut şifre', 'type' => 'string', 'rules' => ['required', 'current_password']],
+                        'password' => ['label' => 'Yeni şifre', 'type' => 'string', 'rules' => ['required', 'string', 'min', 'max', 'confirmed', 'different']],
+                    ],
+                ],
+                'member_admin_password' => [
+                    'label' => 'Panel - Üye Şifresi Sıfırla',
+                    'fields' => [
+                        'password' => ['label' => 'Yeni şifre', 'type' => 'string', 'rules' => ['required', 'string', 'min', 'max']],
                     ],
                 ],
             ],

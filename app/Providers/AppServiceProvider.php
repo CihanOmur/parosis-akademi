@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Setting;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
@@ -24,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Üye giriş/kayıt formları: IP başına dakikada 10 istek (diğer throttle:5,1 uçlarından ayrı kova)
+        RateLimiter::for('member-auth', fn (Request $request) => Limit::perMinute(10)->by('member-auth|' . $request->ip()));
+
         Paginator::useBootstrapFive();
         Paginator::defaultView('vendor.pagination.tailwind');
         Paginator::defaultSimpleView('vendor.pagination.simple-tailwind');

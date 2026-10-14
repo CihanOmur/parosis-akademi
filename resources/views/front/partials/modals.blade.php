@@ -1,108 +1,55 @@
+{{-- Üye giriş / kayıt pencereleri — aç/kapa: main.js (signinBtn, signupBtn, signinTextBtn, signupTextBtn, hideElement) --}}
+@php
+    $memberModalLogo = !empty($globalSettings['logos']['header_logo'])
+        ? asset($globalSettings['logos']['header_logo'])
+        : asset('assets-front/img/logo-parosis-akademi.svg');
+@endphp
 <!-- Sign In Block -->
-<div class="signin-block fixed left-1/2 top-1/2 z-50 hidden -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
-    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
+<div class="signin-block fixed left-1/2 top-1/2 z-50 hidden max-h-[92vh] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
+    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()" aria-label="Kapat">
         &times;
     </button>
-    <img src="{{ asset('assets-front/img/logo-small.png') }}" alt="logo" width="117" height="28" class="mx-auto" />
+    <img src="{{ $memberModalLogo }}" alt="logo" height="30" class="mx-auto h-[30px] w-auto" />
     <div class="my-7 text-center">
         <h2 class="mb-3">Giriş Yap</h2>
         <p>
             Hesabınız yok mu?
-            <button class="signup-text-btn text-colorPurpleBlue" onclick="signupTextBtn()">
+            <button type="button" class="signup-text-btn text-colorPurpleBlue" onclick="signupTextBtn()">
                 Kayıt Ol
             </button>
         </p>
     </div>
-    <form action="#" method="post" class="grid w-80 grid-cols-1 gap-y-[22px] sm:w-[374px]">
-        <input type="text" placeholder="Kullanıcı adınızı girin" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
-        <input type="password" placeholder="Şifrenizi girin" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
-        <label for="check-box-signin" class="mt-3.5 flex items-center gap-x-3 text-sm text-[#8D8D8D]">
-            <span class="relative">
-                <input type="checkbox" name="check-box-signin" id="check-box-signin" class="peer opacity-0" />
-                <span class="absolute left-0 top-1/2 inline-block h-4 w-4 -translate-y-1/2 rounded-[50%] border border-colorBlackPearl/75 peer-checked:bg-colorBlackPearl/75"></span>
-            </span>
-            Beni hatırla
-        </label>
-        <div>
-            <button type="submit" class="btn btn-primary is-icon group">
-                Giriş Yap
-                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right" width="13" height="12" />
-                </span>
-                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right" width="13" height="12" />
-                </span>
-            </button>
-        </div>
-    </form>
-    <span class="mb-7 mt-8 block text-center">Veya şununla giriş yapın</span>
-    <div class="flex justify-center gap-2.5">
-        <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-colorJasper/10">
-            <img src="{{ asset('assets-front/img/icons/icon-origin-google.svg') }}" alt="icon-origin-google" width="24" height="24" />
-        </button>
-        <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#1977F3]/10">
-            <img src="{{ asset('assets-front/img/icons/icon-origin-facebook.svg') }}" alt="icon-origin-facebook" width="24" height="24" />
-        </button>
-        <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#0077B5]/10">
-            <img src="{{ asset('assets-front/img/icons/icon-origin-linkedin.svg') }}" alt="icon-origin-linkedin" width="24" height="24" />
-        </button>
-    </div>
+    @include('front.partials.member-login-form', ['inModal' => true])
 </div>
 <!-- Sign In Block -->
 
 <!-- Sign Up Block -->
-<div class="signup-block fixed left-1/2 top-1/2 z-50 hidden -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
-    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()">
+<div class="signup-block fixed left-1/2 top-1/2 z-50 hidden max-h-[92vh] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
+    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()" aria-label="Kapat">
         &times;
     </button>
-    <img src="{{ asset('assets-front/img/logo-small.png') }}" alt="logo" width="117" height="28" class="mx-auto" />
+    <img src="{{ $memberModalLogo }}" alt="logo" height="30" class="mx-auto h-[30px] w-auto" />
     <div class="my-7 text-center">
         <h2 class="mb-3">Kayıt Ol</h2>
         <p>
             Zaten hesabınız var mı?
-            <button class="text-colorPurpleBlue" onclick="signinTextBtn()">
+            <button type="button" class="text-colorPurpleBlue" onclick="signinTextBtn()">
                 Giriş Yap
             </button>
         </p>
     </div>
-    <form action="#" method="post" class="grid w-80 grid-cols-1 gap-y-[22px] sm:w-[374px]">
-        <input type="text" placeholder="Adınızı girin" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
-        <input type="text" placeholder="Kullanıcı adı girin" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
-        <input type="email" placeholder="E-posta girin" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
-        <input type="password" placeholder="Şifre girin" class="w-full rounded border border-[#D7D7D7] px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue" />
-        <label for="check-box-signup" class="mt-3.5 flex items-center gap-x-3 text-sm text-[#8D8D8D]">
-            <span class="relative">
-                <input type="checkbox" name="check-box-signup" id="check-box-signup" class="peer opacity-0" />
-                <span class="absolute left-0 top-1/2 inline-block h-4 w-4 -translate-y-1/2 rounded-[50%] border border-colorBlackPearl/75 peer-checked:bg-colorBlackPearl/75"></span>
-            </span>
-            <strong class="font-medium text-colorBlackPearl/65">Gizlilik Politikası</strong>'nı kabul ediyorum
-        </label>
-        <div>
-            <button type="submit" class="btn btn-primary is-icon group">
-                Kayıt Ol
-                <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">
-                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right" width="13" height="12" />
-                </span>
-                <span class="btn-icon bg-white group-hover:left-[5px] group-hover:translate-x-0">
-                    <img src="{{ asset('assets-front/img/icons/icon-purple-arrow-right.svg') }}" alt="icon-purple-arrow-right" width="13" height="12" />
-                </span>
-            </button>
-        </div>
-    </form>
-    <span class="mb-7 mt-8 block text-center">Veya şununla kayıt olun</span>
-    <div class="flex justify-center gap-2.5">
-        <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-colorJasper/10">
-            <img src="{{ asset('assets-front/img/icons/icon-origin-google.svg') }}" alt="icon-origin-google" width="24" height="24" />
-        </button>
-        <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#1977F3]/10">
-            <img src="{{ asset('assets-front/img/icons/icon-origin-facebook.svg') }}" alt="icon-origin-facebook" width="24" height="24" />
-        </button>
-        <button class="inline-flex h-16 w-16 items-center justify-center rounded-[50%] bg-[#0077B5]/10">
-            <img src="{{ asset('assets-front/img/icons/icon-origin-linkedin.svg') }}" alt="icon-origin-linkedin" width="24" height="24" />
-        </button>
-    </div>
+    @include('front.partials.member-register-form', ['inModal' => true])
 </div>
 <!-- Sign Up Block -->
+
+{{-- Form hatayla döndüyse ilgili pencereyi yeniden aç (üyelik sayfalarında formun kendisi sayfada) --}}
+@unless(request()->routeIs('front.member.*'))
+    @if($errors->getBag('memberLogin')->any())
+        <script>document.addEventListener('DOMContentLoaded', function () { signinBtn(); });</script>
+    @elseif($errors->getBag('memberRegister')->any())
+        <script>document.addEventListener('DOMContentLoaded', function () { signupBtn(); });</script>
+    @endif
+@endunless
 
 <!-- Cart Sidebar -->
 <div id="cartSidebarOverlay" style="display:none; position:fixed; inset:0; z-index:9998; background:rgba(0,0,0,.5); transition:opacity .3s; opacity:0;" onclick="closeCartSidebar()"></div>

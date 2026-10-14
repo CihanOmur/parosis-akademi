@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        // Site üyeleri (ziyaretçi hesabı) — panel 'web' guard'ından bağımsız
+        'member' => [
+            'driver' => 'session',
+            'provider' => 'members',
+        ],
     ],
 
     /*
@@ -63,6 +69,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User\User::class),
+        ],
+
+        'members' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Member\Member::class,
         ],
 
         // 'users' => [

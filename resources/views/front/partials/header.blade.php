@@ -304,6 +304,12 @@
 
                     <!-- User Event -->
                     <div class="flex items-center gap-x-2.5">
+                        @php $currentMember = auth('member')->user(); @endphp
+                        @if($currentMember)
+                        <a href="{{ route('front.account') }}" class="hidden lg:inline-flex h-10 items-center rounded-[50Px] bg-colorBrightGold px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow">
+                            Hesabım
+                        </a>
+                        @else
                         @if($navbarInfo?->show_register_button ?? true)
                         <button class="hidden h-10 rounded-[50Px] bg-colorBrightGold px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow sm:inline-block" onclick="signupBtn()">
                             {{ $navbarInfo?->getTranslation('register_button_text', $locale) ?: 'Kayıt Ol' }}
@@ -313,6 +319,7 @@
                         <button class="hidden lg:inline-block h-10 rounded-[50Px] bg-colorBrightGold px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow" onclick="signinBtn()">
                             {{ $navbarInfo?->getTranslation('login_button_text', $locale) ?: 'Giriş Yap' }}
                         </button>
+                        @endif
                         @endif
                         <!-- Cart Button (SADECE MOBILDE - hamburger yaninda) -->
                         @if($navbarInfo?->show_cart_button ?? true)
@@ -422,6 +429,18 @@
                             {{-- Giris/Kayit butonlari (mobilde) --}}
                             <li class="mobile-menu-cta mobile-only-nav">
                                 <div class="px-6 pt-4 pb-6 space-y-3">
+                                    @if($currentMember)
+                                    <a href="{{ route('front.account') }}"
+                                       class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
+                                        Hesabım
+                                    </a>
+                                    <form action="{{ route('front.member.logout') }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="w-full inline-flex items-center justify-center h-11 rounded-full border border-colorBlackPearl/15 text-sm font-semibold text-colorBlackPearl">
+                                            Çıkış Yap
+                                        </button>
+                                    </form>
+                                    @else
                                     @if($navbarInfo?->show_login_button ?? true)
                                     <button type="button" onclick="signinBtn()"
                                             class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
@@ -436,6 +455,7 @@
                                             class="w-full inline-flex items-center justify-center h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
                                         {{ $navbarInfo?->getTranslation('register_button_text', $locale) ?: 'Kayıt Ol' }}
                                     </button>
+                                    @endif
                                     @endif
                                 </div>
                             </li>

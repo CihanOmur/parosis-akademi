@@ -34,6 +34,8 @@ use App\Http\Controllers\Shop\CartController;
 use App\Http\Controllers\Shop\CheckoutController;
 use App\Http\Controllers\Shop\CouponController;
 use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Front\MemberAuthController;
+use App\Http\Controllers\Front\AccountController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\ValidationMessageController;
 use App\Http\Controllers\SitemapController;
@@ -502,7 +504,7 @@ Route::get('/gizlilik-politikasi', function (\Illuminate\Http\Request $request) 
 // ─── Frontend Sayfaları (locale prefix) ──────────────────────────────────────
 Route::prefix('{locale}')
     ->where(['locale' => '[a-z]{2}(-[a-z]{2,4})?'])
-    ->middleware(['setlocale', SharedDatas::class, CheckMaintenanceMode::class])
+    ->middleware(['setlocale', SharedDatas::class, CheckMaintenanceMode::class, \App\Http\Middleware\EnsureMemberIsActive::class])
     ->name('front.')
     ->group(function () {
         Route::get('/',                [FrontController::class, 'home'])->name('home');
@@ -520,6 +522,18 @@ Route::prefix('{locale}')
         Route::post('/kurs-basvuru', [\App\Http\Controllers\Courses\CourseApplicationController::class, 'store'])->middleware('throttle:5,1')->name('course.application.store');
         Route::get('/sss',             [FrontController::class, 'faq'])->name('faq');
         Route::get('/gizlilik-politikasi', [FrontController::class, 'privacy'])->name('privacy');
+
+        // ─── Üyelik (site ziyaretçi hesabı — 'member' guard, panelden bağımsız) ───
+        Route::get('/uye/giris',        [MemberAuthController::class, 'showLogin'])->name('member.login');
+        Route::post('/uye/giris',       [MemberAuthController::class, 'login'])->middleware('throttle:member-auth')->name('member.login.post');
+        Route::get('/uye/kayit',        [MemberAuthController::class, 'showRegister'])->name('member.register');
+        Route::post('/uye/kayit',       [MemberAuthController::class, 'register'])->middleware('throttle:member-auth')->name('member.register.post');
+        Route::post('/uye/cikis',       [MemberAuthController::class, 'logout'])->name('member.logout');
+        Route::middleware('auth:member')->group(function () {
+            Route::get('/hesabim',           [AccountController::class, 'show'])->name('account');
+            Route::post('/hesabim/bilgiler', [AccountController::class, 'update'])->name('account.update');
+            Route::post('/hesabim/sifre',    [AccountController::class, 'password'])->name('account.password');
+        });
         Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
         Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');
         Route::get('/sepet',            [CartController::class, 'show'])->name('cart');

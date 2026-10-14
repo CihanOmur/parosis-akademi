@@ -23,6 +23,11 @@ return Application::configure(basePath: dirname(__DIR__))
         // Languages tablosuyla doğrular, geçersiz değer default'a redirect olur.
         $middleware->encryptCookies(except: ['app_locale']);
 
+        // Girişsiz istek: üye sayfaları (front.account*) → üye girişi; diğer her şey → panel girişi (önceki davranış)
+        $middleware->redirectGuestsTo(fn (Request $request) => $request->routeIs('front.account*')
+            ? route('front.member.login', ['locale' => $request->route('locale') ?: app()->getLocale()])
+            : route('login'));
+
         // Cloudflare / reverse proxy arkasında: X-Forwarded-Proto header'ından
         // gerçek scheme'i (HTTPS) algıla. Aksi halde Flexible SSL ile mixed
         // content / route() http:// üretme sorunu yaşanır.
