@@ -187,10 +187,14 @@
                                             <div class="w-full">
                                                 <label for="faq-check-box" class="mt-3.5 flex items-center gap-x-3 text-sm text-[#8D8D8D]">
                                                     <span class="relative">
-                                                        <input type="checkbox" name="check-box" id="faq-check-box" class="peer opacity-0" />
+                                                        <input type="checkbox" name="check-box" id="faq-check-box" class="peer opacity-0" required />
                                                         <span class="absolute left-0 top-1/2 inline-block h-4 w-4 -translate-y-1/2 rounded-[50%] border border-colorBlackPearl/75 peer-checked:bg-colorBlackPearl/75"></span>
                                                     </span>
-                                                    {{ $faqPageInfo?->getTranslation('form_privacy_text', app()->getLocale()) ?: 'Gizlilik Politikasını kabul ediyorum.' }}
+                                                    @php
+                                                        $privacyRaw = $faqPageInfo?->getTranslation('form_privacy_text', app()->getLocale())
+                                                            ?: '[Gizlilik Politikasını](' . route('front.privacy', [], false) . ') kabul ediyorum.';
+                                                    @endphp
+                                                    <span>{!! markdownLinksToHtml($privacyRaw, 'font-medium text-colorPurpleBlue underline underline-offset-2 hover:text-colorBlackPearl') !!}</span>
                                                 </label>
                                             </div>
                                             <!-- Single Input Item -->

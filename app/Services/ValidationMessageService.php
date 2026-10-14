@@ -98,6 +98,7 @@ class ValidationMessageService
             'in'            => "Seçilen {$label} geçersizdir.",
             'regex'         => "{$label} geçersiz formatta.",
             'confirmed'     => "{$label} tekrarı eşleşmiyor.",
+            'accepted'      => "{$label} kabul edilmelidir.",
             'max' => match ($type) {
                 'file'    => "{$label} en fazla :max kilobayt olabilir.",
                 'array'   => "{$label} en fazla :max öğe içerebilir.",
@@ -1054,6 +1055,7 @@ class ValidationMessageService
                         'contact-name' => ['label' => 'Ad soyad', 'type' => 'string', 'rules' => ['required', 'string', 'max']],
                         'contact-email' => ['label' => 'E-posta adresi', 'type' => 'string', 'rules' => ['required', 'email', 'max']],
                         'message' => ['label' => 'Mesaj', 'type' => 'string', 'rules' => ['required', 'string', 'max']],
+                        'check-box' => ['label' => 'Gizlilik Politikası', 'type' => 'boolean', 'rules' => ['accepted']],
                     ],
                 ],
 

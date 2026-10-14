@@ -104,3 +104,34 @@ if (!function_exists('getLocaleInfo')) {
         ];
     }
 }
+if (!function_exists('markdownLinksToHtml')) {
+    /**
+     * Metni HTML'e kaçırır ve [metin](url) sözdizimini <a>'ya çevirir.
+     * Sadece http(s), / ile başlayan, mailto: ve tel: adresleri link olur; diğerleri düz metin kalır.
+     * Dış (http) linkler yeni sekmede açılır.
+     *
+     * @param  string|null  $text
+     * @param  string  $linkClass  <a> etiketine eklenecek CSS sınıfları
+     * @return string
+     */
+    function markdownLinksToHtml(?string $text, string $linkClass = ''): string
+    {
+        $escaped = e((string) $text);
+
+        // Eşleşmeler kaçırılmış metinden geldiği için tekrar kaçırılmaz
+        return preg_replace_callback(
+            '/\[([^\]]+)\]\(([^)\s]+)\)/u',
+            function ($m) use ($linkClass) {
+                $label = $m[1];
+                $url = $m[2];
+                if (!preg_match('#^(https?://|/|mailto:|tel:)#i', $url)) {
+                    return $label;
+                }
+                $attrs = str_starts_with($url, 'http') ? ' target="_blank" rel="noopener"' : '';
+                $class = $linkClass !== '' ? ' class="' . e($linkClass) . '"' : '';
+                return '<a href="' . $url . '"' . $attrs . $class . '>' . $label . '</a>';
+            },
+            $escaped
+        ) ?? $escaped;
+    }
+}
