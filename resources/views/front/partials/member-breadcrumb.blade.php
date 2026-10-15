@@ -1,4 +1,8 @@
-{{-- Üyelik sayfalarının başlık şeridi — $title, $current --}}
+{{-- Üyelik sayfalarının başlık şeridi — $title, $current (büyük harfsiz; burada büyütülür) --}}
+@php
+    // Düzen <html lang="tr">'yi her dilde sabit basıyor → CSS uppercase İngilizcede "SİGN İN" yapar; metni sunucuda büyüt
+    $up = fn ($s) => app()->getLocale() === 'tr' ? mb_strtoupper(str_replace(['i', 'ı'], ['İ', 'I'], $s)) : mb_strtoupper($s);
+@endphp
 <section class="section-breadcrum">
     <div class="relative z-10 overflow-hidden" style="background-color: #FAF9F6;">
         <div class="py-[60px] lg:py-[90px]">
@@ -8,9 +12,9 @@
                     <nav class="text-base font-medium uppercase">
                         <ul class="flex justify-center">
                             <li class="relative has-[a]:text-colorJasper has-[a]:after:text-colorCarbonGrey has-[a]:after:content-['/']">
-                                <a href="{{ route('front.home') }}">ANA SAYFA</a>
+                                <a href="{{ route('front.home') }}">{{ $up(__('member.home')) }}</a>
                             </li>
-                            <li>{{ $current }}</li>
+                            <li>{{ $up($current) }}</li>
                         </ul>
                     </nav>
                 </div>

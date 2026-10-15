@@ -39,7 +39,7 @@ class MemberAuthController extends Controller
         $data = $request->validateWithBag('memberLogin', [
             'email'    => 'required|email|max:190',
             'password' => 'required|string|max:255',
-        ], ValidationMessageService::getMessages('member_login'));
+        ], ValidationMessageService::getMessagesForLocale('member_login', 'member.validation.member_login'));
 
         $email = mb_strtolower(trim($data['email']));
         $throttleKey = 'member-login|' . $email . '|' . $request->ip();
@@ -47,7 +47,7 @@ class MemberAuthController extends Controller
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
             return back()
-                ->withErrors(['email' => "Çok fazla deneme yaptınız. Lütfen {$seconds} saniye sonra tekrar deneyin."], 'memberLogin')
+                ->withErrors(['email' => __('member.too_many_attempts', ['seconds' => $seconds])], 'memberLogin')
                 ->onlyInput('email');
         }
 
@@ -55,7 +55,7 @@ class MemberAuthController extends Controller
         if (!Auth::guard('member')->attempt($credentials, $request->boolean('remember'))) {
             RateLimiter::hit($throttleKey, 60);
             return back()
-                ->withErrors(['email' => 'E-posta adresi veya şifre hatalı.'], 'memberLogin')
+                ->withErrors(['email' => __('member.login_failed')], 'memberLogin')
                 ->onlyInput('email');
         }
 
@@ -79,7 +79,7 @@ class MemberAuthController extends Controller
             'phone'    => ['required', 'string', 'max:30', 'regex:/^[0-9+()\s-]{7,30}$/'],
             'password' => 'required|string|min:8|max:255|confirmed',
             'privacy'  => 'accepted',
-        ], ValidationMessageService::getMessages('member_register'));
+        ], ValidationMessageService::getMessagesForLocale('member_register', 'member.validation.member_register'));
 
         $member = Member::create([
             'name'                => $data['name'],
@@ -94,7 +94,7 @@ class MemberAuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()->route('front.account')
-            ->with('account_status', 'Hoş geldiniz! Hesabınız oluşturuldu.');
+            ->with('account_status', __('member.welcome'));
     }
 
     public function logout(Request $request)

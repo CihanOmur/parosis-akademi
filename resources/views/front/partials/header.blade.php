@@ -307,7 +307,7 @@
                         @php $currentMember = auth('member')->user(); @endphp
                         @if($currentMember)
                         <a href="{{ route('front.account') }}" class="hidden lg:inline-flex h-10 items-center rounded-[50Px] bg-colorBrightGold px-6 text-sm font-medium leading-none text-colorBlackPearl hover:shadow">
-                            Hesabım
+                            {{ __('member.account') }}
                         </a>
                         @else
                         @if($navbarInfo?->show_register_button ?? true)
@@ -432,12 +432,12 @@
                                     @if($currentMember)
                                     <a href="{{ route('front.account') }}"
                                        class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-full bg-colorBrightGold text-sm font-semibold text-colorBlackPearl shadow-sm">
-                                        Hesabım
+                                        {{ __('member.account') }}
                                     </a>
                                     <form action="{{ route('front.member.logout') }}" method="post">
                                         @csrf
                                         <button type="submit" class="w-full inline-flex items-center justify-center h-11 rounded-full border border-colorBlackPearl/15 text-sm font-semibold text-colorBlackPearl">
-                                            Çıkış Yap
+                                            {{ __('member.logout') }}
                                         </button>
                                     </form>
                                     @else

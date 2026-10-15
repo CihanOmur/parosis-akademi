@@ -28,11 +28,11 @@ class AccountController extends Controller
             'name'  => 'required|string|max:150',
             'email' => ['required', 'email', 'max:190', Rule::unique('members', 'email')->ignore($member->id)],
             'phone' => ['required', 'string', 'max:30', 'regex:/^[0-9+()\s-]{7,30}$/'],
-        ], ValidationMessageService::getMessages('member_account_update'));
+        ], ValidationMessageService::getMessagesForLocale('member_account_update', 'member.validation.member_account_update'));
 
         $member->update($data);
 
-        return back()->with('account_status', 'Bilgileriniz güncellendi.');
+        return back()->with('account_status', __('member.info_updated'));
     }
 
     public function password(Request $request)
@@ -42,7 +42,7 @@ class AccountController extends Controller
         $data = $request->validateWithBag('accountPassword', [
             'current_password' => 'required|current_password:member',
             'password'         => 'required|string|min:8|max:255|confirmed|different:current_password',
-        ], ValidationMessageService::getMessages('member_account_password'));
+        ], ValidationMessageService::getMessagesForLocale('member_account_password', 'member.validation.member_account_password'));
 
         // Yeni şifre + "beni hatırla" anahtarını yenile (başka cihazdaki hatırlanan girişler düşer)
         $member->forceFill([
@@ -51,6 +51,6 @@ class AccountController extends Controller
         ])->save();
         $request->session()->regenerate();
 
-        return back()->with('account_status', 'Şifreniz değiştirildi.');
+        return back()->with('account_status', __('member.password_changed'));
     }
 }

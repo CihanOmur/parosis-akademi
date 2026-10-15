@@ -1,6 +1,6 @@
 @extends('front.layouts.app')
 
-@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | Hesabım')
+@section('title', ($globalSettings['seo']['meta_title'] ?? 'Parosis Akademi') . ' | ' . __('member.account'))
 
 @php
     $infoErrors = $errors->getBag('accountInfo');
@@ -10,7 +10,7 @@
 @endphp
 
 @section('content')
-    @include('front.partials.member-breadcrumb', ['title' => 'Hesabım', 'current' => 'HESABIM'])
+    @include('front.partials.member-breadcrumb', ['title' => __('member.account'), 'current' => __('member.account')])
 
     <section class="section-member">
         <div class="bg-white">
@@ -24,13 +24,13 @@
 
                         <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
                             <div>
-                                <h2 class="text-2xl lg:text-3xl">Merhaba, {{ $member->name }}</h2>
-                                <p class="mt-2 text-sm">Üyelik tarihi: {{ $member->created_at->format('d.m.Y') }}</p>
+                                <h2 class="text-2xl lg:text-3xl">{{ __('member.hello', ['name' => $member->name]) }}</h2>
+                                <p class="mt-2 text-sm">{{ __('member.member_since', ['date' => $member->created_at->format('d.m.Y')]) }}</p>
                             </div>
                             <form action="{{ route('front.member.logout') }}" method="post">
                                 @csrf
                                 <button type="submit" class="inline-flex h-11 items-center rounded-full border border-colorBlackPearl/15 px-6 text-sm font-semibold text-colorBlackPearl hover:bg-colorBlackPearl/5">
-                                    Çıkış Yap
+                                    {{ __('member.logout') }}
                                 </button>
                             </form>
                         </div>
@@ -38,7 +38,7 @@
                         <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
                             {{-- Bilgilerim --}}
                             <div class="rounded-lg bg-white p-6 shadow-[0_4px_30px_16px] shadow-[#070229]/5 lg:p-8">
-                                <h3 class="mb-6 text-xl">Bilgilerim</h3>
+                                <h3 class="mb-6 text-xl">{{ __('member.my_info') }}</h3>
                                 <form action="{{ route('front.account.update') }}" method="post" class="grid grid-cols-1 gap-y-[22px]">
                                     @csrf
                                     @if($infoErrors->any())
@@ -47,29 +47,29 @@
                                         </div>
                                     @endif
                                     <label class="grid gap-2 text-sm">
-                                        <span>Ad soyad</span>
+                                        <span>{{ __('member.name') }}</span>
                                         <input type="text" name="name" value="{{ old('name', $member->name) }}" required maxlength="150" autocomplete="name"
                                                class="{{ $inputClass }} {{ $border($infoErrors, 'name') }}" />
                                     </label>
                                     <label class="grid gap-2 text-sm">
-                                        <span>E-posta adresi</span>
+                                        <span>{{ __('member.email') }}</span>
                                         <input type="email" name="email" value="{{ old('email', $member->email) }}" required maxlength="190" autocomplete="email"
                                                class="{{ $inputClass }} {{ $border($infoErrors, 'email') }}" />
                                     </label>
                                     <label class="grid gap-2 text-sm">
-                                        <span>Telefon</span>
+                                        <span>{{ __('member.phone') }}</span>
                                         <input type="tel" name="phone" value="{{ old('phone', $member->phone) }}" required maxlength="30" inputmode="tel" autocomplete="tel"
                                                class="{{ $inputClass }} {{ $border($infoErrors, 'phone') }}" />
                                     </label>
                                     <div>
-                                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('member.save') }}</button>
                                     </div>
                                 </form>
                             </div>
 
                             {{-- Şifre değiştir --}}
                             <div class="rounded-lg bg-white p-6 shadow-[0_4px_30px_16px] shadow-[#070229]/5 lg:p-8">
-                                <h3 class="mb-6 text-xl">Şifre Değiştir</h3>
+                                <h3 class="mb-6 text-xl">{{ __('member.change_password') }}</h3>
                                 <form action="{{ route('front.account.password') }}" method="post" class="grid grid-cols-1 gap-y-[22px]">
                                     @csrf
                                     @if($passwordErrors->any())
@@ -78,22 +78,22 @@
                                         </div>
                                     @endif
                                     <label class="grid gap-2 text-sm">
-                                        <span>Mevcut şifre</span>
+                                        <span>{{ __('member.current_password') }}</span>
                                         <input type="password" name="current_password" required maxlength="255" autocomplete="current-password"
                                                class="{{ $inputClass }} {{ $border($passwordErrors, 'current_password') }}" />
                                     </label>
                                     <label class="grid gap-2 text-sm">
-                                        <span>Yeni şifre (en az 8 karakter)</span>
+                                        <span>{{ __('member.new_password') }}</span>
                                         <input type="password" name="password" required minlength="8" maxlength="255" autocomplete="new-password"
                                                class="{{ $inputClass }} {{ $border($passwordErrors, 'password') }}" />
                                     </label>
                                     <label class="grid gap-2 text-sm">
-                                        <span>Yeni şifre (tekrar)</span>
+                                        <span>{{ __('member.new_password_confirm') }}</span>
                                         <input type="password" name="password_confirmation" required minlength="8" maxlength="255" autocomplete="new-password"
                                                class="{{ $inputClass }} {{ $border($passwordErrors, 'password') }}" />
                                     </label>
                                     <div>
-                                        <button type="submit" class="btn btn-primary">Şifreyi Değiştir</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('member.change_password_button') }}</button>
                                     </div>
                                 </form>
                             </div>

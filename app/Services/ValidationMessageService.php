@@ -23,6 +23,13 @@ class ValidationMessageService
         return array_merge($defaults, $overrides);
     }
 
+    /** Ziyaretçi dili için mesajlar: trans($transKey) bir dizi ise onu (ör. İngilizce), değilse Türkçe varsayılan + panel override'ları. */
+    public static function getMessagesForLocale(string $formKey, string $transKey): array
+    {
+        $t = trans($transKey);
+        return is_array($t) ? $t : static::getMessages($formKey);
+    }
+
     /**
      * Bir formun default mesajlarını döndürür (DB override olmadan).
      */

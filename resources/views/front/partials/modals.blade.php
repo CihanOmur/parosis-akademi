@@ -6,16 +6,16 @@
 @endphp
 <!-- Sign In Block -->
 <div class="signin-block fixed left-1/2 top-1/2 z-50 hidden max-h-[92vh] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
-    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()" aria-label="Kapat">
+    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()" aria-label="{{ __('member.close') }}">
         &times;
     </button>
     <img src="{{ $memberModalLogo }}" alt="logo" height="30" class="mx-auto h-[30px] w-auto" />
     <div class="my-7 text-center">
-        <h2 class="mb-3">Giriş Yap</h2>
+        <h2 class="mb-3">{{ __('member.login') }}</h2>
         <p>
-            Hesabınız yok mu?
+            {{ __('member.no_account') }}
             <button type="button" class="signup-text-btn text-colorPurpleBlue" onclick="signupTextBtn()">
-                Kayıt Ol
+                {{ __('member.register') }}
             </button>
         </p>
     </div>
@@ -25,16 +25,16 @@
 
 <!-- Sign Up Block -->
 <div class="signup-block fixed left-1/2 top-1/2 z-50 hidden max-h-[92vh] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-lg bg-white px-6 py-[30px] sm:px-[75px] lg:py-10 xl:py-[60px]">
-    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()" aria-label="Kapat">
+    <button class="absolute right-5 top-5 inline-flex h-8 w-8 items-center justify-center bg-colorJasper text-2xl text-white" onclick="hideElement()" aria-label="{{ __('member.close') }}">
         &times;
     </button>
     <img src="{{ $memberModalLogo }}" alt="logo" height="30" class="mx-auto h-[30px] w-auto" />
     <div class="my-7 text-center">
-        <h2 class="mb-3">Kayıt Ol</h2>
+        <h2 class="mb-3">{{ __('member.register') }}</h2>
         <p>
-            Zaten hesabınız var mı?
+            {{ __('member.have_account') }}
             <button type="button" class="text-colorPurpleBlue" onclick="signinTextBtn()">
-                Giriş Yap
+                {{ __('member.login') }}
             </button>
         </p>
     </div>
