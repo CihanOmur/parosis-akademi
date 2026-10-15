@@ -14,6 +14,79 @@
 >
 > ---
 >
+> ## Bu turda yapılanlar — 2026-10-15 Üyelik Faz 2 + html lang
+>
+> **⏳ DURUM: CANLIYA ALMA BEKLİYOR (kullanıcı onayı).** Branch `feature/uyelik-faz2` (canlı `8eb59dc`'den), 2 kod commit'i:
+> `47eb737` Faz 2, `5e00ce8` html lang (+ bu doküman commit'i). Push edilmedi. Worktree `~/gelistirme/parosis-akademi` **duruyor**
+> (canlıya alma oradan; 127.0.0.1:8100 test sunucusu kapatıldı, `public/_test_login.php` silindi).
+> **Migration canlı DB'ye test sırasında uygulandı** (`2026_10_15_100000_add_member_id_to_orders_and_course_applications`, batch 16;
+> canlı kod yeni sütunu okumuyor / yazmıyor → NULL kalıyor, sorun değil). Canlıya alırken bekleyen migration **0** olmalı.
+> **Canlıya alma:** canlı klasörde branch değiştirmeden `git merge --ff-only feature/uyelik-faz2` + `npm run build` (**şart**: ön yüz
+> CSS'ine yeni sınıflar girdi, panel CSS'i de yeniden derleniyor) + `php artisan optimize:clear`.
+> **Geri dönüş:** `git reset --hard 8eb59dc` + `npm run build` + `optimize:clear`; sütunlar zararsız, istenirse
+> `migrate:rollback --path=database/migrations/2026_10_15_100000_add_member_id_to_orders_and_course_applications.php` (bağlar silinir).
+>
+> **EKLENDİ — Faz 2 (sipariş / kurs başvurusu üye hesabına bağlı):**
+> - Sütunlar `orders.member_id`, `course_applications.member_id` (nullable FK → `members`, **`nullOnDelete`**: üye silinirse kayıt
+>   durur, bağ NULL olur). Mevcut 9 sipariş + 3 başvuru NULL (misafir). Yalnız **üye girişliyken** verilenler bağlanır.
+> - Modeller: `Order::member()`, `CourseApplication::member()` (ikisinde de `member_id` fillable — değer yalnız denetleyicide
+>   `Auth::guard('member')->id()`'den yazılır, istekten ALINMAZ); `Member::orders()`, `Member::courseApplications()`.
+> - Ödeme (`CheckoutController`): `show()` — `session('checkout_shipping')` boşsa ve üye girişliyse ad / e-posta / telefon üyeden,
+>   ülke / il / ilçe / posta kodu / adres üyenin **son** (`member_id`'li) siparişinden ön dolu (`memberShippingDefaults()`; session'a
+>   yazılmaz, formu gönderince yazılır; il / ilçe seçicileri `$shipping`'ten okuduğu için seçili gelir). Not alanı ön dolmaz.
+>   `process()` → `member_id` (misafirde null).
+> - Kurs başvurusu: `CourseApplicationController@store` → `member_id`. Pencere (`modals.blade.php` `#courseApplyForm`): üye girişliyse
+>   veli adı / telefon / e-posta `value` ile dolu (öğrenci alanları boş). Değerler alanların `oninput` süzgeciyle aynı karakterlere
+>   indiriliyor (ad: harf + boşluk, telefon: rakam `+ -` boşluk) → `pattern`'e takılıp gönderimi engellemesin. **Misafirde `value`
+>   özniteliği hiç basılmaz** (misafir HTML'i birebir aynı). `form.reset()` value'ya döndüğü için gönderim / kapatma sonrası ön değer kalır.
+> - Hesabım (`front/pages/member/account.blade.php`): iki kartın altına **Siparişlerim** (`#siparislerim`: no, tarih, toplam, durum;
+>   satır detaya bağlı) + **Başvurularım** (`#basvurularim`: kurs, öğrenci, tarih, durum `pending` → Değerlendiriliyor, `contacted` →
+>   Sizinle iletişime geçildi). Son 20. Telefonda tablo yok, ızgara satırlar (390 px taşma yok, ölçüldü).
+> - Rota `GET /{locale}/hesabim/siparis/{orderNumber}` → `front.account.order` → `AccountController@order` (auth:member grubu):
+>   `where member_id + order_number` → başkasınınki / olmayan **404**; misafir → üye girişi (`front.account*` deseni).
+>   Görünüm `front/pages/member/order.blade.php`: özet (no, tarih, durum), kalemler (ad, varyant, adet × birim fiyat, tutar), ara toplam,
+>   indirim (yalnız `coupon_code` varsa), toplam, teslimat adresi, "Hesabım'a dön".
+> - Dil: `lang/tr|en/member.php`'ye 22 üst düzey anahtar (+ 7 alt anahtar) (`my_orders`, `order_status.*` — TR değerleri `Order::STATUS_LABELS` ile aynı —,
+>   `application_status.*`, `order_title`, `discount` …). TR'de `validation` anahtarı yine **yok**.
+> - Panel üye detayı (`admin/members/show.blade.php`, `MemberController@show`): **Siparişler** (no → `orders.show`, yalnız `@can('shop')`;
+>   tarih, toplam, `status_label` + `status_color`) ve **Başvurular** (kurs, öğrenci, tarih, Bekliyor / Görüşüldü — başvuru listesindeki
+>   etiketler) kartları + toplam sayı rozeti. Kenar menüsü değişmedi.
+>
+> **DÜZELTİLDİ — html lang** (`5e00ce8`, yalnız `front/layouts/app.blade.php`): `<html lang="tr">` sabitti → `lang="{{ str_replace('_', '-',
+> app()->getLocale()) }}"` (§16 #31). `member-breadcrumb`'daki sunucu tarafı büyütme (`$up`) bilerek kaldı (artık şart değil ama doğru;
+> içindeki "düzen lang=tr sabit" yorumu eskidi).
+> **Etki denetimi (canlı lang=tr ↔ worktree lang=en, 8 EN sayfa × 1440 / 390 px + mobil menü açık, Playwright `innerText`):**
+> `uppercase` / `capitalize` olup doğrudan metninde `i`/`ı` geçen 11 farklı öğe; görünen metni değişen **yalnız 2 öğe**, ikisi de
+> EN sayfada **Türkçe kalmış** metin → artık İngilizce kuralla büyüyor (kötü yön, küçük):
+> - "Bizi Takip Edin" (mobil menü, `front/partials/header.blade.php:470` sabit Türkçe; 8 sayfanın hepsi, yalnız 390 px'te görünür):
+>   "BİZİ TAKİP EDİN" → "BIZI TAKIP EDIN"
+> - "Kurs Kategorileri" (`/en` ana sayfa, `home_page_infos.categories_label`'ın EN değeri Türkçe): "KURS KATEGORİLERİ" → "KURS KATEGORILERI"
+> `capitalize` öğelerinde fark yok (hiçbir kelime küçük `i` ile başlamıyor). Sayfa şeritleri DB'de zaten büyük harfle (bazıları EN'de
+> Türkçe: "ANA SAYFA HAKKIMIZDA") → etkilenmiyor. Düzeltme yolu: o iki metnin EN çevirisi (dokunulmadı, kullanıcı kararı).
+> **Türkçe sayfalar değişmedi:** `/tr`, `/tr/hakkimizda`, `/tr/kurslar`, `/tr/iletisim`, `/tr/sss` misafir HTML'i canlı origin
+> (Cloudflare'siz, sunucu içinden `--resolve parosisakademi.com:443:127.0.0.1`) ile worktree (aynı `Host` + `X-Forwarded-Proto: https`)
+> arasında CSRF / `build/assets` hash'i / `main.js?v=` normalize edilince **birebir aynı** (değişiklikten önce ve sonra).
+>
+> **Test (worktree + tünel 18100):** yeni `test_faz2.cjs` **53/53** — misafirde başvuru penceresi boş (value yok), kayıt, Hesabım boş
+> durumlar TR + EN, `<html lang>` tr / en, pencere ön dolu (+ reset sonrası), ödeme ön dolu (adres boş), başkasının / olmayan sipariş 404,
+> misafir detay → giriş; **gerçek 1 sipariş + 1 başvuru** (`mail_mailer=log` doğrulandıktan sonra; ad "TEST SILINECEK", ürün 3, kupon yok)
+> → DB'de `member_id` = test üyesi, Hesabım listeleri TR + EN, sipariş detayı TR + EN, ikinci ödemede adres son siparişten ön dolu,
+> 390 px taşma yok (Hesabım, detay, EN Hesabım), panel kartları + `orders.show` bağlantısı, JS hatası 0. Mevcut takımlar değişmeden
+> **37/37** (`test_uyelik.cjs`) ve **41/41** (`test_dil.cjs`).
+> **Test verisi temizliği (canlı DB):** test siparişi (`orders` id 10, ORD-20261015-0001) + 1 `order_items` + test başvurusu (id 4) test
+> içinde hemen silindi; ürün 3 stoğu 78 → **79** ve `updated_at` eski değerine geri yazıldı. Önce = sonra: orders 9, order_items 15,
+> course_applications 3, stok 79. AUTO_INCREMENT ilerledi (orders → 11, order_items → 17, course_applications → 5; zararsız, geri
+> alınmadı). Test üyeleri (`test-%@example.com`: test-faz2 + test-dil = 2; test_uyelik'inki kendi panelden silme adımında silindi), 127.0.0.1 oturumları (74) ve
+> denetimde canlı siteyi gezerken bu sunucunun IP'sinden (46.225.219.244) açılan 22 misafir oturumu silindi; `members` = yalnız
+> `developer@admin.com` (id 7, dokunulmadı).
+> Not: sipariş onay maili `log` olduğu için worktree'nin kendi `storage/logs/laravel.log`'una yazıldı (canlı log'a değil).
+>
+> **Bu işte görülen ama dokunulmayan:** Panel → Siparişler listesinde **Toplam sütunu her siparişte `₺0.00`** — görünüm var olmayan
+> `$order->total_amount`'u okuyor (sütun `total`; detay sayfası doğru). EN kurs başlıkları Türkçe başlıklarla ilgisiz (şablon verisi:
+> "Arduino C1" → "Web Development with PHP & Laravel") — Hesabım EN'de başvuru satırında bu görünür.
+>
+> ---
+>
 > ## Bu turda yapılanlar — 2026-10-14 (2) Site üyeliği — Faz 1
 >
 > **Sorun (müşteri revizesi):** "Kayıt ol > bilgileri doldurduktan sonra 405". Başlıktaki Giriş Yap düğmesinin
@@ -465,7 +538,7 @@ parosis-akademi/
 ├── config/                   # app, auth, cache, database, filesystems, logging, mail,
 │                             # permission, queue, services, session, turkiye_iller
 ├── database/
-│   ├── migrations/           # 122 migration (DB'de kayıtlı; 2026-10-14 +3)
+│   ├── migrations/           # 123 migration (DB'de kayıtlı; 2026-10-14 +3, 2026-10-15 +1 member_id)
 │   ├── seeders/              # 11 seeder
 │   └── factories/
 ├── lang/
@@ -523,7 +596,8 @@ resources/views/
 │   ├── pages/     home · about · courses · course-details · teachers
 │   │              teacher-details · blog · blog-details · faq · contact
 │   │              search · products · product-details · cart · checkout
-│   │              checkout-confirm
+│   │              checkout-confirm · privacy
+│   │              member/ login · register · account (2026-10-14) · order (2026-10-15)
 │   └── maintenance.blade.php
 ├── vendor/pagination/   # tailwind + simple-tailwind (AppServiceProvider'da set edilir)
 └── welcome.blade.php
@@ -540,7 +614,7 @@ Satır sayıları 2026-07-28 itibarıyladır.
 
 | Tablo | Satır | Kolonlar |
 |---|---|---|
-| `migrations` | 122 | id, migration, batch |
+| `migrations` | 123 | id, migration, batch |
 | `cache` | 117 | key (PK), value, expiration |
 | `cache_locks` | 0 | key (PK), owner, expiration |
 | `jobs` | 0 | id, queue, payload, attempts, reserved_at, available_at, created_at |
@@ -714,8 +788,8 @@ published_at, ts`
 **`course_categories`** (6) — `id, name, description, icon, color, is_active, sort_order, ts`
 **`course_course_category`** (17) — pivot
 
-**`course_applications`** (2) — kurs online başvuru formu
-`id, course_id(FK nullable), student_name, student_age tinyint unsigned, school, grade,
+**`course_applications`** (3) — kurs online başvuru formu
+`id, member_id(FK members nullable, nullOnDelete — 2026-10-15), course_id(FK nullable), student_name, student_age tinyint unsigned, school, grade,
 parent_name, phone, email, status varchar def 'pending', note(text), contacted_at, ts`
 
 **`teachers`** (7)
@@ -744,7 +818,8 @@ sale_price decimal(10,2), stock int def 0, manage_stock(def 1), is_active(def 1)
 
 **`orders`** (9)
 ```
-id, order_number(UNI),
+id, member_id(FK members nullable, nullOnDelete — 2026-10-15; üye girişliyken verilen sipariş),
+order_number(UNI),
 status enum('pending','processing','shipped','delivered','cancelled') def 'pending',
 customer_name, customer_email, customer_phone,
 shipping_address, shipping_city, shipping_district, shipping_zip,
@@ -848,8 +923,11 @@ varsa `getTranslation()` kullanır.
 **`Shop\ProductVariant`** — `product()` · `attributeValues()` ·
 `getEffectivePriceAttribute()` (varyant fiyatı yoksa ürün fiyatı) · `getLabelAttribute()`
 
-**`Shop\Order`** — `items()` · `coupon()` · `static generateOrderNumber()` ·
+**`Shop\Order`** — `items()` · `coupon()` · `member()` (2026-10-15) · `static generateOrderNumber()` ·
 `getStatusLabelAttribute()` · `getStatusColorAttribute()`
+
+**`Member\Member`** (2026-10-14) — `orders()` · `courseApplications()` (2026-10-15, `member_id` üzerinden);
+**`Courses\CourseApplication`** — `course()` · `member()` (2026-10-15)
 
 **`Shop\Coupon`** — `isValid($subtotal)` · `calculateDiscount($subtotal)` · `incrementUsage()`
 
@@ -1078,6 +1156,7 @@ Route::prefix('{locale}')
 | POST | `/{locale}/uye/cikis` | `front.member.logout` | `MemberAuthController@logout` |
 | GET | `/{locale}/hesabim` | `front.account` | `AccountController@show` · **auth:member** |
 | POST | `/{locale}/hesabim/bilgiler` · `/hesabim/sifre` | `front.account.update` · `.password` | `AccountController` · **auth:member** |
+| GET | `/{locale}/hesabim/siparis/{orderNumber}` | `front.account.order` | `AccountController@order` · **auth:member** · yalnız kendi siparişi, değilse 404 (2026-10-15) |
 | GET | `/{locale}/iletisim` | `front.contact` | `FrontController@contact` |
 | POST | `/{locale}/iletisim` | `front.contact.send` | `ContactController@send` · **throttle:5,1** |
 | POST | `/{locale}/kurs-basvuru` | `front.course.application.store` | `CourseApplicationController@store` · **throttle:5,1** |
@@ -1125,7 +1204,7 @@ DashboardController                        index          (sadece view döner, v
 Faq\FaqController                          (standart CRUD + translate)
 Front\ContactController                    send
 Front\MemberAuthController                 showLogin showRegister login register logout   (2026-10-14)
-Front\AccountController                    show update password                         (2026-10-14)
+Front\AccountController                    show update password order                   (2026-10-14; order 2026-10-15)
 Member\MemberController                    index show toggleActive updatePassword destroy (panel /panel/members, 2026-10-14)
 Front\FrontController                      home about courses search searchSuggest courseDetails teachers teacherDetails blog blogDetails contact faq privacy
 Languages\LanguagesController              index toggleVisibility toggleActive create store edit update setDefault updateOrder delete
@@ -1249,6 +1328,10 @@ sıfırlama referansı.
 ```
 
 - Sepet **session**'da tutulur (`session('cart')`), kupon `session('coupon')`.
+- **(2026-10-15, Üyelik Faz 2)** Üye girişliyken: `/odeme` formu (session'da teslimat bilgisi yoksa) ad / e-posta / telefon üyeden,
+  adres üyenin son siparişinden ön dolu; `process()` `orders.member_id`'yi yazar → sipariş Hesabım → Siparişlerim'de ve
+  `/hesabim/siparis/{orderNumber}`'da görünür. Misafir akışı değişmedi (`member_id` NULL). Kurs başvurusu aynı şekilde
+  `course_applications.member_id` (pencerede veli / telefon / e-posta ön dolu).
 - `SharedDatas` middleware her front isteğinde `globalCart`, `globalCartCount`,
   `globalCartTotal`, `globalCouponDiscount` view değişkenlerini paylaşır.
 - Kupon geçerliliği her istekte `Coupon::isValid($subtotal)` ile yeniden doğrulanır.
@@ -1858,6 +1941,8 @@ yoksa SuperAdmin'in alt kümesi mi? Şu an sadece SuperAdmin'de var (Admin'de yo
      zaten JS ile) veya `dontFlash`'a eklemek. Dokunulmadı.
 23c. **(2026-10-14) Kurs başvuru formunda gizlilik onayı yok** — öğrenci (çocuk) + veli verisi topluyor,
      bağlantı / onay kutusu yok. Dokunulmadı, kullanıcıya soruldu.
+23d. **(2026-10-15) Panel → Siparişler listesinde Toplam her satırda `₺0.00`** — `admin/orders/index.blade.php`
+     `$order->total_amount` okuyor (böyle sütun / accessor yok; sütun `total`). Sipariş detayı doğru. Dokunulmadı.
 ~~ÇÖZÜLDÜ (2026-10-14)~~: İletişim formundaki gizlilik bağlantısı 404 veriyordu → §başlık "2026-10-14".
 
 ### 15.6 Şema kalitesi
@@ -2005,7 +2090,10 @@ girişli üyede onları açan düğme gösterilmez.
 **30. Formu hem pencerede hem sayfada olan sayfada (`/uye/giris`) test seçicisini `section form` ile daralt.** Aynı
 `name`'li alanlar birden çok kez var (pencere + sayfa + stok/kurs başvuru pencereleri).
 
-**31. `front/layouts/app.blade.php` `<html lang="tr">`'yi her dilde sabit basar (2026-10-15).** Tarayıcı CSS `uppercase` /
+**31. ✅ ÇÖZÜLDÜ (2026-10-15, branch `feature/uyelik-faz2` commit `5e00ce8` — canlıya alma bekliyor):** düzen artık
+`<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">` basıyor; etki denetimi başlıktaki "2026-10-15 Üyelik Faz 2 + html lang"
+bloğunda (EN'de yalnız Türkçe kalmış 2 metin etkilendi, Türkçe sayfalar birebir aynı). Eski kayıt (geçmiş için):
+**`front/layouts/app.blade.php` `<html lang="tr">`'yi her dilde sabit basar (2026-10-15).** Tarayıcı CSS `uppercase` /
 `capitalize`'ı sayfa diline göre uygular → İngilizce sayfalarda da Türkçe kural çalışır: "Sign in" → **"SİGN İN"** (i → İ).
 Üyelik şeridi (`member-breadcrumb`) bu yüzden metni **sunucuda** büyütüp basıyor (tr'de önce i→İ, ı→I; diğer dillerde
 `mb_strtoupper`). Sitenin öteki şeritleri / CSS ile büyütülen başlıkları İngilizcede hâlâ etkilenebilir. Genel düzeltme

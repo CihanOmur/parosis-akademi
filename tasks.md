@@ -1,9 +1,10 @@
 # Görev Takibi
 
 ## Bekleyen
-- 2026-10-15 — Üyelik Faz 2: sipariş ve kurs başvurusunu üye hesabına bağlama (formları önceden doldurma, Hesabım'da Siparişlerim / Başvurularım; yalnız üyeyken verilenler). Faz 3 (e-posta doğrulama + şifremi unuttum) SMTP girilince.
+- Üyelik Faz 3 (e-posta doğrulama + şifremi unuttum) — SMTP girilince.
 
 ## Devam Eden
+- 2026-10-15 — Üyelik Faz 2 + html lang: GELİŞTİRİLDİ + TEST EDİLDİ, **CANLIYA ALMA BEKLİYOR** (kullanıcı onayı). Branch `feature/uyelik-faz2` (`47eb737` Faz 2, `5e00ce8` html lang + docs), push yok, worktree `~/gelistirme/parosis-akademi` duruyor. `orders.member_id` + `course_applications.member_id` (migration canlı DB'ye uygulandı, batch 16), ödeme formu + kurs başvuru penceresi üyede ön dolu, Hesabım → Siparişlerim / Başvurularım + `/hesabim/siparis/{orderNumber}`, panel üye detayında Siparişler / Başvurular, `<html lang>` sayfanın dilinde. Test: `test_faz2` 53/53 (1 gerçek test siparişi + 1 başvuru, hemen silindi, stok geri, sayılar aynı), `test_uyelik` 37/37, `test_dil` 41/41; TR misafir HTML'i canlıyla birebir aynı. Canlıya alma: ff merge + `npm run build` + `optimize:clear`. Ayrıntı CLAUDE.md başı.
 
 ## Tamamlanan
 - 2026-10-15 — Site üyeliği Faz 1 + dil ifadeleri CANLIDA (müşteri revizesi: Kayıt Ol → 405). Ayrı `member` guard + `members` tablosu, kayıt / giriş / Hesabım, panel → Üyeler (`member`, `member_delete`), tr/en ifadeler. Canlıda ff `9cd19f0`, navbar Kayıt Ol açıldı + EN düğme yazıları, gizlilik metnine üyelik satırları. Test: worktree 37/37 + dil 41/41, canlı 15/16 (tek uyarı eski 404 görsel). GitHub'da. Ayrıntı CLAUDE.md başı.
