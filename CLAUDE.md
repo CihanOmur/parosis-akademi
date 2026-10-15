@@ -24,6 +24,23 @@
 > formları önceden doldurma) → Faz 3 (mail çalışınca e-posta doğrulama + şifremi unuttum).
 > Üye = tek tip hesap (veli / öğrenci / müşteri); **akademinin öğrenci kayıtlarıyla eşleşme YOK** (bilinçli; ayrı ve hassas iş).
 >
+> **✅ CANLIDA (2026-10-15, kullanıcı onayı "al canlıya")** — Faz 1 + dil ifadeleri. Canlı klasörde branch değiştirmeden
+> `git merge --ff-only feature/uyelik` (`7c08dea` → `9cd19f0`, 6 commit) + `npm run build` + `optimize:clear` +
+> `permission:cache-reset`. Migration'lar test sırasında zaten uygulanmıştı (bekleyen 0).
+> **Veri (canlı DB, yedek `~/gelistirme/yedek-20261015-uyelik/`: eski `public/build`, `main.js`, navbar + gizlilik satırları):**
+> `navbar_page_infos` → `show_register_button` 0 → **1** (başlıkta Kayıt Ol görünür), `login_button_text.en = "Sign In"`,
+> `register_button_text.en = "Sign Up"`. `privacy_page_infos.content` tr/en → "Üyelik" veri maddesi, "üyelik hesabını
+> oluşturmak ve yönetmek" amacı, "Beni hatırla" çerezi, tarih 15 Ekim 2026 (betik her işaretin tek geçtiğini doğruladı).
+> **Kontrol:** 16 adresin yanıt kodu önce = sonra; sayfa farkları yalnız başlık düğmeleri, giriş/kayıt pencereleri ve `main.js`
+> sürüm damgası; site haritası aynı. Canlı tarayıcı testi 15/16 (kayıt → Hesabım, 405 yok; çıkış; pencereden giriş aynı sayfada;
+> üye panele giremiyor; EN kayıt sayfası + İngilizce hata; EN başlıkta Sign In / Sign Up; gizlilik metni; misafir panel
+> `/panel/login`; mobil menü + pencere ekrana sığıyor; JS hatası 0). Tek uyarı eski: `assets-front/img/images/th-1/client-logo-1.png`
+> **404** (Ana Sayfa, EN Ana Sayfa, Hakkımızda istiyor; canlıya almadan önce de vardı — iş ortağı logosu varsayılan görseli, dokunulmadı).
+> `laravel.log`'a yeni satır yok. Test üyesi + bu sunucunun IP'sinden (46.225.219.244) açılan test oturumları silindi.
+> **Canlıya alır almaz gerçek bir üye kaydı oldu: `developer@admin.com` (id 7, 2026-10-15 22:49)** — büyük olasılıkla kullanıcının
+> kendisi; DOKUNULMADI. Not: site üyeliği panel hesabından AYRI; panel kullanıcısının e-postasıyla da ayrı üye açılabilir.
+> GitHub: `fix/about-faq-spacing` (= canlı) + `feature/uyelik` push edildi. Worktree kaldırıldı.
+>
 > **EKLENDİ** (branch `feature/uyelik`, 3 commit: `f113910` site, `64686b4` panel, `93c0140` JS düzeltmesi):
 > - Tablo `members` (migration `2026_10_14_150000_create_members_table`): name, email (unique, küçük harfe çevrilir),
 >   phone, password (hashed), is_active, privacy_accepted_at, last_login_at, email_verified_at (Faz 3 için, boş), remember_token.

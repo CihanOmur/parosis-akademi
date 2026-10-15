@@ -1,11 +1,12 @@
 # Görev Takibi
 
 ## Bekleyen
+- 2026-10-15 — Üyelik Faz 2: sipariş ve kurs başvurusunu üye hesabına bağlama (formları önceden doldurma, Hesabım'da Siparişlerim / Başvurularım; yalnız üyeyken verilenler). Faz 3 (e-posta doğrulama + şifremi unuttum) SMTP girilince.
 
 ## Devam Eden
-- 2026-10-14 — Site üyeliği (müşteri revizesi: Kayıt Ol → 405). Faz 1 kod + test bitti (branch `feature/uyelik`, 37 kontrol). 2026-10-15: üyelik dil ifadeleri eklendi (`lang/tr|en/member.php`, `getMessagesForLocale`; EN sayfalar/pencereler/mesajlar İngilizce, eksik dillerde Türkçe; Türkçe çıktı birebir aynı; dil testi 41/41 + takım 37/37; commit `2818feb`). Bekleyen: canlıya alma (kullanıcı onayı) → ardından Faz 2 (sipariş / kurs başvurusunu hesaba bağlama). Faz 3 mail (SMTP) girilince. Ayrıntı CLAUDE.md başı.
 
 ## Tamamlanan
+- 2026-10-15 — Site üyeliği Faz 1 + dil ifadeleri CANLIDA (müşteri revizesi: Kayıt Ol → 405). Ayrı `member` guard + `members` tablosu, kayıt / giriş / Hesabım, panel → Üyeler (`member`, `member_delete`), tr/en ifadeler. Canlıda ff `9cd19f0`, navbar Kayıt Ol açıldı + EN düğme yazıları, gizlilik metnine üyelik satırları. Test: worktree 37/37 + dil 41/41, canlı 15/16 (tek uyarı eski 404 görsel). GitHub'da. Ayrıntı CLAUDE.md başı.
 - 2026-10-14 — Gizlilik Politikası sayfası CANLIDA (iletişim formundaki bağlantı 404 veriyordu). `/tr` + `/en/gizlilik-politikasi`, panel Sayfalar → Gizlilik Politikası, İletişim/SSS onay kutusu zorunlu + bağlantılı. Branch `fix/gizlilik-sayfasi` ff ile canlıda, GitHub'da. Test: worktree 34/34, canlı 23/23, değişmesi gerekmeyen 10 sayfa birebir aynı. Taslak KVKK metni kullanıcı onayıyla yayında (şirket unvanı sorusu açık). Ayrıntı CLAUDE.md başı.
 - 2026-06-21 — Production deployment (parosisakademi.com). Local main (a532333+c2be13c) GitHub'a push, sunucuda git pull (111 commit), composer install, npm build, 96 migration (96/96 başarılı + 2 manuel düzeltme: shop_page_infos CREATE migration tarih sırası, modular_permissions_v3 'content' yokken patlıyordu), 7 eksik izin (developer/language/menu/page/settings/shop/shop_delete) manuel eklendi, SuperAdmin/Admin'e tüm izinler sync, 21 dil local'den sunucuya import. Mevcut canlı veriler korundu (11 user, 85 öğrenci, 86 veli, 85 ödeme, 626 taksit, 17 sınıf). Smoke test: tüm front sayfalar 200, panel 302/200.
 - 2026-06-21 — Sunucu DB'sini local'e (8003) taşıma: 1027 satır, 9 tablo (users/students/student_guardians/emergency_contacts/lesson_classes/lesson_class_days/student_payments/student_payments_installments/model_has_roles). MD5 hash bit-bit doğrulama: 9/9 tablo birebir aynı (lesson_classes course_id kolonu hariç).
