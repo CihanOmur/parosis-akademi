@@ -3,7 +3,7 @@
 ## Bekleyen
 
 ## Devam Eden
-- 2026-10-14 — Site üyeliği (müşteri revizesi: Kayıt Ol → 405). Faz 1 kod + test bitti (branch `feature/uyelik`, 37 kontrol). Bekleyen: canlıya alma (kullanıcı onayı) → ardından Faz 2 (sipariş / kurs başvurusunu hesaba bağlama). Faz 3 mail (SMTP) girilince. Ayrıntı CLAUDE.md başı.
+- 2026-10-14 — Site üyeliği (müşteri revizesi: Kayıt Ol → 405). Faz 1 kod + test bitti (branch `feature/uyelik`, 37 kontrol). 2026-10-15: üyelik dil ifadeleri eklendi (`lang/tr|en/member.php`, `getMessagesForLocale`; EN sayfalar/pencereler/mesajlar İngilizce, eksik dillerde Türkçe; Türkçe çıktı birebir aynı; dil testi 41/41 + takım 37/37; commit `2818feb`). Bekleyen: canlıya alma (kullanıcı onayı) → ardından Faz 2 (sipariş / kurs başvurusunu hesaba bağlama). Faz 3 mail (SMTP) girilince. Ayrıntı CLAUDE.md başı.
 
 ## Tamamlanan
 - 2026-10-14 — Gizlilik Politikası sayfası CANLIDA (iletişim formundaki bağlantı 404 veriyordu). `/tr` + `/en/gizlilik-politikasi`, panel Sayfalar → Gizlilik Politikası, İletişim/SSS onay kutusu zorunlu + bağlantılı. Branch `fix/gizlilik-sayfasi` ff ile canlıda, GitHub'da. Test: worktree 34/34, canlı 23/23, değişmesi gerekmeyen 10 sayfa birebir aynı. Taslak KVKK metni kullanıcı onayıyla yayında (şirket unvanı sorusu açık). Ayrıntı CLAUDE.md başı.

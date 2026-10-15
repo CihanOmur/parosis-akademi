@@ -58,8 +58,30 @@
 > açık oturum düştü + giriş engellendi, aktifleştir, sil → oturum geçersiz), rol ekranı, telefon (pencere ekrana sığıyor),
 > deneme sınırı. JS hatası düzeltmeden sonra 0. Test üyeleri ve 127.0.0.1 oturumları silindi (`members` boş).
 >
+> **EKLENDİ (2026-10-15) — dil ifadeleri tr/en** (aynı branch, commit `2818feb`; canlıya alınmadı):
+> - `lang/tr/member.php` + `lang/en/member.php` (yeni; `lang/en/` klasörü ilk kez var): pencereler, `/uye/giris`, `/uye/kayit`,
+>   `/hesabim` (`<title>` dahil), başlıktaki Hesabım / Çıkış Yap, denetleyicilerin durum mesajları (`login_failed`, `too_many_attempts`,
+>   `welcome`, `info_updated`, `password_changed`) → `__('member.*')`. Navbar'ın DB'den gelen Giriş/Kayıt metinlerine ve panel
+>   Üyeler ekranına (`Member\MemberController`, Türkçe) dokunulmadı.
+> - `ValidationMessageService::getMessagesForLocale($formKey, $transKey)`: `trans($transKey)` dizi dönerse onu kullanır
+>   (İngilizce mesajlar `lang/en/member.php` → `validation.member_register|member_login|member_account_update|member_account_password`),
+>   değilse `getMessages($formKey)` (Türkçe varsayılan + panel override'ları). `lang/tr/member.php`'de `validation` anahtarı
+>   **bilerek yok** → Türkçe mesajlar panelden (Doğrulama Mesajları) düzenlenmeye devam eder. `fallback_locale` = `tr` → çeviri dosyası
+>   olmayan her dilde metinler ve mesajlar **Türkçe** (eksik dil = Türkçe).
+> - `member-breadcrumb`: şerit metni sunucuda büyütülüyor (`$up`: tr'de önce i→İ, ı→I); sayfalar `current`'ı büyük harfsiz
+>   (`__('member.login')` vb.) geçer. Gerekçe §16 #31.
+> - **Türkçe çıktı değişmedi:** `/tr/uye/giris`, `/tr/uye/kayit`, `/tr`, `/tr/kurslar` eski (`e7a4334`) ve yeni kodda CSRF satırları
+>   hariç md5 olarak birebir aynı. Test: yeni `test_dil.cjs` **41/41** (EN sayfalar + pencereler + şerit "SIGN IN"/"HOME", EN doğrulama ve
+>   durum mesajları, aynı oturumda `/tr/hesabim` Türkçe), mevcut takım **37/37**, JS hatası 0. Etkin başka dil olmadığı için (de/fr/ar/ru/es
+>   404) "eksik dil = Türkçe" tarayıcıda değil tinker'la doğrulandı (`de` → Türkçe metin + Türkçe servis mesajları). Test üyesi ve
+>   127.0.0.1 oturumları silindi (`members` yine boş).
+>
 > **Bilinen / bilinçli:**
-> - Üyelik sayfaları sabit Türkçe (sitenin ön yüzü çeviri dosyası kullanmıyor; EN sayfalarda da Türkçe görünür).
+> - ~~Üyelik sayfaları sabit Türkçe~~ **DÜZELTİLDİ (2026-10-15):** üyelik ifadeleri artık **tr/en çevrili** (`lang/tr|en/member.php`);
+>   çeviri dosyası olmayan dillerde Türkçe görünür.
+> - EN sayfalarda başlıktaki **Giriş Yap** düğmesi hâlâ Türkçe: metin DB'den (`navbar_page_infos.login_button_text` = yalnız `{"tr": …}`;
+>   `register_button_text` aynı, düğmesi kapalı). Panel → Navbar ayarından `en` metni girilince düzelir (bu işte dokunulmadı).
+>   `<title>`'daki site adı da DB'den (`seo.meta_title`), Türkçe kalır.
 > - Mail `log` olduğu için e-posta doğrulama / şifremi unuttum yok (Faz 3) → şifresini unutan üyeye panelden yeni şifre verilir.
 > - Panel çıkışı (`UserController@logout`) `session()->invalidate()` yapar → aynı tarayıcıdaki üye oturumu da kapanır (eski davranış, dokunulmadı).
 > - Test sırasında canlı DB'ye migration'lar uygulandı (yeni tablo + 2 izin satırı) — canlı kod bunları okumuyordu.
@@ -431,6 +453,8 @@ parosis-akademi/
 │   └── factories/
 ├── lang/
 │   ├── tr/validation.php
+│   ├── tr/member.php         # site üyeliği ifadeleri (2026-10-15)
+│   ├── en/member.php         # aynı anahtarlar İngilizce + validation dizisi (2026-10-15)
 │   └── *.json                # 22 dil JSON dosyası
 ├── public/
 │   ├── assets-front/         # front şablon statikleri (css/js/img/fonts)
@@ -1128,6 +1152,8 @@ User\UserController                        index create store edit update delete
 22 dosya: `tr, en, en-gb, ar, de, es, es-mx, fa, fr, hi, it, ja, ko, nl, pl, pt, pt-br,
 ru, sv, ur, zh-cn, zh-tw` + `lang/tr/validation.php`.
 Blade'de `__('...')` ile kullanılır.
++ (2026-10-15) grup dosyaları `lang/tr/member.php`, `lang/en/member.php` — site üyeliği ifadeleri, `__('member.<anahtar>')`.
+Başka dilde dosya yok → `fallback_locale` (`tr`) ile Türkçe görünür.
 
 **2) İçerik metinleri — Spatie Translatable (DB'de JSON)**
 Model alanı `longtext` olarak saklanır; içerik `{"tr":"...","en":"..."}` JSON'ıdır.
@@ -1321,6 +1347,11 @@ ValidationMessageService::getMessages('blog_store')
 ```
 Controller'lar `$request->validate($rules, ValidationMessageService::getMessages('<formKey>'))`
 şeklinde çağırır.
+
+**Ziyaretçi diline göre (2026-10-15):** `getMessagesForLocale('<formKey>', '<trans anahtarı>')` — `trans()` dizi dönerse
+(ör. `lang/en/member.php` → `validation.member_login`) onu, değilse `getMessages()`'ı döndürür. Şu an yalnız üyelik
+denetleyicileri (`Front\MemberAuthController`, `Front\AccountController`) kullanıyor. Türkçe dosyaya `validation` dizisi
+eklenmez — eklenirse panel override'ları Türkçede devre dışı kalır.
 
 `ruleMessage()` yalnız listelediği kurallar için mesaj üretir; listede olmayan kural boş mesaj
 döner ve Laravel'in genel çevirisine düşer. `accepted` 2026-10-14'te eklendi
@@ -1956,6 +1987,18 @@ girişli üyede onları açan düğme gösterilmez.
 
 **30. Formu hem pencerede hem sayfada olan sayfada (`/uye/giris`) test seçicisini `section form` ile daralt.** Aynı
 `name`'li alanlar birden çok kez var (pencere + sayfa + stok/kurs başvuru pencereleri).
+
+**31. `front/layouts/app.blade.php` `<html lang="tr">`'yi her dilde sabit basar (2026-10-15).** Tarayıcı CSS `uppercase` /
+`capitalize`'ı sayfa diline göre uygular → İngilizce sayfalarda da Türkçe kural çalışır: "Sign in" → **"SİGN İN"** (i → İ).
+Üyelik şeridi (`member-breadcrumb`) bu yüzden metni **sunucuda** büyütüp basıyor (tr'de önce i→İ, ı→I; diğer dillerde
+`mb_strtoupper`). Sitenin öteki şeritleri / CSS ile büyütülen başlıkları İngilizcede hâlâ etkilenebilir. Genel düzeltme
+(`lang="{{ app()->getLocale() }}"`) **tüm sayfaları etkiler** (Türkçe olmayan sayfalarda `uppercase`/`capitalize` sonucu, yazı
+tipi seçimi, ekran okuyucu) → **kullanıcı kararı**, dokunulmadı.
+
+**32. Worktree'de "önce/sonra" çıktı karşılaştırmasında `git stash` kullanma (2026-10-15).** Worktree'lerin `refs/stash`'i canlı
+depoyla ortak (`.git` paylaşılıyor). Yöntem: değişen izlenen dosyaları `git checkout HEAD -- <dosyalar>` ile geçici geri al →
+eski çıktıyı çek → değişiklikleri tar'dan **`tar xzmf`** (`-m`: mtime = şimdi) ile geri koy → `php artisan view:cache`.
+`-m` olmadan geri konan Blade dosyasının mtime'ı derlenmiş görünümden eski kalır ve Laravel **eski derlenmiş görünümü** sunar.
 
 ---
 
