@@ -2,11 +2,13 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Member\Member;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
     protected $fillable = [
+        'member_id',
         'order_number', 'status',
         'customer_name', 'customer_email', 'customer_phone',
         'shipping_address', 'shipping_city', 'shipping_district', 'shipping_zip', 'shipping_country',
@@ -46,6 +48,12 @@ class Order extends Model
     public function coupon()
     {
         return $this->belongsTo(Coupon::class);
+    }
+
+    // Siparişi veren site üyesi (misafir siparişte null)
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
     }
 
     public static function generateOrderNumber(): string

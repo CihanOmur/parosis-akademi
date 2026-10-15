@@ -557,6 +557,13 @@ function sidebarRemoveCoupon() {
 </script>
 
 {{-- Course Online Basvuru Modal --}}
+@php
+    // Üye girişliyse veli adı / telefon / e-posta üyeden önceden dolu (öğrenci alanları boş); misafirde value basılmaz.
+    // Değerler alanların oninput süzgeciyle aynı karakterlere indirilir (pattern'e takılıp gönderimi engellemesin).
+    $caMember = auth('member')->user();
+    $caParent = $caMember ? trim((string) preg_replace('/[^A-Za-zÇĞİÖŞÜçğıöşü ]/u', '', (string) $caMember->name)) : '';
+    $caPhone = $caMember ? trim((string) preg_replace('/[^0-9+\- ]/', '', (string) $caMember->phone)) : '';
+@endphp
 <div id="courseApplyModal" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4" role="dialog" aria-modal="true">
     <div class="absolute inset-0 bg-black/50" onclick="closeCourseApplyModal()"></div>
     <div class="relative w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -595,15 +602,15 @@ function sidebarRemoveCoupon() {
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Veli Adı Soyadı <span class="text-red-500">*</span></label>
-                    <input type="text" name="parent_name" required maxlength="150" pattern="[A-Za-zÇĞİÖŞÜçğıöşü ]+" oninput="this.value=this.value.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü ]/g,'')" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                    <input type="text" name="parent_name"@if($caMember) value="{{ $caParent }}"@endif required maxlength="150" pattern="[A-Za-zÇĞİÖŞÜçğıöşü ]+" oninput="this.value=this.value.replace(/[^A-Za-zÇĞİÖŞÜçğıöşü ]/g,'')" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Telefon Numarası <span class="text-red-500">*</span></label>
-                    <input type="tel" name="phone" required maxlength="30" inputmode="tel" pattern="[0-9+\- ]+" oninput="this.value=this.value.replace(/[^0-9+\- ]/g,'')" placeholder="+90 5xx xxx xx xx" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                    <input type="tel" name="phone"@if($caMember) value="{{ $caPhone }}"@endif required maxlength="30" inputmode="tel" pattern="[0-9+\- ]+" oninput="this.value=this.value.replace(/[^0-9+\- ]/g,'')" placeholder="+90 5xx xxx xx xx" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-colorBlackPearl mb-1.5">Mail Adresi <span class="text-slate-400">(opsiyonel)</span></label>
-                    <input type="email" name="email" maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
+                    <input type="email" name="email"@if($caMember) value="{{ $caMember->email }}"@endif maxlength="150" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none focus:border-colorPurpleBlue" />
                 </div>
             </div>
 

@@ -59,6 +59,94 @@
                 </div>
             </dl>
         </div>
+
+        {{-- Siparişler (üyeyken verilenler — orders.member_id) --}}
+        <div id="uye-siparisleri" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+            <div class="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+                <h3 class="text-base font-semibold text-slate-900 dark:text-white">Siparişler</h3>
+                <span class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-300">{{ $orderCount }}</span>
+            </div>
+            @if($orders->isEmpty())
+                <p class="px-6 py-5 text-sm text-slate-400">Bu üyenin hesabına bağlı sipariş yok.</p>
+            @else
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 dark:bg-slate-700/50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Sipariş No</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tarih</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Toplam</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                            @foreach($orders as $order)
+                                <tr>
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        @can('shop')
+                                            <a href="{{ route('orders.show', $order->id) }}" class="font-semibold text-slate-900 dark:text-white hover:text-fuchsia-600 dark:hover:text-fuchsia-400">#{{ $order->order_number }}</a>
+                                        @else
+                                            <span class="font-semibold text-slate-900 dark:text-white">#{{ $order->order_number }}</span>
+                                        @endcan
+                                    </td>
+                                    <td class="px-6 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $order->created_at->format('d.m.Y H:i') }}</td>
+                                    <td class="px-6 py-3 whitespace-nowrap font-medium text-slate-900 dark:text-white">{{ number_format($order->total, 2, ',', '.') }} ₺</td>
+                                    <td class="px-6 py-3">
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium {{ $order->status_color }}">{{ $order->status_label }}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @if($orderCount > $orders->count())
+                    <p class="px-6 py-3 text-xs text-slate-400">Son {{ $orders->count() }} sipariş gösteriliyor.</p>
+                @endif
+            @endif
+        </div>
+
+        {{-- Kurs başvuruları (üyeyken yapılanlar — course_applications.member_id) --}}
+        <div id="uye-basvurulari" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+            <div class="flex items-center gap-3 px-6 pt-6 pb-4 border-b border-slate-100 dark:border-slate-700/50">
+                <h3 class="text-base font-semibold text-slate-900 dark:text-white">Başvurular</h3>
+                <span class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-1 text-xs font-medium text-slate-600 dark:text-slate-300">{{ $applicationCount }}</span>
+            </div>
+            @if($applications->isEmpty())
+                <p class="px-6 py-5 text-sm text-slate-400">Bu üyenin hesabına bağlı kurs başvurusu yok.</p>
+            @else
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-50 dark:bg-slate-700/50">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Kurs</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Öğrenci</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tarih</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+                            @foreach($applications as $application)
+                                <tr>
+                                    <td class="px-6 py-3 text-slate-900 dark:text-white">{{ $application->course?->getTranslation('title', 'tr') ?: '—' }}</td>
+                                    <td class="px-6 py-3 text-slate-700 dark:text-slate-200">{{ $application->student_name }}</td>
+                                    <td class="px-6 py-3 whitespace-nowrap text-slate-500 dark:text-slate-400">{{ $application->created_at->format('d.m.Y H:i') }}</td>
+                                    <td class="px-6 py-3 whitespace-nowrap">
+                                        @if($application->status === 'contacted')
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-900/40 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300">✓ Görüşüldü</span>
+                                        @else
+                                            <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 dark:bg-amber-900/40 px-2.5 py-1 text-xs font-medium text-amber-700 dark:text-amber-300">Bekliyor</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                @canany(['course', 'course_delete'])
+                    <p class="px-6 py-3 text-xs"><a href="{{ route('course-applications.index') }}" class="text-fuchsia-600 dark:text-fuchsia-400 hover:underline">Tüm kurs başvuruları →</a></p>
+                @endcanany
+            @endif
+        </div>
     </div>
 
     {{-- Sağ: işlemler --}}

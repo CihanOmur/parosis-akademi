@@ -2,7 +2,10 @@
 
 namespace App\Models\Member;
 
+use App\Models\Courses\CourseApplication;
+use App\Models\Shop\Order;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -42,5 +45,16 @@ class Member extends Authenticatable
         return Attribute::make(
             set: fn (?string $value) => $value === null ? null : mb_strtolower(trim($value)),
         );
+    }
+
+    // Üyeyken verilen siparişler / kurs başvuruları (orders.member_id, course_applications.member_id)
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function courseApplications(): HasMany
+    {
+        return $this->hasMany(CourseApplication::class);
     }
 }

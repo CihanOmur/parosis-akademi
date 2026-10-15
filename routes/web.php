@@ -534,6 +534,7 @@ Route::prefix('{locale}')
             Route::get('/hesabim',           [AccountController::class, 'show'])->name('account');
             Route::post('/hesabim/bilgiler', [AccountController::class, 'update'])->name('account.update');
             Route::post('/hesabim/sifre',    [AccountController::class, 'password'])->name('account.password');
+            Route::get('/hesabim/siparis/{orderNumber}', [AccountController::class, 'order'])->name('account.order');
         });
         Route::get('/urunler',          [ShopFrontController::class, 'products'])->name('products');
         Route::get('/urun-detay/{id}',  [ShopFrontController::class, 'productDetails'])->name('product.details');

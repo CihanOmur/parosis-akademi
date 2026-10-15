@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Courses\Course;
 use App\Models\Courses\CourseApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseApplicationController extends Controller
 {
@@ -24,6 +25,7 @@ class CourseApplicationController extends Controller
         ]);
 
         $data['status'] = 'pending';
+        $data['member_id'] = Auth::guard('member')->id(); // üye girişliyse hesabına bağlanır, misafirde null
         CourseApplication::create($data);
 
         if ($request->wantsJson() || $request->ajax()) {

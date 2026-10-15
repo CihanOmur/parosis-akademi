@@ -7,6 +7,20 @@
     $passwordErrors = $errors->getBag('accountPassword');
     $inputClass = 'w-full rounded border px-5 py-4 text-sm text-colorBlackPearl outline-none transition-all placeholder:text-colorBlackPearl/55 focus-visible:border-colorPurpleBlue';
     $border = fn ($bag, $field) => $bag->has($field) ? 'border-colorJasper' : 'border-[#D7D7D7]';
+    $cardClass = 'rounded-lg bg-white p-6 shadow-[0_4px_30px_16px] shadow-[#070229]/5 lg:p-8';
+    // Durum rozetleri (sınıflar burada — front.css yalnız front Blade'lerini tarar)
+    $orderBadge = [
+        'pending'    => 'bg-yellow-100 text-yellow-800',
+        'processing' => 'bg-blue-100 text-blue-800',
+        'shipped'    => 'bg-purple-100 text-purple-800',
+        'delivered'  => 'bg-green-100 text-green-800',
+        'cancelled'  => 'bg-red-100 text-red-800',
+    ];
+    $applicationBadge = [
+        'pending'   => 'bg-yellow-100 text-yellow-800',
+        'contacted' => 'bg-green-100 text-green-800',
+    ];
+    $locale = app()->getLocale();
 @endphp
 
 @section('content')
@@ -97,6 +111,63 @@
                                     </div>
                                 </form>
                             </div>
+                        </div>
+
+                        {{-- Siparişlerim (yalnız üyeyken verilenler, son 20) --}}
+                        <div id="siparislerim" class="mt-8 {{ $cardClass }}">
+                            <h3 class="mb-6 text-xl">{{ __('member.my_orders') }}</h3>
+                            @if($orders->isEmpty())
+                                <p class="text-sm">{{ __('member.no_orders') }}</p>
+                            @else
+                                <div class="hidden grid-cols-[minmax(0,1.6fr)_1fr_1fr_1fr] gap-4 border-b border-[#EAEAEA] pb-3 text-sm font-medium text-colorBlackPearl sm:grid">
+                                    <span>{{ __('member.order_number') }}</span>
+                                    <span>{{ __('member.date') }}</span>
+                                    <span>{{ __('member.total') }}</span>
+                                    <span>{{ __('member.status') }}</span>
+                                </div>
+                                <ul class="divide-y divide-[#EAEAEA]">
+                                    @foreach($orders as $order)
+                                        <li>
+                                            <a href="{{ route('front.account.order', ['orderNumber' => $order->order_number]) }}"
+                                               class="member-order-row grid grid-cols-2 items-center gap-x-4 gap-y-2 py-4 text-sm transition-colors hover:text-colorPurpleBlue sm:grid-cols-[minmax(0,1.6fr)_1fr_1fr_1fr]">
+                                                <span class="col-span-2 break-all font-semibold text-colorBlackPearl sm:col-span-1">{{ $order->order_number }}</span>
+                                                <span>{{ $order->created_at->format('d.m.Y') }}</span>
+                                                <span class="text-right font-semibold text-colorBlackPearl sm:text-left">{{ number_format($order->total, 2, ',', '.') }} ₺</span>
+                                                <span class="col-span-2 sm:col-span-1">
+                                                    <span class="inline-flex rounded-full px-3 py-1 text-xs font-medium {{ $orderBadge[$order->status] ?? 'bg-gray-100 text-gray-800' }}">{{ __('member.order_status.' . $order->status) }}</span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+
+                        {{-- Başvurularım (yalnız üyeyken yapılan kurs başvuruları, son 20) --}}
+                        <div id="basvurularim" class="mt-8 {{ $cardClass }}">
+                            <h3 class="mb-6 text-xl">{{ __('member.my_applications') }}</h3>
+                            @if($applications->isEmpty())
+                                <p class="text-sm">{{ __('member.no_applications') }}</p>
+                            @else
+                                <div class="hidden grid-cols-[minmax(0,1.6fr)_1fr_1fr_1fr] gap-4 border-b border-[#EAEAEA] pb-3 text-sm font-medium text-colorBlackPearl sm:grid">
+                                    <span>{{ __('member.course') }}</span>
+                                    <span>{{ __('member.student') }}</span>
+                                    <span>{{ __('member.date') }}</span>
+                                    <span>{{ __('member.status') }}</span>
+                                </div>
+                                <ul class="divide-y divide-[#EAEAEA]">
+                                    @foreach($applications as $application)
+                                        <li class="member-application-row grid grid-cols-2 items-center gap-x-4 gap-y-2 py-4 text-sm sm:grid-cols-[minmax(0,1.6fr)_1fr_1fr_1fr]">
+                                            <span class="col-span-2 break-words font-semibold text-colorBlackPearl sm:col-span-1">{{ $application->course?->getTranslation('title', $locale) ?: '—' }}</span>
+                                            <span class="break-words">{{ $application->student_name }}</span>
+                                            <span class="text-right sm:text-left">{{ $application->created_at->format('d.m.Y') }}</span>
+                                            <span class="col-span-2 sm:col-span-1">
+                                                <span class="inline-flex rounded-full px-3 py-1 text-xs font-medium {{ $applicationBadge[$application->status] ?? 'bg-gray-100 text-gray-800' }}">{{ __('member.application_status.' . $application->status) }}</span>
+                                            </span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
                         </div>
 
                     </div>

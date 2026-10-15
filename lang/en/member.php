@@ -42,6 +42,39 @@ return [
     'info_updated'           => 'Your details have been updated.',
     'password_changed'       => 'Your password has been changed.',
 
+    // Phase 2 — My Account: My Orders / My Applications + order details
+    'my_orders'              => 'My Orders',
+    'my_applications'        => 'My Applications',
+    'no_orders'              => 'You have no orders yet. Orders you place while signed in are listed here.',
+    'no_applications'        => 'You have no course applications yet. Applications you submit while signed in are listed here.',
+    'order_number'           => 'Order no.',
+    'date'                   => 'Date',
+    'total'                  => 'Total',
+    'status'                 => 'Status',
+    'course'                 => 'Course',
+    'student'                => 'Student',
+    'order_status'           => [
+        'pending'    => 'Pending',
+        'processing' => 'Processing',
+        'shipped'    => 'Shipped',
+        'delivered'  => 'Delivered',
+        'cancelled'  => 'Cancelled',
+    ],
+    'application_status'     => [
+        'pending'   => 'Under review',
+        'contacted' => 'We have contacted you',
+    ],
+    'order_details'          => 'Order Details',
+    'order_title'            => 'Order :number',
+    'items'                  => 'Items',
+    'quantity'               => 'Qty',
+    'unit_price'             => 'Unit price',
+    'line_total'             => 'Amount',
+    'subtotal'               => 'Subtotal',
+    'discount'               => 'Discount (:code)',
+    'shipping_address'       => 'Delivery address',
+    'back_to_account'        => 'Back to My Account',
+
     'validation' => [
         'member_register' => [
             'name.required'      => 'Full name is required.',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Mail\OrderConfirmationMail;
+use App\Models\Member\Member;
 use App\Models\Setting;
 use App\Models\Shop\Coupon;
 use App\Models\Shop\Order;
@@ -12,6 +13,7 @@ use App\Models\Shop\Product;
 use App\Models\Shop\ProductVariant;
 use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -69,6 +71,28 @@ class CheckoutController extends Controller
         return [$verifiedCart, $subtotal];
     }
 
+    /**
+     * Girişli üyenin ödeme formu ön değerleri: iletişim bilgileri üyeden,
+     * teslimat adresi üyenin (member_id'li) son siparişinden — sipariş yoksa adres boş.
+     */
+    private function memberShippingDefaults(Member $member): array
+    {
+        $shipping = [
+            'customer_name'  => $member->name,
+            'customer_email' => $member->email,
+            'customer_phone' => $member->phone,
+        ];
+
+        $lastOrder = Order::where('member_id', $member->id)->latest('id')->first();
+        if ($lastOrder) {
+            foreach (['shipping_country', 'shipping_city', 'shipping_district', 'shipping_zip', 'shipping_address'] as $field) {
+                $shipping[$field] = $lastOrder->{$field};
+            }
+        }
+
+        return $shipping;
+    }
+
     public function show()
     {
         $cart = session('cart', []);
@@ -104,6 +128,12 @@ class CheckoutController extends Controller
 
         // Session'da saklanmis teslimat bilgilerini yukle (ileri-geri navigation icin)
         $shipping = session('checkout_shipping', []);
+
+        // Formda henüz bilgi yoksa ve üye girişliyse önceden doldur (session'a yazılmaz; formu gönderince yazılır)
+        $member = Auth::guard('member')->user();
+        if (empty($shipping) && $member) {
+            $shipping = $this->memberShippingDefaults($member);
+        }
 
         return view('front.pages.checkout', compact('cart', 'subtotal', 'discount', 'coupon', 'total', 'shipping'));
     }
@@ -252,6 +282,7 @@ class CheckoutController extends Controller
             }
 
             $order = Order::create([
+                'member_id'        => Auth::guard('member')->id(), // misafirde null
                 'order_number'     => Order::generateOrderNumber(),
                 'status'           => 'pending',
                 'customer_name'    => $request->customer_name,

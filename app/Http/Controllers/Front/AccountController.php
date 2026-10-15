@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop\Order;
 use App\Services\ValidationMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,14 +11,32 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 /**
- * Hesabım (yalnız 'auth:member'): bilgilerim + şifre değiştir.
+ * Hesabım (yalnız 'auth:member'): bilgilerim + şifre değiştir, siparişlerim + başvurularım, sipariş detayı.
  */
 class AccountController extends Controller
 {
     public function show()
     {
         $member = Auth::guard('member')->user();
-        return view('front.pages.member.account', compact('member'));
+
+        // Yalnız üyeyken verilenler (member_id); son 20
+        $orders = $member->orders()->latest('id')->limit(20)->get();
+        $applications = $member->courseApplications()->with('course')->latest('id')->limit(20)->get();
+
+        return view('front.pages.member.account', compact('member', 'orders', 'applications'));
+    }
+
+    public function order($locale, $orderNumber)
+    {
+        $member = Auth::guard('member')->user();
+
+        // Başka üyenin / misafirin sipariş numarası → 404
+        $order = Order::where('member_id', $member->id)
+            ->where('order_number', $orderNumber)
+            ->with('items')
+            ->firstOrFail();
+
+        return view('front.pages.member.order', compact('member', 'order'));
     }
 
     public function update(Request $request)

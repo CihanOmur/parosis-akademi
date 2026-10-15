@@ -42,7 +42,14 @@ class MemberController extends Controller
     public function show($id)
     {
         $member = Member::findOrFail($id);
-        return view('admin.members.show', compact('member'));
+
+        // Üyeyken verilen siparişler / kurs başvuruları (son 20) + toplam sayıları
+        $orders = $member->orders()->latest('id')->limit(20)->get();
+        $applications = $member->courseApplications()->with('course')->latest('id')->limit(20)->get();
+        $orderCount = $member->orders()->count();
+        $applicationCount = $member->courseApplications()->count();
+
+        return view('admin.members.show', compact('member', 'orders', 'applications', 'orderCount', 'applicationCount'));
     }
 
     public function toggleActive($id)
