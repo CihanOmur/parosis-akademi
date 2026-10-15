@@ -395,7 +395,7 @@ function sidebarRemoveCoupon() {
     <div class="mt-10">
         <ul class="grid grid-cols-1 gap-y-10">
             <li>
-                <h4 class="mb-3">Bizi Takip Edin:</h4>
+                <h4 class="mb-3">{{ __('front.follow_us') }}:</h4>
                 <div class="flex items-center gap-x-3.5">
                     <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="facebook">
                         <img src="{{ asset('assets-front/img/icons/icon-dark-facebook.svg') }}" alt="icon-dark-facebook" width="20" height="20" class="h-auto w-[17px]" />

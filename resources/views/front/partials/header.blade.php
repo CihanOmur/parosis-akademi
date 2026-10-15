@@ -467,7 +467,7 @@
                             @if($socials->isNotEmpty())
                             <li class="mobile-menu-social mobile-only-nav">
                                 <div class="px-6 pt-4 pb-6 border-t border-slate-200">
-                                    <div class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">Bizi Takip Edin</div>
+                                    <div class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{{ __('front.follow_us') }}</div>
                                     <div class="flex items-center gap-3 flex-wrap">
                                         @foreach($socials as $social)
                                             <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer"
