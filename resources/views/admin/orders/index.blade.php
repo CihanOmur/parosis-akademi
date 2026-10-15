@@ -108,7 +108,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 font-medium text-slate-900 dark:text-white whitespace-nowrap">
-                                ₺{{ number_format($order->total_amount, 2) }}
+                                ₺{{ number_format($order->total, 2) }}
                             </td>
                             <td class="px-6 py-4">
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium {{ $badge['class'] }}">
