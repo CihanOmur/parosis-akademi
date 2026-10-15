@@ -16,9 +16,22 @@
 >
 > ## Bu turda yapılanlar — 2026-10-15 Üyelik Faz 2 + html lang
 >
-> **⏳ DURUM: CANLIYA ALMA BEKLİYOR (kullanıcı onayı).** Branch `feature/uyelik-faz2` (canlı `8eb59dc`'den), 2 kod commit'i:
-> `47eb737` Faz 2, `5e00ce8` html lang (+ bu doküman commit'i). Push edilmedi. Worktree `~/gelistirme/parosis-akademi` **duruyor**
-> (canlıya alma oradan; 127.0.0.1:8100 test sunucusu kapatıldı, `public/_test_login.php` silindi).
+> **✅ CANLIDA (2026-10-15, kullanıcı onayı "canlıya al").** Branch `feature/uyelik-faz2` (`47eb737` Faz 2, `5e00ce8` html lang,
+> `d4bc34d` docs) canlı klasörde branch değiştirmeden ff (`8eb59dc` → `d4bc34d`) + `npm run build` + `optimize:clear`; migration
+> zaten uygulanmıştı. Yedek `~/gelistirme/yedek-20261015-faz2/` (eski `public/build`). Kontrol: 16 adresin yanıt kodu önce = sonra;
+> Türkçe sayfalar (normalize HTML) birebir aynı; İngilizce sayfalarda yalnız `<html lang="tr">` → `"en"`; site haritası aynı. Canlı
+> üye testi 12/12 (sipariş/başvuru OLUŞTURULMADAN: kayıt → Hesabım bölümleri, başvuru penceresi + ödeme formu üyeden dolu, misafirde
+> boş, başkasının siparişi 404, EN Hesabım İngilizce, mobil taşma yok, JS hatası 0). Test üyesi + bu sunucunun IP'sinden açılan
+> 62 test oturumu silindi; sipariş 9 / kalem 15 / başvuru 3 / ürün 3 stok 79 — öncekiyle aynı. GitHub'a push edildi.
+>
+> **Aynı gün ek düzeltmeler — CANLIDA** (branch `fix/panel-siparis-toplam-ceviri`, ff `d4bc34d` → `2668dd7`, yalnız `optimize:clear`;
+> yeni CSS sınıfı yok, build gerekmedi):
+> - `6ebfe84` **Panel → Siparişler** listesinde toplam her satırda `₺0.00` görünüyordu (`total_amount` diye sütun yok) → `total`.
+>   Çalışma kopyasında 9/9 sipariş toplamı DB ile aynı doğrulandı (§15.5 #23d ÇÖZÜLDÜ).
+> - `2668dd7` "Bizi Takip Edin" (mobil menü + yan bilgi penceresi) EN sitede Türkçe kalıyordu → `__('front.follow_us')`, yeni genel
+>   çeviri dosyaları **`lang/tr/front.php` + `lang/en/front.php`** (ön yüzün DB'den gelmeyen genel ifadeleri buraya).
+> - Veri: `home_page_infos.categories_label.en = "Course Categories"` (yedek `yedek-20261015-faz2/home_page_infos-categories_label-once.tsv`).
+>   Kontrol: Türkçe sayfalar birebir aynı; EN sayfalarda yalnız bu metinler değişti. GitHub'a push edildi.
 > **Migration canlı DB'ye test sırasında uygulandı** (`2026_10_15_100000_add_member_id_to_orders_and_course_applications`, batch 16;
 > canlı kod yeni sütunu okumuyor / yazmıyor → NULL kalıyor, sorun değil). Canlıya alırken bekleyen migration **0** olmalı.
 > **Canlıya alma:** canlı klasörde branch değiştirmeden `git merge --ff-only feature/uyelik-faz2` + `npm run build` (**şart**: ön yüz
@@ -1941,8 +1954,8 @@ yoksa SuperAdmin'in alt kümesi mi? Şu an sadece SuperAdmin'de var (Admin'de yo
      zaten JS ile) veya `dontFlash`'a eklemek. Dokunulmadı.
 23c. **(2026-10-14) Kurs başvuru formunda gizlilik onayı yok** — öğrenci (çocuk) + veli verisi topluyor,
      bağlantı / onay kutusu yok. Dokunulmadı, kullanıcıya soruldu.
-23d. **(2026-10-15) Panel → Siparişler listesinde Toplam her satırda `₺0.00`** — `admin/orders/index.blade.php`
-     `$order->total_amount` okuyor (böyle sütun / accessor yok; sütun `total`). Sipariş detayı doğru. Dokunulmadı.
+~~23d. (2026-10-15) Panel → Siparişler listesinde Toplam her satırda `₺0.00`~~ **ÇÖZÜLDÜ (2026-10-15, `6ebfe84`)** —
+     `admin/orders/index.blade.php` var olmayan `total_amount`'u okuyordu → `total`.
 ~~ÇÖZÜLDÜ (2026-10-14)~~: İletişim formundaki gizlilik bağlantısı 404 veriyordu → §başlık "2026-10-14".
 
 ### 15.6 Şema kalitesi
