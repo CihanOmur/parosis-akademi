@@ -56,6 +56,14 @@ class CartController extends Controller
                 ->firstOrFail();
         }
 
+        // Varyantlı ürün seçenek seçilmeden eklenemez (stok varyantta; aksi halde siparişte ürün stoğu 0 sanılır)
+        if (! $variant && $product->variants()->where('is_active', true)->exists()) {
+            $message = 'Lütfen önce ürün seçeneklerini (ör. beden, renk) seçin.';
+            return $request->ajax()
+                ? response()->json(['status' => 0, 'message' => $message], 422)
+                : redirect()->route('front.product.details', $product->id)->with('error', $message);
+        }
+
         $key = $product->id . '_' . ($variant?->id ?? 0);
         // SECURITY: Always get price from DB
         $price = $variant ? ((float) ($variant->price ?? $product->price)) : (float) $product->effective_price;

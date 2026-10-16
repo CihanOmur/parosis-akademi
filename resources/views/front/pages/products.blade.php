@@ -116,6 +116,8 @@
                                     <div class="group/product overflow-hidden rounded-lg">
                                         <!-- Thumbnail -->
                                         <div class="relative flex justify-center overflow-hidden rounded-lg" style="aspect-ratio: 370/388;">
+                                            {{-- Görsele tıklayınca ürün detayı (Sepete Ekle / Detay düğmesi bunun üstünde kalır) --}}
+                                            <a href="{{ route('front.product.details', $product->id) }}" class="block h-full w-full" aria-label="{{ $product->name }}">
                                             @if($product->image)
                                                 <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" width="370" height="388" class="h-full w-full object-cover transition-all duration-300 group-hover/product:scale-105" />
                                             @else
@@ -125,6 +127,7 @@
                                                     </svg>
                                                 </div>
                                             @endif
+                                            </a>
 
                                             @if($product->category)
                                                 <span class="absolute left-3 top-3 inline-block rounded-[40px] bg-colorBrightGold px-3.5 py-1.5 text-sm leading-none text-colorBlackPearl">{{ $product->category->name }}</span>

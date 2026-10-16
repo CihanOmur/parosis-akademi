@@ -240,7 +240,12 @@
 
                                     <!-- Add to Cart Form -->
                                     @php
-                                        $isOutOfStock = ($product->manage_stock ?? false) && (int) ($product->stock ?? 0) <= 0;
+                                        // Varyantlı üründe stok varyantlarda tutulur (ürün düzeyindeki stok 0 olabilir);
+                                        // stok null = sınırsız (CheckoutController@process ile aynı kural)
+                                        $activeVariants = $product->variants ?? collect();
+                                        $isOutOfStock = ($product->manage_stock ?? false) && ($activeVariants->count()
+                                            ? $activeVariants->every(fn ($v) => $v->stock !== null && (int) $v->stock <= 0)
+                                            : (int) ($product->stock ?? 0) <= 0);
                                     @endphp
 
                                     @if($isOutOfStock)
@@ -559,6 +564,8 @@
                     btn.innerHTML = '<svg class="h-5 w-5 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg> Eklendi!';
                     setTimeout(function() { btn.innerHTML = origHTML; }, 1500);
                 }
+            } else if (data && data.message) {
+                alert(data.message);
             }
         })
         .catch(function() {
