@@ -14,6 +14,46 @@
 >
 > ---
 >
+> ## Bu turda yapılanlar — 2026-10-16 Mağaza revizeleri + e-bülten (✅ CANLIDA)
+>
+> **Müşteri revizeleri:** (1) ürün görseline tıklanınca detaya gitmeli; (2) "sepete ekle > ödeme > onay: kart bilgilerini girdikten
+> sonra ödeme sayfasına atıyor, sipariş panele yansımıyor"; (3) "Haber Al'a tıklayınca 405". Branch `fix/magaza-revizeleri`
+> (canlı `26d0c8b`'den), canlıda ff → `0180907` + `npm run build` (CSS değişti) + `optimize:clear` + `permission:cache-reset`.
+> Yedek `~/gelistirme/yedek-20261016-magaza/` (eski `public/build`, gizlilik metni). GitHub'a push edildi, worktree kaldırıldı.
+>
+> - `8c50a8a` **Ödeme:** `CheckoutController@process` hata yakalayınca (stok / pasif ürün / sistem) `/odeme`'ye `session('error')` ile
+>   dönüyordu ama **`checkout.blade.php` bu mesajı hiç göstermiyordu** → kullanıcı sessizce ödeme sayfasına atılıyordu. Mesaj kutusu
+>   eklendi. `QueryException` (RuntimeException alt sınıfı!) artık ayrı yakalanıyor: SQL ayrıntısı `Log::error`, ziyaretçiye genel mesaj
+>   (önceden ham SQL metni ziyaretçiye gönderilmeye hazırdı). Kullanıcının denemesindeki hata birebir CANLANDIRILAMADI (varyantsız
+>   üründe misafir + posta kodu boş akış çalıştı); artık sebep ekranda yazacak.
+> - `66e7911` **Varyantlı ürünler hiç satın alınamıyordu:** `product-details` stoğa yalnız `products.stock`'a bakıyordu (Tişört / Kalem
+>   Seti'nde 0, stok `product_variants`'ta) → "Stokta Yok" + Sepete Ekle yok. Artık aktif varyantlar (null = sınırsız, `process()` ile aynı
+>   kural). `CartController@add`: varyantlı ürün varyantsız eklenemez (AJAX 422 + mesaj, sayfada `alert`). Ürün listesinde görsel
+>   (görselsiz üründe yer tutucu da) detaya bağlı (`a[aria-label]`).
+> - `0180907` **E-bülten:** footer "Haber Al" formu şablondan kalmaydı (`action="#"`, input'un `name`'i yok) → 405. Yeni tablo
+>   **`newsletter_subscribers`** (email unique küçük harf, locale, ip_address), `POST /{locale}/e-bulten` → `front.newsletter.subscribe`
+>   (`Front\NewsletterController`, `throttle:newsletter` IP başına 5/dk), sonuç footer formuna `#e-bulten` çapasıyla döner (bag
+>   `newsletter`, flash `newsletter_status`; aynı e-posta → "zaten abone"). TR/EN metinler `lang/{tr,en}/front.php`
+>   (`front.validation.newsletter_subscribe` yalnız en). Panel **E-bülten Aboneleri** `/panel/newsletter-subscribers`
+>   (`Newsletter\NewsletterSubscriberController`: liste + arama, **CSV indir** — Excel formül enjeksiyonuna karşı `'` öneki, sil);
+>   izinler **`newsletter` / `newsletter_delete`** (migration, SuperAdmin + Admin; rol ekranında "E-bülten Aboneleri").
+>   Migration'lar `2026_10_16_100000_create_newsletter_subscribers_table`, `2026_10_16_100100_add_newsletter_permissions`.
+> - Veri: gizlilik metnine (TR/EN) "E-bülten: e-posta adresiniz (aboneliği istediğiniz zaman bize yazarak sonlandırabilirsiniz)" +
+>   "E-bülten aboneliğinizi yönetmek…" amacı, tarih 16 Ekim 2026 (işaret kontrollü betik).
+>
+> **Test:** worktree mağaza + e-bülten 19/19 (1 gerçek varyantlı test siparişi oluşturuldu → silindi, varyant stoğu geri; stoktan fazla
+> adetle hata görünürlüğü — sipariş oluşmadan), 18 sayfa JS taraması (masaüstü + telefon) temiz, `test_uyelik` 37/37. Canlı:
+> 16 adres yanıt kodu aynı, sayfa farkları yalnız footer formu / ürün görseli bağlantısı / Tişört'te Sepete Ekle bloğu; canlı tarayıcı
+> testi 10/10 (sipariş OLUŞTURULMADAN). Test aboneleri, test oturumları silindi; sipariş 9 / kalem 15 / tüm stoklar önce = sonra;
+> `laravel.log`'a yeni satır yok.
+>
+> **Kalan (dokunulmadı):** `modals.blade.php` yan bilgi paneli (`menu-info`, başlıkta `sideInfoBtn`) içinde hâlâ sahte "Abone Ol"
+> formu (`action="#"`) + şablon adresi "Istanbul, Turkiye" var — panel kapalı (`navbar_page_infos.show_side_info_button = 0`), ziyaretçi
+> ulaşamıyor; **açılırsa önce bu form `front.newsletter.subscribe`'a bağlanmalı, adres düzeltilmeli.** `welcome.blade.php` kullanılmıyor.
+> Ürün sayfasında başarılı sepete eklemeden sonra varyantlı üründe düğme yeniden kapanıyor (`btn.disabled = hasVariants`, eski davranış).
+>
+> ---
+>
 > ## Bu turda yapılanlar — 2026-10-15 Üyelik Faz 2 + html lang
 >
 > **✅ CANLIDA (2026-10-15, kullanıcı onayı "canlıya al").** Branch `feature/uyelik-faz2` (`47eb737` Faz 2, `5e00ce8` html lang,
@@ -469,7 +509,7 @@ Güvenlik header'ları mevcut: `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Op
 | Veritabanı adı | **`parosis-akademi`** (tire içerir → SQL'de backtick şart) |
 | Kullanıcı | `parosis-akademi` |
 | Şifre | `.env` içinde `DB_PASSWORD` (dokümana yazılmaz) |
-| Tablo sayısı | **70** (2026-10-14: +`privacy_page_infos`, +`members`) |
+| Tablo sayısı | **71** (2026-10-14: +`privacy_page_infos`, +`members`; 2026-10-16: +`newsletter_subscribers`) |
 | Toplam boyut | ~2.17 MB |
 
 Sorgu örneği (backtick zorunlu):
@@ -551,7 +591,7 @@ parosis-akademi/
 ├── config/                   # app, auth, cache, database, filesystems, logging, mail,
 │                             # permission, queue, services, session, turkiye_iller
 ├── database/
-│   ├── migrations/           # 123 migration (DB'de kayıtlı; 2026-10-14 +3, 2026-10-15 +1 member_id)
+│   ├── migrations/           # 125 migration (DB'de kayıtlı; 2026-10-14 +3, 2026-10-15 +1 member_id, 2026-10-16 +2 e-bülten)
 │   ├── seeders/              # 11 seeder
 │   └── factories/
 ├── lang/
@@ -620,14 +660,14 @@ resources/views/
 
 ## 5. Veri Modeli — Tablolar ve Kolonlar
 
-70 tablo (2026-10-14: +`privacy_page_infos`, +`members`). Aşağıdaki kolon listeleri **canlı `information_schema`'dan** çekilmiştir.
+71 tablo (2026-10-14: +`privacy_page_infos`, +`members`; 2026-10-16: +`newsletter_subscribers`). Aşağıdaki kolon listeleri **canlı `information_schema`'dan** çekilmiştir.
 Satır sayıları 2026-07-28 itibarıyladır.
 
 ### 5.1 Laravel çekirdek
 
 | Tablo | Satır | Kolonlar |
 |---|---|---|
-| `migrations` | 123 | id, migration, batch |
+| `migrations` | 125 | id, migration, batch |
 | `cache` | 117 | key (PK), value, expiration |
 | `cache_locks` | 0 | key (PK), owner, expiration |
 | `jobs` | 0 | id, queue, payload, attempts, reserved_at, available_at, created_at |
@@ -648,8 +688,10 @@ created_at, updated_at, is_visible(tinyint, def 1), phone`
 `id, name, email(UNI, küçük harf), phone, password, is_active(def 1), privacy_accepted_at, last_login_at,
 email_verified_at (Faz 3, şimdilik boş), remember_token, created_at, updated_at`. Panelde Üyeler ekranı.
 
+**`newsletter_subscribers`** (2026-10-16, footer "Haber Al") — `id, email(UNI, küçük harf), locale, ip_address, created_at, updated_at`. Panelde E-bülten Aboneleri + CSV.
+
 **`roles`** (6) — `id, name(UNI), guard_name, is_visible(def 1), created_at, updated_at`
-**`permissions`** (39; 2026-10-14 +`member`, +`member_delete`) — `id, name(UNI), guard_name, created_at, updated_at`
+**`permissions`** (41; 2026-10-14 +`member`, +`member_delete`; 2026-10-16 +`newsletter`, +`newsletter_delete`) — `id, name(UNI), guard_name, created_at, updated_at`
 **`model_has_roles`** (15) — `role_id, model_type, model_id` (bileşik PK)
 **`model_has_permissions`** (0) — `permission_id, model_type, model_id`
 **`role_has_permissions`** (87) — `permission_id, role_id`
@@ -1170,6 +1212,7 @@ Route::prefix('{locale}')
 | GET | `/{locale}/hesabim` | `front.account` | `AccountController@show` · **auth:member** |
 | POST | `/{locale}/hesabim/bilgiler` · `/hesabim/sifre` | `front.account.update` · `.password` | `AccountController` · **auth:member** |
 | GET | `/{locale}/hesabim/siparis/{orderNumber}` | `front.account.order` | `AccountController@order` · **auth:member** · yalnız kendi siparişi, değilse 404 (2026-10-15) |
+| POST | `/{locale}/e-bulten` | `front.newsletter.subscribe` | `NewsletterController@subscribe` · **throttle:newsletter** · sonuç `#e-bulten`'e döner (2026-10-16) |
 | GET | `/{locale}/iletisim` | `front.contact` | `FrontController@contact` |
 | POST | `/{locale}/iletisim` | `front.contact.send` | `ContactController@send` · **throttle:5,1** |
 | POST | `/{locale}/kurs-basvuru` | `front.course.application.store` | `CourseApplicationController@store` · **throttle:5,1** |
@@ -1483,7 +1526,7 @@ Panel ekranı: `/panel/settings/validation-messages` → **`permission:developer
 Spatie Permission v6.25, guard: `web`, teams: kapalı, wildcard: kapalı,
 cache: 24 saat (`spatie.permission.cache`).
 
-### 9.1 İzinler (39 adet, canlı DB — 2026-10-14: +`member` / `member_delete` → Site Üyeleri, SuperAdmin + Admin)
+### 9.1 İzinler (41 adet, canlı DB — 2026-10-14: +`member` / `member_delete` → Site Üyeleri; 2026-10-16: +`newsletter` / `newsletter_delete` → E-bülten Aboneleri; ikisi de SuperAdmin + Admin)
 
 **"Modüler izinler v3"** (migration `2026_06_17_063335_modular_permissions_v3`).
 Her modül için `<modül>` (görüntüle+düzenle) ve `<modül>_delete` (silme) ikilisi:
@@ -2117,6 +2160,17 @@ tipi seçimi, ekran okuyucu) → **kullanıcı kararı**, dokunulmadı.
 depoyla ortak (`.git` paylaşılıyor). Yöntem: değişen izlenen dosyaları `git checkout HEAD -- <dosyalar>` ile geçici geri al →
 eski çıktıyı çek → değişiklikleri tar'dan **`tar xzmf`** (`-m`: mtime = şimdi) ile geri koy → `php artisan view:cache`.
 `-m` olmadan geri konan Blade dosyasının mtime'ı derlenmiş görünümden eski kalır ve Laravel **eski derlenmiş görünümü** sunar.
+
+**33. `CheckoutController@process` `\RuntimeException` yakalar — `QueryException` da onun alt sınıfı (2026-10-16).** Yakalanan her hata
+`/odeme`'ye `session('error')` ile döner; ödeme sayfası artık bunu gösteriyor. Yeni bir yakalama dalı eklersen veritabanı hatasını
+ziyaretçiye ham metinle gösterme (`QueryException` dalı önde, genel mesaj + `Log::error`).
+
+**34. Varyantlı üründe stok varyantta (2026-10-16).** `products.stock` 0 olabilir (Tişört, Kalem Seti); stok kontrolü ürün düzeyinde
+yapılırsa ürün "Stokta Yok" görünür. Kural: aktif varyant varsa `product_variants.stock` (null = sınırsız), yoksa `products.stock`.
+Sepete ekleme varyantsız kabul edilmez (`CartController@add`).
+
+**35. Şablondan kalma sahte formlar (`action="#"`) 405 verir (2026-10-14…16'da 3 kez bulundu: giriş/kayıt penceresi, footer e-bülten;
+yan bilgi panelindeki "Abone Ol" hâlâ sahte ama panel kapalı).** Yeni bir şablon bölümü açarken `grep -rn 'action="#"' resources/views/front`.
 
 ---
 
