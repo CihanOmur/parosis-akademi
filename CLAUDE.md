@@ -47,6 +47,15 @@
 > testi 10/10 (sipariş OLUŞTURULMADAN). Test aboneleri, test oturumları silindi; sipariş 9 / kalem 15 / tüm stoklar önce = sonra;
 > `laravel.log`'a yeni satır yok.
 >
+> **Canlı doğrulama (2026-10-16, kullanıcı: "sen test et, canlıya atıp onaylarsan sorun yok"):** mail `log` doğrulandıktan sonra
+> canlıda GERÇEK sipariş verildi (misafir, Tişört varyant 1, 199,90 ₺ → `ORD-20261016-0001`, başarı mesajı, varyant stoğu 20 → 19,
+> onay mailleri yalnız log'a) + canlı e-bülten aboneliği. Panel ekranları dışarıya kapı AÇMADAN, sunucuda CLI'dan Super Admin olarak
+> işletildi (§16 #36): Siparişler listesinde 10/10 toplam DB ile aynı (₺0.00 yok), sipariş detayı, E-bülten Aboneleri listesi + CSV.
+> Sonra test siparişi + kalemi silindi, varyant stoğu 20'ye, test abonesi + test oturumları silindi — sipariş / kalem / abone / tüm
+> stoklar en baştakiyle birebir aynı. **Not:** `laravel.log`'daki `[2026-10-16 00:17:55] production.ERROR: …UrlGenerator::__construct()
+> … null given` satırı **uygulama hatası DEĞİL** — bu CLI doğrulama betiğinin ilk (hatalı) denemesi; aynı dakikadaki iki `Sipariş Onayı`
+> DEBUG kaydı da test siparişinin log'a düşen mailleri.
+>
 > **Kalan (dokunulmadı):** `modals.blade.php` yan bilgi paneli (`menu-info`, başlıkta `sideInfoBtn`) içinde hâlâ sahte "Abone Ol"
 > formu (`action="#"`) + şablon adresi "Istanbul, Turkiye" var — panel kapalı (`navbar_page_infos.show_side_info_button = 0`), ziyaretçi
 > ulaşamıyor; **açılırsa önce bu form `front.newsletter.subscribe`'a bağlanmalı, adres düzeltilmeli.** `welcome.blade.php` kullanılmıyor.
@@ -2171,6 +2180,12 @@ Sepete ekleme varyantsız kabul edilmez (`CartController@add`).
 
 **35. Şablondan kalma sahte formlar (`action="#"`) 405 verir (2026-10-14…16'da 3 kez bulundu: giriş/kayıt penceresi, footer e-bülten;
 yan bilgi panelindeki "Abone Ol" hâlâ sahte ama panel kapalı).** Yeni bir şablon bölümü açarken `grep -rn 'action="#"' resources/views/front`.
+
+**36. Canlı panel ekranını giriş yapmadan doğrulamak (2026-10-16).** Canlıya `_test_login.php` gibi giriş atlatan dosya KOYMA. Bunun
+yerine sunucuda CLI betiği: `$app->instance('request', Request::create(...))` → `$kernel->bootstrap()` → her istek öncesi
+`$app['auth']->guard('web')->setUser(User::find(1))` → `$kernel->handle(Request::create(url, 'GET', …, ['HTTPS'=>'on']))`. İstek
+nesnesini bootstrap'tan ÖNCE bağlamazsan `UrlGenerator … null given` fırlar ve Laravel bunu `laravel.log`'a ERROR olarak yazar; gövdeyi
+`try/catch (Throwable)` içine al. `StreamedResponse` (CSV) içeriği `sendContent()` + `ob_start()` ile okunur.
 
 ---
 
