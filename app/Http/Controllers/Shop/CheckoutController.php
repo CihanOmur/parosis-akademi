@@ -321,6 +321,11 @@ class CheckoutController extends Controller
 
         // Sipariş oluştu - session'daki teslimat verilerini temizle
         session()->forget('checkout_shipping');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // QueryException de RuntimeException'dır; SQL ayrıntısı ziyaretçiye gösterilmez, kayda yazılır
+            \Log::error('Checkout order failed: ' . $e->getMessage());
+            return redirect()->route('front.checkout')
+                ->with('error', 'Siparişiniz oluşturulurken bir sistem hatası oluştu. Lütfen tekrar deneyin ya da bizimle iletişime geçin.');
         } catch (\RuntimeException $e) {
             return redirect()->route('front.checkout')
                 ->with('error', $e->getMessage());
