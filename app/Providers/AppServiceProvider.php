@@ -29,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // Üye giriş/kayıt formları: IP başına dakikada 10 istek (diğer throttle:5,1 uçlarından ayrı kova)
         RateLimiter::for('member-auth', fn (Request $request) => Limit::perMinute(10)->by('member-auth|' . $request->ip()));
+        // Footer e-bülten formu: IP başına dakikada 5
+        RateLimiter::for('newsletter', fn (Request $request) => Limit::perMinute(5)->by('newsletter|' . $request->ip()));
 
         Paginator::useBootstrapFive();
         Paginator::defaultView('vendor.pagination.tailwind');

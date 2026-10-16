@@ -619,7 +619,7 @@
         {{-- ============================== --}}
         {{-- Bölüm: (Başlıksız divider)     --}}
         {{-- ============================== --}}
-        @canany(['testimonial', 'testimonial_delete', 'developer', 'member', 'member_delete', 'user', 'user_delete', 'role', 'role_delete', 'settings', 'theme'])
+        @canany(['testimonial', 'testimonial_delete', 'developer', 'member', 'member_delete', 'newsletter', 'newsletter_delete', 'user', 'user_delete', 'role', 'role_delete', 'settings', 'theme'])
             <div class="pt-4">
                 <div class="mx-3 border-t border-slate-200 dark:border-slate-700 mb-2"></div>
             </div>
@@ -685,6 +685,27 @@
             </div>
             <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">Üyeler</span>
             <span class="lg:hidden">Üyeler</span>
+        </a>
+        @endcanany
+
+        {{-- E-bülten Aboneleri (footer "Haber Al") --}}
+        @canany(['newsletter', 'newsletter_delete'])
+        @php $isNewsletter = Route::is('newsletter.*'); @endphp
+        <a href="{{ route('newsletter.index') }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
+                  {{ $isNewsletter
+                      ? 'bg-fuchsia-50 dark:bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white' }}">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
+                        {{ $isNewsletter
+                            ? 'bg-fuchsia-500 text-white shadow-lg shadow-fuchsia-500/30'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400' }}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                </svg>
+            </div>
+            <span x-show="!sidebarCollapsed" x-transition class="hidden lg:block">E-bülten Aboneleri</span>
+            <span class="lg:hidden">E-bülten Aboneleri</span>
         </a>
         @endcanany
 

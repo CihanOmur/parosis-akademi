@@ -1068,6 +1068,14 @@ class ValidationMessageService
                     ],
                 ],
 
+                // Footer E-bülten Aboneliği
+                'newsletter_subscribe' => [
+                    'label' => 'E-bülten Aboneliği (footer)',
+                    'fields' => [
+                        'email' => ['label' => 'E-posta adresi', 'type' => 'string', 'rules' => ['required', 'email', 'max']],
+                    ],
+                ],
+
                 // Gizlilik Politikası Sayfası
                 'page_privacy_update' => [
                     'label' => 'Sayfa - Gizlilik Politikası',

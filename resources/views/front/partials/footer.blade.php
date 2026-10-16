@@ -213,7 +213,7 @@
                     <!-- Footer Widget - Info -->
 
                     <!-- Footer Widget - Newsletter -->
-                    <div class="md:max-w-80">
+                    <div class="md:max-w-80" id="e-bulten">
                         <!-- Footer Title -->
                         <span class="mb-8 block font-title text-xl font-bold text-colorBlackPearl">{{ $footerInfo?->getTranslation('newsletter_title', $locale) ?: 'Abone Olun' }}</span>
                         <!-- Footer Title -->
@@ -221,8 +221,16 @@
                         <p>
                             {{ $footerInfo?->getTranslation('newsletter_text', $locale) ?: 'Bultenimize abone olmak icin e-posta adresinizi girin' }}
                         </p>
-                        <form action="#" method="post" class="mt-4 text-sm font-medium">
-                            <input type="email" class="w-full rounded-[50px] border border-[#EBEBEB] bg-white px-7 py-3.5 outline-none" placeholder="{{ $footerInfo?->getTranslation('newsletter_placeholder', $locale) ?: 'E-posta girin' }}" />
+                        @php $newsletterErrors = $errors->getBag('newsletter'); @endphp
+                        @if(session('newsletter_status'))
+                            <p class="mt-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700" role="status">{{ session('newsletter_status') }}</p>
+                        @endif
+                        @if($newsletterErrors->any())
+                            <p class="mt-4 rounded-lg bg-colorJasper/10 px-4 py-3 text-sm text-colorJasper" role="alert">{{ $newsletterErrors->first() }}</p>
+                        @endif
+                        <form action="{{ route('front.newsletter.subscribe') }}" method="post" class="mt-4 text-sm font-medium">
+                            @csrf
+                            <input type="email" name="email" required maxlength="190" autocomplete="email" value="{{ $newsletterErrors->any() ? old('email') : '' }}" aria-label="{{ $footerInfo?->getTranslation('newsletter_placeholder', $locale) ?: 'E-posta girin' }}" class="w-full rounded-[50px] border border-[#EBEBEB] bg-white px-7 py-3.5 outline-none" placeholder="{{ $footerInfo?->getTranslation('newsletter_placeholder', $locale) ?: 'E-posta girin' }}" />
                             <button type="submit" class="btn btn-primary is-icon group mt-[10px]">
                                 {{ $footerInfo?->getTranslation('newsletter_button', $locale) ?: 'Abone Ol' }}
                                 <span class="btn-icon bg-white group-hover:right-0 group-hover:translate-x-full">

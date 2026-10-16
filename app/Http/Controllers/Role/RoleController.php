@@ -63,6 +63,9 @@ class RoleController extends Controller
             'member'                 => ['label' => 'Site Üyeleri',         'color' => 'blue',    'mainLabel' => 'Üyeleri Görüntüle/Yönet',     'deleteLabel' => 'Üye Sil',
                 'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"/>'],
 
+            'newsletter'             => ['label' => 'E-bülten Aboneleri',   'color' => 'teal',    'mainLabel' => 'Aboneleri Görüntüle / CSV',   'deleteLabel' => 'Abone Sil',
+                'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>'],
+
             'user'                   => ['label' => 'Kullanıcı Yönetimi',   'color' => 'blue',    'mainLabel' => 'Kullanıcıları Görüntüle',     'deleteLabel' => 'Kullanıcı Sil',
                 'icon'  => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>'],
 

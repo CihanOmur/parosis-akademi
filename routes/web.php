@@ -37,6 +37,8 @@ use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\MemberAuthController;
 use App\Http\Controllers\Front\AccountController;
 use App\Http\Controllers\Member\MemberController;
+use App\Http\Controllers\Front\NewsletterController;
+use App\Http\Controllers\Newsletter\NewsletterSubscriberController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\ValidationMessageController;
 use App\Http\Controllers\SitemapController;
@@ -530,6 +532,7 @@ Route::prefix('{locale}')
         Route::get('/uye/kayit',        [MemberAuthController::class, 'showRegister'])->name('member.register');
         Route::post('/uye/kayit',       [MemberAuthController::class, 'register'])->middleware('throttle:member-auth')->name('member.register.post');
         Route::post('/uye/cikis',       [MemberAuthController::class, 'logout'])->name('member.logout');
+        Route::post('/e-bulten',        [NewsletterController::class, 'subscribe'])->middleware('throttle:newsletter')->name('newsletter.subscribe');
         Route::middleware('auth:member')->group(function () {
             Route::get('/hesabim',           [AccountController::class, 'show'])->name('account');
             Route::post('/hesabim/bilgiler', [AccountController::class, 'update'])->name('account.update');
@@ -600,6 +603,13 @@ Route::middleware(['auth', \App\Http\Middleware\SharedDatas::class])->prefix('pa
         Route::post('/{id}/toggle',  [MemberController::class, 'toggleActive'])->name('toggle')->middleware('permission:member');
         Route::post('/{id}/password',[MemberController::class, 'updatePassword'])->name('password')->middleware('permission:member');
         Route::delete('/{id}',       [MemberController::class, 'destroy'])->name('destroy')->middleware('permission:member_delete');
+    });
+
+    // ─── E-bülten Aboneleri (footer "Haber Al") ─────────────────────────────
+    Route::prefix('newsletter-subscribers')->name('newsletter.')->group(function () {
+        Route::get('/',        [NewsletterSubscriberController::class, 'index'])->name('index')->middleware('permission:newsletter');
+        Route::get('/export',  [NewsletterSubscriberController::class, 'export'])->name('export')->middleware('permission:newsletter');
+        Route::delete('/{id}', [NewsletterSubscriberController::class, 'destroy'])->name('destroy')->middleware('permission:newsletter_delete');
     });
 });
 
